@@ -984,28 +984,15 @@ function animate(t) {
 }
 animate(0);
 
-// ── Video hero: play once → loop bounce portion → reveal text ──
+// ── Video hero: play once → stop on last frame → reveal text ──
 const heroVideo = document.getElementById('hero-video');
 const heroContent = document.querySelector('.hero-content');
 
-// The "bounce" loop start time (last ~1.5s of the 5s video)
-const BOUNCE_START = 3.5;
-let looping = false;
-
 heroVideo.addEventListener('ended', () => {
-  if (looping) return;
-  looping = true;
+  // Hold last frame
+  heroVideo.pause();
   // Reveal hero text
   heroContent.classList.add('revealed');
-  // Loop just the bouncing portion
-  heroVideo.currentTime = BOUNCE_START;
-  heroVideo.play();
-});
-
-heroVideo.addEventListener('timeupdate', () => {
-  if (looping && heroVideo.currentTime >= heroVideo.duration - 0.08) {
-    heroVideo.currentTime = BOUNCE_START;
-  }
 });
 </script>
 
@@ -1019,9 +1006,9 @@ const conversations = {
       {c:"How do I place an order?", b:"You can order via our link or simply tell me what you'd like and I'll take it from here 😊"}
     ],
     ar: [
-      {c:"ما هي أوقات عملكم؟", b:"نفتح يومياً من 7 صباحاً حتى 11 مساءً ☕ هل يمكنني مساعدتك بشيء آخر؟"},
-      {c:"هل لديكم حليب الشوفان؟", b:"نعم، لدينا حليب الشوفان واللوز والصويا 🥛 فقط أخبرنا بتفضيلك عند الطلب."},
-      {c:"كيف يمكنني الطلب؟", b:"يمكنك الطلب عبر رابطنا أو أخبرني بما تحتاجه وسأرتب كل شيء لك 😊"}
+      {c:"تره الدوام شلون؟", b:"نفتح كل يوم من 7 الصبح لين 11 الليل ☕ في شي ثاني؟"},
+      {c:"عندكم حليب شوفان؟", b:"آه عندنا شوفان ولوز وصويا 🥛 بس قول وقت الطلب وش تبي"},
+      {c:"اشلون أطلب؟", b:"تقدر تطلب من رابطنا، أو قولي وش تبي وأنا أرتبله لك 😊"}
     ],
     enName: "Sunrise Café", arName: "كافيه الشروق", icon: "☕"
   },
@@ -1032,9 +1019,9 @@ const conversations = {
       {c:"What's today's special?", b:"Today's special: Lamb Machboos & Grilled Hammour 🍽️ An excellent choice!"}
     ],
     ar: [
-      {c:"هل يوجد طاولة لـ 4 أشخاص؟", b:"بالتأكيد! ما هو الوقت المناسب لكم؟ سنحجزها فوراً ✅"},
-      {c:"هل توصّلون؟", b:"نعم، نوصّل عبر طلبات وكريم — عادةً خلال 30–45 دقيقة 🛵"},
-      {c:"ما هو طبق اليوم؟", b:"طبق اليوم: مچبوس لحم وهامور مشوي 🍽️ خيار رائع!"}
+      {c:"في طاولة فاضية لـ 4؟", b:"آه في! وش الوقت يناسبكم؟ أحجزلكم فوراً ✅"},
+      {c:"تروحون توصلون؟", b:"آه نوصل عن طريق طلبات وكريم 🛵 عادةً خلال 30–45 دقيقة"},
+      {c:"وش أحسن أكلة عندكم؟", b:"كثير يطلبون المچبوس والمشاوي 🍽️ بس قولي وش تحب وأنا أنصحك"}
     ],
     enName: "Al Mashawi Grill", arName: "مطعم المشاوي", icon: "🍽️"
   },
@@ -1045,9 +1032,9 @@ const conversations = {
       {c:"Do you do bridal packages?", b:"Absolutely! Our full bridal package starts from 80 KWD. Please share your 📅 wedding date to get started."}
     ],
     ar: [
-      {c:"هل يوجد موعد غداً؟", b:"نعم! لدينا مواعيد متاحة عند الساعة 10 صباحاً، 2 ظهراً، و5 مساءً 💇‍♀️ أيها يناسبك؟"},
-      {c:"ما هو سعر البلو أوت؟", b:"يبدأ البلو أوت من 12 د.ك 💅 هل تودّين حجز موعد؟"},
-      {c:"هل لديكم باقة للعرائس؟", b:"بالتأكيد! باقتنا الكاملة للعرائس تبدأ من 80 د.ك. يرجى مشاركة تاريخ 📅 الزفاف للبدء."}
+      {c:"في موعد باجر؟", b:"آه في! عندنا الساعة 10 الصبح، 2 الظهر، و5 المساء 💇‍♀️ أيهم يناسبج؟"},
+      {c:"بكم البلو أوت؟", b:"يبدأ من 12 د.ك 💅 تبين أحجزلج موعد هالحين؟"},
+      {c:"عندكم باقة عروس؟", b:"أكيد! الباقة الكاملة تبدأ من 80 د.ك ✨ قوليني تاريخ 📅 الزواج ونبدأ نرتب"}
     ],
     enName: "Lumina Salon", arName: "صالون لومينا", icon: "💇‍♀️"
   },
@@ -1058,9 +1045,9 @@ const conversations = {
       {c:"Do you deliver?", b:"We deliver within Kuwait City — minimum order is 15 KWD 🚚"}
     ],
     ar: [
-      {c:"هل تصنعون كيك بالطلب؟", b:"بالتأكيد! نحتاج إلى 3 أيام مسبقاً. ما هي المناسبة؟ 🎂"},
-      {c:"هل أنتم مفتوحون يوم الجمعة؟", b:"نعم! نفتح الجمعة والسبت من 9 صباحاً حتى 10 مساءً 🧁"},
-      {c:"هل توصّلون؟", b:"نوصّل داخل مدينة الكويت — الحد الأدنى للطلب 15 د.ك 🚚"}
+      {c:"تسوون كيك بالطلب؟", b:"أكيد! بس نحتاج 3 أيام مسبقاً ⏰ وش المناسبة؟ 🎂"},
+      {c:"مفتوحين يوم الجمعة؟", b:"آه! الجمعة والسبت من 9 الصبح لين 10 الليل 🧁"},
+      {c:"تروحون توصلون؟", b:"نوصل داخل الكويت — أدنى طلب 15 د.ك 🚚 وين تبي نوصل؟"}
     ],
     enName: "Sweet Layers", arName: "طبقات الحلوى", icon: "🎂"
   },
@@ -1071,9 +1058,9 @@ const conversations = {
       {c:"What are your opening hours?", b:"We're open 6AM–11PM on weekdays, and 8AM–9PM on weekends 🕐"}
     ],
     ar: [
-      {c:"ما هي أسعار الاشتراك؟", b:"شهري: 25 د.ك | 3 أشهر: 65 د.ك | سنوي: 200 د.ك 💪 أيها يناسبك؟"},
-      {c:"هل لديكم مدربون شخصيون؟", b:"نعم! تبدأ جلسات التدريب الشخصي من 15 د.ك للساعة. هل تودّ حجز جلسة تجريبية مجانية؟ 🏋️"},
-      {c:"ما هي أوقات العمل؟", b:"نفتح من 6 صباحاً حتى 11 مساءً أيام الأسبوع، ومن 8 صباحاً حتى 9 مساءً في نهاية الأسبوع 🕐"}
+      {c:"بكم الاشتراك؟", b:"شهري: 25 د.ك | 3 أشهر: 65 د.ك | سنوي: 200 د.ك 💪 أيهم يناسبك؟"},
+      {c:"عندكم مدربين خاصين؟", b:"آه! التدريب الخاص يبدأ من 15 د.ك للساعة 🏋️ تبي جلسة تجريبية مجانية؟"},
+      {c:"الدوام شلون؟", b:"من 6 الصبح لين 11 الليل أيام الأسبوع، ومن 8 الصبح لين 9 الليل نهاية الأسبوع 🕐"}
     ],
     enName: "ProFit Gym", arName: "صالة برو فيت", icon: "💪"
   }
@@ -1113,7 +1100,7 @@ function setPage(name) {
   location.hash = name;
   if (name === 'home') {
     const v = document.getElementById('hero-video');
-    if (v) { v.currentTime = 0; v.play(); }
+    if (v) { v.currentTime = 0; v.play().catch(()=>{}); }
     document.querySelector('.hero-content')?.classList.remove('revealed');
   }
 }
