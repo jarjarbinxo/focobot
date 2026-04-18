@@ -174,16 +174,8 @@
 
     /* ── HERO ───────────────────────────────────────────────── */
     #hero { position: relative; height: 100vh; min-height: 700px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    #hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.65; }
-    #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-    .hero-content {
-      position: relative; z-index: 10; text-align: center;
-      padding: 0 2rem; max-width: 860px;
-      opacity: 0; transform: translateY(24px);
-      transition: opacity 1s ease, transform 1s ease;
-      pointer-events: none;
-    }
-    .hero-content.revealed { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .hero-content { position: relative; z-index: 10; text-align: center; padding: 0 2rem; max-width: 860px; }
     .hero-badge {
       display: inline-flex; align-items: center; gap: 0.5rem;
       background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.25);
@@ -460,7 +452,6 @@
 
   <!-- HERO -->
   <section id="hero">
-    <video id="hero-video" autoplay muted playsinline preload="auto" src="hero.mp4"></video>
     <canvas id="hero-canvas"></canvas>
     <div class="hero-content">
       <div class="hero-badge">
@@ -924,14 +915,14 @@
 <script type="module">
 import * as THREE from 'three';
 
-// ── Three.js particle overlay (video plays via CSS behind canvas) ──
+// ── Three.js purple/indigo particle field ──
 const canvas = document.getElementById('hero-canvas');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true });
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0x000000, 0); // fully transparent
+renderer.setClearColor(0x0d1f3c, 1);
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
 camera.position.z = 5;
 
 function resize() {
@@ -944,28 +935,73 @@ function resize() {
 resize();
 window.addEventListener('resize', resize);
 
-// Particles
-const pCount = 1000;
+// 1500 round particles using ShaderMaterial
+const pCount = 1500;
 const pos = new Float32Array(pCount * 3);
+const colors = new Float32Array(pCount * 3);
 for (let i = 0; i < pCount; i++) {
-  pos[i*3]   = (Math.random()-0.5)*20;
-  pos[i*3+1] = (Math.random()-0.5)*20;
-  pos[i*3+2] = (Math.random()-0.5)*12;
+  pos[i*3]   = (Math.random()-0.5)*22;
+  pos[i*3+1] = (Math.random()-0.5)*22;
+  pos[i*3+2] = (Math.random()-0.5)*14;
+  const t = Math.random();
+  // mix #6366f1 and #8b5cf6
+  colors[i*3]   = 0.388 + t * (0.545 - 0.388);
+  colors[i*3+1] = 0.4   + t * (0.361 - 0.4);
+  colors[i*3+2] = 0.945 + t * (0.965 - 0.945);
 }
 const geo = new THREE.BufferGeometry();
 geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-const mat = new THREE.PointsMaterial({ color: 0x60a5fa, size: 0.055, transparent: true, opacity: 0.4, depthWrite: false });
+geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+const mat = new THREE.ShaderMaterial({
+  vertexColors: true,
+  transparent: true,
+  depthWrite: false,
+  uniforms: { uSize: { value: 3.5 * renderer.getPixelRatio() } },
+  vertexShader: `
+    attribute vec3 color;
+    varying vec3 vColor;
+    uniform float uSize;
+    void main() {
+      vColor = color;
+      vec4 mv = modelViewMatrix * vec4(position, 1.0);
+      gl_PointSize = uSize * (300.0 / -mv.z);
+      gl_Position = projectionMatrix * mv;
+    }
+  `,
+  fragmentShader: `
+    varying vec3 vColor;
+    void main() {
+      float d = length(gl_PointCoord - 0.5) * 2.0;
+      if (d > 1.0) discard;
+      float a = 1.0 - smoothstep(0.5, 1.0, d);
+      gl_FragColor = vec4(vColor, a * 0.75);
+    }
+  `
+});
 scene.add(new THREE.Points(geo, mat));
 
-// Faint connection lines
+// 60 connection lines
 const linePos = [];
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < 60; i++) {
   const a = Math.floor(Math.random()*pCount)*3, b = Math.floor(Math.random()*pCount)*3;
   linePos.push(pos[a],pos[a+1],pos[a+2], pos[b],pos[b+1],pos[b+2]);
 }
 const lGeo = new THREE.BufferGeometry();
 lGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(linePos), 3));
-scene.add(new THREE.LineSegments(lGeo, new THREE.LineBasicMaterial({ color: 0x3b82f6, transparent: true, opacity: 0.08 })));
+scene.add(new THREE.LineSegments(lGeo, new THREE.LineBasicMaterial({ color: 0x6366f1, transparent: true, opacity: 0.12 })));
+
+// 8 floating orbs
+for (let i = 0; i < 8; i++) {
+  const r = 0.04 + Math.random() * 0.12;
+  const orb = new THREE.Mesh(
+    new THREE.SphereGeometry(r, 16, 16),
+    new THREE.MeshBasicMaterial({ color: i % 2 === 0 ? 0x6366f1 : 0x8b5cf6, transparent: true, opacity: 0.25 })
+  );
+  orb.position.set((Math.random()-0.5)*14, (Math.random()-0.5)*14, (Math.random()-0.5)*8);
+  orb.userData.offset = Math.random() * Math.PI * 2;
+  scene.add(orb);
+}
 
 let mx = 0, my = 0;
 document.addEventListener('mousemove', e => {
@@ -973,27 +1009,22 @@ document.addEventListener('mousemove', e => {
   my = (e.clientY/window.innerHeight - 0.5)*2;
 });
 
+const orbs = scene.children.filter(c => c instanceof THREE.Mesh);
 function animate(t) {
   requestAnimationFrame(animate);
   const time = t * 0.001;
-  scene.rotation.y = time * 0.02 + mx * 0.04;
-  scene.rotation.x = my * 0.02;
-  camera.position.x += (mx * 0.2 - camera.position.x) * 0.03;
-  camera.position.y += (-my * 0.15 - camera.position.y) * 0.03;
+  // Animate orbs
+  orbs.forEach((orb, idx) => {
+    orb.position.y += Math.sin(time * 0.4 + orb.userData.offset) * 0.003;
+    orb.position.x += Math.cos(time * 0.3 + orb.userData.offset) * 0.002;
+  });
+  scene.rotation.y = time * 0.018 + mx * 0.05;
+  scene.rotation.x = my * 0.025;
+  camera.position.x += (mx * 0.25 - camera.position.x) * 0.03;
+  camera.position.y += (-my * 0.18 - camera.position.y) * 0.03;
   renderer.render(scene, camera);
 }
 animate(0);
-
-// ── Video hero: play once → stop on last frame → reveal text ──
-const heroVideo = document.getElementById('hero-video');
-const heroContent = document.querySelector('.hero-content');
-
-heroVideo.addEventListener('ended', () => {
-  // Hold last frame
-  heroVideo.pause();
-  // Reveal hero text
-  heroContent.classList.add('revealed');
-});
 </script>
 
 <script>
@@ -1099,9 +1130,7 @@ function setPage(name) {
   window.scrollTo(0, 0);
   location.hash = name;
   if (name === 'home') {
-    const v = document.getElementById('hero-video');
-    if (v) { v.currentTime = 0; v.play().catch(()=>{}); }
-    document.querySelector('.hero-content')?.classList.remove('revealed');
+    // nothing extra needed for particle background
   }
 }
 window.setPage = setPage;
