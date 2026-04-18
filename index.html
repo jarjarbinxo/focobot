@@ -1,858 +1,759 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Focobot — WhatsApp Customer Service, Automated</title>
-<meta name="description" content="Focobot automates your WhatsApp customer service 24/7. Built for Kuwaiti businesses.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{background:#020f09;color:#f0faf5;font-family:'DM Sans',sans-serif;overflow-x:hidden;}
-.font-display{font-family:'Syne',sans-serif;}
-
-/* Three.js canvas */
-#hero-canvas{position:absolute;inset:0;width:100%;height:100%;}
-
-/* Glass */
-.glass{background:rgba(10,79,60,0.12);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(37,211,102,0.15);}
-.glass-dark{background:rgba(2,15,9,0.7);backdrop-filter:blur(20px);border:1px solid rgba(37,211,102,0.1);}
-
-/* Glow */
-.glow-btn{box-shadow:0 0 30px rgba(37,211,102,0.4),0 0 60px rgba(37,211,102,0.15);}
-.glow-btn:hover{box-shadow:0 0 40px rgba(37,211,102,0.6),0 0 80px rgba(37,211,102,0.2);}
-.text-wa{color:#25D366;}
-.bg-wa{background:#25D366;}
-
-/* Grid bg */
-.grid-bg{background-image:linear-gradient(rgba(37,211,102,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,211,102,0.03) 1px,transparent 1px);background-size:60px 60px;}
-
-/* Scroll reveal */
-.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
-
-/* WhatsApp chat */
-.wa-in{background:#fff;color:#111;border-radius:0 12px 12px 12px;}
-.wa-out{background:#005c4b;color:#fff;border-radius:12px 12px 0 12px;}
-
-/* Typing dots */
-.dot{width:7px;height:7px;background:rgba(255,255,255,0.5);border-radius:50%;animation:bounce 1.2s infinite;}
-.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
-@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
-
-/* Marquee */
-@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.marquee-inner{display:flex;width:max-content;animation:marquee 30s linear infinite;}
-
-/* Pricing featured */
-.pricing-hot{background:linear-gradient(135deg,rgba(37,211,102,0.18),rgba(10,79,60,0.3));border:1.5px solid rgba(37,211,102,0.5);box-shadow:0 0 50px rgba(37,211,102,0.25),inset 0 1px 0 rgba(37,211,102,0.2);transform:scale(1.05);}
-
-/* FAQ */
-.faq-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease;}
-.faq-body.open{max-height:300px;}
-.chevron{transition:transform .3s ease;}
-.chevron.open{transform:rotate(180deg);}
-
-/* Float animation */
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.float{animation:float 5s ease-in-out infinite;}
-
-/* Glow animation for pricing */
-@keyframes glowPulse{0%,100%{box-shadow:0 0 50px rgba(37,211,102,0.25)}50%{box-shadow:0 0 80px rgba(37,211,102,0.4)}}
-.pricing-hot{animation:glowPulse 3s ease-in-out infinite;}
-
-/* Stats counter */
-.stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:3.5rem;color:#25D366;line-height:1;}
-
-/* Noise overlay */
-body::after{content:'';position:fixed;inset:0;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");z-index:9999;}
-
-/* Nav */
-nav{background:rgba(2,15,9,0.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(37,211,102,0.08);}
-
-/* Section label */
-.label{display:inline-block;padding:.375rem 1rem;border-radius:999px;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#25D366;background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.2);}
-
-/* Feature card */
-.feat-card{background:rgba(10,79,60,0.08);border:1px solid rgba(37,211,102,0.1);border-radius:20px;padding:1.75rem;transition:all .3s ease;cursor:default;}
-.feat-card:hover{background:rgba(10,79,60,0.18);border-color:rgba(37,211,102,0.3);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,0.3);}
-
-/* Icon box */
-.icon-box{width:48px;height:48px;border-radius:14px;background:rgba(37,211,102,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;transition:transform .3s;}
-.feat-card:hover .icon-box{transform:scale(1.1);}
-
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#020f09}::-webkit-scrollbar-thumb{background:#0a4f3c;border-radius:3px}
-
-/* === 21st.dev-inspired enhancements === */
-
-/* Rotating conic-gradient border on popular pricing card */
-.pricing-hot{position:relative;}
-.pricing-hot::before{
-  content:'';position:absolute;inset:-1.5px;border-radius:inherit;z-index:-1;
-  background:conic-gradient(from var(--angle,0deg),transparent 60%,#25D366 75%,#00ff7f 80%,#25D366 85%,transparent 95%);
-  animation:spinBorder 3s linear infinite;
-}
-.pricing-hot::after{
-  content:'';position:absolute;inset:0;border-radius:inherit;z-index:-1;
-  background:linear-gradient(135deg,rgba(37,211,102,0.18),rgba(10,79,60,0.3));
-}
-@property --angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
-@keyframes spinBorder{to{--angle:360deg;}}
-
-/* Ripple on click */
-.ripple-host{position:relative;overflow:hidden;}
-.ripple-circle{
-  position:absolute;border-radius:50%;
-  background:rgba(255,255,255,0.3);
-  transform:scale(0);pointer-events:none;
-  animation:rippleOut .55s ease-out forwards;
-}
-@keyframes rippleOut{to{transform:scale(4);opacity:0;}}
-
-/* Cursor glow follower */
-#cursor-glow{
-  position:fixed;width:350px;height:350px;border-radius:50%;
-  background:radial-gradient(circle,rgba(37,211,102,0.06) 0%,transparent 65%);
-  pointer-events:none;z-index:0;transform:translate(-50%,-50%);
-  transition:left .12s ease,top .12s ease;will-change:left,top;
-}
-
-/* Card magnetic tilt */
-.tilt-card{transform-style:preserve-3d;transition:transform .25s ease,box-shadow .25s ease;}
-
-/* Shine sweep on hover */
-.shine-host{position:relative;overflow:hidden;}
-.shine-host::after{
-  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
-  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.07) 50%,transparent 60%);
-  transition:left .5s ease;pointer-events:none;
-}
-.shine-host:hover::after{left:150%;}
-
-/* Animated counter */
-@keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focobot — WhatsApp AI Customer Service for Kuwaiti Businesses</title>
+  <meta name="description" content="Focobot replies to your WhatsApp customers in seconds, 24/7, in Arabic and English. Built for Kuwaiti businesses.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js"}}</script>
+  <style>
+    :root{--bg:#04060f;--primary:#6366f1;--secondary:#818cf8;--glow:#4f46e5;--hi:#a5b4fc;--text:#f8fafc;--muted:#94a3b8;--cb:rgba(99,102,241,0.08);--cbr:rgba(99,102,241,0.18);}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh;}
+    h1,h2,h3,h4,.syne{font-family:'Syne',sans-serif;font-weight:800;}
+    .page{display:none;}
+    .page.active{display:block;animation:pageIn .45s ease-out;}
+    @keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    @keyframes tdot{0%,60%,100%{transform:translateY(0);opacity:.35}30%{transform:translateY(-4px);opacity:1}}
+    @keyframes floatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    @keyframes floatB{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+    @keyframes gp{0%,100%{opacity:.5}50%{opacity:1}}
+    @keyframes rip{to{transform:scale(4);opacity:0}}
+    @keyframes spinBorder{from{--a:0deg}to{--a:360deg}}
+    @property --a{syntax:'<angle>';initial-value:0deg;inherits:false;}
+    .td{display:inline-block;width:5px;height:5px;border-radius:50%;background:#94a3b8;animation:tdot 1.3s infinite;}
+    .td:nth-child(2){animation-delay:.18s}.td:nth-child(3){animation-delay:.36s}
+    .ma{animation:msgIn .3s ease-out;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(4,6,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--cbr);}
+    .ni{max-width:1200px;margin:0 auto;padding:0 24px;height:66px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+    .nl{display:flex;align-items:center;gap:10px;cursor:pointer;background:none;border:none;}
+    .nli{width:36px;height:36px;background:linear-gradient(135deg,#6366f1,#4f46e5);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(99,102,241,.45);flex-shrink:0;}
+    .nlt{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--text);letter-spacing:-.02em;}
+    .dlinks{display:flex;align-items:center;gap:28px;}
+    @media(max-width:768px){.dlinks{display:none;}}
+    .nav-link{background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--muted);transition:color .2s;padding:4px 0;position:relative;}
+    .nav-link:hover{color:var(--text);}
+    .nav-link.active{color:var(--hi);font-weight:600;}
+    .nav-link.active::after{content:'';display:block;height:2px;margin-top:3px;background:linear-gradient(90deg,var(--primary),var(--hi));border-radius:2px;}
+    .mchips{position:fixed;top:66px;left:0;right:0;z-index:190;background:rgba(4,6,15,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--cbr);padding:8px 16px;display:none;gap:8px;overflow-x:auto;scrollbar-width:none;}
+    .mchips::-webkit-scrollbar{display:none;}
+    @media(max-width:768px){.mchips{display:flex;}}
+    .chip{background:var(--cb);border:1px solid var(--cbr);color:var(--muted);border-radius:999px;padding:5px 14px;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;flex-shrink:0;transition:all .2s;}
+    .chip.active{background:var(--primary);color:white;border-color:transparent;}
+    .pt{padding-top:66px;}
+    @media(max-width:768px){.pt{padding-top:110px;}}
+    .grad{background:linear-gradient(135deg,var(--primary) 0%,var(--hi) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+    .glass{background:var(--cb);border:1px solid var(--cbr);backdrop-filter:blur(20px);border-radius:20px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s;}
+    .glass::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(99,102,241,.06) 0%,transparent 55%);pointer-events:none;border-radius:inherit;}
+    .gs{position:absolute;top:0;left:-80%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.055),transparent);transform:skewX(-15deg);pointer-events:none;transition:left .55s ease;}
+    .glass:hover .gs{left:140%;}
+    .glass:hover{transform:perspective(700px) rotateX(1.5deg) translateY(-5px);box-shadow:0 20px 60px -10px rgba(99,102,241,.28);border-color:rgba(99,102,241,.35);}
+    .bp{background:linear-gradient(135deg,var(--primary),var(--glow));color:white;border:none;border-radius:12px;padding:12px 28px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .2s,transform .2s,box-shadow .2s;box-shadow:0 0 22px rgba(99,102,241,.38);position:relative;overflow:hidden;}
+    .bp:hover{opacity:.92;transform:translateY(-2px);box-shadow:0 8px 32px rgba(99,102,241,.5);}
+    .bo{background:transparent;color:var(--hi);border:1px solid var(--cbr);border-radius:12px;padding:12px 28px;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+    .bo:hover{background:var(--cb);border-color:var(--primary);}
+    .brip{position:absolute;border-radius:50%;width:10px;height:10px;background:rgba(255,255,255,.4);transform:scale(0);animation:rip .6s linear;pointer-events:none;}
+    .fi{width:52px;height:52px;background:linear-gradient(135deg,var(--primary),var(--glow));border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;box-shadow:0 0 22px rgba(99,102,241,.32);flex-shrink:0;}
+    .pill{background:var(--cb);border:1px solid var(--cbr);color:var(--muted);border-radius:999px;padding:6px 16px;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+    .pill:hover{border-color:var(--primary);color:var(--text);}
+    .pill.active{background:linear-gradient(135deg,var(--primary),var(--glow));border-color:transparent;color:white;box-shadow:0 0 18px rgba(99,102,241,.38);}
+    .phone{width:270px;height:550px;background:linear-gradient(145deg,#14152a,#09090f);border-radius:44px;padding:10px;box-shadow:0 50px 100px -20px rgba(0,0,0,.65),0 0 0 2px rgba(99,102,241,.22),inset 0 0 0 1px rgba(255,255,255,.04);position:relative;flex-shrink:0;}
+    .phone::before{content:'';position:absolute;top:14px;left:50%;transform:translateX(-50%);width:88px;height:18px;background:#050510;border-radius:14px;z-index:10;}
+    .pscr{border-radius:36px;overflow:hidden;height:100%;display:flex;flex-direction:column;}
+    .wabg{background-color:#0d1117;background-image:radial-gradient(circle at 25% 15%,rgba(99,102,241,.05) 0%,transparent 50%);}
+    .wahdr{background:#128C7E;color:white;padding:34px 12px 10px;display:flex;align-items:center;gap:10px;}
+    .waav{width:34px;height:34px;background:rgba(255,255,255,.18);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+    .mu{background:#005C4B;color:white;border-radius:12px 12px 2px 12px;padding:7px 10px;font-size:11px;max-width:88%;align-self:flex-end;line-height:1.45;}
+    .mb{background:#1f2c34;color:#e2e8f0;border-radius:12px 12px 12px 2px;padding:7px 10px;font-size:11px;max-width:88%;align-self:flex-start;line-height:1.45;}
+    .cw{flex:1;padding:10px 9px;display:flex;flex-direction:column;gap:5px;overflow-y:auto;scrollbar-width:none;}
+    .cw::-webkit-scrollbar{display:none;}
+    .waib{background:#1f2c34;padding:8px;display:flex;align-items:center;gap:8px;border-top:1px solid rgba(255,255,255,.05);}
+    .waif{flex:1;background:rgba(255,255,255,.07);border-radius:20px;padding:6px 12px;font-size:10px;color:#4b5563;}
+    .was{width:28px;height:28px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .plbl{position:absolute;top:-30px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:4px 14px;border-radius:999px;white-space:nowrap;font-family:'Syne',sans-serif;}
+    .fa{animation:floatA 7s ease-in-out infinite;}
+    .fb{animation:floatB 8.5s ease-in-out infinite;animation-delay:1.8s;}
+    #hw{position:relative;height:100vh;min-height:580px;display:flex;align-items:center;justify-content:center;}
+    #hc{position:absolute;inset:0;width:100%;height:100%;}
+    #ho{position:relative;z-index:2;text-align:center;padding:0 20px;max-width:760px;}
+    .sec{padding:80px 24px;}
+    .secsm{padding:48px 24px;}
+    .con{max-width:1000px;margin:0 auto;}
+    .consm{max-width:700px;margin:0 auto;}
+    @media(max-width:768px){.sec{padding:48px 16px;}.secsm{padding:32px 16px;}}
+    .ct{border-collapse:separate;border-spacing:0;width:100%;}
+    .ct th,.ct td{padding:14px 18px;border-bottom:1px solid rgba(99,102,241,.1);vertical-align:middle;font-size:13.5px;}
+    .ct th{font-family:'Syne',sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;}
+    .cf{background:rgba(99,102,241,.07);}
+    .ck{color:#4ade80;font-weight:600;}
+    .cx{color:#f87171;}
+    .pfw{position:relative;border-radius:22px;padding:2px;background:conic-gradient(from var(--a),#6366f1,#818cf8,#c4b5fd,#4f46e5,#6366f1);animation:spinBorder 3.5s linear infinite;}
+    .pfi{background:#090b18;border-radius:20px;padding:32px;height:100%;}
+    .sc{background:var(--cb);border:1px solid var(--cbr);border-radius:16px;padding:20px;text-align:center;}
+    .ff{width:100%;background:rgba(99,102,241,.06);border:1px solid var(--cbr);border-radius:12px;padding:13px 16px;color:var(--text);font-size:14.5px;font-family:'DM Sans',sans-serif;transition:border-color .2s,box-shadow .2s;outline:none;}
+    .ff:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,102,241,.12);}
+    .ff::placeholder{color:var(--muted);}
+    select.ff option{background:#0d0f1c;color:var(--text);}
+    .rev{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease;}
+    .rev.in{opacity:1;transform:none;}
+    #cg{position:fixed;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(99,102,241,.07) 0%,transparent 70%);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);left:-999px;top:-999px;}
+    .badge{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:5px 16px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;font-family:'Syne',sans-serif;}
+    .bp-badge{background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.25);color:var(--hi);}
+    .bdot{width:7px;height:7px;border-radius:50%;background:var(--primary);animation:gp 2s infinite;}
+    .qrbar{padding:7px 8px;display:flex;flex-wrap:wrap;gap:5px;border-top:1px solid rgba(255,255,255,.06);min-height:36px;}
+    .qrbtn{background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.22);color:#a5b4fc;border-radius:8px;padding:3px 9px;font-size:9.5px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;white-space:nowrap;line-height:1.5;}
+    .qrbtn:hover{background:rgba(99,102,241,.22);color:white;}
+    .fqi{overflow:hidden;margin-bottom:4px;}
+    .fqq{width:100%;display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:none;border:none;color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;text-align:left;gap:12px;}
+    .fqa{display:none;padding:0 20px 16px;font-size:13px;color:var(--muted);line-height:1.75;}
+  </style>
 </head>
 <body>
+<div id="cg"></div>
 
-<!-- NAV -->
-<nav class="fixed top-0 left-0 right-0 z-50">
-  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-    <a href="#" class="flex items-center gap-2 cursor-pointer">
-      <div class="w-8 h-8 rounded-lg bg-wa flex items-center justify-center">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a9 9 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.849L.057 23.882l6.19-1.624A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-4.994-1.371l-.358-.213-3.714.974.991-3.623-.232-.372A9.818 9.818 0 012.182 12C2.182 6.574 6.574 2.182 12 2.182S21.818 6.574 21.818 12 17.426 21.818 12 21.818z"/></svg>
+<nav>
+  <div class="ni">
+    <button class="nl" onclick="setPage('home')">
+      <div class="nli">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
       </div>
-      <span class="font-display font-700 text-xl text-white">focobot</span>
-    </a>
-    <div class="hidden md:flex items-center gap-8">
-      <a href="#features" class="text-sm text-white/50 hover:text-wa transition-colors cursor-pointer">Features</a>
-      <a href="#how" class="text-sm text-white/50 hover:text-wa transition-colors cursor-pointer">How It Works</a>
-      <a href="#pricing" class="text-sm text-white/50 hover:text-wa transition-colors cursor-pointer">Pricing</a>
-      <a href="#faq" class="text-sm text-white/50 hover:text-wa transition-colors cursor-pointer">FAQ</a>
+      <span class="nlt">Focobot</span>
+    </button>
+    <div class="dlinks">
+      <button onclick="setPage('home')" data-page="home" class="nav-link">Home</button>
+      <button onclick="setPage('demo')" data-page="demo" class="nav-link">Live Demo</button>
+      <button onclick="setPage('compare')" data-page="compare" class="nav-link">Compare</button>
+      <button onclick="setPage('features')" data-page="features" class="nav-link">Features</button>
+      <button onclick="setPage('pricing')" data-page="pricing" class="nav-link">Pricing</button>
     </div>
-    <a href="#pricing" class="px-5 py-2.5 rounded-xl text-sm font-600 bg-wa text-forest cursor-pointer hover:opacity-90 transition-all hover:scale-105 glow-btn focus:outline-none focus:ring-2 focus:ring-wa" style="color:#071f18;">Get Started</a>
+    <button onclick="setPage('apply')" class="bp" style="padding:10px 20px;font-size:14px;flex-shrink:0;">Get Started</button>
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="relative min-h-screen flex items-center pt-16 overflow-hidden" style="background:#020f09;">
-  <canvas id="hero-canvas"></canvas>
-
-  <!-- Radial spotlight overlay -->
-  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 60% at 30% 50%,rgba(37,211,102,0.07) 0%,transparent 70%);"></div>
-
-  <div class="max-w-7xl mx-auto px-6 py-28 relative z-10 w-full">
-    <div class="grid lg:grid-cols-2 gap-16 items-center">
-
-      <!-- Left -->
-      <div>
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm glass mb-8" style="animation:fadeUp .5s ease forwards;opacity:0;">
-          <span class="w-2 h-2 rounded-full bg-wa animate-pulse"></span>
-          <span class="text-wa font-500">Now live in Kuwait</span>
-          <span class="text-white/30">·</span>
-          <span class="text-white/50">Limited spots this month</span>
-        </div>
-
-        <h1 class="font-display leading-[1.05] mb-6" style="font-size:clamp(2.8rem,5.5vw,4.5rem);font-weight:800;animation:fadeUp .6s .1s ease forwards;opacity:0;">
-          Every Unanswered<br>
-          <span class="text-wa" style="text-shadow:0 0 40px rgba(37,211,102,0.5);">WhatsApp</span><br>
-          Is Lost Revenue.
-        </h1>
-
-        <p class="text-white/55 text-lg leading-relaxed mb-10 max-w-lg" style="animation:fadeUp .6s .2s ease forwards;opacity:0;">
-          Focobot answers every customer message instantly — in Arabic and English — 24/7, so you never lose a sale while you sleep.
-        </p>
-
-        <div class="flex flex-wrap gap-4 mb-12" style="animation:fadeUp .6s .3s ease forwards;opacity:0;">
-          <a href="#pricing" class="flex items-center gap-2 px-7 py-4 rounded-xl font-600 text-base bg-wa cursor-pointer transition-all hover:opacity-90 hover:scale-105 glow-btn focus:outline-none focus:ring-2 focus:ring-wa" style="color:#071f18;">
-            Start Free Trial
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/></svg>
-          </a>
-          <a href="#how" class="flex items-center gap-2 px-7 py-4 rounded-xl font-500 text-base glass cursor-pointer transition-all hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-wa">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-            See Demo
-          </a>
-        </div>
-
-        <div class="flex items-center gap-3" style="animation:fadeUp .6s .4s ease forwards;opacity:0;">
-          <div class="flex -space-x-2">
-            <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold" style="background:#0a4f3c;border-color:#020f09;color:#25D366;">م</div>
-            <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold" style="background:#108060;border-color:#020f09;color:#fff;">ف</div>
-            <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold bg-wa" style="border-color:#020f09;color:#071f18;">س</div>
-          </div>
-          <span class="text-sm text-white/40">Trusted by Kuwait businesses · <span class="text-wa">★★★★★</span></span>
-        </div>
-      </div>
-
-      <!-- Right: Phone mockup -->
-      <div class="flex justify-center lg:justify-end" style="animation:fadeUp .7s .35s ease forwards;opacity:0;">
-        <div class="relative w-72 float">
-          <div class="rounded-[2rem] overflow-hidden shadow-2xl" style="background:#111b21;border:1px solid rgba(37,211,102,0.25);box-shadow:0 0 80px rgba(37,211,102,0.2),0 40px 80px rgba(0,0,0,0.5);">
-
-            <!-- Header -->
-            <div class="flex items-center gap-3 px-4 py-3 border-b" style="background:#1f2c34;border-color:rgba(255,255,255,0.05);">
-              <div class="w-9 h-9 rounded-full bg-wa flex items-center justify-center font-bold text-sm" style="color:#071f18;">FB</div>
-              <div>
-                <div class="text-sm font-600 text-white">Focobot</div>
-                <div class="text-xs flex items-center gap-1 text-wa"><span class="w-1.5 h-1.5 rounded-full bg-wa"></span>Online · responds instantly</div>
-              </div>
-            </div>
-
-            <!-- Messages -->
-            <div class="p-4 space-y-3 text-xs" style="background:#0b141a;min-height:360px;">
-              <div style="animation:fadeIn .4s .9s forwards;opacity:0;">
-                <div class="wa-in inline-block px-3 py-2 max-w-[85%] shadow-sm">مرحبا، هل المطعم مفتوح؟<div class="text-right text-gray-400 text-[10px] mt-1">10:42</div></div>
-              </div>
-              <div class="flex justify-end" style="animation:fadeIn .4s 1.4s forwards;opacity:0;">
-                <div class="wa-out px-3 py-2 max-w-[85%] shadow-sm">
-                  <div class="text-[10px] mb-1 text-wa">🤖 Focobot</div>
-                  نعم! مفتوحون الآن ٩ص–١١م<br><span class="text-white/70">Yes! Open 9AM–11PM daily 🕐</span>
-                  <div class="flex items-center justify-end gap-1 mt-1 text-[10px] text-white/40">10:42<svg width="14" height="8" viewBox="0 0 18 10" fill="#25D366"><path d="M1 5l3.5 3.5L13 1"/><path d="M5 5l3.5 3.5L17 1" opacity=".6"/></svg></div>
-                </div>
-              </div>
-              <div style="animation:fadeIn .4s 2s forwards;opacity:0;">
-                <div class="wa-in inline-block px-3 py-2 max-w-[85%] shadow-sm">How do I book a table?<div class="text-right text-gray-400 text-[10px] mt-1">10:43</div></div>
-              </div>
-              <div class="flex justify-end" style="animation:fadeIn .4s 2.5s forwards;opacity:0;">
-                <div class="wa-out px-3 py-2 max-w-[85%] shadow-sm">
-                  <div class="text-[10px] mb-1 text-wa">🤖 Focobot</div>
-                  Easy! Reply with:<br>📅 Date · 👥 Guests · ⏰ Time<br><span class="text-white/60 text-[10px]">We confirm in seconds ✓</span>
-                  <div class="flex items-center justify-end gap-1 mt-1 text-[10px] text-white/40">10:43<svg width="14" height="8" viewBox="0 0 18 10" fill="#25D366"><path d="M1 5l3.5 3.5L13 1"/><path d="M5 5l3.5 3.5L17 1" opacity=".6"/></svg></div>
-                </div>
-              </div>
-              <div style="animation:fadeIn .4s 3.2s forwards;opacity:0;">
-                <div class="wa-in inline-flex items-center gap-1.5 px-4 py-3 shadow-sm">
-                  <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Input -->
-            <div class="flex items-center gap-2 px-3 py-2 border-t" style="background:#1f2c34;border-color:rgba(255,255,255,0.05);">
-              <div class="flex-1 rounded-full px-4 py-2 text-xs text-white/25" style="background:rgba(255,255,255,0.06);">Message...</div>
-              <div class="w-8 h-8 rounded-full bg-wa flex items-center justify-center cursor-pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="#071f18"><path d="M2 21L23 12 2 3 2 10l15 2-15 2z"/></svg></div>
-            </div>
-          </div>
-
-          <!-- Floating badges -->
-          <div class="absolute -top-5 -right-5 glass rounded-2xl px-4 py-2.5 text-sm font-600 shadow-lg" style="border-color:rgba(37,211,102,0.3);">
-            <span class="text-wa">⚡ &lt;2s</span><span class="text-white/50 text-xs ml-1">response</span>
-          </div>
-          <div class="absolute -bottom-5 -left-5 glass rounded-2xl px-4 py-2.5 text-sm shadow-lg" style="border-color:rgba(37,211,102,0.3);">
-            <span class="font-700 text-white">500+</span><span class="text-white/50 text-xs ml-1">msgs/day</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MARQUEE -->
-<div class="py-4 overflow-hidden border-y" style="background:rgba(37,211,102,0.03);border-color:rgba(37,211,102,0.08);">
-  <div class="marquee-inner">
-    <span class="px-6 text-sm text-white/35 font-500 flex items-center gap-10 whitespace-nowrap">
-      <span>🍽 Restaurants</span><span class="text-wa/20">·</span><span>🏥 Clinics</span><span class="text-wa/20">·</span><span>💇 Salons</span><span class="text-wa/20">·</span><span>🛍 Retail</span><span class="text-wa/20">·</span><span>🚗 Auto Services</span><span class="text-wa/20">·</span><span>🏋 Gyms</span><span class="text-wa/20">·</span><span>📦 Delivery</span><span class="text-wa/20">·</span><span>🏨 Hotels</span><span class="text-wa/20">·</span>
-    </span>
-    <span class="px-6 text-sm text-white/35 font-500 flex items-center gap-10 whitespace-nowrap" aria-hidden="true">
-      <span>🍽 Restaurants</span><span class="text-wa/20">·</span><span>🏥 Clinics</span><span class="text-wa/20">·</span><span>💇 Salons</span><span class="text-wa/20">·</span><span>🛍 Retail</span><span class="text-wa/20">·</span><span>🚗 Auto Services</span><span class="text-wa/20">·</span><span>🏋 Gyms</span><span class="text-wa/20">·</span><span>📦 Delivery</span><span class="text-wa/20">·</span><span>🏨 Hotels</span><span class="text-wa/20">·</span>
-    </span>
-  </div>
+<div class="mchips">
+  <button onclick="setPage('home')" data-page="home" class="chip">Home</button>
+  <button onclick="setPage('demo')" data-page="demo" class="chip">Demo</button>
+  <button onclick="setPage('compare')" data-page="compare" class="chip">Compare</button>
+  <button onclick="setPage('features')" data-page="features" class="chip">Features</button>
+  <button onclick="setPage('pricing')" data-page="pricing" class="chip">Pricing</button>
+  <button onclick="setPage('apply')" data-page="apply" class="chip">Apply</button>
 </div>
 
-<!-- STATS -->
-<section class="py-20 grid-bg" style="background:#071f18;">
-  <div class="max-w-5xl mx-auto px-6">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-      <div class="reveal"><div class="stat-num mb-2">500+</div><div class="text-white/40 text-sm">Messages automated<br>daily per business</div></div>
-      <div class="reveal d2"><div class="stat-num mb-2">&lt;2s</div><div class="text-white/40 text-sm">Average response time<br>Arabic &amp; English</div></div>
-      <div class="reveal d4"><div class="stat-num mb-2">98%</div><div class="text-white/40 text-sm">Customer satisfaction<br>across all clients</div></div>
+<main>
+
+<!-- HOME -->
+<div class="page active" id="page-home" data-page="home">
+  <div id="hw">
+    <canvas id="hc"></canvas>
+    <div id="ho">
+      <div class="badge bp-badge" style="margin-bottom:22px;"><span class="bdot"></span>AI-Powered WhatsApp Automation</div>
+      <h1 style="font-size:clamp(2.2rem,6vw,4rem);line-height:1.08;letter-spacing:-.03em;margin-bottom:18px;">Your business replies<br><span class="grad">24/7 — automatically.</span></h1>
+      <p style="font-size:clamp(1rem,2vw,1.18rem);color:var(--muted);max-width:500px;margin:0 auto 30px;line-height:1.75;">Focobot answers every WhatsApp message in Arabic &amp; English. Instant, intelligent, always on. Built for Kuwaiti businesses.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <button onclick="setPage('apply')" class="bp">Start Free Trial →</button>
+        <button onclick="setPage('demo')" class="bo">See Demo</button>
+      </div>
     </div>
   </div>
-</section>
+
+  <!-- Home phone demo -->
+  <div class="sec" style="background:linear-gradient(180deg,transparent 0%,rgba(99,102,241,.04) 50%,transparent 100%);">
+    <div class="con">
+      <div style="text-align:center;margin-bottom:30px;">
+        <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);margin-bottom:10px;">See Focobot in action</h2>
+        <p style="color:var(--muted);font-size:15px;">Switch business types to see how the bot adapts</p>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:36px;" id="hpills">
+        <button class="pill active" data-biz="cafe" onclick="homePill('cafe',this)">&#9749; Coffee Shop</button>
+        <button class="pill" data-biz="restaurant" onclick="homePill('restaurant',this)">&#127869; Restaurant</button>
+        <button class="pill" data-biz="salon" onclick="homePill('salon',this)">&#128133; Salon</button>
+        <button class="pill" data-biz="bakery" onclick="homePill('bakery',this)">&#129360; Bakery</button>
+        <button class="pill" data-biz="gym" onclick="homePill('gym',this)">&#127947; Gym</button>
+      </div>
+      <div style="display:flex;justify-content:center;gap:32px;flex-wrap:wrap;align-items:flex-end;">
+        <div class="fa" style="position:relative;padding-top:36px;">
+          <div class="plbl" style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;">English</div>
+          <div class="phone"><div class="pscr wabg">
+            <div class="wahdr" id="hhdr-en">
+              <div class="waav" id="hav-en">BC</div>
+              <div><div style="font-size:13px;font-weight:600;" id="hnm-en">Brew &amp; Co</div><div style="font-size:10px;opacity:.75;">online</div></div>
+            </div>
+            <div class="cw" id="hch-en"></div>
+            <div class="waib"><div class="waif">Type a message...</div><div class="was"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></div></div>
+          </div></div>
+        </div>
+        <div class="fb" style="position:relative;padding-top:36px;">
+          <div class="plbl" style="background:linear-gradient(135deg,#818cf8,#6366f1);color:white;">&#1593;&#1585;&#1576;&#1610;</div>
+          <div class="phone"><div class="pscr wabg">
+            <div class="wahdr" id="hhdr-ar">
+              <div class="waav" id="hav-ar">BC</div>
+              <div><div style="font-size:13px;font-weight:600;" id="hnm-ar">&#1576;&#1585;&#1608; &#1570;&#1606;&#1583; &#1603;&#1608;</div><div style="font-size:10px;opacity:.75;">&#1605;&#1578;&#1589;&#1604;</div></div>
+            </div>
+            <div class="cw" id="hch-ar" dir="rtl"></div>
+            <div class="waib" dir="rtl"><div class="waif">&#1575;&#1603;&#1578;&#1576; &#1585;&#1587;&#1575;&#1604;&#1577;...</div><div class="was"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></div></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="secsm">
+    <div style="max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">
+      <div class="sc"><div class="grad syne" style="font-size:2rem;">&lt;2s</div><div style="font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.06em;">Avg Reply</div></div>
+      <div class="sc"><div class="grad syne" style="font-size:2rem;">24/7</div><div style="font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.06em;">Always On</div></div>
+      <div class="sc"><div class="grad syne" style="font-size:2rem;">AR+EN</div><div style="font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.06em;">Bilingual</div></div>
+      <div class="sc"><div class="grad syne" style="font-size:2rem;">&#8734;</div><div style="font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.06em;">Simultaneous</div></div>
+    </div>
+  </div>
+
+  <!-- Nav cards -->
+  <div class="sec">
+    <div class="con">
+      <h2 style="font-size:clamp(1.4rem,3vw,2rem);text-align:center;margin-bottom:32px;">Explore Focobot</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;">
+        <button onclick="setPage('demo')" class="glass" style="padding:26px;text-align:left;cursor:pointer;width:100%;"><div class="gs"></div>
+          <div class="fi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></div>
+          <div style="font-size:10.5px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;font-family:'Syne',sans-serif;">Interactive · 5 scenarios</div>
+          <h3 style="font-size:1.1rem;margin-bottom:7px;">Live Demo</h3>
+          <p style="font-size:13px;color:var(--muted);line-height:1.65;">Chat with Focobot across multiple business types in Arabic &amp; English.</p>
+        </button>
+        <button onclick="setPage('compare')" class="glass" style="padding:26px;text-align:left;cursor:pointer;width:100%;"><div class="gs"></div>
+          <div class="fi" style="background:linear-gradient(135deg,#ec4899,#8b5cf6);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 14h18M12 3v18"/></svg></div>
+          <div style="font-size:10.5px;font-weight:700;color:#ec4899;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;font-family:'Syne',sans-serif;">Side-by-side · 10 metrics</div>
+          <h3 style="font-size:1.1rem;margin-bottom:7px;">Human vs Focobot</h3>
+          <p style="font-size:13px;color:var(--muted);line-height:1.65;">Speed, cost, hours, languages — see exactly why businesses switch.</p>
+        </button>
+        <button onclick="setPage('features')" class="glass" style="padding:26px;text-align:left;cursor:pointer;width:100%;"><div class="gs"></div>
+          <div class="fi" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+          <div style="font-size:10.5px;font-weight:700;color:#06b6d4;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;font-family:'Syne',sans-serif;">6 powerful features</div>
+          <h3 style="font-size:1.1rem;margin-bottom:7px;">What Focobot Does</h3>
+          <p style="font-size:13px;color:var(--muted);line-height:1.65;">Instant replies, catalog sync, owner alerts, analytics and more.</p>
+        </button>
+        <button onclick="setPage('pricing')" class="glass" style="padding:26px;text-align:left;cursor:pointer;width:100%;"><div class="gs"></div>
+          <div class="fi" style="background:linear-gradient(135deg,#f59e0b,#ef4444);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          <div style="font-size:10.5px;font-weight:700;color:#f59e0b;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;font-family:'Syne',sans-serif;">From 29 KWD / month</div>
+          <h3 style="font-size:1.1rem;margin-bottom:7px;">Pricing Plans</h3>
+          <p style="font-size:13px;color:var(--muted);line-height:1.65;">Three tiers. 7-day free trial on Growth plan. Cancel anytime.</p>
+        </button>
+        <button onclick="setPage('apply')" class="glass" style="padding:26px;text-align:left;cursor:pointer;width:100%;border-color:rgba(99,102,241,.38);background:linear-gradient(135deg,rgba(99,102,241,.14),rgba(79,70,229,.06));"><div class="gs"></div>
+          <div class="fi" style="background:linear-gradient(135deg,#a5b4fc,#6366f1);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          <div style="font-size:10.5px;font-weight:700;color:var(--hi);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;font-family:'Syne',sans-serif;">30 seconds · Simple form</div>
+          <h3 style="font-size:1.1rem;margin-bottom:7px;">Apply Now</h3>
+          <p style="font-size:13px;color:var(--muted);line-height:1.65;">Tell us about your business and we'll set you up within 24 hours.</p>
+        </button>
+      </div>
+    </div>
+  </div>
+</div><!-- /home -->
+
+<!-- DEMO -->
+<div class="page" id="page-demo" data-page="demo">
+  <div class="pt sec">
+    <div class="con">
+      <div style="text-align:center;margin-bottom:36px;">
+        <div class="badge bp-badge" style="margin-bottom:16px;"><span class="bdot"></span>Interactive Simulator</div>
+        <h1 style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:12px;">Chat with Focobot</h1>
+        <p style="color:var(--muted);max-width:500px;margin:0 auto 28px;line-height:1.7;font-size:15px;">Pick a business type and watch Arabic &amp; English conversations play out. Click the quick-reply buttons to trigger responses.</p>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;" id="dpills">
+          <button class="pill active" data-biz="cafe" onclick="demoPill('cafe',this)">&#9749; Coffee Shop</button>
+          <button class="pill" data-biz="restaurant" onclick="demoPill('restaurant',this)">&#127869; Restaurant</button>
+          <button class="pill" data-biz="salon" onclick="demoPill('salon',this)">&#128133; Salon</button>
+          <button class="pill" data-biz="bakery" onclick="demoPill('bakery',this)">&#129360; Bakery</button>
+          <button class="pill" data-biz="gym" onclick="demoPill('gym',this)">&#127947; Gym</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:32px;flex-wrap:wrap;align-items:flex-start;margin-bottom:44px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+          <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--hi);text-transform:uppercase;letter-spacing:.1em;">English</div>
+          <div class="phone" style="height:520px;"><div class="pscr wabg">
+            <div class="wahdr" id="dhdr-en">
+              <div class="waav" id="dav-en">BC</div>
+              <div><div style="font-size:13px;font-weight:600;" id="dnm-en">Brew &amp; Co</div><div style="font-size:10px;display:flex;align-items:center;gap:4px;opacity:.85;"><span style="width:6px;height:6px;background:#25D366;border-radius:50%;display:inline-block;"></span> online</div></div>
+            </div>
+            <div class="cw" id="dch-en"></div>
+            <div class="qrbar" id="dqr-en"></div>
+          </div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+          <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--hi);text-transform:uppercase;letter-spacing:.1em;">&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;</div>
+          <div class="phone" style="height:520px;"><div class="pscr wabg">
+            <div class="wahdr" id="dhdr-ar">
+              <div class="waav" id="dav-ar">BC</div>
+              <div><div style="font-size:13px;font-weight:600;" id="dnm-ar">&#1576;&#1585;&#1608; &#1570;&#1606;&#1583; &#1603;&#1608;</div><div style="font-size:10px;display:flex;align-items:center;gap:4px;opacity:.85;"><span style="width:6px;height:6px;background:#25D366;border-radius:50%;display:inline-block;"></span> &#1605;&#1578;&#1589;&#1604;</div></div>
+            </div>
+            <div class="cw" id="dch-ar" dir="rtl"></div>
+            <div class="qrbar" id="dqr-ar" dir="rtl"></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="glass rev" style="padding:22px 28px;max-width:640px;margin:0 auto;text-align:center;"><div class="gs"></div>
+        <p style="font-size:13.5px;color:var(--muted);line-height:1.75;">This is a <strong style="color:var(--text);">scripted demo</strong> showing the kinds of replies Focobot sends. Your real bot uses AI and your business's actual data — menus, hours, pricing — for precise answers.</p>
+        <button onclick="setPage('apply')" class="bp" style="margin-top:16px;">Get the Real Bot &#8594;</button>
+      </div>
+    </div>
+  </div>
+</div><!-- /demo -->
+
+<!-- COMPARE -->
+<div class="page" id="page-compare" data-page="compare">
+  <div class="pt sec">
+    <div class="con">
+      <div style="text-align:center;margin-bottom:44px;">
+        <div class="badge" style="background:rgba(236,72,153,.09);border:1px solid rgba(236,72,153,.2);color:#f472b6;margin-bottom:16px;">Side-by-side comparison</div>
+        <h1 class="rev" style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:12px;">Human Employee vs Focobot</h1>
+        <p class="rev" style="color:var(--muted);max-width:480px;margin:0 auto;line-height:1.7;font-size:15px;">Based on real Kuwait market data. See the full picture before you decide.</p>
+      </div>
+      <div class="glass rev" style="overflow:hidden;padding:0;"><div class="gs"></div>
+        <div style="overflow-x:auto;">
+          <table class="ct">
+            <thead><tr style="border-bottom:2px solid rgba(99,102,241,.18);">
+              <th style="text-align:left;width:32%;padding-left:24px;">Metric</th>
+              <th style="text-align:center;min-width:180px;">&#128100; Human Employee</th>
+              <th style="text-align:center;min-width:200px;" class="cf"><span style="color:var(--hi);">&#129302; Focobot</span></th>
+            </tr></thead>
+            <tbody>
+              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Response Time</td><td style="text-align:center;color:var(--muted);">5 – 30 minutes</td><td style="text-align:center;" class="cf ck">&#9989; Under 2 seconds</td></tr>
+              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Working Hours</td><td style="text-align:center;color:var(--muted);">8 – 10 hrs/day</td><td style="text-align:center;" class="cf ck">&#9989; 24 / 7 / 365</td></tr>
+              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Languages</td><td style="text-align:center;color:var(--muted);">Usually 1 language</td><td style="text-align:center;" class="cf ck">&#9989; Arabic + English</td></tr>
+              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Simultaneous Chats</td><td style="text-align:center;color:var(--muted);">1 – 2 at most</td><td style="text-align:center;" class="cf ck">&#9989; Unlimited</td></tr>
+              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Monthly Cost (KWD)</td><td style="text-align:center;color:var(--muted);">200 – 350 KWD + benefits</td><td style="text-align:center;" class="cf ck">&#9989; From 29 KWD/mo</td></tr>
+              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Sick Days / Leave</td><td style="text-align:center;" class="cx">&#10060; Up to 30 days/year</td><td style="text-align:center;" class="cf ck">&#9989; Never</td></tr>
+              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Answer Consistency</td><td style="text-align:center;" class="cx">&#10060; Varies by mood/day</td><td style="text-align:center;" class="cf ck">&#9989; Always identical</td></tr>
+              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Setup Time</td><td style="text-align:center;color:var(--muted);">Weeks (hire + train)</td><td style="text-align:center;" class="cf ck">&#9989; 24 hours</td></tr>
+              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Errors &amp; Mistakes</td><td style="text-align:center;" class="cx">&#10060; Wrong prices, missed orders</td><td style="text-align:center;" class="cf ck">&#9989; Zero — from your data</td></tr>
+              <tr style="border-bottom:none;"><td style="padding-left:24px;color:var(--text);font-weight:500;">Scalability</td><td style="text-align:center;" class="cx">&#10060; Hire more = higher cost</td><td style="text-align:center;" class="cf ck">&#9989; Scale instantly, same price</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:44px;" class="rev">
+        <p style="color:var(--muted);margin-bottom:18px;font-size:15px;">Ready to make the switch?</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <button onclick="setPage('apply')" class="bp">Apply Now &#8594;</button>
+          <button onclick="setPage('pricing')" class="bo">See Pricing</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /compare -->
 
 <!-- FEATURES -->
-<section id="features" class="py-24" style="background:#020f09;">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="text-center mb-16 reveal">
-      <div class="label mb-4">Features</div>
-      <h2 class="font-display font-800 text-4xl md:text-5xl mb-4">Built for Kuwait<br>Business Owners</h2>
-      <p class="text-white/40 text-lg max-w-lg mx-auto">Everything you need to turn WhatsApp into your best employee — one that never sleeps.</p>
-    </div>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-      <div class="feat-card reveal">
-        <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg></div>
-        <h3 class="font-display font-700 text-lg mb-2">24/7 Auto-Replies</h3>
-        <p class="text-white/45 text-sm leading-relaxed">Answers at 2am Friday, during Eid, on public holidays. Zero gaps, zero lost customers.</p>
+<div class="page" id="page-features" data-page="features">
+  <div class="pt sec">
+    <div class="con">
+      <div style="text-align:center;margin-bottom:52px;">
+        <div class="badge" style="background:rgba(6,182,212,.09);border:1px solid rgba(6,182,212,.2);color:#22d3ee;margin-bottom:16px;">What you get</div>
+        <h1 class="rev" style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:12px;">Everything you need.</h1>
+        <p class="rev" style="color:var(--muted);max-width:460px;margin:0 auto;line-height:1.7;font-size:15px;">Six core capabilities that make Focobot the smartest hire you'll ever make.</p>
       </div>
-      <div class="feat-card reveal d1">
-        <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M12.87 15.07l-2.54-2.51.03-.03A16.7 16.7 0 0013.07 6H17V4h-7V2H8v2H1v2h11.17A14.92 14.92 0 019 11.35 14.95 14.95 0 016.69 8H4.72c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg></div>
-        <h3 class="font-display font-700 text-lg mb-2">Arabic + English</h3>
-        <p class="text-white/45 text-sm leading-relaxed">Auto-detects language. Switches mid-conversation. Replies feel human, not robotic.</p>
-      </div>
-      <div class="feat-card reveal d2">
-        <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg></div>
-        <h3 class="font-display font-700 text-lg mb-2">Multi-Client Dashboard</h3>
-        <p class="text-white/45 text-sm leading-relaxed">One clean dashboard. Manage conversations, edit responses, view analytics — all in one.</p>
-      </div>
-      <div class="feat-card reveal d1">
-        <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M13 2.05v2.02c3.95.49 7 3.85 7 7.93 0 3.21-1.81 6-4.72 7.28L13 17v5l5-3-1.22-1.22C19.91 16.07 22 13.14 22 12c0-5.18-3.94-9.45-9-9.95zM11 2.05C5.95 2.55 2 6.82 2 12c0 2.14 2.09 5.07 4.22 6.78L5 20l5 3v-5l-2.28 2.28C5.81 18 4 15.21 4 12c0-4.08 3.05-7.44 7-7.93V2.05z"/></svg></div>
-        <h3 class="font-display font-700 text-lg mb-2">Live in 24 Hours</h3>
-        <p class="text-white/45 text-sm leading-relaxed">Connect WhatsApp, set your responses, go live. No developers, no technical skills needed.</p>
-      </div>
-      <div class="feat-card reveal d2">
-        <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a9 9 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.849L.057 23.882l6.19-1.624A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-4.994-1.371l-.358-.213-3.714.974.991-3.623-.232-.372A9.818 9.818 0 012.182 12C2.182 6.574 6.574 2.182 12 2.182S21.818 6.574 21.818 12 17.426 21.818 12 21.818z"/></svg></div>
-        <h3 class="font-display font-700 text-lg mb-2">Official WhatsApp API</h3>
-        <p class="text-white/45 text-sm leading-relaxed">Official Business API — not hacks. Reliable, compliant, and built to last.</p>
-      </div>
-      <div class="feat-card reveal d3">
-        <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg></div>
-        <h3 class="font-display font-700 text-lg mb-2">Analytics &amp; Reports</h3>
-        <p class="text-white/45 text-sm leading-relaxed">Peak hours, top questions, response rates. Know what your customers need before they ask.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section id="how" class="py-24" style="background:#071f18;">
-  <div class="max-w-5xl mx-auto px-6">
-    <div class="text-center mb-16 reveal">
-      <div class="label mb-4">How It Works</div>
-      <h2 class="font-display font-800 text-4xl md:text-5xl">From Zero to Automated<br>in 3 Steps</h2>
-    </div>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="text-center reveal">
-        <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 font-display font-800 text-3xl text-wa relative" style="background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.2);">
-          1<div class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-wa opacity-60 animate-ping"></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;">
+        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
+          <div class="fi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+          <h3 style="font-size:1.1rem;margin-bottom:8px;">Instant Replies</h3>
+          <p style="font-size:13.5px;color:var(--muted);line-height:1.7;">Responds to every WhatsApp message in under 2 seconds. No delays, no ignored messages. Customers never wait.</p>
+          <div style="margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:rgba(99,102,241,.1);border-radius:8px;padding:5px 11px;font-size:12px;color:var(--hi);font-weight:600;">&lt; 2 seconds</div>
         </div>
-        <h3 class="font-display font-700 text-xl mb-3">Sign Up</h3>
-        <p class="text-white/40 text-sm leading-relaxed">Create your account and choose a plan. Takes 2 minutes.</p>
+        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
+          <div class="fi" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg></div>
+          <h3 style="font-size:1.1rem;margin-bottom:8px;">Bilingual Arabic + English</h3>
+          <p style="font-size:13.5px;color:var(--muted);line-height:1.7;">Auto-detects language and replies in Kuwaiti Arabic or English — naturally, without sounding robotic.</p>
+          <div style="margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:rgba(6,182,212,.09);border-radius:8px;padding:5px 11px;font-size:12px;color:#22d3ee;font-weight:600;">AR / EN auto-detect</div>
+        </div>
+        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
+          <div class="fi" style="background:linear-gradient(135deg,#8b5cf6,#ec4899);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/></svg></div>
+          <h3 style="font-size:1.1rem;margin-bottom:8px;">24/7 Availability</h3>
+          <p style="font-size:13.5px;color:var(--muted);line-height:1.7;">Whether it's 3am on Eid or Friday prayer time — Focobot is always on, always ready, never takes a break.</p>
+          <div style="margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:rgba(139,92,246,.1);border-radius:8px;padding:5px 11px;font-size:12px;color:#a78bfa;font-weight:600;">365 days a year</div>
+        </div>
+        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
+          <div class="fi" style="background:linear-gradient(135deg,#f59e0b,#f97316);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>
+          <h3 style="font-size:1.1rem;margin-bottom:8px;">Catalog Integration</h3>
+          <p style="font-size:13.5px;color:var(--muted);line-height:1.7;">Connect your menu or product list. The bot answers "do you have X?" accurately from your actual data.</p>
+          <div style="margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.09);border-radius:8px;padding:5px 11px;font-size:12px;color:#fbbf24;font-weight:600;">Always up to date</div>
+        </div>
+        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
+          <div class="fi" style="background:linear-gradient(135deg,#25D366,#128C7E);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></div>
+          <h3 style="font-size:1.1rem;margin-bottom:8px;">Owner WhatsApp Alerts</h3>
+          <p style="font-size:13.5px;color:var(--muted);line-height:1.7;">When a real order or lead comes in, you get a WhatsApp notification on your personal number. No app needed.</p>
+          <div style="margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:rgba(37,211,102,.09);border-radius:8px;padding:5px 11px;font-size:12px;color:#4ade80;font-weight:600;">WhatsApp native alerts</div>
+        </div>
+        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
+          <div class="fi" style="background:linear-gradient(135deg,#3b82f6,#6366f1);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+          <h3 style="font-size:1.1rem;margin-bottom:8px;">Analytics Dashboard</h3>
+          <p style="font-size:13.5px;color:var(--muted);line-height:1.7;">See your busiest hours, most-asked questions, and conversion rates in one clean dashboard.</p>
+          <div style="margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,.09);border-radius:8px;padding:5px 11px;font-size:12px;color:#60a5fa;font-weight:600;">Real-time insights</div>
+        </div>
       </div>
-      <div class="text-center reveal d2">
-        <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 font-display font-800 text-3xl text-wa" style="background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.2);">2</div>
-        <h3 class="font-display font-700 text-xl mb-3">Connect WhatsApp</h3>
-        <p class="text-white/40 text-sm leading-relaxed">Link your WhatsApp Business number. Set your Arabic and English responses.</p>
-      </div>
-      <div class="text-center reveal d4">
-        <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 font-display font-800 text-3xl text-wa" style="background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.4);box-shadow:0 0 30px rgba(37,211,102,0.2);">3</div>
-        <h3 class="font-display font-700 text-xl mb-3">Go Live in 24hrs</h3>
-        <p class="text-white/40 text-sm leading-relaxed">Your bot handles messages automatically. You focus on running your business.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="py-20" style="background:#020f09;">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="text-center mb-12 reveal">
-      <h2 class="font-display font-800 text-3xl md:text-4xl mb-2">Kuwait Businesses Love Focobot</h2>
-      <p class="text-white/35 text-sm">Real results from real owners</p>
-    </div>
-    <div class="grid md:grid-cols-3 gap-5">
-      <div class="glass rounded-2xl p-6 reveal">
-        <div class="flex gap-0.5 mb-4">★★★★★</div>
-        <p class="text-white/60 text-sm leading-relaxed mb-5">"We were losing customers at night. Focobot fixed that. Bookings went up 40% in the first month."</p>
-        <div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm" style="background:#0a4f3c;color:#25D366;">م</div><div><div class="text-sm font-600">Mohammed Al-Rashidi</div><div class="text-xs text-white/35">Restaurant, Salmiya</div></div></div>
-      </div>
-      <div class="glass rounded-2xl p-6 reveal d2" style="border-color:rgba(37,211,102,0.25);">
-        <div class="flex gap-0.5 mb-4 text-wa">★★★★★</div>
-        <p class="text-white/60 text-sm leading-relaxed mb-5">"My clinic stopped missing weekend appointment requests. Patients get instant confirmation now."</p>
-        <div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm" style="background:#0a4f3c;color:#25D366;">ف</div><div><div class="text-sm font-600">Dr. Fatima Al-Kandari</div><div class="text-xs text-white/35">Clinic, Kuwait City</div></div></div>
-      </div>
-      <div class="glass rounded-2xl p-6 reveal d4">
-        <div class="flex gap-0.5 mb-4">★★★★★</div>
-        <p class="text-white/60 text-sm leading-relaxed mb-5">"Arabic replies sound completely natural. Customers don't know it's a bot. Best 59 KWD I spend."</p>
-        <div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm" style="background:#0a4f3c;color:#25D366;">س</div><div><div class="text-sm font-600">Sara Al-Mutairi</div><div class="text-xs text-white/35">Salon, Hawalli</div></div></div>
+      <div style="text-align:center;margin-top:52px;" class="rev">
+        <button onclick="setPage('apply')" class="bp" style="font-size:16px;padding:14px 36px;">Get All 6 Features &#8594;</button>
       </div>
     </div>
   </div>
-</section>
+</div><!-- /features -->
 
 <!-- PRICING -->
-<section id="pricing" class="py-24" style="background:#071f18;">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="text-center mb-16 reveal">
-      <div class="label mb-4">Pricing</div>
-      <h2 class="font-display font-800 text-4xl md:text-5xl mb-4">Less Than One<br>Lost Customer</h2>
-      <p class="text-white/40 max-w-md mx-auto">Simple pricing. No contracts. Cancel anytime.</p>
-    </div>
-    <div class="grid md:grid-cols-3 gap-6 items-center">
-
-      <div class="glass rounded-2xl p-7 reveal">
-        <div class="text-white/40 text-sm font-500 mb-1">Starter</div>
-        <div class="font-display font-800 text-4xl mb-1">29<span class="text-lg font-sans font-400 text-white/35 ml-1">KWD/mo</span></div>
-        <p class="text-white/35 text-sm mb-6">For solo businesses getting started</p>
-        <a href="#" class="block text-center py-3 rounded-xl text-sm font-600 glass mb-6 cursor-pointer hover:bg-white/10 transition-all">Get Started →</a>
-        <ul class="space-y-3 text-sm text-white/50">
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>500 messages/month</li>
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Arabic + English</li>
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Basic analytics</li>
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>24hr setup</li>
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Email support</li>
-        </ul>
+<div class="page" id="page-pricing" data-page="pricing">
+  <div class="pt sec">
+    <div style="max-width:1060px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:52px;">
+        <div class="badge" style="background:rgba(245,158,11,.09);border:1px solid rgba(245,158,11,.2);color:#fbbf24;margin-bottom:16px;">Simple pricing</div>
+        <h1 class="rev" style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:12px;">Priced in KWD. No surprises.</h1>
+        <p class="rev" style="color:var(--muted);max-width:460px;margin:0 auto;line-height:1.7;font-size:15px;">All plans include setup, onboarding, and support. Cancel anytime.</p>
       </div>
-
-      <div class="pricing-hot rounded-2xl p-7 reveal d2 relative">
-        <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full text-xs font-700 bg-wa" style="color:#071f18;">Most Popular</div>
-        <div class="text-wa text-sm font-500 mb-1">Growth</div>
-        <div class="font-display font-800 text-4xl mb-1">59<span class="text-lg font-sans font-400 text-white/35 ml-1">KWD/mo</span></div>
-        <p class="text-white/50 text-sm mb-6">For businesses that can't miss a message</p>
-        <a href="#" class="block text-center py-3 rounded-xl text-sm font-700 bg-wa cursor-pointer hover:opacity-90 hover:scale-105 transition-all mb-6 focus:outline-none" style="color:#071f18;">Start Free Trial →</a>
-        <ul class="space-y-3 text-sm text-white/70">
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Unlimited messages</li>
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Arabic + English + Emoji</li>
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Advanced analytics</li>
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Custom bot personality</li>
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Catalog integration</li>
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Priority support</li>
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>7-day free trial</li>
-        </ul>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:22px;align-items:start;">
+        <!-- Starter -->
+        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
+          <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">Starter</div>
+          <div style="font-family:'Syne',sans-serif;font-size:3.2rem;font-weight:800;line-height:1;">29<span style="font-size:1rem;color:var(--muted);font-weight:400;"> KWD</span></div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:26px;">/ month</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:28px;">
+            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> 500 messages / month</li>
+            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Arabic + English</li>
+            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Basic analytics</li>
+            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Setup in 24 hours</li>
+            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Email support</li>
+            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--muted);"><span style="flex-shrink:0;">&#8211;</span> Custom personality</li>
+            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--muted);"><span style="flex-shrink:0;">&#8211;</span> Catalog integration</li>
+          </ul>
+          <button onclick="setPage('apply')" class="bo" style="width:100%;text-align:center;">Get Started</button>
+        </div>
+        <!-- Growth -->
+        <div class="rev">
+          <div class="pfw">
+            <div class="pfi">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                <span style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--hi);text-transform:uppercase;letter-spacing:.08em;">Growth</span>
+                <span style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;font-family:'Syne',sans-serif;">MOST POPULAR</span>
+              </div>
+              <div style="font-family:'Syne',sans-serif;font-size:3.2rem;font-weight:800;line-height:1;color:var(--text);">59<span style="font-size:1rem;color:var(--muted);font-weight:400;"> KWD</span></div>
+              <div style="font-size:13px;color:var(--muted);margin-bottom:6px;">/ month</div>
+              <div style="font-size:12px;color:#4ade80;font-weight:600;margin-bottom:26px;">&#10003; 7-day free trial included</div>
+              <ul style="list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:28px;">
+                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> <strong>Unlimited</strong> messages</li>
+                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Arabic + English</li>
+                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Custom personality &amp; tone</li>
+                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Catalog integration</li>
+                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Full analytics dashboard</li>
+                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Owner WhatsApp alerts</li>
+                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Priority support</li>
+                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Setup in 24 hours</li>
+              </ul>
+              <button onclick="setPage('apply')" class="bp" style="width:100%;text-align:center;font-size:15.5px;padding:14px;">Start Free Trial &#8594;</button>
+            </div>
+          </div>
+        </div>
+        <!-- Enterprise -->
+        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
+          <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">Enterprise</div>
+          <div style="font-family:'Syne',sans-serif;font-size:3.2rem;font-weight:800;line-height:1;">Custom</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:26px;">Let's talk</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:28px;">
+            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Multi-branch support</li>
+            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Dedicated account manager</li>
+            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> SLA guarantee</li>
+            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Custom integrations</li>
+            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Onboarding &amp; training</li>
+            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> White-label option</li>
+            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> 24/7 phone support</li>
+          </ul>
+          <button onclick="setPage('apply')" class="bo" style="width:100%;text-align:center;">Contact Sales</button>
+        </div>
       </div>
-
-      <div class="glass rounded-2xl p-7 reveal d4">
-        <div class="text-white/40 text-sm font-500 mb-1">Enterprise</div>
-        <div class="font-display font-800 text-4xl mb-1">Custom</div>
-        <p class="text-white/35 text-sm mb-6">Multi-branch businesses &amp; franchises</p>
-        <a href="mailto:hello@focobot.com" class="block text-center py-3 rounded-xl text-sm font-600 glass mb-6 cursor-pointer hover:bg-white/10 transition-all">Contact Us →</a>
-        <ul class="space-y-3 text-sm text-white/50">
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Everything in Growth</li>
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Multiple WA numbers</li>
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Dedicated manager</li>
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Custom integrations</li>
-          <li class="flex gap-3 items-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>SLA guarantee</li>
-        </ul>
-      </div>
-    </div>
-    <p class="text-center text-white/25 text-sm mt-8">No contracts · Cancel anytime · 7-day free trial on all plans</p>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq" class="py-24" style="background:#020f09;">
-  <div class="max-w-3xl mx-auto px-6">
-    <div class="text-center mb-12 reveal">
-      <h2 class="font-display font-800 text-4xl mb-2">Common Questions</h2>
-      <p class="text-white/35 text-sm">Everything you need to know</p>
-    </div>
-    <div class="space-y-3 reveal">
-      <div class="glass rounded-2xl overflow-hidden">
-        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-5 text-left cursor-pointer hover:bg-white/5 transition-colors focus:outline-none" aria-expanded="false">
-          <span class="font-600 text-sm pr-4">Is 29 KWD/month worth it?</span>
-          <svg class="chevron flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-body px-5 text-sm text-white/45 leading-relaxed"><div class="pb-5">One missed order on a Friday night in Kuwait can be 15–30 KWD. Focobot pays for itself in 1–2 captured orders per month. Our customers average 40%+ more leads in the first month.</div></div>
-      </div>
-      <div class="glass rounded-2xl overflow-hidden">
-        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-5 text-left cursor-pointer hover:bg-white/5 transition-colors focus:outline-none" aria-expanded="false">
-          <span class="font-600 text-sm pr-4">Does it really reply in Arabic correctly?</span>
-          <svg class="chevron flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-body px-5 text-sm text-white/45 leading-relaxed"><div class="pb-5">Yes — proper Arabic written by you, delivered by the bot. It also auto-detects language and switches between Arabic and English mid-conversation.</div></div>
-      </div>
-      <div class="glass rounded-2xl overflow-hidden">
-        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-5 text-left cursor-pointer hover:bg-white/5 transition-colors focus:outline-none" aria-expanded="false">
-          <span class="font-600 text-sm pr-4">How long does setup take?</span>
-          <svg class="chevron flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-body px-5 text-sm text-white/45 leading-relaxed"><div class="pb-5">Most businesses are live within 24 hours. Connect your WhatsApp Business account, set responses in our simple editor, done. No coding required.</div></div>
-      </div>
-      <div class="glass rounded-2xl overflow-hidden">
-        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-5 text-left cursor-pointer hover:bg-white/5 transition-colors focus:outline-none" aria-expanded="false">
-          <span class="font-600 text-sm pr-4">Am I locked into a contract?</span>
-          <svg class="chevron flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-body px-5 text-sm text-white/45 leading-relaxed"><div class="pb-5">No contracts ever. Cancel from your dashboard with one click. We earn your business every month.</div></div>
-      </div>
-      <div class="glass rounded-2xl overflow-hidden">
-        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-5 text-left cursor-pointer hover:bg-white/5 transition-colors focus:outline-none" aria-expanded="false">
-          <span class="font-600 text-sm pr-4">What if a customer wants a real person?</span>
-          <svg class="chevron flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-body px-5 text-sm text-white/45 leading-relaxed"><div class="pb-5">The bot handles routine questions. When a customer needs a human, Focobot flags the conversation and notifies you instantly. You take over seamlessly.</div></div>
+      <!-- FAQ -->
+      <div style="max-width:680px;margin:64px auto 0;" class="rev">
+        <h2 style="font-size:1.6rem;text-align:center;margin-bottom:28px;">Common questions</h2>
+        <div id="fqw" style="display:flex;flex-direction:column;gap:4px;"></div>
       </div>
     </div>
   </div>
-</section>
+</div><!-- /pricing -->
 
-<!-- CTA -->
-<section class="py-24 relative overflow-hidden" style="background:#0a4f3c;">
-  <div class="absolute inset-0" style="background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(37,211,102,0.2) 0%,transparent 70%);"></div>
-  <div class="max-w-3xl mx-auto px-6 text-center relative z-10 reveal">
-    <h2 class="font-display font-800 text-4xl md:text-5xl mb-5 leading-tight">Your competitors are<br>automating right now.<br><span class="text-wa">Are you?</span></h2>
-    <p class="text-white/60 text-lg mb-10">Join Kuwait businesses capturing customers 24/7.</p>
-    <div class="flex flex-wrap gap-4 justify-center">
-      <a href="#pricing" class="px-8 py-4 rounded-xl font-700 text-base bg-wa cursor-pointer hover:opacity-90 hover:scale-105 transition-all glow-btn focus:outline-none" style="color:#071f18;">Start Free Trial — 7 Days Free</a>
-      <a href="mailto:hello@focobot.com" class="px-8 py-4 rounded-xl font-500 text-base cursor-pointer hover:bg-white/10 transition-all focus:outline-none" style="border:1px solid rgba(255,255,255,0.2);">Talk to Us</a>
-    </div>
-    <p class="text-white/30 text-sm mt-6">No credit card · 24hr setup · Cancel anytime</p>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="py-14 border-t" style="background:#020f09;border-color:rgba(37,211,102,0.08);">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-10">
-      <div class="col-span-2 md:col-span-1">
-        <a href="#" class="flex items-center gap-2 mb-3 cursor-pointer">
-          <div class="w-7 h-7 rounded-lg bg-wa flex items-center justify-center"><svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a9 9 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg></div>
-          <span class="font-display font-700 text-white">focobot</span>
-        </a>
-        <p class="text-white/30 text-sm">WhatsApp automation for Kuwait's businesses.</p>
+<!-- APPLY -->
+<div class="page" id="page-apply" data-page="apply">
+  <div class="pt sec">
+    <div class="consm">
+      <div style="text-align:center;margin-bottom:36px;">
+        <div class="badge bp-badge" style="margin-bottom:16px;"><span class="bdot"></span>30 seconds · Simple form</div>
+        <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:12px;">Let's get you started</h1>
+        <p style="color:var(--muted);line-height:1.7;font-size:15px;">Fill in a few details and we'll reach out on WhatsApp within 2 hours during business hours.</p>
       </div>
-      <div><div class="text-xs font-600 uppercase tracking-widest text-white/25 mb-4">Product</div><ul class="space-y-2.5"><li><a href="#features" class="text-sm text-white/40 hover:text-wa transition-colors cursor-pointer">Features</a></li><li><a href="#pricing" class="text-sm text-white/40 hover:text-wa transition-colors cursor-pointer">Pricing</a></li><li><a href="#how" class="text-sm text-white/40 hover:text-wa transition-colors cursor-pointer">How It Works</a></li></ul></div>
-      <div><div class="text-xs font-600 uppercase tracking-widest text-white/25 mb-4">Support</div><ul class="space-y-2.5"><li><a href="#faq" class="text-sm text-white/40 hover:text-wa transition-colors cursor-pointer">FAQ</a></li><li><a href="mailto:hello@focobot.com" class="text-sm text-white/40 hover:text-wa transition-colors cursor-pointer">Contact</a></li></ul></div>
-      <div><div class="text-xs font-600 uppercase tracking-widest text-white/25 mb-4">Contact</div><ul class="space-y-2.5"><li><a href="mailto:hello@focobot.com" class="text-sm text-white/40 hover:text-wa transition-colors cursor-pointer">hello@focobot.com</a></li><li><span class="text-sm text-white/40">Kuwait City 🇰🇼</span></li></ul></div>
-    </div>
-    <div class="pt-8 border-t flex items-center justify-between" style="border-color:rgba(255,255,255,0.05);">
-      <p class="text-white/20 text-sm">© 2026 Focobot. All rights reserved.</p>
-      <p class="text-white/20 text-sm">Built for Kuwait 🇰🇼</p>
+      <div class="glass" style="padding:36px;"><div class="gs"></div>
+        <form id="af" onsubmit="doApply(event)">
+          <div style="margin-bottom:20px;">
+            <label style="display:block;font-size:13px;font-weight:600;color:var(--hi);margin-bottom:8px;font-family:'Syne',sans-serif;">Business Name *</label>
+            <input type="text" required placeholder="e.g. Al Nakheel Cafe" class="ff" id="fn">
+          </div>
+          <div style="margin-bottom:20px;">
+            <label style="display:block;font-size:13px;font-weight:600;color:var(--hi);margin-bottom:8px;font-family:'Syne',sans-serif;">WhatsApp Number *</label>
+            <input type="tel" required placeholder="+965 XXXX XXXX" class="ff" id="fp">
+          </div>
+          <div style="margin-bottom:20px;">
+            <label style="display:block;font-size:13px;font-weight:600;color:var(--hi);margin-bottom:8px;font-family:'Syne',sans-serif;">Business Type *</label>
+            <select required class="ff" id="ft">
+              <option value="">Choose your type...</option>
+              <option>Coffee Shop / Cafe</option>
+              <option>Restaurant</option>
+              <option>Salon / Beauty</option>
+              <option>Bakery / Pastry</option>
+              <option>Gym / Fitness</option>
+              <option>Retail / Boutique</option>
+              <option>Clinic / Medical</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div style="margin-bottom:28px;">
+            <label style="display:block;font-size:13px;font-weight:600;color:var(--hi);margin-bottom:8px;font-family:'Syne',sans-serif;">Your Biggest Customer Service Challenge *</label>
+            <textarea required placeholder="e.g. We get 200+ messages a day and can't reply fast enough..." class="ff" style="min-height:110px;resize:vertical;"></textarea>
+          </div>
+          <button type="submit" class="bp" style="width:100%;font-size:16px;padding:15px;" id="ab">Send Application &#8594;</button>
+          <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:12px;">We'll reply on WhatsApp within 2 business hours. No spam, ever.</p>
+        </form>
+        <div id="as" style="display:none;text-align:center;padding:36px 0;">
+          <div style="font-size:52px;margin-bottom:16px;">&#127881;</div>
+          <h3 style="font-size:1.5rem;margin-bottom:10px;">Application received!</h3>
+          <p style="color:var(--muted);line-height:1.7;font-size:15px;">We'll reach out on WhatsApp within 2 hours. Get ready to automate your customer service.</p>
+          <button onclick="setPage('home')" class="bo" style="margin-top:20px;">Back to Home</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:24px;justify-content:center;margin-top:28px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);"><span style="color:#4ade80;">&#10003;</span> Setup in 24 hours</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);"><span style="color:#4ade80;">&#10003;</span> Cancel anytime</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);"><span style="color:#4ade80;">&#10003;</span> 7-day free trial</div>
+      </div>
     </div>
   </div>
-</footer>
+</div><!-- /apply -->
 
-<!-- THREE.JS HERO BACKGROUND -->
+</main>
+
+<!-- THREE.JS -->
 <script type="module">
 import * as THREE from 'three';
-
-const canvas = document.getElementById('hero-canvas');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0x000000, 0);
-
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-camera.position.z = 5;
-
-// Mouse tracking
-const mouse = new THREE.Vector2();
-const target = new THREE.Vector2();
-document.addEventListener('mousemove', e => {
-  mouse.x = (e.clientX / window.innerWidth - 0.5) * 2;
-  mouse.y = -(e.clientY / window.innerHeight - 0.5) * 2;
-});
-
-// ── PARTICLES ──────────────────────────────────────────────
-const PARTICLE_COUNT = 1800;
-const positions = new Float32Array(PARTICLE_COUNT * 3);
-const colors = new Float32Array(PARTICLE_COUNT * 3);
-const sizes = new Float32Array(PARTICLE_COUNT);
-const velocities = [];
-
-const greenColor = new THREE.Color('#25D366');
-const dimGreen = new THREE.Color('#0a4f3c');
-const white = new THREE.Color('#ffffff');
-
-for (let i = 0; i < PARTICLE_COUNT; i++) {
-  const spread = 18;
-  positions[i * 3]     = (Math.random() - 0.5) * spread;
-  positions[i * 3 + 1] = (Math.random() - 0.5) * spread;
-  positions[i * 3 + 2] = (Math.random() - 0.5) * 8;
-
-  const t = Math.random();
-  const c = t < 0.6 ? dimGreen.clone().lerp(greenColor, t / 0.6)
-          : t < 0.85 ? greenColor.clone()
-          : white.clone();
-  colors[i * 3]     = c.r;
-  colors[i * 3 + 1] = c.g;
-  colors[i * 3 + 2] = c.b;
-
-  sizes[i] = Math.random() * 3 + 0.5;
-  velocities.push({
-    x: (Math.random() - 0.5) * 0.003,
-    y: (Math.random() - 0.5) * 0.003,
-    z: (Math.random() - 0.5) * 0.001,
-  });
-}
-
-const geo = new THREE.BufferGeometry();
-geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-
-const mat = new THREE.ShaderMaterial({
-  vertexShader: `
-    attribute float size;
-    attribute vec3 color;
-    varying vec3 vColor;
-    varying float vAlpha;
-    void main() {
-      vColor = color;
-      vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-      gl_PointSize = size * (300.0 / -mvPosition.z);
-      gl_Position = projectionMatrix * mvPosition;
-      vAlpha = smoothstep(-4.0, 4.0, position.z);
-    }
-  `,
-  fragmentShader: `
-    varying vec3 vColor;
-    varying float vAlpha;
-    void main() {
-      float d = distance(gl_PointCoord, vec2(0.5));
-      if (d > 0.5) discard;
-      float alpha = (1.0 - d * 2.0) * vAlpha * 0.85;
-      gl_FragColor = vec4(vColor, alpha);
-    }
-  `,
-  transparent: true,
-  vertexColors: true,
-  depthWrite: false,
-  blending: THREE.AdditiveBlending,
-});
-
-const particles = new THREE.Points(geo, mat);
-scene.add(particles);
-
-// ── CONNECTION LINES ────────────────────────────────────────
-const LINE_COUNT = 120;
-const lineGeo = new THREE.BufferGeometry();
-const linePositions = new Float32Array(LINE_COUNT * 6);
-const lineColors = new Float32Array(LINE_COUNT * 6);
-lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
-lineGeo.setAttribute('color', new THREE.BufferAttribute(lineColors, 3));
-
-const lineMat = new THREE.LineSegmentsGeometry
-  ? new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.25, blending: THREE.AdditiveBlending, depthWrite: false })
-  : new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.25, blending: THREE.AdditiveBlending, depthWrite: false });
-
-const lines = new THREE.LineSegments(lineGeo, lineMat);
-scene.add(lines);
-
-// ── FLOATING ORBS ──────────────────────────────────────────
-const orbGeo = new THREE.SphereGeometry(0.06, 8, 8);
-const orbs = [];
-for (let i = 0; i < 12; i++) {
-  const brightness = 0.3 + Math.random() * 0.7;
-  const orbMat = new THREE.MeshBasicMaterial({
-    color: new THREE.Color(0, brightness, brightness * 0.5),
-    transparent: true,
-    opacity: 0.6,
-    blending: THREE.AdditiveBlending,
-  });
-  const orb = new THREE.Mesh(orbGeo, orbMat);
-  orb.position.set((Math.random() - 0.5) * 12, (Math.random() - 0.5) * 8, (Math.random() - 0.5) * 3);
-  orb.userData = {
-    vx: (Math.random() - 0.5) * 0.008,
-    vy: (Math.random() - 0.5) * 0.008,
-    phase: Math.random() * Math.PI * 2,
-    speed: 0.003 + Math.random() * 0.005,
-  };
-  scene.add(orb);
-  orbs.push(orb);
-}
-
-// ── RING ───────────────────────────────────────────────────
-const ringGeo = new THREE.RingGeometry(2.2, 2.25, 80);
-const ringMat = new THREE.MeshBasicMaterial({ color: 0x25D366, transparent: true, opacity: 0.06, side: THREE.DoubleSide, blending: THREE.AdditiveBlending });
-const ring = new THREE.Mesh(ringGeo, ringMat);
-ring.rotation.x = -0.3;
-scene.add(ring);
-
-const ring2Geo = new THREE.RingGeometry(3.5, 3.54, 80);
-const ring2Mat = new THREE.MeshBasicMaterial({ color: 0x25D366, transparent: true, opacity: 0.04, side: THREE.DoubleSide, blending: THREE.AdditiveBlending });
-const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
-ring2.rotation.x = -0.3;
-scene.add(ring2);
-
-// ── RESIZE ─────────────────────────────────────────────────
-function resize() {
-  const hero = document.querySelector('section');
-  const w = hero.clientWidth;
-  const h = hero.clientHeight;
-  renderer.setSize(w, h);
-  camera.aspect = w / h;
-  camera.updateProjectionMatrix();
-}
-resize();
-window.addEventListener('resize', resize);
-
-// ── ANIMATE ────────────────────────────────────────────────
-let frame = 0;
-function animate() {
-  requestAnimationFrame(animate);
-  frame++;
-
-  // Smooth mouse parallax
-  target.x += (mouse.x - target.x) * 0.04;
-  target.y += (mouse.y - target.y) * 0.04;
-  particles.rotation.y = target.x * 0.15;
-  particles.rotation.x = -target.y * 0.08;
-  lines.rotation.y = target.x * 0.15;
-  lines.rotation.x = -target.y * 0.08;
-
-  // Update particles
-  const pos = geo.attributes.position.array;
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
-    pos[i*3]   += velocities[i].x;
-    pos[i*3+1] += velocities[i].y;
-    pos[i*3+2] += velocities[i].z;
-    if (Math.abs(pos[i*3])   > 9) velocities[i].x *= -1;
-    if (Math.abs(pos[i*3+1]) > 9) velocities[i].y *= -1;
-    if (Math.abs(pos[i*3+2]) > 4) velocities[i].z *= -1;
-  }
-  geo.attributes.position.needsUpdate = true;
-
-  // Update connection lines
-  let lineIdx = 0;
-  const lp = lineGeo.attributes.position.array;
-  const lc = lineGeo.attributes.color.array;
-  for (let i = 0; i < LINE_COUNT && lineIdx < LINE_COUNT; i++) {
-    const a = Math.floor(Math.random() * PARTICLE_COUNT) * 3;
-    const b = Math.floor(Math.random() * PARTICLE_COUNT) * 3;
-    const dist = Math.hypot(pos[a]-pos[b], pos[a+1]-pos[b+1], pos[a+2]-pos[b+2]);
-    if (dist < 3.5) {
-      const alpha = (1 - dist / 3.5) * 0.4;
-      lp[lineIdx*6]   = pos[a];   lp[lineIdx*6+1] = pos[a+1]; lp[lineIdx*6+2] = pos[a+2];
-      lp[lineIdx*6+3] = pos[b];   lp[lineIdx*6+4] = pos[b+1]; lp[lineIdx*6+5] = pos[b+2];
-      lc[lineIdx*6]   = 0.145; lc[lineIdx*6+1] = 0.827; lc[lineIdx*6+2] = 0.400;
-      lc[lineIdx*6+3] = 0.145; lc[lineIdx*6+4] = 0.827; lc[lineIdx*6+5] = 0.400;
-      lineIdx++;
-    }
-  }
-  lineGeo.attributes.position.needsUpdate = true;
-  lineGeo.attributes.color.needsUpdate = true;
-
-  // Orbs
-  const t = frame * 0.008;
-  orbs.forEach(orb => {
-    orb.position.x += orb.userData.vx + Math.sin(t + orb.userData.phase) * 0.003;
-    orb.position.y += orb.userData.vy + Math.cos(t * 0.7 + orb.userData.phase) * 0.003;
-    if (Math.abs(orb.position.x) > 7) orb.userData.vx *= -1;
-    if (Math.abs(orb.position.y) > 5) orb.userData.vy *= -1;
-    orb.material.opacity = 0.3 + 0.3 * Math.sin(t * orb.userData.speed * 50 + orb.userData.phase);
-  });
-
-  // Rings
-  ring.rotation.z  += 0.002;
-  ring2.rotation.z -= 0.0015;
-
-  renderer.render(scene, camera);
-}
+const canvas=document.getElementById('hc'),wrap=document.getElementById('hw');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setClearColor(0,0);
+const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(72,1,.1,1000);
+camera.position.z=5.5;
+function resize(){const w=wrap.offsetWidth,h=wrap.offsetHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+resize();new ResizeObserver(resize).observe(wrap);
+const N=1800,pos=new Float32Array(N*3),col=new Float32Array(N*3),sz=new Float32Array(N);
+const pal=[new THREE.Color('#6366f1'),new THREE.Color('#818cf8'),new THREE.Color('#4f46e5'),new THREE.Color('#a5b4fc'),new THREE.Color('#c4b5fd'),new THREE.Color('#7c3aed')];
+for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*20;pos[i*3+1]=(Math.random()-.5)*14;pos[i*3+2]=(Math.random()-.5)*10;const c=pal[i%pal.length];col[i*3]=c.r;col[i*3+1]=c.g;col[i*3+2]=c.b;sz[i]=1.2+Math.random()*2.8;}
+const ptg=new THREE.BufferGeometry();
+ptg.setAttribute('position',new THREE.BufferAttribute(pos,3));
+ptg.setAttribute('color',new THREE.BufferAttribute(col,3));
+ptg.setAttribute('size',new THREE.BufferAttribute(sz,1));
+const ptm=new THREE.ShaderMaterial({vertexColors:true,transparent:true,depthWrite:false,vertexShader:`attribute float size;varying vec3 vC;varying float vA;void main(){vC=color;vec4 mv=modelViewMatrix*vec4(position,1.0);float d=length(mv.xyz);vA=clamp(1.0-d/13.0,.08,.88);gl_PointSize=size*(290.0/d);gl_Position=projectionMatrix*mv;}`,fragmentShader:`varying vec3 vC;varying float vA;void main(){vec2 uv=gl_PointCoord-.5;float d=length(uv);if(d>.5)discard;float a=smoothstep(.5,.08,d);gl_FragColor=vec4(vC,a*vA);}`});
+const pts=new THREE.Points(ptg,ptm);scene.add(pts);
+const LM=120,lp=new Float32Array(LM*6),lg=new THREE.BufferGeometry();
+lg.setAttribute('position',new THREE.BufferAttribute(lp,3));
+const lm=new THREE.LineBasicMaterial({color:0x6366f1,transparent:true,opacity:.11});
+const ls=new THREE.LineSegments(lg,lm);scene.add(ls);
+function uLines(){let li=0,cnt=0;for(let i=0;i<N&&cnt<LM;i++)for(let j=i+1;j<N&&cnt<LM;j++){const dx=pos[i*3]-pos[j*3],dy=pos[i*3+1]-pos[j*3+1],dz=pos[i*3+2]-pos[j*3+2];if(dx*dx+dy*dy+dz*dz<8){lp[li++]=pos[i*3];lp[li++]=pos[i*3+1];lp[li++]=pos[i*3+2];lp[li++]=pos[j*3];lp[li++]=pos[j*3+1];lp[li++]=pos[j*3+2];cnt++;}}lg.attributes.position.needsUpdate=true;lg.setDrawRange(0,cnt*2);}
+const oc=[0x6366f1,0x818cf8,0x4f46e5,0xa5b4fc,0xc4b5fd,0x7c3aed,0x4338ca,0x8b5cf6,0x6d28d9,0x5b21b6,0x4f46e5,0x818cf8];
+const orbs=[];
+for(let i=0;i<12;i++){const m=new THREE.Mesh(new THREE.SphereGeometry(.07+Math.random()*.18,14,14),new THREE.MeshBasicMaterial({color:oc[i],transparent:true,opacity:.55+Math.random()*.35}));m.position.set((Math.random()-.5)*14,(Math.random()-.5)*9,(Math.random()-.5)*6);m.userData={sp:.3+Math.random()*.8,ph:Math.random()*Math.PI*2};scene.add(m);orbs.push(m);}
+const rings=[];
+[[2.0,0],[3.4,1]].forEach(([r,i])=>{const rm=new THREE.Mesh(new THREE.TorusGeometry(r,.011,8,90),new THREE.MeshBasicMaterial({color:i?0x4f46e5:0x6366f1,transparent:true,opacity:.22}));rm.rotation.x=Math.PI/(3+i);rm.userData={rs:.0018+i*.001};scene.add(rm);rings.push(rm);});
+let mx=0,my=0;
+document.addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5)*2;my=-(e.clientY/innerHeight-.5)*2;});
+let fr=0;
+function animate(){requestAnimationFrame(animate);fr++;pts.rotation.y+=.00055;pts.rotation.x+=.00018;camera.position.x+=(mx*.9-camera.position.x)*.038;camera.position.y+=(my*.55-camera.position.y)*.038;camera.lookAt(scene.position);orbs.forEach(o=>{o.position.y+=Math.sin(fr*.01*o.userData.sp+o.userData.ph)*.005;});rings.forEach(r=>{r.rotation.z+=r.userData.rs;r.rotation.y+=r.userData.rs*.45;});if(fr%3===0)uLines();renderer.render(scene,camera);}
 animate();
 </script>
 
+<!-- MAIN SCRIPT -->
 <script>
-// Scroll reveal
-const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+// ── Routing ──
+function setPage(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.dataset.page===n));
+  document.querySelectorAll('[data-page].nav-link,[data-page].chip').forEach(e=>e.classList.toggle('active',e.dataset.page===n));
+  window.scrollTo({top:0,behavior:'instant'});
+  if(history.pushState)history.pushState({page:n},'','#'+n);
+  setTimeout(()=>{document.querySelectorAll('#page-'+n+' .rev:not(.in)').forEach((e,i)=>setTimeout(()=>e.classList.add('in'),i*75));},55);
+  if(n==='home')setTimeout(()=>runHomeChat(chb),500);
+  if(n==='demo')setTimeout(()=>runDemoChat(cdb),350);
+}
+window.setPage=setPage;
+window.addEventListener('popstate',()=>{const p=(location.hash||'#home').slice(1);setPage(['home','demo','compare','features','pricing','apply'].includes(p)?p:'home');});
 
-// FAQ
-function toggleFaq(btn) {
-  const body = btn.nextElementSibling;
-  const chev = btn.querySelector('.chevron');
-  const open = body.classList.contains('open');
-  document.querySelectorAll('.faq-body.open').forEach(b => { b.classList.remove('open'); b.previousElementSibling.querySelector('.chevron').classList.remove('open'); b.previousElementSibling.setAttribute('aria-expanded','false'); });
-  if (!open) { body.classList.add('open'); chev.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+// ── Chat data ──
+const BIZ={
+  cafe:{en:'Brew & Co',ar:'\u0628\u0631\u0648 \u0622\u0646\u062f \u0643\u0648',av:'BC'},
+  restaurant:{en:'Al Waha Restaurant',ar:'\u0645\u0637\u0639\u0645 \u0627\u0644\u0648\u0627\u062d\u0629',av:'AW'},
+  salon:{en:'Glow Salon',ar:'\u0635\u0627\u0644\u0648\u0646 \u062c\u0644\u0648',av:'GS'},
+  bakery:{en:'Sugar Crumbs',ar:'\u0634\u0648\u0642\u0631 \u0643\u0631\u0645\u0628\u0633',av:'SC'},
+  gym:{en:'Iron Peak Gym',ar:'\u0622\u064a\u0631\u0648\u0646 \u0628\u064a\u0643 \u062c\u064a\u0645',av:'IP'},
+};
+const CV={
+  cafe:{
+    en:[{u:"What are your opening hours?",b:"We're open 7AM\u201311PM daily, including weekends! \u2615 Anything else I can help with?"},
+        {u:"Do you have oat milk?",b:"Yes! We carry oat, almond, and soy milk \ud83e\udd5b Just mention your preference when ordering."},
+        {u:"Can I book a table?",b:"Of course! We have seating for up to 6. Tell me your preferred time and date \ud83d\udcc5"}],
+    ar:[{u:"\u0623\u0648\u0642\u0627\u062a \u0627\u0644\u062f\u0648\u0627\u0645\u061f",b:"\u0646\u0641\u062a\u062d \u0645\u0646 7 \u0627\u0644\u0635\u0628\u062d \u0644\u0640 11 \u0627\u0644\u0644\u064a\u0644 \u0643\u0644 \u064a\u0648\u0645\u060c \u062d\u062a\u0649 \u0627\u0644\u0648\u064a\u0643\u0646\u062f! \u2615 \u0641\u064a \u0634\u064a \u062b\u0627\u0646\u064a\u061f"},
+        {u:"\u0639\u0646\u062f\u0643\u0645 \u062d\u0644\u064a\u0628 \u0634\u0648\u0641\u0627\u0646\u061f",b:"\u0625\u064a! \u0639\u0646\u062f\u0646\u0627 \u0634\u0648\u0641\u0627\u0646 \u0648\u0644\u0648\u0632 \u0648\u0635\u0648\u064a\u0627 \ud83e\udd5b \u0628\u0633 \u0642\u0648\u0644 \u0627\u0644\u0644\u064a \u062a\u0628\u064a\u0647 \u0644\u0645\u0627 \u062a\u0637\u0644\u0628."},
+        {u:"\u0623\u0642\u062f\u0631 \u0623\u062d\u062c\u0632 \u0637\u0627\u0648\u0644\u0629\u061f",b:"\u0623\u0643\u064a\u062f! \u0639\u0646\u062f\u0646\u0627 \u0645\u0642\u0627\u0639\u062f \u0644\u0640 6. \u0642\u0648\u0644\u064a \u0627\u0644\u0648\u0642\u062a \u0648\u0627\u0644\u062a\u0627\u0631\u064a\u062e \u0627\u0644\u0644\u064a \u064a\u0646\u0627\u0633\u0628\u0643 \ud83d\udcc5"}]
+  },
+  restaurant:{
+    en:[{u:"Do you have a kids menu?",b:"Yes! Grilled chicken, pasta, and mini burgers \ud83c\udf54 All with a free juice."},
+        {u:"What's your busiest time?",b:"Usually 7\u20139PM on weekends. We recommend booking ahead \ud83d\udcde"},
+        {u:"Do you deliver?",b:"Yes! We deliver via Talabat and Careem \ud83d\ude97 Or call us for large orders."}],
+    ar:[{u:"\u0639\u0646\u062f\u0643\u0645 \u0642\u0627\u0626\u0645\u0629 \u0623\u0637\u0641\u0627\u0644\u061f",b:"\u0625\u064a! \u0641\u064a\u0647\u0627 \u062f\u062c\u0627\u062c \u0645\u0634\u0648\u064a \u0648\u0628\u0627\u0633\u062a\u0627 \u0648\u0645\u064a\u0646\u064a \u0628\u0631\u062c\u0631 \ud83c\udf54 \u0648\u0639\u0635\u064a\u0631 \u0645\u062c\u0627\u0646\u064a \u0645\u0639 \u0643\u0644 \u0648\u062c\u0628\u0629."},
+        {u:"\u0648\u0627\u064a\u062f \u0639\u0646\u062f\u0643\u0645 \u0627\u0644\u062c\u0645\u0639\u0629\u061f",b:"\u0639\u0627\u062f\u0629\u064b 7 \u0644\u0640 9 \u0627\u0644\u0644\u064a\u0644 \u0641\u064a \u0627\u0644\u0648\u064a\u0643\u0646\u062f. \u0646\u0648\u0635\u064a \u0628\u0627\u0644\u062d\u062c\u0632 \u0627\u0644\u0645\u0633\u0628\u0642 \ud83d\udcde"},
+        {u:"\u062a\u062a\u0648\u0635\u0644\u0648\u0646\u061f",b:"\u0625\u064a! \u0639\u0644\u0649 \u0637\u0644\u0628\u0627\u062a \u0648\u0643\u0631\u064a\u0645 \ud83d\ude97 \u0623\u0648 \u0627\u062a\u0635\u0644 \u0641\u064a\u0646\u0627 \u0644\u0644\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u0643\u0628\u064a\u0631\u0629."}]
+  },
+  salon:{
+    en:[{u:"Do you take walk-ins?",b:"We do! Based on availability \ud83d\udc85 Booking ahead guarantees your spot."},
+        {u:"How much is a haircut?",b:"From 8 KWD women / 4 KWD men. Color & treatments vary \u2702\ufe0f"},
+        {u:"Do you have female-only hours?",b:"Yes! Sun, Tue & Thu are ladies only 10AM\u20136PM \ud83c\udf38"}],
+    ar:[{u:"\u062a\u0642\u0628\u0644\u0648\u0646 \u0628\u062f\u0648\u0646 \u062d\u062c\u0632\u061f",b:"\u0646\u0639\u0645 \u062d\u0633\u0628 \u0627\u0644\u0623\u0645\u0627\u0643\u0646! \u0627\u0644\u062d\u062c\u0632 \u0627\u0644\u0645\u0633\u0628\u0642 \u064a\u0636\u0645\u0646 \u0645\u0643\u0627\u0646\u0643 \ud83d\udc85"},
+        {u:"\u0628\u0643\u0645 \u0642\u0635\u0629 \u0627\u0644\u0634\u0639\u0631\u061f",b:"\u062a\u0628\u062f\u0623 \u0645\u0646 8 \u062f\u0646\u0627\u0646\u064a\u0631 \u0644\u0644\u062d\u0631\u064a\u0645 \u0648 4 \u0644\u0644\u0631\u062c\u0627\u0644. \u0627\u0644\u0635\u0628\u063a\u0629 \u0648\u0627\u0644\u0639\u0644\u0627\u062c\u0627\u062a \u0645\u062e\u062a\u0644\u0641\u0629 \u2702\ufe0f"},
+        {u:"\u0639\u0646\u062f\u0643\u0645 \u0648\u0642\u062a \u0644\u0644\u0646\u0633\u0627\u0621 \u0641\u0642\u0637\u061f",b:"\u0625\u064a! \u0627\u0644\u0623\u062d\u062f \u0648\u0627\u0644\u062b\u0644\u0627\u062b\u0627\u0621 \u0648\u0627\u0644\u062e\u0645\u064a\u0633 \u0645\u0646 10 \u0627\u0644\u0635\u0628\u062d \u0644\u0640 6 \u0627\u0644\u0645\u0633\u0627\u0621 \u0644\u0644\u062d\u0631\u064a\u0645 \u0641\u0642\u0637 \ud83c\udf38"}]
+  },
+  bakery:{
+    en:[{u:"Do you do custom cakes?",b:"Absolutely! Any occasion \ud83c\udf82 Order at least 3 days ahead. Want to see our gallery?"},
+        {u:"Are you open on Fridays?",b:"We open at 2PM (after prayers) and close at 11PM \ud83c\udf70"},
+        {u:"Do you have gluten-free options?",b:"Yes! GF croissants, brownies, and cookies — made fresh daily \ud83e\uddc1"}],
+    ar:[{u:"\u062a\u0633\u0648\u0648\u0646 \u0643\u064a\u0643\u0627\u062a \u0645\u062e\u0635\u0635\u0629\u061f",b:"\u0623\u0643\u064a\u062f! \u0644\u0623\u064a \u0645\u0646\u0627\u0633\u0628\u0629 \ud83c\udf82 \u0627\u0644\u0637\u0644\u0628 \u0642\u0628\u0644 3 \u0623\u064a\u0627\u0645. \u062a\u0628\u064a \u062a\u0634\u0648\u0641 \u0645\u0639\u0631\u0636 \u0635\u0648\u0631\u0646\u0627\u061f"},
+        {u:"\u062a\u0641\u062a\u062d\u0648\u0646 \u0627\u0644\u062c\u0645\u0639\u0629\u061f",b:"\u0646\u0641\u062a\u062d \u0627\u0644\u0633\u0627\u0639\u0629 2 \u0628\u0639\u062f \u0627\u0644\u0638\u0647\u0631 \u0648\u0646\u0633\u0643\u0631 11 \u0627\u0644\u0644\u064a\u0644 \ud83c\udf70"},
+        {u:"\u0639\u0646\u062f\u0643\u0645 \u062e\u064a\u0627\u0631\u0627\u062a \u0628\u062f\u0648\u0646 \u063a\u0644\u0648\u062a\u064a\u0646\u061f",b:"\u0625\u064a! \u0643\u0631\u0648\u0627\u0633\u0627\u0646 \u0648\u0628\u0631\u0627\u0648\u0646\u064a \u0648\u0643\u0648\u0643\u064a\u0632 \u062e\u0627\u0644\u064a\u0629 \u0645\u0646 \u0627\u0644\u063a\u0644\u0648\u062a\u064a\u0646\u060c \u0637\u0627\u0632\u062c\u0629 \u0643\u0644 \u064a\u0648\u0645 \ud83e\uddc1"}]
+  },
+  gym:{
+    en:[{u:"What's the monthly membership?",b:"From 25 KWD/month. 3-month at 65 KWD, annual at 220 KWD \ud83d\udcaa"},
+        {u:"Do you have personal trainers?",b:"8 certified PTs! Sessions from 15 KWD. Want a free consultation?"},
+        {u:"Are you open on public holidays?",b:"6AM\u201310PM on all holidays. Only closed Eid Al Fitr & National Day \ud83c\udfcb\ufe0f"}],
+    ar:[{u:"\u0628\u0643\u0645 \u0627\u0644\u0627\u0634\u062a\u0631\u0627\u0643 \u0627\u0644\u0634\u0647\u0631\u064a\u061f",b:"\u064a\u0628\u062f\u0623 \u0645\u0646 25 \u062f\u064a\u0646\u0627\u0631 \u0634\u0647\u0631\u064a\u064b\u0627. 3 \u0623\u0634\u0647\u0631 \u0628\u0640 65 \u0648\u0633\u0646\u0648\u064a \u0628\u0640 220 \ud83d\udcaa"},
+        {u:"\u0639\u0646\u062f\u0643\u0645 \u0645\u062f\u0631\u0628\u064a\u0646 \u0634\u062e\u0635\u064a\u064a\u0646\u061f",b:"8 \u0645\u062f\u0631\u0628\u064a\u0646 \u0645\u0639\u062a\u0645\u062f\u064a\u0646! \u062c\u0644\u0633\u0627\u062a \u0645\u0646 15 \u062f\u064a\u0646\u0627\u0631. \u062a\u0628\u064a \u0627\u0633\u062a\u0634\u0627\u0631\u0629 \u0645\u062c\u0627\u0646\u064a\u0629\u061f"},
+        {u:"\u062a\u0641\u062a\u062d\u0648\u0646 \u0641\u064a \u0627\u0644\u0625\u062c\u0627\u0632\u0627\u062a\u061f",b:"\u0645\u0646 6 \u0627\u0644\u0635\u0628\u062d \u0644\u0640 10 \u0627\u0644\u0644\u064a\u0644 \u0628\u0643\u0644 \u0627\u0644\u0625\u062c\u0627\u0632\u0627\u062a. \u0628\u0633 \u0646\u063a\u0644\u0642 \u0627\u0644\u0639\u064a\u062f \u0648\u0627\u0644\u064a\u0648\u0645 \u0627\u0644\u0648\u0637\u0646\u064a \ud83c\udfcb\ufe0f"}]
+  },
+};
+
+// ── Chat helpers ──
+let tmrs=[];
+function clrTmr(){tmrs.forEach(clearTimeout);tmrs=[];}
+function mkBubble(txt,isU,isAr){
+  const w=document.createElement('div');
+  w.style.cssText='display:flex;flex-direction:column;align-items:'+(isU?(isAr?'flex-start':'flex-end'):(isAr?'flex-end':'flex-start'));
+  w.className='ma';
+  const b=document.createElement('div');
+  b.className=isU?'mu':'mb';
+  b.textContent=txt;
+  const ts=document.createElement('div');
+  const n=new Date();
+  ts.style.cssText='font-size:9px;color:#4b5563;margin-top:2px;padding:0 3px;';
+  ts.textContent=n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0');
+  w.appendChild(b);w.appendChild(ts);return w;
+}
+function mkTyping(){
+  const w=document.createElement('div');
+  w.style.cssText='display:flex;flex-direction:column;align-items:flex-start;';
+  w.className='ma';
+  const b=document.createElement('div');
+  b.className='mb';
+  b.style.cssText='display:flex;gap:4px;align-items:center;padding:9px 13px;';
+  ['td','td','td'].forEach(c=>{const s=document.createElement('span');s.className=c;b.appendChild(s);});
+  w.appendChild(b);return w;
+}
+function playConv(el,pairs,isAr,d0){
+  el.textContent='';
+  let d=d0||350;
+  pairs.forEach(({u,b})=>{
+    tmrs.push(setTimeout(()=>{el.appendChild(mkBubble(u,true,isAr));el.scrollTop=99999;},d));
+    d+=800;
+    tmrs.push(setTimeout(()=>{
+      const t=mkTyping();el.appendChild(t);el.scrollTop=99999;
+      tmrs.push(setTimeout(()=>{t.remove();el.appendChild(mkBubble(b,false,isAr));el.scrollTop=99999;},1050));
+    },d));
+    d+=2100;
+  });
 }
 
-// Hero fade keyframe
-const style = document.createElement('style');
-style.textContent = '@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}} @keyframes fadeIn{from{opacity:0}to{opacity:1}}';
-document.head.appendChild(style);
+// ── Home phones ──
+let chb='cafe';
+function updHomeHdrs(biz){const i=BIZ[biz];document.getElementById('hnm-en').textContent=i.en;document.getElementById('hnm-ar').textContent=i.ar;document.getElementById('hav-en').textContent=i.av;document.getElementById('hav-ar').textContent=i.av;}
+function runHomeChat(biz){clrTmr();chb=biz;updHomeHdrs(biz);playConv(document.getElementById('hch-en'),CV[biz].en,false,350);playConv(document.getElementById('hch-ar'),CV[biz].ar,true,750);}
+function homePill(biz,btn){document.querySelectorAll('#hpills .pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');runHomeChat(biz);}
+window.homePill=homePill;
 
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});} }));
-
-// ── Cursor glow ──────────────────────────────────────────────
-const glow = document.createElement('div');
-glow.id = 'cursor-glow';
-document.body.appendChild(glow);
-document.addEventListener('mousemove', e => {
-  glow.style.left = e.clientX + 'px';
-  glow.style.top  = e.clientY + 'px';
-});
-
-// ── Button ripple (21st.dev-inspired) ────────────────────────
-document.querySelectorAll('a.bg-wa, a.glow-btn, nav a.bg-wa').forEach(btn => {
-  btn.classList.add('ripple-host');
-  btn.addEventListener('click', e => {
-    const r = btn.getBoundingClientRect();
-    const size = Math.max(r.width, r.height) * 1.5;
-    const el = document.createElement('span');
-    el.className = 'ripple-circle';
-    el.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-r.left-size/2}px;top:${e.clientY-r.top-size/2}px;`;
-    btn.appendChild(el);
-    el.addEventListener('animationend', () => el.remove());
+// ── Demo phones ──
+let cdb='cafe';
+function updDemoHdrs(biz){const i=BIZ[biz];document.getElementById('dnm-en').textContent=i.en;document.getElementById('dnm-ar').textContent=i.ar;document.getElementById('dav-en').textContent=i.av;document.getElementById('dav-ar').textContent=i.av;}
+function buildQR(biz){
+  ['en','ar'].forEach(lang=>{
+    const bar=document.getElementById('dqr-'+lang);
+    bar.textContent='';
+    const isAr=lang==='ar';
+    CV[biz][lang].forEach((pair,i)=>{
+      const btn=document.createElement('button');
+      btn.className='qrbtn';
+      btn.textContent=pair.u;
+      btn.onclick=()=>sendQR(biz,i,lang);
+      bar.appendChild(btn);
+    });
   });
-});
+}
+function sendQR(biz,idx,lang){
+  const chat=document.getElementById('dch-'+lang);
+  const isAr=lang==='ar';
+  const pair=CV[biz][lang][idx];
+  chat.appendChild(mkBubble(pair.u,true,isAr));chat.scrollTop=99999;
+  const t=mkTyping();
+  setTimeout(()=>{chat.appendChild(t);chat.scrollTop=99999;setTimeout(()=>{t.remove();chat.appendChild(mkBubble(pair.b,false,isAr));chat.scrollTop=99999;},980);},420);
+}
+function runDemoChat(biz){cdb=biz;updDemoHdrs(biz);buildQR(biz);playConv(document.getElementById('dch-en'),CV[biz].en,false,350);playConv(document.getElementById('dch-ar'),CV[biz].ar,true,750);}
+function demoPill(biz,btn){document.querySelectorAll('#dpills .pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');clrTmr();runDemoChat(biz);}
+window.demoPill=demoPill;window.sendQR=sendQR;
 
-// ── Shine sweep on feature + pricing cards ───────────────────
-document.querySelectorAll('.feat-card, .glass.rounded-2xl').forEach(el => el.classList.add('shine-host'));
-
-// ── Magnetic card tilt ───────────────────────────────────────
-document.querySelectorAll('.feat-card').forEach(card => {
-  card.classList.add('tilt-card');
-  card.addEventListener('mousemove', e => {
-    const r = card.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width  - 0.5;
-    const y = (e.clientY - r.top)  / r.height - 0.5;
-    card.style.transform = `perspective(600px) rotateY(${x*10}deg) rotateX(${-y*10}deg) translateY(-4px)`;
-  });
-  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+// ── FAQ ──
+const FAQS=[
+  {q:"How long does setup take?",a:"We typically set up your bot within 24 hours of receiving your business details. You'll be live the next day."},
+  {q:"Do I need technical knowledge?",a:"Zero. You provide your business info (menu, hours, FAQs) and we handle everything. No coding required."},
+  {q:"Can I customise the bot's personality?",a:"Yes! On Growth and Enterprise plans you can define the bot's name, tone, and personality to match your brand."},
+  {q:"What happens if I exceed message limits?",a:"On Starter, we notify you when you approach your limit. You can upgrade anytime — no interruption to service."},
+  {q:"Is my customer data secure?",a:"Absolutely. All conversations are encrypted and stored securely. We never share your data with third parties."},
+  {q:"Can I cancel anytime?",a:"Yes, no long-term contracts. Cancel with 7 days notice and you won't be charged for the next billing period."},
+];
+const fw=document.getElementById('fqw');
+FAQS.forEach((f,i)=>{
+  const d=document.createElement('div');d.className='glass fqi';
+  const q=document.createElement('button');q.className='fqq';q.onclick=()=>togFaq(i);
+  const qs=document.createElement('span');qs.textContent=f.q;
+  const ic=document.createElement('svg');ic.id='fi'+i;ic.setAttribute('width','17');ic.setAttribute('height','17');ic.setAttribute('viewBox','0 0 24 24');ic.setAttribute('fill','none');ic.setAttribute('stroke','currentColor');ic.setAttribute('stroke-width','2');ic.style.cssText='flex-shrink:0;color:var(--hi);transition:transform .3s;';
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('stroke-linecap','round');path.setAttribute('stroke-linejoin','round');path.setAttribute('d','M19 9l-7 7-7-7');ic.appendChild(path);
+  q.appendChild(qs);q.appendChild(ic);
+  const a=document.createElement('div');a.id='fa'+i;a.className='fqa';a.textContent=f.a;
+  d.appendChild(q);d.appendChild(a);fw.appendChild(d);
 });
+function togFaq(i){const a=document.getElementById('fa'+i),ic=document.getElementById('fi'+i),open=a.style.display==='block';a.style.display=open?'none':'block';ic.style.transform=open?'':'rotate(180deg)';}
+window.togFaq=togFaq;
 
-// ── Animated stat counters ───────────────────────────────────
-const counters = document.querySelectorAll('.stat-num');
-const counterObs = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
-    const el = entry.target;
-    const target = parseFloat(el.dataset.target || el.textContent);
-    const isFloat = el.dataset.target && el.dataset.target.includes('.');
-    const suffix = el.dataset.suffix || '';
-    const prefix = el.dataset.prefix || '';
-    let start = 0;
-    const duration = 1800;
-    const step = timestamp => {
-      if (!start) start = timestamp;
-      const progress = Math.min((timestamp - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const val = eased * target;
-      el.textContent = prefix + (isFloat ? val.toFixed(1) : Math.floor(val)) + suffix;
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-    counterObs.unobserve(el);
-  });
-}, { threshold: 0.5 });
-counters.forEach(el => {
-  const raw = el.textContent.trim();
-  const match = raw.match(/[\d.]+/);
-  if (match) {
-    el.dataset.target = match[0];
-    if (raw.includes('%')) el.dataset.suffix = '%';
-    if (raw.includes('+')) el.dataset.suffix = '+';
-    el.textContent = '0' + (el.dataset.suffix || '');
-    counterObs.observe(el);
-  }
-});
+// ── Apply ──
+function doApply(e){e.preventDefault();const b=document.getElementById('ab');b.textContent='Sending...';b.disabled=true;setTimeout(()=>{document.getElementById('af').style.display='none';document.getElementById('as').style.display='block';},1100);}
+window.doApply=doApply;
+
+// ── Cursor glow ──
+const cg=document.getElementById('cg');
+document.addEventListener('mousemove',e=>{cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px';});
+
+// ── Ripple ──
+document.addEventListener('click',e=>{const btn=e.target.closest('.bp');if(!btn)return;const r=document.createElement('span');r.className='brip';const rc=btn.getBoundingClientRect();r.style.left=(e.clientX-rc.left-5)+'px';r.style.top=(e.clientY-rc.top-5)+'px';btn.appendChild(r);r.addEventListener('animationend',()=>r.remove());});
+
+// ── Scroll reveal ──
+const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}});},{threshold:.1});
+document.querySelectorAll('.rev').forEach(el=>ro.observe(el));
+
+// ── Init ──
+const sp=(location.hash||'#home').slice(1);
+setPage(['home','demo','compare','features','pricing','apply'].includes(sp)?sp:'home');
+setTimeout(()=>runHomeChat('cafe'),700);
 </script>
 </body>
 </html>
