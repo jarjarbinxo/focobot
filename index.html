@@ -5,755 +5,1454 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Focobot — WhatsApp AI Customer Service for Kuwaiti Businesses</title>
   <meta name="description" content="Focobot replies to your WhatsApp customers in seconds, 24/7, in Arabic and English. Built for Kuwaiti businesses.">
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js"}}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+    }
+  }
+  </script>
   <style>
-    :root{--bg:#04060f;--primary:#6366f1;--secondary:#818cf8;--glow:#4f46e5;--hi:#a5b4fc;--text:#f8fafc;--muted:#94a3b8;--cb:rgba(99,102,241,0.08);--cbr:rgba(99,102,241,0.18);}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{scroll-behavior:smooth;}
-    body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh;}
-    h1,h2,h3,h4,.syne{font-family:'Syne',sans-serif;font-weight:800;}
-    .page{display:none;}
-    .page.active{display:block;animation:pageIn .45s ease-out;}
-    @keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-    @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-    @keyframes tdot{0%,60%,100%{transform:translateY(0);opacity:.35}30%{transform:translateY(-4px);opacity:1}}
-    @keyframes floatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-    @keyframes floatB{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
-    @keyframes gp{0%,100%{opacity:.5}50%{opacity:1}}
-    @keyframes rip{to{transform:scale(4);opacity:0}}
-    @keyframes spinBorder{from{--a:0deg}to{--a:360deg}}
-    @property --a{syntax:'<angle>';initial-value:0deg;inherits:false;}
-    .td{display:inline-block;width:5px;height:5px;border-radius:50%;background:#94a3b8;animation:tdot 1.3s infinite;}
-    .td:nth-child(2){animation-delay:.18s}.td:nth-child(3){animation-delay:.36s}
-    .ma{animation:msgIn .3s ease-out;}
-    nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(4,6,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--cbr);}
-    .ni{max-width:1200px;margin:0 auto;padding:0 24px;height:66px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
-    .nl{display:flex;align-items:center;gap:10px;cursor:pointer;background:none;border:none;}
-    .nli{width:36px;height:36px;background:linear-gradient(135deg,#6366f1,#4f46e5);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(99,102,241,.45);flex-shrink:0;}
-    .nlt{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--text);letter-spacing:-.02em;}
-    .dlinks{display:flex;align-items:center;gap:28px;}
-    @media(max-width:768px){.dlinks{display:none;}}
-    .nav-link{background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--muted);transition:color .2s;padding:4px 0;position:relative;}
-    .nav-link:hover{color:var(--text);}
-    .nav-link.active{color:var(--hi);font-weight:600;}
-    .nav-link.active::after{content:'';display:block;height:2px;margin-top:3px;background:linear-gradient(90deg,var(--primary),var(--hi));border-radius:2px;}
-    .mchips{position:fixed;top:66px;left:0;right:0;z-index:190;background:rgba(4,6,15,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--cbr);padding:8px 16px;display:none;gap:8px;overflow-x:auto;scrollbar-width:none;}
-    .mchips::-webkit-scrollbar{display:none;}
-    @media(max-width:768px){.mchips{display:flex;}}
-    .chip{background:var(--cb);border:1px solid var(--cbr);color:var(--muted);border-radius:999px;padding:5px 14px;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;flex-shrink:0;transition:all .2s;}
-    .chip.active{background:var(--primary);color:white;border-color:transparent;}
-    .pt{padding-top:66px;}
-    @media(max-width:768px){.pt{padding-top:110px;}}
-    .grad{background:linear-gradient(135deg,var(--primary) 0%,var(--hi) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
-    .glass{background:var(--cb);border:1px solid var(--cbr);backdrop-filter:blur(20px);border-radius:20px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s;}
-    .glass::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(99,102,241,.06) 0%,transparent 55%);pointer-events:none;border-radius:inherit;}
-    .gs{position:absolute;top:0;left:-80%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.055),transparent);transform:skewX(-15deg);pointer-events:none;transition:left .55s ease;}
-    .glass:hover .gs{left:140%;}
-    .glass:hover{transform:perspective(700px) rotateX(1.5deg) translateY(-5px);box-shadow:0 20px 60px -10px rgba(99,102,241,.28);border-color:rgba(99,102,241,.35);}
-    .bp{background:linear-gradient(135deg,var(--primary),var(--glow));color:white;border:none;border-radius:12px;padding:12px 28px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .2s,transform .2s,box-shadow .2s;box-shadow:0 0 22px rgba(99,102,241,.38);position:relative;overflow:hidden;}
-    .bp:hover{opacity:.92;transform:translateY(-2px);box-shadow:0 8px 32px rgba(99,102,241,.5);}
-    .bo{background:transparent;color:var(--hi);border:1px solid var(--cbr);border-radius:12px;padding:12px 28px;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
-    .bo:hover{background:var(--cb);border-color:var(--primary);}
-    .brip{position:absolute;border-radius:50%;width:10px;height:10px;background:rgba(255,255,255,.4);transform:scale(0);animation:rip .6s linear;pointer-events:none;}
-    .fi{width:52px;height:52px;background:linear-gradient(135deg,var(--primary),var(--glow));border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;box-shadow:0 0 22px rgba(99,102,241,.32);flex-shrink:0;}
-    .pill{background:var(--cb);border:1px solid var(--cbr);color:var(--muted);border-radius:999px;padding:6px 16px;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;white-space:nowrap;}
-    .pill:hover{border-color:var(--primary);color:var(--text);}
-    .pill.active{background:linear-gradient(135deg,var(--primary),var(--glow));border-color:transparent;color:white;box-shadow:0 0 18px rgba(99,102,241,.38);}
-    .phone{width:270px;height:550px;background:linear-gradient(145deg,#14152a,#09090f);border-radius:44px;padding:10px;box-shadow:0 50px 100px -20px rgba(0,0,0,.65),0 0 0 2px rgba(99,102,241,.22),inset 0 0 0 1px rgba(255,255,255,.04);position:relative;flex-shrink:0;}
-    .phone::before{content:'';position:absolute;top:14px;left:50%;transform:translateX(-50%);width:88px;height:18px;background:#050510;border-radius:14px;z-index:10;}
-    .pscr{border-radius:36px;overflow:hidden;height:100%;display:flex;flex-direction:column;}
-    .wabg{background-color:#0d1117;background-image:radial-gradient(circle at 25% 15%,rgba(99,102,241,.05) 0%,transparent 50%);}
-    .wahdr{background:#128C7E;color:white;padding:34px 12px 10px;display:flex;align-items:center;gap:10px;}
-    .waav{width:34px;height:34px;background:rgba(255,255,255,.18);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
-    .mu{background:#005C4B;color:white;border-radius:12px 12px 2px 12px;padding:7px 10px;font-size:11px;max-width:88%;align-self:flex-end;line-height:1.45;}
-    .mb{background:#1f2c34;color:#e2e8f0;border-radius:12px 12px 12px 2px;padding:7px 10px;font-size:11px;max-width:88%;align-self:flex-start;line-height:1.45;}
-    .cw{flex:1;padding:10px 9px;display:flex;flex-direction:column;gap:5px;overflow-y:auto;scrollbar-width:none;}
-    .cw::-webkit-scrollbar{display:none;}
-    .waib{background:#1f2c34;padding:8px;display:flex;align-items:center;gap:8px;border-top:1px solid rgba(255,255,255,.05);}
-    .waif{flex:1;background:rgba(255,255,255,.07);border-radius:20px;padding:6px 12px;font-size:10px;color:#4b5563;}
-    .was{width:28px;height:28px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-    .plbl{position:absolute;top:-30px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:4px 14px;border-radius:999px;white-space:nowrap;font-family:'Syne',sans-serif;}
-    .fa{animation:floatA 7s ease-in-out infinite;}
-    .fb{animation:floatB 8.5s ease-in-out infinite;animation-delay:1.8s;}
-    #hw{position:relative;height:100vh;min-height:580px;display:flex;align-items:center;justify-content:center;}
-    #hc{position:absolute;inset:0;width:100%;height:100%;}
-    #ho{position:relative;z-index:2;text-align:center;padding:0 20px;max-width:760px;}
-    .sec{padding:80px 24px;}
-    .secsm{padding:48px 24px;}
-    .con{max-width:1000px;margin:0 auto;}
-    .consm{max-width:700px;margin:0 auto;}
-    @media(max-width:768px){.sec{padding:48px 16px;}.secsm{padding:32px 16px;}}
-    .ct{border-collapse:separate;border-spacing:0;width:100%;}
-    .ct th,.ct td{padding:14px 18px;border-bottom:1px solid rgba(99,102,241,.1);vertical-align:middle;font-size:13.5px;}
-    .ct th{font-family:'Syne',sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;}
-    .cf{background:rgba(99,102,241,.07);}
-    .ck{color:#4ade80;font-weight:600;}
-    .cx{color:#f87171;}
-    .pfw{position:relative;border-radius:22px;padding:2px;background:conic-gradient(from var(--a),#6366f1,#818cf8,#c4b5fd,#4f46e5,#6366f1);animation:spinBorder 3.5s linear infinite;}
-    .pfi{background:#090b18;border-radius:20px;padding:32px;height:100%;}
-    .sc{background:var(--cb);border:1px solid var(--cbr);border-radius:16px;padding:20px;text-align:center;}
-    .ff{width:100%;background:rgba(99,102,241,.06);border:1px solid var(--cbr);border-radius:12px;padding:13px 16px;color:var(--text);font-size:14.5px;font-family:'DM Sans',sans-serif;transition:border-color .2s,box-shadow .2s;outline:none;}
-    .ff:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,102,241,.12);}
-    .ff::placeholder{color:var(--muted);}
-    select.ff option{background:#0d0f1c;color:var(--text);}
-    .rev{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease;}
-    .rev.in{opacity:1;transform:none;}
-    #cg{position:fixed;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(99,102,241,.07) 0%,transparent 70%);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);left:-999px;top:-999px;}
-    .badge{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:5px 16px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;font-family:'Syne',sans-serif;}
-    .bp-badge{background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.25);color:var(--hi);}
-    .bdot{width:7px;height:7px;border-radius:50%;background:var(--primary);animation:gp 2s infinite;}
-    .qrbar{padding:7px 8px;display:flex;flex-wrap:wrap;gap:5px;border-top:1px solid rgba(255,255,255,.06);min-height:36px;}
-    .qrbtn{background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.22);color:#a5b4fc;border-radius:8px;padding:3px 9px;font-size:9.5px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;white-space:nowrap;line-height:1.5;}
-    .qrbtn:hover{background:rgba(99,102,241,.22);color:white;}
-    .fqi{overflow:hidden;margin-bottom:4px;}
-    .fqq{width:100%;display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:none;border:none;color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;text-align:left;gap:12px;}
-    .fqa{display:none;padding:0 20px 16px;font-size:13px;color:var(--muted);line-height:1.75;}
+    :root {
+      --bg: #f8faff;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #818cf8;
+      --text: #0f172a;
+      --muted: #64748b;
+      --light: #94a3b8;
+      --wa: #25D366;
+      --gradient: linear-gradient(135deg, #6366f1, #8b5cf6);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    h1,h2,h3,h4 { font-family: 'Syne', sans-serif; line-height: 1.15; }
+
+    /* ── Pages ── */
+    .page { display: none; }
+    .page.active { display: block; animation: fadeIn 0.4s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.25rem; color: var(--text);
+      cursor: pointer; text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--gradient);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .nav-links { display: flex; align-items: center; gap: 0.25rem; }
+    .nav-links a {
+      padding: 0.4rem 0.9rem; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 500; color: var(--muted);
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); background: rgba(99,102,241,0.08); }
+    .nav-cta {
+      background: var(--primary); color: #fff;
+      padding: 0.5rem 1.25rem; border-radius: 10px;
+      font-weight: 600; font-size: 0.9rem; cursor: pointer;
+      border: none; transition: all 0.2s; text-decoration: none;
+    }
+    .nav-cta:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+    /* Mobile chip bar */
+    .chip-bar {
+      display: none;
+      position: fixed; top: 64px; left: 0; right: 0; z-index: 999;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.5rem 1rem; gap: 0.5rem; overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .chip-bar::-webkit-scrollbar { display: none; }
+    .chip {
+      flex-shrink: 0; padding: 0.3rem 0.9rem; border-radius: 999px;
+      font-size: 0.8rem; font-weight: 500; background: var(--bg);
+      border: 1px solid var(--border); color: var(--muted);
+      cursor: pointer; white-space: nowrap; transition: all 0.2s;
+    }
+    .chip.active, .chip:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    /* ── Containers ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+    .section { padding: 5rem 0; }
+    .section-sm { padding: 3rem 0; }
+
+    /* ── Typography helpers ── */
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(99,102,241,0.1); color: var(--primary);
+      border: 1px solid rgba(99,102,241,0.25);
+      padding: 0.3rem 0.9rem; border-radius: 999px;
+      font-size: 0.8rem; font-weight: 600; font-family: 'DM Sans', sans-serif;
+    }
+    .badge-green {
+      background: rgba(37,211,102,0.1); color: #16a34a;
+      border-color: rgba(37,211,102,0.3);
+    }
+    .section-label {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--primary); margin-bottom: 0.75rem;
+    }
+    .section-title { font-size: clamp(1.8rem, 4vw, 2.75rem); font-weight: 800; margin-bottom: 1rem; }
+    .section-sub { font-size: 1.05rem; color: var(--muted); max-width: 560px; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 0.75rem 1.75rem; border-radius: 12px;
+      font-weight: 600; font-size: 0.95rem; cursor: pointer;
+      border: none; transition: all 0.2s; text-decoration: none;
+      position: relative; overflow: hidden;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,102,241,0.35); }
+    .btn-outline {
+      background: transparent; color: var(--primary);
+      border: 1.5px solid var(--primary);
+    }
+    .btn-outline:hover { background: rgba(99,102,241,0.06); transform: translateY(-2px); }
+    .btn-lg { padding: 1rem 2.25rem; font-size: 1.05rem; border-radius: 14px; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--surface); border-radius: var(--radius);
+      border: 1px solid var(--border); padding: 1.75rem;
+    }
+    .feat-card { transition: all 0.25s ease; border: 1px solid var(--border); }
+    .feat-card:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(99,102,241,0.12); }
+
+    /* ── Ripple ── */
+    .ripple-host { position: relative; overflow: hidden; }
+    .ripple-circle {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.4); transform: scale(0);
+      pointer-events: none; animation: rippleOut 0.55s ease-out forwards;
+    }
+    @keyframes rippleOut { to { transform: scale(4); opacity: 0; } }
+
+    /* ── Reveal ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Hero ── */
+    #hero-canvas-section {
+      position: relative; height: 100vh; min-height: 640px;
+      background: #f0f0ff; overflow: hidden;
+    }
+    #hero-canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 2rem;
+      z-index: 10;
+    }
+    .hero-title {
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-weight: 800; color: var(--text);
+      line-height: 1.08; margin: 1rem 0;
+      max-width: 820px;
+    }
+    .hero-title span { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-sub { font-size: clamp(1rem, 2vw, 1.2rem); color: var(--muted); max-width: 560px; margin-bottom: 2rem; }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
+    .hero-social { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--muted); }
+    .stars { color: #f59e0b; letter-spacing: 1px; }
+
+    /* ── Phone section ── */
+    .phone-section { background: var(--surface); padding: 5rem 0; }
+    .business-pills {
+      display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;
+      margin-bottom: 3rem;
+    }
+    .biz-pill {
+      padding: 0.45rem 1.1rem; border-radius: 999px;
+      border: 1.5px solid var(--border); background: var(--bg);
+      font-size: 0.85rem; font-weight: 500; color: var(--muted);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .biz-pill.active, .biz-pill:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .phones-wrap {
+      display: flex; gap: 2rem; justify-content: center; align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .phone-mockup {
+      width: 260px; flex-shrink: 0;
+      background: #fff; border-radius: 28px;
+      border: 2px solid var(--border);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .phone-header {
+      background: #075E54; color: #fff;
+      padding: 0.75rem 1rem;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .phone-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--wa); display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .phone-name { font-size: 0.85rem; font-weight: 600; }
+    .phone-status { font-size: 0.7rem; opacity: 0.8; }
+    .phone-body {
+      background: #ECE5DD; padding: 0.75rem; min-height: 340px;
+      display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .msg {
+      max-width: 85%; padding: 0.5rem 0.75rem; border-radius: 10px;
+      font-size: 0.78rem; line-height: 1.4;
+      animation: msgIn 0.3s ease forwards;
+      opacity: 0;
+    }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .msg-customer { background: #fff; align-self: flex-start; border-radius: 0 10px 10px 10px; color: #111; }
+    .msg-bot { background: #DCF8C6; align-self: flex-end; border-radius: 10px 10px 0 10px; color: #111; }
+    .msg-time { font-size: 0.6rem; color: #999; text-align: right; margin-top: 2px; }
+    .phone-label {
+      text-align: center; font-size: 0.75rem; font-weight: 600;
+      color: var(--muted); padding: 0.5rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .phone-ar .phone-body { direction: rtl; }
+    .phone-ar .msg-customer { border-radius: 10px 0 10px 10px; }
+    .phone-ar .msg-bot { border-radius: 10px 10px 10px 0; }
+
+    /* ── Nav cards grid ── */
+    .nav-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+    .nav-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+      cursor: pointer; text-decoration: none; color: var(--text);
+      transition: all 0.25s; display: flex; flex-direction: column; gap: 0.75rem;
+    }
+    .nav-card:hover { border-color: var(--primary); box-shadow: 0 12px 32px rgba(99,102,241,0.1); transform: translateY(-3px); }
+    .nav-card.dark { background: var(--primary); color: #fff; border-color: var(--primary-dark); }
+    .nav-card.dark p { color: rgba(255,255,255,0.75); }
+    .nav-card-icon { font-size: 1.75rem; }
+    .nav-card h3 { font-size: 1rem; font-weight: 700; }
+    .nav-card p { font-size: 0.85rem; color: var(--muted); }
+    .nav-card-arrow { margin-left: auto; font-size: 1rem; opacity: 0.4; transition: all 0.2s; }
+    .nav-card:hover .nav-card-arrow { opacity: 1; transform: translateX(4px); }
+
+    /* ── Stats strip ── */
+    .stats-strip {
+      background: var(--primary); color: #fff;
+      padding: 1.25rem 0;
+    }
+    .stats-inner { display: flex; flex-wrap: wrap; justify-content: center; gap: 2.5rem; }
+    .stat-item { text-align: center; }
+    .stat-value { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; }
+    .stat-label { font-size: 0.8rem; opacity: 0.8; margin-top: 2px; }
+
+    /* ── Demo page ── */
+    .demo-wrap {
+      max-width: 500px; margin: 0 auto;
+      background: var(--surface); border-radius: 24px;
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 64px rgba(99,102,241,0.1);
+      overflow: hidden;
+    }
+    .demo-header {
+      background: #075E54; color: #fff;
+      padding: 1rem 1.25rem; display: flex; align-items: center; gap: 12px;
+    }
+    .demo-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--wa); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .demo-name { font-size: 1rem; font-weight: 600; }
+    .demo-status { font-size: 0.75rem; opacity: 0.8; }
+    .demo-body { background: #ECE5DD; min-height: 380px; padding: 1rem; display: flex; flex-direction: column; gap: 0.6rem; overflow-y: auto; max-height: 420px; }
+    .demo-input-row { display: flex; gap: 0.5rem; padding: 0.75rem; background: #f0f0f0; align-items: center; }
+    .demo-input { flex: 1; border: none; background: #fff; border-radius: 999px; padding: 0.6rem 1rem; font-size: 0.9rem; outline: none; font-family: 'DM Sans', sans-serif; }
+    .demo-send { width: 40px; height: 40px; border-radius: 50%; background: var(--wa); border: none; color: #fff; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.15s; }
+    .demo-send:hover { transform: scale(1.1); }
+    .typing-indicator { display: flex; gap: 4px; padding: 0.5rem 0.75rem; background: #fff; border-radius: 10px; width: fit-content; }
+    .typing-dot { width: 7px; height: 7px; border-radius: 50%; background: #999; animation: typingBounce 1.2s infinite ease; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce { 0%,80%,100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+    .demo-prompts { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0 0.75rem 0.75rem; }
+    .demo-prompt-btn {
+      padding: 0.35rem 0.8rem; border-radius: 999px; border: 1.5px solid var(--border);
+      background: var(--bg); font-size: 0.8rem; cursor: pointer; transition: all 0.15s;
+      font-family: 'DM Sans', sans-serif; color: var(--text);
+    }
+    .demo-prompt-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* ── Compare page ── */
+    .compare-table { width: 100%; border-collapse: collapse; }
+    .compare-table th, .compare-table td {
+      padding: 1rem 1.25rem; text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.92rem;
+    }
+    .compare-table thead { background: var(--bg); }
+    .compare-table th { font-family: 'Syne', sans-serif; font-weight: 700; }
+    .compare-table .col-bot { background: rgba(99,102,241,0.04); font-weight: 600; color: var(--primary-dark); }
+    .compare-table .col-bot-head { background: rgba(99,102,241,0.1); color: var(--primary-dark); }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table tbody tr:hover { background: rgba(99,102,241,0.03); }
+    .check { color: var(--primary); font-size: 1.1rem; }
+    .cross { color: #ef4444; }
+    .compare-callout {
+      background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.08));
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: var(--radius); padding: 1.75rem; margin-top: 2.5rem;
+      text-align: center;
+    }
+    .compare-callout strong { font-size: 1.1rem; color: var(--text); }
+
+    /* ── Features page ── */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    .feat-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    .feat-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .feat-desc { font-size: 0.9rem; color: var(--muted); }
+
+    /* ── Pricing page ── */
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; align-items: start; }
+    .price-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 2rem; }
+    .price-card.popular { border-color: var(--primary); box-shadow: 0 8px 40px rgba(99,102,241,0.15); }
+    .pricing-hot { position: relative; }
+    @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+    .pricing-hot::before {
+      content: '';
+      position: absolute; inset: -2px; border-radius: inherit; z-index: -1;
+      background: conic-gradient(from var(--angle,0deg), transparent 60%, #6366f1 75%, #8b5cf6 80%, #6366f1 85%, transparent 95%);
+      animation: spinBorder 3s linear infinite;
+    }
+    @keyframes spinBorder { to { --angle: 360deg; } }
+    .popular-badge {
+      display: inline-block; background: var(--gradient); color: #fff;
+      font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.75rem;
+      border-radius: 999px; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .price-plan { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .price-amount { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; color: var(--text); }
+    .price-unit { font-size: 0.9rem; color: var(--muted); }
+    .price-desc { font-size: 0.85rem; color: var(--muted); margin: 0.75rem 0 1.25rem; }
+    .price-features { list-style: none; margin-bottom: 1.75rem; display: flex; flex-direction: column; gap: 0.6rem; }
+    .price-features li { font-size: 0.88rem; display: flex; gap: 8px; align-items: flex-start; }
+    .price-features li::before { content: '✓'; color: var(--primary); font-weight: 700; flex-shrink: 0; }
+    .price-guarantee { text-align: center; margin-top: 2rem; font-size: 0.85rem; color: var(--muted); }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      padding: 1.25rem 0; display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer; font-weight: 600; font-size: 0.95rem;
+    }
+    .faq-q:hover { color: var(--primary); }
+    .faq-icon { transition: transform 0.25s; font-size: 1rem; color: var(--muted); }
+    .faq-item.open .faq-icon { transform: rotate(180deg); }
+    .faq-a { display: none; padding-bottom: 1rem; font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+    .faq-item.open .faq-a { display: block; }
+
+    /* ── Apply page ── */
+    .apply-wrap { max-width: 640px; margin: 0 auto; }
+    .apply-form { display: flex; flex-direction: column; gap: 1.25rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-label { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+    .form-input, .form-select, .form-textarea {
+      border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 0.75rem 1rem; font-size: 0.95rem;
+      font-family: 'DM Sans', sans-serif; background: var(--surface);
+      color: var(--text); transition: border-color 0.2s; outline: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+    .form-textarea { resize: vertical; min-height: 100px; }
+    .progress-wrap { margin-bottom: 1.5rem; }
+    .progress-label { font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
+    .progress-bar { height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--gradient); border-radius: 999px; transition: width 0.4s ease; }
+    .scarcity-banner {
+      background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: #dc2626; font-weight: 500;
+    }
+    .success-msg { display: none; text-align: center; padding: 3rem 2rem; }
+    .success-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .success-title { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .success-sub { color: var(--muted); font-size: 0.95rem; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--surface); border-top: 1px solid var(--border);
+      padding: 2rem 0; margin-top: 4rem; text-align: center;
+    }
+    footer p { font-size: 0.85rem; color: var(--muted); }
+
+    /* ── Glassmorphism card ── */
+    .glass {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+
+    /* ── Testimonials ── */
+    .testimonials { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+    .testimonial-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
+    .t-stars { color: #f59e0b; font-size: 0.9rem; margin-bottom: 0.75rem; }
+    .t-text { font-size: 0.88rem; color: var(--text); line-height: 1.6; margin-bottom: 1rem; }
+    .t-author { font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .chip-bar { display: flex; }
+      body { padding-top: 100px; }
+      .phones-wrap { flex-direction: column; align-items: center; }
+      .phone-mockup { width: 100%; max-width: 300px; }
+      .hero-title { font-size: 2.2rem; }
+      .compare-table { font-size: 0.82rem; }
+      .compare-table th, .compare-table td { padding: 0.75rem; }
+    }
+    @media (min-width: 769px) {
+      body { padding-top: 64px; }
+    }
   </style>
 </head>
 <body>
-<div id="cg"></div>
 
+<!-- ── NAV ── -->
 <nav>
-  <div class="ni">
-    <button class="nl" onclick="setPage('home')">
-      <div class="nli">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-      </div>
-      <span class="nlt">Focobot</span>
-    </button>
-    <div class="dlinks">
-      <button onclick="setPage('home')" data-page="home" class="nav-link">Home</button>
-      <button onclick="setPage('demo')" data-page="demo" class="nav-link">Live Demo</button>
-      <button onclick="setPage('compare')" data-page="compare" class="nav-link">Compare</button>
-      <button onclick="setPage('features')" data-page="features" class="nav-link">Features</button>
-      <button onclick="setPage('pricing')" data-page="pricing" class="nav-link">Pricing</button>
-    </div>
-    <button onclick="setPage('apply')" class="bp" style="padding:10px 20px;font-size:14px;flex-shrink:0;">Get Started</button>
+  <a class="nav-logo" onclick="setPage('home')">
+    <div class="nav-logo-icon">🤖</div>
+    focobot
+  </a>
+  <div class="nav-links">
+    <a data-page="home" onclick="setPage('home')">Home</a>
+    <a data-page="demo" onclick="setPage('demo')">Demo</a>
+    <a data-page="compare" onclick="setPage('compare')">Compare</a>
+    <a data-page="features" onclick="setPage('features')">Features</a>
+    <a data-page="pricing" onclick="setPage('pricing')">Pricing</a>
   </div>
+  <button class="nav-cta ripple-host" onclick="setPage('apply');addRipple(event,this)">Get Started</button>
 </nav>
 
-<div class="mchips">
-  <button onclick="setPage('home')" data-page="home" class="chip">Home</button>
-  <button onclick="setPage('demo')" data-page="demo" class="chip">Demo</button>
-  <button onclick="setPage('compare')" data-page="compare" class="chip">Compare</button>
-  <button onclick="setPage('features')" data-page="features" class="chip">Features</button>
-  <button onclick="setPage('pricing')" data-page="pricing" class="chip">Pricing</button>
-  <button onclick="setPage('apply')" data-page="apply" class="chip">Apply</button>
+<!-- Mobile chip bar -->
+<div class="chip-bar" id="chipBar">
+  <span class="chip" data-page="home" onclick="setPage('home')">Home</span>
+  <span class="chip" data-page="demo" onclick="setPage('demo')">Demo</span>
+  <span class="chip" data-page="compare" onclick="setPage('compare')">Compare</span>
+  <span class="chip" data-page="features" onclick="setPage('features')">Features</span>
+  <span class="chip" data-page="pricing" onclick="setPage('pricing')">Pricing</span>
+  <span class="chip" data-page="apply" onclick="setPage('apply')">Apply</span>
 </div>
 
-<main>
+<!-- ══════════════════════════════════════════
+     HOME PAGE
+══════════════════════════════════════════ -->
+<div class="page active" id="page-home">
 
-<!-- HOME -->
-<div class="page active" id="page-home" data-page="home">
-  <div id="hw">
-    <canvas id="hc"></canvas>
-    <div id="ho">
-      <div class="badge bp-badge" style="margin-bottom:22px;"><span class="bdot"></span>AI-Powered WhatsApp Automation</div>
-      <h1 style="font-size:clamp(2.2rem,6vw,4rem);line-height:1.08;letter-spacing:-.03em;margin-bottom:18px;">Your business replies<br><span class="grad">24/7 — automatically.</span></h1>
-      <p style="font-size:clamp(1rem,2vw,1.18rem);color:var(--muted);max-width:500px;margin:0 auto 30px;line-height:1.75;">Focobot answers every WhatsApp message in Arabic &amp; English. Instant, intelligent, always on. Built for Kuwaiti businesses.</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-        <button onclick="setPage('apply')" class="bp">Start Free Trial →</button>
-        <button onclick="setPage('demo')" class="bo">See Demo</button>
+  <!-- Hero with Three.js canvas -->
+  <section id="hero-canvas-section">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-overlay">
+      <div class="glass" style="border-radius:999px;padding:0.35rem 1rem;margin-bottom:1.25rem;display:inline-flex;align-items:center;gap:6px;">
+        <span style="color:#16a34a;font-size:0.7rem;">●</span>
+        <span style="font-size:0.82rem;font-weight:600;color:var(--muted);">Live in Kuwait · <span style="color:#dc2626;">Limited spots this month</span></span>
+      </div>
+      <h1 class="hero-title">
+        Every Unanswered WhatsApp<br>
+        Is <span>Lost Revenue.</span>
+      </h1>
+      <p class="hero-sub">Focobot answers every customer instantly — Arabic and English — 24/7. Never miss another sale.</p>
+      <div class="hero-ctas">
+        <button class="btn btn-primary btn-lg ripple-host" onclick="setPage('apply');addRipple(event,this)">
+          Start Free Trial
+          <span style="font-size:0.8em;">→</span>
+        </button>
+        <button class="btn btn-outline btn-lg" onclick="setPage('demo')">
+          See Demo
+        </button>
+      </div>
+      <div class="hero-social">
+        <span class="stars">★★★★★</span>
+        <span>Trusted by Kuwait businesses</span>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Home phone demo -->
-  <div class="sec" style="background:linear-gradient(180deg,transparent 0%,rgba(99,102,241,.04) 50%,transparent 100%);">
-    <div class="con">
-      <div style="text-align:center;margin-bottom:30px;">
-        <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);margin-bottom:10px;">See Focobot in action</h2>
-        <p style="color:var(--muted);font-size:15px;">Switch business types to see how the bot adapts</p>
+  <!-- Phone demo section -->
+  <section class="phone-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:2.5rem;" class="reveal">
+        <div class="section-label">See It In Action</div>
+        <h2 class="section-title" style="margin:0 auto;">Your Bot, Right Now</h2>
+        <p class="section-sub" style="margin:0.75rem auto 0;">Pick your business type and watch Focobot handle real conversations.</p>
       </div>
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:36px;" id="hpills">
-        <button class="pill active" data-biz="cafe" onclick="homePill('cafe',this)">&#9749; Coffee Shop</button>
-        <button class="pill" data-biz="restaurant" onclick="homePill('restaurant',this)">&#127869; Restaurant</button>
-        <button class="pill" data-biz="salon" onclick="homePill('salon',this)">&#128133; Salon</button>
-        <button class="pill" data-biz="bakery" onclick="homePill('bakery',this)">&#129360; Bakery</button>
-        <button class="pill" data-biz="gym" onclick="homePill('gym',this)">&#127947; Gym</button>
+
+      <div class="business-pills reveal" id="bizPills">
+        <button class="biz-pill active" onclick="selectBiz('cafe',this)">☕ Coffee Shop</button>
+        <button class="biz-pill" onclick="selectBiz('restaurant',this)">🍽️ Restaurant</button>
+        <button class="biz-pill" onclick="selectBiz('salon',this)">💇 Salon</button>
+        <button class="biz-pill" onclick="selectBiz('bakery',this)">🧁 Bakery</button>
+        <button class="biz-pill" onclick="selectBiz('gym',this)">💪 Gym</button>
       </div>
-      <div style="display:flex;justify-content:center;gap:32px;flex-wrap:wrap;align-items:flex-end;">
-        <div class="fa" style="position:relative;padding-top:36px;">
-          <div class="plbl" style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;">English</div>
-          <div class="phone"><div class="pscr wabg">
-            <div class="wahdr" id="hhdr-en">
-              <div class="waav" id="hav-en">BC</div>
-              <div><div style="font-size:13px;font-weight:600;" id="hnm-en">Brew &amp; Co</div><div style="font-size:10px;opacity:.75;">online</div></div>
+
+      <div class="phones-wrap reveal">
+        <!-- English Phone -->
+        <div>
+          <div class="phone-mockup" id="phoneEN">
+            <div class="phone-header">
+              <div class="phone-avatar">🤖</div>
+              <div>
+                <div class="phone-name">Focobot</div>
+                <div class="phone-status">Online</div>
+              </div>
             </div>
-            <div class="cw" id="hch-en"></div>
-            <div class="waib"><div class="waif">Type a message...</div><div class="was"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></div></div>
-          </div></div>
+            <div class="phone-body" id="phoneMsgsEN"></div>
+          </div>
+          <div class="phone-label">English</div>
         </div>
-        <div class="fb" style="position:relative;padding-top:36px;">
-          <div class="plbl" style="background:linear-gradient(135deg,#818cf8,#6366f1);color:white;">&#1593;&#1585;&#1576;&#1610;</div>
-          <div class="phone"><div class="pscr wabg">
-            <div class="wahdr" id="hhdr-ar">
-              <div class="waav" id="hav-ar">BC</div>
-              <div><div style="font-size:13px;font-weight:600;" id="hnm-ar">&#1576;&#1585;&#1608; &#1570;&#1606;&#1583; &#1603;&#1608;</div><div style="font-size:10px;opacity:.75;">&#1605;&#1578;&#1589;&#1604;</div></div>
+        <!-- Arabic Phone -->
+        <div>
+          <div class="phone-mockup phone-ar" id="phoneAR">
+            <div class="phone-header">
+              <div class="phone-avatar">🤖</div>
+              <div>
+                <div class="phone-name">فوكوبوت</div>
+                <div class="phone-status">متصل</div>
+              </div>
             </div>
-            <div class="cw" id="hch-ar" dir="rtl"></div>
-            <div class="waib" dir="rtl"><div class="waif">&#1575;&#1603;&#1578;&#1576; &#1585;&#1587;&#1575;&#1604;&#1577;...</div><div class="was"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></div></div>
-          </div></div>
+            <div class="phone-body" id="phoneMsgsAR" style="direction:rtl;"></div>
+          </div>
+          <div class="phone-label">Arabic (Kuwaiti)</div>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Stats -->
-  <div class="secsm">
-    <div style="max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">
-      <div class="sc"><div class="grad syne" style="font-size:2rem;">&lt;2s</div><div style="font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.06em;">Avg Reply</div></div>
-      <div class="sc"><div class="grad syne" style="font-size:2rem;">24/7</div><div style="font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.06em;">Always On</div></div>
-      <div class="sc"><div class="grad syne" style="font-size:2rem;">AR+EN</div><div style="font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.06em;">Bilingual</div></div>
-      <div class="sc"><div class="grad syne" style="font-size:2rem;">&#8734;</div><div style="font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.06em;">Simultaneous</div></div>
-    </div>
-  </div>
+  </section>
 
   <!-- Nav cards -->
-  <div class="sec">
-    <div class="con">
-      <h2 style="font-size:clamp(1.4rem,3vw,2rem);text-align:center;margin-bottom:32px;">Explore Focobot</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;">
-        <button onclick="setPage('demo')" class="glass" style="padding:26px;text-align:left;cursor:pointer;width:100%;"><div class="gs"></div>
-          <div class="fi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></div>
-          <div style="font-size:10.5px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;font-family:'Syne',sans-serif;">Interactive · 5 scenarios</div>
-          <h3 style="font-size:1.1rem;margin-bottom:7px;">Live Demo</h3>
-          <p style="font-size:13px;color:var(--muted);line-height:1.65;">Chat with Focobot across multiple business types in Arabic &amp; English.</p>
-        </button>
-        <button onclick="setPage('compare')" class="glass" style="padding:26px;text-align:left;cursor:pointer;width:100%;"><div class="gs"></div>
-          <div class="fi" style="background:linear-gradient(135deg,#ec4899,#8b5cf6);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 14h18M12 3v18"/></svg></div>
-          <div style="font-size:10.5px;font-weight:700;color:#ec4899;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;font-family:'Syne',sans-serif;">Side-by-side · 10 metrics</div>
-          <h3 style="font-size:1.1rem;margin-bottom:7px;">Human vs Focobot</h3>
-          <p style="font-size:13px;color:var(--muted);line-height:1.65;">Speed, cost, hours, languages — see exactly why businesses switch.</p>
-        </button>
-        <button onclick="setPage('features')" class="glass" style="padding:26px;text-align:left;cursor:pointer;width:100%;"><div class="gs"></div>
-          <div class="fi" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
-          <div style="font-size:10.5px;font-weight:700;color:#06b6d4;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;font-family:'Syne',sans-serif;">6 powerful features</div>
-          <h3 style="font-size:1.1rem;margin-bottom:7px;">What Focobot Does</h3>
-          <p style="font-size:13px;color:var(--muted);line-height:1.65;">Instant replies, catalog sync, owner alerts, analytics and more.</p>
-        </button>
-        <button onclick="setPage('pricing')" class="glass" style="padding:26px;text-align:left;cursor:pointer;width:100%;"><div class="gs"></div>
-          <div class="fi" style="background:linear-gradient(135deg,#f59e0b,#ef4444);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-          <div style="font-size:10.5px;font-weight:700;color:#f59e0b;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;font-family:'Syne',sans-serif;">From 29 KWD / month</div>
-          <h3 style="font-size:1.1rem;margin-bottom:7px;">Pricing Plans</h3>
-          <p style="font-size:13px;color:var(--muted);line-height:1.65;">Three tiers. 7-day free trial on Growth plan. Cancel anytime.</p>
-        </button>
-        <button onclick="setPage('apply')" class="glass" style="padding:26px;text-align:left;cursor:pointer;width:100%;border-color:rgba(99,102,241,.38);background:linear-gradient(135deg,rgba(99,102,241,.14),rgba(79,70,229,.06));"><div class="gs"></div>
-          <div class="fi" style="background:linear-gradient(135deg,#a5b4fc,#6366f1);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-          <div style="font-size:10.5px;font-weight:700;color:var(--hi);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;font-family:'Syne',sans-serif;">30 seconds · Simple form</div>
-          <h3 style="font-size:1.1rem;margin-bottom:7px;">Apply Now</h3>
-          <p style="font-size:13px;color:var(--muted);line-height:1.65;">Tell us about your business and we'll set you up within 24 hours.</p>
-        </button>
+  <section class="section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:2.5rem;" class="reveal">
+        <div class="section-label">Explore Focobot</div>
+        <h2 class="section-title">Everything You Need to Know</h2>
+      </div>
+      <div class="nav-cards reveal">
+        <a class="nav-card" onclick="setPage('demo')">
+          <div class="nav-card-icon" style="color:#10b981;">💬</div>
+          <h3>Try the Bot Live</h3>
+          <p>Ask anything. See how Focobot responds in real time.</p>
+          <span class="nav-card-arrow">→</span>
+        </a>
+        <a class="nav-card" onclick="setPage('compare')">
+          <div class="nav-card-icon" style="color:#f43f5e;">⚡</div>
+          <h3>Human vs Focobot</h3>
+          <p>Side-by-side comparison. The numbers don't lie.</p>
+          <span class="nav-card-arrow">→</span>
+        </a>
+        <a class="nav-card" onclick="setPage('features')">
+          <div class="nav-card-icon" style="color:#8b5cf6;">🔮</div>
+          <h3>What It Does</h3>
+          <p>Every feature that keeps your business running 24/7.</p>
+          <span class="nav-card-arrow">→</span>
+        </a>
+        <a class="nav-card" onclick="setPage('pricing')">
+          <div class="nav-card-icon" style="color:#f59e0b;">💳</div>
+          <h3>Pricing — from 29 KWD</h3>
+          <p>Less than one missed order per month.</p>
+          <span class="nav-card-arrow">→</span>
+        </a>
+        <a class="nav-card dark ripple-host" onclick="setPage('apply');addRipple(event,this)" style="grid-column:auto;">
+          <div class="nav-card-icon">🚀</div>
+          <h3>Apply Now</h3>
+          <p>10 spots/month. Limited availability.</p>
+          <span class="nav-card-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section-sm" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:2rem;" class="reveal">
+        <div class="section-label">Social Proof</div>
+        <h2 class="section-title">Kuwait Businesses Love Focobot</h2>
+      </div>
+      <div class="testimonials reveal">
+        <div class="testimonial-card">
+          <div class="t-stars">★★★★★</div>
+          <p class="t-text">"We were losing orders every Friday night. Now Focobot handles 80+ messages while we sleep. Revenue is up 30%."</p>
+          <div class="t-author">Khalid M. — Restaurant Owner, Salmiya</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="t-stars">★★★★★</div>
+          <p class="t-text">"My salon used to miss half our bookings. Now the bot books appointments at 2AM and the client shows up. Game changer."</p>
+          <div class="t-author">Nour A. — Salon Owner, Kuwait City</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="t-stars">★★★★★</div>
+          <p class="t-text">"Setup took one day. The Arabic dialect is perfect — customers think they're talking to a real employee."</p>
+          <div class="t-author">Faisal Al-R. — Café Chain, Mishref</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats strip -->
+  <div class="stats-strip">
+    <div class="container">
+      <div class="stats-inner">
+        <div class="stat-item">
+          <div class="stat-value">&lt;2s</div>
+          <div class="stat-label">Average Reply Time</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">24/7</div>
+          <div class="stat-label">Always On, Never Sick</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">2 langs</div>
+          <div class="stat-label">Arabic + English</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">500+</div>
+          <div class="stat-label">Simultaneous Chats</div>
+        </div>
       </div>
     </div>
   </div>
-</div><!-- /home -->
 
-<!-- DEMO -->
-<div class="page" id="page-demo" data-page="demo">
-  <div class="pt sec">
-    <div class="con">
-      <div style="text-align:center;margin-bottom:36px;">
-        <div class="badge bp-badge" style="margin-bottom:16px;"><span class="bdot"></span>Interactive Simulator</div>
-        <h1 style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:12px;">Chat with Focobot</h1>
-        <p style="color:var(--muted);max-width:500px;margin:0 auto 28px;line-height:1.7;font-size:15px;">Pick a business type and watch Arabic &amp; English conversations play out. Click the quick-reply buttons to trigger responses.</p>
-        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;" id="dpills">
-          <button class="pill active" data-biz="cafe" onclick="demoPill('cafe',this)">&#9749; Coffee Shop</button>
-          <button class="pill" data-biz="restaurant" onclick="demoPill('restaurant',this)">&#127869; Restaurant</button>
-          <button class="pill" data-biz="salon" onclick="demoPill('salon',this)">&#128133; Salon</button>
-          <button class="pill" data-biz="bakery" onclick="demoPill('bakery',this)">&#129360; Bakery</button>
-          <button class="pill" data-biz="gym" onclick="demoPill('gym',this)">&#127947; Gym</button>
+</div><!-- end page-home -->
+
+<!-- ══════════════════════════════════════════
+     DEMO PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-demo">
+  <div class="section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:3rem;" class="reveal">
+        <div class="section-label">Interactive Demo</div>
+        <h2 class="section-title">Talk to Focobot</h2>
+        <p class="section-sub" style="margin:0.75rem auto 0;">Type any customer question. See exactly how your business bot would respond.</p>
+      </div>
+
+      <div class="demo-wrap reveal">
+        <div class="demo-header">
+          <div class="demo-avatar">🤖</div>
+          <div>
+            <div class="demo-name">Focobot — Your Business Assistant</div>
+            <div class="demo-status">Online · Replies in &lt;2 seconds</div>
+          </div>
+        </div>
+        <div class="demo-body" id="demoBody">
+          <div class="msg msg-bot" style="opacity:1;">
+            👋 Hi! I'm Focobot. I can answer in Arabic or English. Ask me anything a customer might ask — hours, prices, bookings, delivery…
+          </div>
+        </div>
+        <div class="demo-prompts">
+          <button class="demo-prompt-btn" onclick="sendDemoPrompt('What are your opening hours?')">Opening hours?</button>
+          <button class="demo-prompt-btn" onclick="sendDemoPrompt('Do you deliver?')">Do you deliver?</button>
+          <button class="demo-prompt-btn" onclick="sendDemoPrompt('I want to make a booking')">Book a table</button>
+          <button class="demo-prompt-btn" onclick="sendDemoPrompt('كم سعركم؟')">كم سعركم؟</button>
+          <button class="demo-prompt-btn" onclick="sendDemoPrompt('تسلّمون؟')">تسلّمون؟</button>
+          <button class="demo-prompt-btn" onclick="sendDemoPrompt('في موعد بكرة؟')">في موعد بكرة؟</button>
+        </div>
+        <div class="demo-input-row">
+          <input class="demo-input" id="demoInput" placeholder="Type your message…" onkeydown="if(event.key==='Enter')sendDemo()">
+          <button class="demo-send" onclick="sendDemo()">➤</button>
         </div>
       </div>
-      <div style="display:flex;justify-content:center;gap:32px;flex-wrap:wrap;align-items:flex-start;margin-bottom:44px;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
-          <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--hi);text-transform:uppercase;letter-spacing:.1em;">English</div>
-          <div class="phone" style="height:520px;"><div class="pscr wabg">
-            <div class="wahdr" id="dhdr-en">
-              <div class="waav" id="dav-en">BC</div>
-              <div><div style="font-size:13px;font-weight:600;" id="dnm-en">Brew &amp; Co</div><div style="font-size:10px;display:flex;align-items:center;gap:4px;opacity:.85;"><span style="width:6px;height:6px;background:#25D366;border-radius:50%;display:inline-block;"></span> online</div></div>
-            </div>
-            <div class="cw" id="dch-en"></div>
-            <div class="qrbar" id="dqr-en"></div>
-          </div></div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
-          <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--hi);text-transform:uppercase;letter-spacing:.1em;">&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;</div>
-          <div class="phone" style="height:520px;"><div class="pscr wabg">
-            <div class="wahdr" id="dhdr-ar">
-              <div class="waav" id="dav-ar">BC</div>
-              <div><div style="font-size:13px;font-weight:600;" id="dnm-ar">&#1576;&#1585;&#1608; &#1570;&#1606;&#1583; &#1603;&#1608;</div><div style="font-size:10px;display:flex;align-items:center;gap:4px;opacity:.85;"><span style="width:6px;height:6px;background:#25D366;border-radius:50%;display:inline-block;"></span> &#1605;&#1578;&#1589;&#1604;</div></div>
-            </div>
-            <div class="cw" id="dch-ar" dir="rtl"></div>
-            <div class="qrbar" id="dqr-ar" dir="rtl"></div>
-          </div></div>
-        </div>
-      </div>
-      <div class="glass rev" style="padding:22px 28px;max-width:640px;margin:0 auto;text-align:center;"><div class="gs"></div>
-        <p style="font-size:13.5px;color:var(--muted);line-height:1.75;">This is a <strong style="color:var(--text);">scripted demo</strong> showing the kinds of replies Focobot sends. Your real bot uses AI and your business's actual data — menus, hours, pricing — for precise answers.</p>
-        <button onclick="setPage('apply')" class="bp" style="margin-top:16px;">Get the Real Bot &#8594;</button>
+
+      <div style="text-align:center;margin-top:2.5rem;" class="reveal">
+        <p style="color:var(--muted);font-size:0.9rem;margin-bottom:1rem;">Ready to put this on your WhatsApp?</p>
+        <button class="btn btn-primary btn-lg ripple-host" onclick="setPage('apply');addRipple(event,this)">Apply Now — 10 Spots Left</button>
       </div>
     </div>
   </div>
-</div><!-- /demo -->
+</div><!-- end page-demo -->
 
-<!-- COMPARE -->
-<div class="page" id="page-compare" data-page="compare">
-  <div class="pt sec">
-    <div class="con">
-      <div style="text-align:center;margin-bottom:44px;">
-        <div class="badge" style="background:rgba(236,72,153,.09);border:1px solid rgba(236,72,153,.2);color:#f472b6;margin-bottom:16px;">Side-by-side comparison</div>
-        <h1 class="rev" style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:12px;">Human Employee vs Focobot</h1>
-        <p class="rev" style="color:var(--muted);max-width:480px;margin:0 auto;line-height:1.7;font-size:15px;">Based on real Kuwait market data. See the full picture before you decide.</p>
+<!-- ══════════════════════════════════════════
+     COMPARE PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-compare">
+  <div class="section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:3rem;" class="reveal">
+        <div class="section-label">Loss Aversion Check</div>
+        <h2 class="section-title">Still paying someone to reply<br>to WhatsApp at 2AM?</h2>
+        <p class="section-sub" style="margin:0.75rem auto 0;">A human employee costs 150–300 KWD/month. And they sleep. And they call in sick. And they quit.</p>
       </div>
-      <div class="glass rev" style="overflow:hidden;padding:0;"><div class="gs"></div>
+
+      <div class="card reveal" style="overflow:hidden;padding:0;">
         <div style="overflow-x:auto;">
-          <table class="ct">
-            <thead><tr style="border-bottom:2px solid rgba(99,102,241,.18);">
-              <th style="text-align:left;width:32%;padding-left:24px;">Metric</th>
-              <th style="text-align:center;min-width:180px;">&#128100; Human Employee</th>
-              <th style="text-align:center;min-width:200px;" class="cf"><span style="color:var(--hi);">&#129302; Focobot</span></th>
-            </tr></thead>
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th style="width:35%;">Feature</th>
+                <th>Human Employee</th>
+                <th class="col-bot-head">🤖 Focobot</th>
+              </tr>
+            </thead>
             <tbody>
-              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Response Time</td><td style="text-align:center;color:var(--muted);">5 – 30 minutes</td><td style="text-align:center;" class="cf ck">&#9989; Under 2 seconds</td></tr>
-              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Working Hours</td><td style="text-align:center;color:var(--muted);">8 – 10 hrs/day</td><td style="text-align:center;" class="cf ck">&#9989; 24 / 7 / 365</td></tr>
-              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Languages</td><td style="text-align:center;color:var(--muted);">Usually 1 language</td><td style="text-align:center;" class="cf ck">&#9989; Arabic + English</td></tr>
-              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Simultaneous Chats</td><td style="text-align:center;color:var(--muted);">1 – 2 at most</td><td style="text-align:center;" class="cf ck">&#9989; Unlimited</td></tr>
-              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Monthly Cost (KWD)</td><td style="text-align:center;color:var(--muted);">200 – 350 KWD + benefits</td><td style="text-align:center;" class="cf ck">&#9989; From 29 KWD/mo</td></tr>
-              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Sick Days / Leave</td><td style="text-align:center;" class="cx">&#10060; Up to 30 days/year</td><td style="text-align:center;" class="cf ck">&#9989; Never</td></tr>
-              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Answer Consistency</td><td style="text-align:center;" class="cx">&#10060; Varies by mood/day</td><td style="text-align:center;" class="cf ck">&#9989; Always identical</td></tr>
-              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Setup Time</td><td style="text-align:center;color:var(--muted);">Weeks (hire + train)</td><td style="text-align:center;" class="cf ck">&#9989; 24 hours</td></tr>
-              <tr><td style="padding-left:24px;color:var(--text);font-weight:500;">Errors &amp; Mistakes</td><td style="text-align:center;" class="cx">&#10060; Wrong prices, missed orders</td><td style="text-align:center;" class="cf ck">&#9989; Zero — from your data</td></tr>
-              <tr style="border-bottom:none;"><td style="padding-left:24px;color:var(--text);font-weight:500;">Scalability</td><td style="text-align:center;" class="cx">&#10060; Hire more = higher cost</td><td style="text-align:center;" class="cf ck">&#9989; Scale instantly, same price</td></tr>
+              <tr>
+                <td><strong>Response time</strong></td>
+                <td><span class="cross">✗</span> 5–30 min (when awake)</td>
+                <td class="col-bot"><span class="check">✓</span> &lt;2 seconds, always</td>
+              </tr>
+              <tr>
+                <td><strong>Working hours</strong></td>
+                <td><span class="cross">✗</span> 8hrs/day, days off</td>
+                <td class="col-bot"><span class="check">✓</span> 24/7/365, never sick</td>
+              </tr>
+              <tr>
+                <td><strong>Monthly cost</strong></td>
+                <td><span class="cross">✗</span> 150–300+ KWD salary</td>
+                <td class="col-bot"><span class="check">✓</span> 29–59 KWD</td>
+              </tr>
+              <tr>
+                <td><strong>Languages</strong></td>
+                <td><span class="cross">✗</span> Usually one</td>
+                <td class="col-bot"><span class="check">✓</span> Arabic + English</td>
+              </tr>
+              <tr>
+                <td><strong>Simultaneous chats</strong></td>
+                <td><span class="cross">✗</span> 1–3</td>
+                <td class="col-bot"><span class="check">✓</span> Unlimited</td>
+              </tr>
+              <tr>
+                <td><strong>Consistency</strong></td>
+                <td><span class="cross">✗</span> Varies by mood</td>
+                <td class="col-bot"><span class="check">✓</span> Always professional</td>
+              </tr>
+              <tr>
+                <td><strong>Sick days</strong></td>
+                <td><span class="cross">✗</span> Yes (avg 8/year)</td>
+                <td class="col-bot"><span class="check">✓</span> Zero</td>
+              </tr>
+              <tr>
+                <td><strong>Setup time</strong></td>
+                <td><span class="cross">✗</span> Weeks to hire + train</td>
+                <td class="col-bot"><span class="check">✓</span> 24 hours</td>
+              </tr>
+              <tr>
+                <td><strong>Errors under pressure</strong></td>
+                <td><span class="cross">✗</span> Common</td>
+                <td class="col-bot"><span class="check">✓</span> Minimal</td>
+              </tr>
+              <tr>
+                <td><strong>Scalability</strong></td>
+                <td><span class="cross">✗</span> Hire more people</td>
+                <td class="col-bot"><span class="check">✓</span> Instant, same price</td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <div style="text-align:center;margin-top:44px;" class="rev">
-        <p style="color:var(--muted);margin-bottom:18px;font-size:15px;">Ready to make the switch?</p>
-        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-          <button onclick="setPage('apply')" class="bp">Apply Now &#8594;</button>
-          <button onclick="setPage('pricing')" class="bo">See Pricing</button>
-        </div>
+
+      <div class="compare-callout reveal">
+        <strong>💸 The average Kuwait business loses 3–5 orders per week to slow replies.</strong>
+        <p style="color:var(--muted);margin-top:0.5rem;font-size:0.92rem;">At 15 KWD per order, that's <strong style="color:var(--text);">720–1,200 KWD/year</strong> walking out the door. Focobot costs less than one of those missed orders per month.</p>
+      </div>
+
+      <div style="text-align:center;margin-top:2.5rem;" class="reveal">
+        <p style="color:var(--muted);font-size:0.95rem;margin-bottom:1rem;">Reply speed is the #1 reason customers switch to a competitor.</p>
+        <button class="btn btn-primary btn-lg ripple-host" onclick="setPage('pricing');addRipple(event,this)">See Pricing →</button>
       </div>
     </div>
   </div>
-</div><!-- /compare -->
+</div><!-- end page-compare -->
 
-<!-- FEATURES -->
-<div class="page" id="page-features" data-page="features">
-  <div class="pt sec">
-    <div class="con">
-      <div style="text-align:center;margin-bottom:52px;">
-        <div class="badge" style="background:rgba(6,182,212,.09);border:1px solid rgba(6,182,212,.2);color:#22d3ee;margin-bottom:16px;">What you get</div>
-        <h1 class="rev" style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:12px;">Everything you need.</h1>
-        <p class="rev" style="color:var(--muted);max-width:460px;margin:0 auto;line-height:1.7;font-size:15px;">Six core capabilities that make Focobot the smartest hire you'll ever make.</p>
+<!-- ══════════════════════════════════════════
+     FEATURES PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-features">
+  <div class="section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:3rem;" class="reveal">
+        <div class="section-label">Capabilities</div>
+        <h2 class="section-title">Built for Kuwaiti Business</h2>
+        <p class="section-sub" style="margin:0.75rem auto 0;">Every feature designed around how customers in Kuwait actually shop and communicate.</p>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;">
-        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
-          <div class="fi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
-          <h3 style="font-size:1.1rem;margin-bottom:8px;">Instant Replies</h3>
-          <p style="font-size:13.5px;color:var(--muted);line-height:1.7;">Responds to every WhatsApp message in under 2 seconds. No delays, no ignored messages. Customers never wait.</p>
-          <div style="margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:rgba(99,102,241,.1);border-radius:8px;padding:5px 11px;font-size:12px;color:var(--hi);font-weight:600;">&lt; 2 seconds</div>
+
+      <div class="features-grid">
+        <div class="card feat-card reveal">
+          <div class="feat-icon">⚡</div>
+          <div class="feat-title">Instant Replies</div>
+          <p class="feat-desc">Under 2 seconds. Every message, every time. While your competitor takes 20 minutes to respond, your customer has already booked with you.</p>
         </div>
-        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
-          <div class="fi" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg></div>
-          <h3 style="font-size:1.1rem;margin-bottom:8px;">Bilingual Arabic + English</h3>
-          <p style="font-size:13.5px;color:var(--muted);line-height:1.7;">Auto-detects language and replies in Kuwaiti Arabic or English — naturally, without sounding robotic.</p>
-          <div style="margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:rgba(6,182,212,.09);border-radius:8px;padding:5px 11px;font-size:12px;color:#22d3ee;font-weight:600;">AR / EN auto-detect</div>
+        <div class="card feat-card reveal">
+          <div class="feat-icon">🌍</div>
+          <div class="feat-title">Bilingual AI</div>
+          <p class="feat-desc">Fluent Kuwaiti Arabic and English. Sounds local — not formal Gulf Standard Arabic. Your customers feel at home.</p>
         </div>
-        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
-          <div class="fi" style="background:linear-gradient(135deg,#8b5cf6,#ec4899);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/></svg></div>
-          <h3 style="font-size:1.1rem;margin-bottom:8px;">24/7 Availability</h3>
-          <p style="font-size:13.5px;color:var(--muted);line-height:1.7;">Whether it's 3am on Eid or Friday prayer time — Focobot is always on, always ready, never takes a break.</p>
-          <div style="margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:rgba(139,92,246,.1);border-radius:8px;padding:5px 11px;font-size:12px;color:#a78bfa;font-weight:600;">365 days a year</div>
+        <div class="card feat-card reveal">
+          <div class="feat-icon">🕐</div>
+          <div class="feat-title">24/7 Operation</div>
+          <p class="feat-desc">Replies at 3AM on Eid. Never misses a message. While you sleep, Focobot is closing deals and booking appointments.</p>
         </div>
-        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
-          <div class="fi" style="background:linear-gradient(135deg,#f59e0b,#f97316);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>
-          <h3 style="font-size:1.1rem;margin-bottom:8px;">Catalog Integration</h3>
-          <p style="font-size:13.5px;color:var(--muted);line-height:1.7;">Connect your menu or product list. The bot answers "do you have X?" accurately from your actual data.</p>
-          <div style="margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.09);border-radius:8px;padding:5px 11px;font-size:12px;color:#fbbf24;font-weight:600;">Always up to date</div>
+        <div class="card feat-card reveal">
+          <div class="feat-icon">📦</div>
+          <div class="feat-title">Catalog Integration</div>
+          <p class="feat-desc">Customers ask about your products, prices, or menu — the bot knows every answer instantly. Updated whenever you update.</p>
         </div>
-        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
-          <div class="fi" style="background:linear-gradient(135deg,#25D366,#128C7E);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></div>
-          <h3 style="font-size:1.1rem;margin-bottom:8px;">Owner WhatsApp Alerts</h3>
-          <p style="font-size:13.5px;color:var(--muted);line-height:1.7;">When a real order or lead comes in, you get a WhatsApp notification on your personal number. No app needed.</p>
-          <div style="margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:rgba(37,211,102,.09);border-radius:8px;padding:5px 11px;font-size:12px;color:#4ade80;font-weight:600;">WhatsApp native alerts</div>
+        <div class="card feat-card reveal">
+          <div class="feat-icon">📲</div>
+          <div class="feat-title">Owner Alerts</div>
+          <p class="feat-desc">Real orders and bookings ping your personal WhatsApp instantly. You stay in control without being in the chat.</p>
         </div>
-        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
-          <div class="fi" style="background:linear-gradient(135deg,#3b82f6,#6366f1);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
-          <h3 style="font-size:1.1rem;margin-bottom:8px;">Analytics Dashboard</h3>
-          <p style="font-size:13.5px;color:var(--muted);line-height:1.7;">See your busiest hours, most-asked questions, and conversion rates in one clean dashboard.</p>
-          <div style="margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,.09);border-radius:8px;padding:5px 11px;font-size:12px;color:#60a5fa;font-weight:600;">Real-time insights</div>
+        <div class="card feat-card reveal">
+          <div class="feat-icon">📊</div>
+          <div class="feat-title">Analytics Dashboard</div>
+          <p class="feat-desc">See response times, peak hours, top questions, and conversion rates. Know what your customers actually want.</p>
         </div>
       </div>
-      <div style="text-align:center;margin-top:52px;" class="rev">
-        <button onclick="setPage('apply')" class="bp" style="font-size:16px;padding:14px 36px;">Get All 6 Features &#8594;</button>
+
+      <div style="text-align:center;margin-top:3rem;" class="reveal">
+        <button class="btn btn-primary btn-lg ripple-host" onclick="setPage('pricing');addRipple(event,this)">See Pricing →</button>
       </div>
     </div>
   </div>
-</div><!-- /features -->
+</div><!-- end page-features -->
 
-<!-- PRICING -->
-<div class="page" id="page-pricing" data-page="pricing">
-  <div class="pt sec">
-    <div style="max-width:1060px;margin:0 auto;">
-      <div style="text-align:center;margin-bottom:52px;">
-        <div class="badge" style="background:rgba(245,158,11,.09);border:1px solid rgba(245,158,11,.2);color:#fbbf24;margin-bottom:16px;">Simple pricing</div>
-        <h1 class="rev" style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:12px;">Priced in KWD. No surprises.</h1>
-        <p class="rev" style="color:var(--muted);max-width:460px;margin:0 auto;line-height:1.7;font-size:15px;">All plans include setup, onboarding, and support. Cancel anytime.</p>
+<!-- ══════════════════════════════════════════
+     PRICING PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-pricing">
+  <div class="section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:1rem;" class="reveal">
+        <div class="section-label">Pricing</div>
+        <h2 class="section-title">Less Than One Lost Customer Per Month</h2>
+        <p class="section-sub" style="margin:0.75rem auto 0;">The average order in Kuwait is 15 KWD. Focobot pays for itself in 2 captured orders. A human employee costs 5–10x more.</p>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:22px;align-items:start;">
+
+      <div style="text-align:center;margin-bottom:2.5rem;" class="reveal">
+        <span class="badge" style="font-size:0.85rem;">💡 Anchoring: Human employee = 150–300 KWD/mo · Focobot from 29 KWD/mo</span>
+      </div>
+
+      <div class="pricing-grid reveal">
         <!-- Starter -->
-        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
-          <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">Starter</div>
-          <div style="font-family:'Syne',sans-serif;font-size:3.2rem;font-weight:800;line-height:1;">29<span style="font-size:1rem;color:var(--muted);font-weight:400;"> KWD</span></div>
-          <div style="font-size:13px;color:var(--muted);margin-bottom:26px;">/ month</div>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:28px;">
-            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> 500 messages / month</li>
-            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Arabic + English</li>
-            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Basic analytics</li>
-            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Setup in 24 hours</li>
-            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Email support</li>
-            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--muted);"><span style="flex-shrink:0;">&#8211;</span> Custom personality</li>
-            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--muted);"><span style="flex-shrink:0;">&#8211;</span> Catalog integration</li>
+        <div class="price-card">
+          <div class="price-plan">Starter</div>
+          <div style="display:flex;align-items:baseline;gap:4px;">
+            <span class="price-amount">29</span>
+            <span class="price-unit">KWD/mo</span>
+          </div>
+          <p class="price-desc">Perfect for small businesses just getting started with AI customer service.</p>
+          <ul class="price-features">
+            <li>500 messages per month</li>
+            <li>Arabic + English replies</li>
+            <li>Basic analytics</li>
+            <li>24-hour setup</li>
+            <li>Email support</li>
           </ul>
-          <button onclick="setPage('apply')" class="bo" style="width:100%;text-align:center;">Get Started</button>
+          <button class="btn btn-outline ripple-host" style="width:100%;justify-content:center;" onclick="setPage('apply');addRipple(event,this)">Get Started</button>
         </div>
-        <!-- Growth -->
-        <div class="rev">
-          <div class="pfw">
-            <div class="pfi">
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                <span style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--hi);text-transform:uppercase;letter-spacing:.08em;">Growth</span>
-                <span style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;font-family:'Syne',sans-serif;">MOST POPULAR</span>
-              </div>
-              <div style="font-family:'Syne',sans-serif;font-size:3.2rem;font-weight:800;line-height:1;color:var(--text);">59<span style="font-size:1rem;color:var(--muted);font-weight:400;"> KWD</span></div>
-              <div style="font-size:13px;color:var(--muted);margin-bottom:6px;">/ month</div>
-              <div style="font-size:12px;color:#4ade80;font-weight:600;margin-bottom:26px;">&#10003; 7-day free trial included</div>
-              <ul style="list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:28px;">
-                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> <strong>Unlimited</strong> messages</li>
-                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Arabic + English</li>
-                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Custom personality &amp; tone</li>
-                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Catalog integration</li>
-                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Full analytics dashboard</li>
-                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Owner WhatsApp alerts</li>
-                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Priority support</li>
-                <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Setup in 24 hours</li>
-              </ul>
-              <button onclick="setPage('apply')" class="bp" style="width:100%;text-align:center;font-size:15.5px;padding:14px;">Start Free Trial &#8594;</button>
+
+        <!-- Growth — POPULAR -->
+        <div class="price-card popular pricing-hot" style="position:relative;z-index:1;">
+          <div class="popular-badge">⭐ Most Popular</div>
+          <div class="price-plan">Growth</div>
+          <div style="display:flex;align-items:baseline;gap:4px;">
+            <span class="price-amount">59</span>
+            <span class="price-unit">KWD/mo</span>
+          </div>
+          <p class="price-desc">For businesses serious about never missing a sale. Includes our best features.</p>
+          <ul class="price-features">
+            <li>Unlimited messages</li>
+            <li>Custom bot personality & tone</li>
+            <li>Catalog integration</li>
+            <li>Advanced analytics</li>
+            <li>Priority support</li>
+            <li>Owner WhatsApp alerts</li>
+            <li><strong>7-day free trial</strong></li>
+          </ul>
+          <button class="btn btn-primary ripple-host" style="width:100%;justify-content:center;" onclick="setPage('apply');addRipple(event,this)">Start Free Trial →</button>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="price-card">
+          <div class="price-plan">Enterprise</div>
+          <div style="display:flex;align-items:baseline;gap:4px;">
+            <span class="price-amount" style="font-size:1.75rem;">Custom</span>
+          </div>
+          <p class="price-desc">Multi-location businesses and brands that need dedicated support and SLA guarantees.</p>
+          <ul class="price-features">
+            <li>Everything in Growth</li>
+            <li>Multiple WhatsApp numbers</li>
+            <li>Dedicated account manager</li>
+            <li>Custom integrations</li>
+            <li>SLA guarantee</li>
+            <li>Onsite training</li>
+          </ul>
+          <button class="btn btn-outline ripple-host" style="width:100%;justify-content:center;" onclick="setPage('apply');addRipple(event,this)">Contact Us</button>
+        </div>
+      </div>
+
+      <div class="price-guarantee reveal">
+        No contracts · Cancel anytime · 7-day free trial · Setup in 24 hours
+      </div>
+
+      <!-- FAQ -->
+      <div style="max-width:640px;margin:4rem auto 0;" class="reveal">
+        <h3 style="font-size:1.3rem;font-weight:700;margin-bottom:1.5rem;text-align:center;">Frequently Asked Questions</h3>
+        <div id="faqList">
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              Is 29 KWD really worth it?
+              <span class="faq-icon">▼</span>
             </div>
+            <div class="faq-a">One missed order on a Friday night is 15–30 KWD. Focobot pays for itself in 2 captured orders. Meanwhile, your human employee takes weekends off, gets sick, and costs 5–10x more per month.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              Does it really speak Kuwaiti Arabic?
+              <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-a">Yes — fluent Kuwaiti dialect, not formal Arabic. Your customers won't know it's a bot. We tune the personality and dialect to match your brand voice.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              How fast is setup?
+              <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-a">We handle everything. You send us your menu, product catalog, or FAQs — we set up the bot, connect it to your WhatsApp Business, and you're live within 24 hours.</div>
           </div>
         </div>
-        <!-- Enterprise -->
-        <div class="glass rev" style="padding:30px;"><div class="gs"></div>
-          <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">Enterprise</div>
-          <div style="font-family:'Syne',sans-serif;font-size:3.2rem;font-weight:800;line-height:1;">Custom</div>
-          <div style="font-size:13px;color:var(--muted);margin-bottom:26px;">Let's talk</div>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:28px;">
-            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Multi-branch support</li>
-            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Dedicated account manager</li>
-            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> SLA guarantee</li>
-            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Custom integrations</li>
-            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> Onboarding &amp; training</li>
-            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> White-label option</li>
-            <li style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><span style="color:#4ade80;flex-shrink:0;">&#10003;</span> 24/7 phone support</li>
-          </ul>
-          <button onclick="setPage('apply')" class="bo" style="width:100%;text-align:center;">Contact Sales</button>
-        </div>
       </div>
-      <!-- FAQ -->
-      <div style="max-width:680px;margin:64px auto 0;" class="rev">
-        <h2 style="font-size:1.6rem;text-align:center;margin-bottom:28px;">Common questions</h2>
-        <div id="fqw" style="display:flex;flex-direction:column;gap:4px;"></div>
+
+      <div style="text-align:center;margin-top:2.5rem;" class="reveal">
+        <button class="btn btn-primary btn-lg ripple-host" onclick="setPage('apply');addRipple(event,this)">Apply Now — Limited Spots</button>
       </div>
+
     </div>
   </div>
-</div><!-- /pricing -->
+</div><!-- end page-pricing -->
 
-<!-- APPLY -->
-<div class="page" id="page-apply" data-page="apply">
-  <div class="pt sec">
-    <div class="consm">
-      <div style="text-align:center;margin-bottom:36px;">
-        <div class="badge bp-badge" style="margin-bottom:16px;"><span class="bdot"></span>30 seconds · Simple form</div>
-        <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:12px;">Let's get you started</h1>
-        <p style="color:var(--muted);line-height:1.7;font-size:15px;">Fill in a few details and we'll reach out on WhatsApp within 2 hours during business hours.</p>
-      </div>
-      <div class="glass" style="padding:36px;"><div class="gs"></div>
-        <form id="af" onsubmit="doApply(event)">
-          <div style="margin-bottom:20px;">
-            <label style="display:block;font-size:13px;font-weight:600;color:var(--hi);margin-bottom:8px;font-family:'Syne',sans-serif;">Business Name *</label>
-            <input type="text" required placeholder="e.g. Al Nakheel Cafe" class="ff" id="fn">
+<!-- ══════════════════════════════════════════
+     APPLY PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-apply">
+  <div class="section">
+    <div class="container">
+      <div class="apply-wrap">
+        <div style="text-align:center;margin-bottom:2rem;" class="reveal">
+          <div class="section-label">Apply Now</div>
+          <h2 class="section-title">Get Your Focobot</h2>
+          <p class="section-sub" style="margin:0.75rem auto 0;">We set everything up for you. Live in 24 hours.</p>
+        </div>
+
+        <div class="scarcity-banner reveal">
+          🔥 We only onboard <strong>10 businesses per month</strong> to ensure quality. Spots fill fast.
+        </div>
+
+        <div class="progress-wrap reveal">
+          <div class="progress-label" id="progressLabel">Step 1 of 3 — Business Info</div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width:33%;"></div>
           </div>
-          <div style="margin-bottom:20px;">
-            <label style="display:block;font-size:13px;font-weight:600;color:var(--hi);margin-bottom:8px;font-family:'Syne',sans-serif;">WhatsApp Number *</label>
-            <input type="tel" required placeholder="+965 XXXX XXXX" class="ff" id="fp">
+        </div>
+
+        <form class="apply-form reveal" id="applyForm" onsubmit="submitApply(event)">
+          <div class="form-group">
+            <label class="form-label">Business Name *</label>
+            <input class="form-input" type="text" placeholder="e.g. Al-Nour Café" required oninput="updateProgress()">
           </div>
-          <div style="margin-bottom:20px;">
-            <label style="display:block;font-size:13px;font-weight:600;color:var(--hi);margin-bottom:8px;font-family:'Syne',sans-serif;">Business Type *</label>
-            <select required class="ff" id="ft">
-              <option value="">Choose your type...</option>
-              <option>Coffee Shop / Cafe</option>
+          <div class="form-group">
+            <label class="form-label">WhatsApp Number *</label>
+            <input class="form-input" type="tel" placeholder="+965 XXXX XXXX" required oninput="updateProgress()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Business Type *</label>
+            <select class="form-select" required onchange="updateProgress()">
+              <option value="">Select your business type…</option>
               <option>Restaurant</option>
-              <option>Salon / Beauty</option>
-              <option>Bakery / Pastry</option>
-              <option>Gym / Fitness</option>
-              <option>Retail / Boutique</option>
-              <option>Clinic / Medical</option>
+              <option>Café</option>
+              <option>Salon</option>
+              <option>Bakery</option>
+              <option>Gym</option>
+              <option>Retail</option>
               <option>Other</option>
             </select>
           </div>
-          <div style="margin-bottom:28px;">
-            <label style="display:block;font-size:13px;font-weight:600;color:var(--hi);margin-bottom:8px;font-family:'Syne',sans-serif;">Your Biggest Customer Service Challenge *</label>
-            <textarea required placeholder="e.g. We get 200+ messages a day and can't reply fast enough..." class="ff" style="min-height:110px;resize:vertical;"></textarea>
+          <div class="form-group">
+            <label class="form-label">Biggest Customer Service Challenge</label>
+            <textarea class="form-textarea" placeholder="What's your biggest pain point? e.g. Missing messages at night, not enough staff to reply..." oninput="updateProgress()"></textarea>
           </div>
-          <button type="submit" class="bp" style="width:100%;font-size:16px;padding:15px;" id="ab">Send Application &#8594;</button>
-          <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:12px;">We'll reply on WhatsApp within 2 business hours. No spam, ever.</p>
+
+          <div style="background:rgba(99,102,241,0.05);border:1px solid rgba(99,102,241,0.15);border-radius:10px;padding:1rem;font-size:0.85rem;color:var(--muted);">
+            ✅ <strong style="color:var(--text);">Free 7-day trial</strong> on Growth plan · No credit card required · Setup in 24 hours
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg ripple-host" style="width:100%;justify-content:center;" onclick="addRipple(event,this)">
+            Apply for Focobot →
+          </button>
+
+          <p style="text-align:center;font-size:0.8rem;color:var(--light);">By applying, you agree to receive a call from our team within 24 hours. No spam, ever.</p>
         </form>
-        <div id="as" style="display:none;text-align:center;padding:36px 0;">
-          <div style="font-size:52px;margin-bottom:16px;">&#127881;</div>
-          <h3 style="font-size:1.5rem;margin-bottom:10px;">Application received!</h3>
-          <p style="color:var(--muted);line-height:1.7;font-size:15px;">We'll reach out on WhatsApp within 2 hours. Get ready to automate your customer service.</p>
-          <button onclick="setPage('home')" class="bo" style="margin-top:20px;">Back to Home</button>
+
+        <div class="success-msg" id="successMsg">
+          <div class="success-icon">🎉</div>
+          <div class="success-title">Application Submitted!</div>
+          <p class="success-sub">We'll contact you on WhatsApp within 24 hours to get you set up. Welcome to the Focobot family.</p>
+          <div style="margin-top:1.5rem;">
+            <button class="btn btn-outline" onclick="setPage('home')">Back to Home</button>
+          </div>
         </div>
-      </div>
-      <div style="display:flex;gap:24px;justify-content:center;margin-top:28px;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);"><span style="color:#4ade80;">&#10003;</span> Setup in 24 hours</div>
-        <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);"><span style="color:#4ade80;">&#10003;</span> Cancel anytime</div>
-        <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);"><span style="color:#4ade80;">&#10003;</span> 7-day free trial</div>
+
       </div>
     </div>
   </div>
-</div><!-- /apply -->
+</div><!-- end page-apply -->
 
-</main>
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:0.75rem;">
+      <div class="nav-logo-icon" style="width:28px;height:28px;font-size:0.9rem;">🤖</div>
+      <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;">focobot</span>
+    </div>
+    <p>WhatsApp AI Customer Service for Kuwaiti Businesses · Arabic + English · 24/7</p>
+    <p style="margin-top:0.4rem;">© 2026 Focobot. Built for Kuwait.</p>
+  </div>
+</footer>
 
-<!-- THREE.JS -->
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+// ── Page routing ──
+function setPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const pg = document.getElementById('page-' + name);
+  if (pg) pg.classList.add('active');
+  document.querySelectorAll('[data-page]').forEach(l => {
+    l.classList.toggle('active', l.dataset.page === name);
+  });
+  window.scrollTo(0, 0);
+  initReveal();
+}
+window.addEventListener('hashchange', () => {
+  const p = location.hash.replace('#','') || 'home';
+  setPage(p);
+});
+window.addEventListener('load', () => {
+  const p = location.hash.replace('#','') || 'home';
+  setPage(p);
+  initReveal();
+  startPhoneAnimation('cafe');
+});
+
+// ── Reveal on scroll ──
+function initReveal() {
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  els.forEach(el => {
+    if (!el.classList.contains('visible')) io.observe(el);
+    else el.classList.add('visible');
+  });
+}
+
+// ── Ripple effect ──
+function addRipple(e, btn) {
+  const rect = btn.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  const x = e.clientX - rect.left - size/2;
+  const y = e.clientY - rect.top - size/2;
+  const rip = document.createElement('span');
+  rip.className = 'ripple-circle';
+  rip.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px`;
+  btn.appendChild(rip);
+  rip.addEventListener('animationend', () => rip.remove());
+}
+
+// ── Phone animations ──
+const bizConvos = {
+  cafe: {
+    en: [
+      {c:"What are your hours?", b:"We're open 7AM–11PM daily ☕ Anything else I can help with?"},
+      {c:"Do you have oat milk?", b:"Yes! Oat, almond & soy available 🥛"},
+      {c:"How do I place an order?", b:"Easy! Tell me what you'd like or order via our link 😊"}
+    ],
+    ar: [
+      {c:"أوقات الدوام؟", b:"من 7 الصبح لـ 11 الليل كل يوم ☕ في شي ثاني؟"},
+      {c:"عندكم حليب شوفان؟", b:"إي عندنا شوفان، لوز، وصويا 🥛"},
+      {c:"كيف أطلب؟", b:"قلي وش تبي أو اطلب من اللينك 😊"}
+    ]
+  },
+  restaurant: {
+    en: [
+      {c:"Is there a table for 4?", b:"Yes! What time works for you? We'll reserve it now ✅"},
+      {c:"Do you deliver?", b:"We deliver via Talabat & Careem! Usually 30–45 min 🛵"},
+      {c:"What's today's special?", b:"Today: Lamb Machboos & Grilled Hammour 🍽️"}
+    ],
+    ar: [
+      {c:"في طاولة لـ 4 أشخاص؟", b:"إي! أي وقت يناسبكم؟ نحجزها الحين ✅"},
+      {c:"تسلّمون؟", b:"نسلّم عن طريق طلبات وكريم! عادةً 30-45 دقيقة 🛵"},
+      {c:"شو أكل اليوم؟", b:"اليوم: مچبوس لحم وهامور مشوي 🍽️"}
+    ]
+  },
+  salon: {
+    en: [
+      {c:"Do you have availability tomorrow?", b:"Yes! We have slots at 10AM, 2PM & 5PM 💇‍♀️"},
+      {c:"How much is a blowout?", b:"Blowout starts from 12 KWD 💅 Want to book?"},
+      {c:"Do you do bridal packages?", b:"Yes! Full bridal package from 80 KWD. Send 📅 your date!"}
+    ],
+    ar: [
+      {c:"في موعد بكرة؟", b:"إي! عندنا 10 صباح، 2 ظهر، و5 مساء 💇‍♀️"},
+      {c:"بكم البلو أوت؟", b:"البلو أوت يبدأ من 12 د.ك 💅 تحجزين؟"},
+      {c:"عندكم باقة عرايس؟", b:"إي! باقة كاملة من 80 د.ك. أرسلي تاريخ 📅 العرس!"}
+    ]
+  },
+  bakery: {
+    en: [
+      {c:"Do you make custom cakes?", b:"Absolutely! 3 days notice needed. What's the occasion? 🎂"},
+      {c:"Are you open on Fridays?", b:"Yes! Fri & Sat 9AM–10PM 🧁"},
+      {c:"Do you deliver?", b:"We deliver within Kuwait City! Min order 15 KWD 🚚"}
+    ],
+    ar: [
+      {c:"تسوون كيك بالطلب؟", b:"طبعاً! نحتاج 3 أيام. شو المناسبة؟ 🎂"},
+      {c:"مفتوحين الجمعة؟", b:"إي! الجمعة والسبت من 9 صباح لـ 10 ليل 🧁"},
+      {c:"تسلّمون؟", b:"نسلّم داخل الكويت! طلب أدنى 15 د.ك 🚚"}
+    ]
+  },
+  gym: {
+    en: [
+      {c:"What are the membership prices?", b:"Monthly: 25 KWD | 3-Month: 65 KWD | Annual: 200 KWD 💪"},
+      {c:"Do you have personal trainers?", b:"Yes! PT sessions from 15 KWD/hr. Want to book a free intro? 🏋️"},
+      {c:"What are opening hours?", b:"6AM–11PM weekdays, 8AM–9PM weekends 🕐"}
+    ],
+    ar: [
+      {c:"بكم الاشتراك؟", b:"شهري: 25 د.ك | 3 أشهر: 65 د.ك | سنوي: 200 د.ك 💪"},
+      {c:"عندكم مدربين شخصيين؟", b:"إي! من 15 د.ك للساعة. تبي حصة تجريبية مجانية؟ 🏋️"},
+      {c:"أوقات الدوام؟", b:"6 صباح-11 ليل أيام العمل، 8-9 ويكند 🕐"}
+    ]
+  }
+};
+
+let phoneTimer = null;
+let currentBiz = 'cafe';
+
+function selectBiz(biz, btn) {
+  currentBiz = biz;
+  document.querySelectorAll('.biz-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  startPhoneAnimation(biz);
+}
+
+function startPhoneAnimation(biz) {
+  if (phoneTimer) clearTimeout(phoneTimer);
+  const enEl = document.getElementById('phoneMsgsEN');
+  const arEl = document.getElementById('phoneMsgsAR');
+  enEl.innerHTML = '';
+  arEl.innerHTML = '';
+  const convos = bizConvos[biz];
+  let i = 0;
+  function showNextPair() {
+    if (i >= convos.en.length) {
+      phoneTimer = setTimeout(() => {
+        enEl.innerHTML = '';
+        arEl.innerHTML = '';
+        i = 0;
+        showNextPair();
+      }, 3000);
+      return;
+    }
+    const pair = {en: convos.en[i], ar: convos.ar[i]};
+    addMsg(enEl, 'customer', pair.en.c);
+    addMsg(arEl, 'customer', pair.ar.c);
+    phoneTimer = setTimeout(() => {
+      addMsg(enEl, 'bot', pair.en.b);
+      addMsg(arEl, 'bot', pair.ar.b);
+      i++;
+      phoneTimer = setTimeout(showNextPair, 2200);
+    }, 900);
+  }
+  showNextPair();
+}
+
+function addMsg(container, type, text) {
+  const div = document.createElement('div');
+  div.className = `msg msg-${type === 'customer' ? 'customer' : 'bot'}`;
+  div.textContent = text;
+  const time = document.createElement('div');
+  time.className = 'msg-time';
+  const now = new Date();
+  time.textContent = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  div.appendChild(time);
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+// ── Demo chat ──
+const demoResponses = {
+  hours: ["We're open 7AM–11PM daily ☕ Anything else?", "Open 7 days a week, 7AM to 11PM. How can I help?"],
+  deliver: ["Yes! We deliver within Kuwait City. Minimum order 15 KWD 🚚 Usually 30-45 min.", "We deliver via Talabat and Careem too! 🛵"],
+  book: ["Of course! What date and time works for you? I'll check availability right now ✅", "I'd love to book that for you! What's your preferred date? 📅"],
+  price: ["Great question! Here are our most popular items with prices. What are you interested in? 😊", "Our prices start from 5 KWD. What would you like to know about? 💳"],
+  arabic: {
+    "كم سعركم؟": "أسعارنا تبدأ من 5 د.ك. شو يهمك تعرف؟ 😊",
+    "تسلّمون؟": "إي نسلّم! داخل الكويت، طلب أدنى 15 د.ك 🚚 عادةً 30-45 دقيقة",
+    "في موعد بكرة؟": "إي! عندنا مواعيد متاحة. أي وقت يناسبك؟ 📅"
+  },
+  default: [
+    "Great question! Let me check that for you right away. 😊",
+    "I'd be happy to help with that! Can you give me a bit more detail?",
+    "Sure thing! Here's what I know about that… 📋"
+  ]
+};
+
+function getDemoResponse(msg) {
+  const m = msg.toLowerCase().trim();
+  if (demoResponses.arabic[msg]) return demoResponses.arabic[msg];
+  if (m.includes('hour') || m.includes('open') || m.includes('close') || m.includes('time')) return pick(demoResponses.hours);
+  if (m.includes('deliver') || m.includes('delivery')) return pick(demoResponses.deliver);
+  if (m.includes('book') || m.includes('reserv') || m.includes('appoint') || m.includes('table')) return pick(demoResponses.book);
+  if (m.includes('price') || m.includes('cost') || m.includes('much') || m.includes('كم')) return pick(demoResponses.price);
+  return pick(demoResponses.default);
+}
+
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function sendDemo() {
+  const input = document.getElementById('demoInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  const body = document.getElementById('demoBody');
+  const cMsg = document.createElement('div');
+  cMsg.className = 'msg msg-bot';
+  cMsg.style.cssText = 'opacity:1;align-self:flex-end;background:#fff;color:#111;border-radius:10px 10px 0 10px;';
+  cMsg.textContent = text;
+  body.appendChild(cMsg);
+
+  const typing = document.createElement('div');
+  typing.className = 'typing-indicator';
+  typing.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+  body.appendChild(typing);
+  body.scrollTop = body.scrollHeight;
+
+  setTimeout(() => {
+    typing.remove();
+    const bMsg = document.createElement('div');
+    bMsg.className = 'msg msg-bot';
+    bMsg.style.cssText = 'opacity:1;background:#DCF8C6;align-self:flex-end;';
+    bMsg.textContent = getDemoResponse(text);
+    body.appendChild(bMsg);
+    body.scrollTop = body.scrollHeight;
+  }, 800 + Math.random() * 600);
+}
+
+function sendDemoPrompt(text) {
+  document.getElementById('demoInput').value = text;
+  sendDemo();
+}
+
+// ── FAQ ──
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ── Apply form progress ──
+function updateProgress() {
+  const inputs = document.querySelectorAll('#applyForm input, #applyForm select, #applyForm textarea');
+  let filled = 0;
+  inputs.forEach(i => { if (i.value.trim()) filled++; });
+  const pct = Math.round((filled / inputs.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  const step = filled < 2 ? 1 : filled < 4 ? 2 : 3;
+  const labels = ['', 'Step 1 of 3 — Business Info', 'Step 2 of 3 — Contact Details', 'Step 3 of 3 — Almost Done!'];
+  document.getElementById('progressLabel').textContent = labels[step];
+}
+
+function submitApply(e) {
+  e.preventDefault();
+  document.getElementById('applyForm').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+  document.querySelector('.scarcity-banner').style.display = 'none';
+  document.querySelector('.progress-wrap').style.display = 'none';
+}
+</script>
+
+<!-- ── Three.js Hero Canvas ── -->
 <script type="module">
 import * as THREE from 'three';
-const canvas=document.getElementById('hc'),wrap=document.getElementById('hw');
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-renderer.setClearColor(0,0);
-const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(72,1,.1,1000);
-camera.position.z=5.5;
-function resize(){const w=wrap.offsetWidth,h=wrap.offsetHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
-resize();new ResizeObserver(resize).observe(wrap);
-const N=1800,pos=new Float32Array(N*3),col=new Float32Array(N*3),sz=new Float32Array(N);
-const pal=[new THREE.Color('#6366f1'),new THREE.Color('#818cf8'),new THREE.Color('#4f46e5'),new THREE.Color('#a5b4fc'),new THREE.Color('#c4b5fd'),new THREE.Color('#7c3aed')];
-for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*20;pos[i*3+1]=(Math.random()-.5)*14;pos[i*3+2]=(Math.random()-.5)*10;const c=pal[i%pal.length];col[i*3]=c.r;col[i*3+1]=c.g;col[i*3+2]=c.b;sz[i]=1.2+Math.random()*2.8;}
-const ptg=new THREE.BufferGeometry();
-ptg.setAttribute('position',new THREE.BufferAttribute(pos,3));
-ptg.setAttribute('color',new THREE.BufferAttribute(col,3));
-ptg.setAttribute('size',new THREE.BufferAttribute(sz,1));
-const ptm=new THREE.ShaderMaterial({vertexColors:true,transparent:true,depthWrite:false,vertexShader:`attribute float size;varying vec3 vC;varying float vA;void main(){vC=color;vec4 mv=modelViewMatrix*vec4(position,1.0);float d=length(mv.xyz);vA=clamp(1.0-d/13.0,.08,.88);gl_PointSize=size*(290.0/d);gl_Position=projectionMatrix*mv;}`,fragmentShader:`varying vec3 vC;varying float vA;void main(){vec2 uv=gl_PointCoord-.5;float d=length(uv);if(d>.5)discard;float a=smoothstep(.5,.08,d);gl_FragColor=vec4(vC,a*vA);}`});
-const pts=new THREE.Points(ptg,ptm);scene.add(pts);
-const LM=120,lp=new Float32Array(LM*6),lg=new THREE.BufferGeometry();
-lg.setAttribute('position',new THREE.BufferAttribute(lp,3));
-const lm=new THREE.LineBasicMaterial({color:0x6366f1,transparent:true,opacity:.11});
-const ls=new THREE.LineSegments(lg,lm);scene.add(ls);
-function uLines(){let li=0,cnt=0;for(let i=0;i<N&&cnt<LM;i++)for(let j=i+1;j<N&&cnt<LM;j++){const dx=pos[i*3]-pos[j*3],dy=pos[i*3+1]-pos[j*3+1],dz=pos[i*3+2]-pos[j*3+2];if(dx*dx+dy*dy+dz*dz<8){lp[li++]=pos[i*3];lp[li++]=pos[i*3+1];lp[li++]=pos[i*3+2];lp[li++]=pos[j*3];lp[li++]=pos[j*3+1];lp[li++]=pos[j*3+2];cnt++;}}lg.attributes.position.needsUpdate=true;lg.setDrawRange(0,cnt*2);}
-const oc=[0x6366f1,0x818cf8,0x4f46e5,0xa5b4fc,0xc4b5fd,0x7c3aed,0x4338ca,0x8b5cf6,0x6d28d9,0x5b21b6,0x4f46e5,0x818cf8];
-const orbs=[];
-for(let i=0;i<12;i++){const m=new THREE.Mesh(new THREE.SphereGeometry(.07+Math.random()*.18,14,14),new THREE.MeshBasicMaterial({color:oc[i],transparent:true,opacity:.55+Math.random()*.35}));m.position.set((Math.random()-.5)*14,(Math.random()-.5)*9,(Math.random()-.5)*6);m.userData={sp:.3+Math.random()*.8,ph:Math.random()*Math.PI*2};scene.add(m);orbs.push(m);}
-const rings=[];
-[[2.0,0],[3.4,1]].forEach(([r,i])=>{const rm=new THREE.Mesh(new THREE.TorusGeometry(r,.011,8,90),new THREE.MeshBasicMaterial({color:i?0x4f46e5:0x6366f1,transparent:true,opacity:.22}));rm.rotation.x=Math.PI/(3+i);rm.userData={rs:.0018+i*.001};scene.add(rm);rings.push(rm);});
-let mx=0,my=0;
-document.addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5)*2;my=-(e.clientY/innerHeight-.5)*2;});
-let fr=0;
-function animate(){requestAnimationFrame(animate);fr++;pts.rotation.y+=.00055;pts.rotation.x+=.00018;camera.position.x+=(mx*.9-camera.position.x)*.038;camera.position.y+=(my*.55-camera.position.y)*.038;camera.lookAt(scene.position);orbs.forEach(o=>{o.position.y+=Math.sin(fr*.01*o.userData.sp+o.userData.ph)*.005;});rings.forEach(r=>{r.rotation.z+=r.userData.rs;r.rotation.y+=r.userData.rs*.45;});if(fr%3===0)uLines();renderer.render(scene,camera);}
+
+const canvas = document.getElementById('hero-canvas');
+const section = document.getElementById('hero-canvas-section');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0xf0f0ff, 1);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
+camera.position.z = 80;
+
+function resize() {
+  const w = section.clientWidth, h = section.clientHeight;
+  renderer.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+resize();
+window.addEventListener('resize', resize);
+
+// Particles
+const COUNT = 160;
+const positions = new Float32Array(COUNT * 3);
+const colors = new Float32Array(COUNT * 3);
+const sizes = new Float32Array(COUNT);
+const velocities = [];
+
+const palette = [
+  [0.388, 0.400, 0.945], // #6366f1 indigo
+  [0.506, 0.361, 0.965], // #8b5cf6 violet
+  [0.545, 0.353, 0.902], // blueviolet
+];
+
+for (let i = 0; i < COUNT; i++) {
+  positions[i*3]   = (Math.random() - 0.5) * 160;
+  positions[i*3+1] = (Math.random() - 0.5) * 100;
+  positions[i*3+2] = (Math.random() - 0.5) * 60;
+  const col = palette[Math.floor(Math.random() * palette.length)];
+  colors[i*3]   = col[0];
+  colors[i*3+1] = col[1];
+  colors[i*3+2] = col[2];
+  sizes[i] = 1.5 + Math.random() * 3.5;
+  velocities.push({
+    x: (Math.random() - 0.5) * 0.06,
+    y: (Math.random() - 0.5) * 0.04,
+    z: (Math.random() - 0.5) * 0.02
+  });
+}
+
+const geo = new THREE.BufferGeometry();
+geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+const vShader = `
+  attribute float size;
+  attribute vec3 color;
+  varying vec3 vColor;
+  varying float vAlpha;
+  void main() {
+    vColor = color;
+    vAlpha = 0.7 + sin(position.x * 0.1) * 0.3;
+    vec4 mv = modelViewMatrix * vec4(position, 1.0);
+    gl_PointSize = size * (300.0 / -mv.z);
+    gl_Position = projectionMatrix * mv;
+  }
+`;
+const fShader = `
+  varying vec3 vColor;
+  varying float vAlpha;
+  void main() {
+    vec2 uv = gl_PointCoord - 0.5;
+    float d = length(uv);
+    if (d > 0.5) discard;
+    float alpha = (1.0 - d * 2.0) * vAlpha;
+    gl_FragColor = vec4(vColor, alpha);
+  }
+`;
+
+const mat = new THREE.ShaderMaterial({
+  vertexShader: vShader,
+  fragmentShader: fShader,
+  transparent: true,
+  blending: THREE.NormalBlending,
+  depthWrite: false,
+  vertexColors: true
+});
+
+const points = new THREE.Points(geo, mat);
+scene.add(points);
+
+// Connection lines
+const lineGeo = new THREE.BufferGeometry();
+const linePositions = new Float32Array(COUNT * COUNT * 6);
+let lp = 0;
+
+const lineMat = new THREE.LineBasicMaterial({
+  color: 0x6366f1,
+  transparent: true,
+  opacity: 0.12,
+  blending: THREE.NormalBlending
+});
+const linesMesh = new THREE.LineSegments(lineGeo, lineMat);
+scene.add(linesMesh);
+
+let mouse = { x: 0, y: 0 };
+document.addEventListener('mousemove', e => {
+  mouse.x = (e.clientX / window.innerWidth - 0.5) * 2;
+  mouse.y = -(e.clientY / window.innerHeight - 0.5) * 2;
+});
+
+function animate() {
+  requestAnimationFrame(animate);
+  const pos = geo.attributes.position.array;
+  const threshold = 30;
+  lp = 0;
+
+  for (let i = 0; i < COUNT; i++) {
+    pos[i*3]   += velocities[i].x;
+    pos[i*3+1] += velocities[i].y;
+    pos[i*3+2] += velocities[i].z;
+    if (Math.abs(pos[i*3])   > 85) velocities[i].x *= -1;
+    if (Math.abs(pos[i*3+1]) > 55) velocities[i].y *= -1;
+    if (Math.abs(pos[i*3+2]) > 35) velocities[i].z *= -1;
+
+    for (let j = i+1; j < COUNT; j++) {
+      const dx = pos[i*3]   - pos[j*3];
+      const dy = pos[i*3+1] - pos[j*3+1];
+      const dz = pos[i*3+2] - pos[j*3+2];
+      const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+      if (dist < threshold && lp + 6 < linePositions.length) {
+        linePositions[lp++] = pos[i*3];   linePositions[lp++] = pos[i*3+1]; linePositions[lp++] = pos[i*3+2];
+        linePositions[lp++] = pos[j*3];   linePositions[lp++] = pos[j*3+1]; linePositions[lp++] = pos[j*3+2];
+      }
+    }
+  }
+
+  geo.attributes.position.needsUpdate = true;
+  lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions.slice(0, lp), 3));
+  lineGeo.setDrawRange(0, lp / 3);
+
+  camera.position.x += (mouse.x * 8 - camera.position.x) * 0.03;
+  camera.position.y += (mouse.y * 5 - camera.position.y) * 0.03;
+  camera.lookAt(scene.position);
+
+  renderer.render(scene, camera);
+}
 animate();
 </script>
 
-<!-- MAIN SCRIPT -->
-<script>
-// ── Routing ──
-function setPage(n){
-  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.dataset.page===n));
-  document.querySelectorAll('[data-page].nav-link,[data-page].chip').forEach(e=>e.classList.toggle('active',e.dataset.page===n));
-  window.scrollTo({top:0,behavior:'instant'});
-  if(history.pushState)history.pushState({page:n},'','#'+n);
-  setTimeout(()=>{document.querySelectorAll('#page-'+n+' .rev:not(.in)').forEach((e,i)=>setTimeout(()=>e.classList.add('in'),i*75));},55);
-  if(n==='home')setTimeout(()=>runHomeChat(chb),500);
-  if(n==='demo')setTimeout(()=>runDemoChat(cdb),350);
-}
-window.setPage=setPage;
-window.addEventListener('popstate',()=>{const p=(location.hash||'#home').slice(1);setPage(['home','demo','compare','features','pricing','apply'].includes(p)?p:'home');});
-
-// ── Chat data ──
-const BIZ={
-  cafe:{en:'Brew & Co',ar:'\u0628\u0631\u0648 \u0622\u0646\u062f \u0643\u0648',av:'BC'},
-  restaurant:{en:'Al Waha Restaurant',ar:'\u0645\u0637\u0639\u0645 \u0627\u0644\u0648\u0627\u062d\u0629',av:'AW'},
-  salon:{en:'Glow Salon',ar:'\u0635\u0627\u0644\u0648\u0646 \u062c\u0644\u0648',av:'GS'},
-  bakery:{en:'Sugar Crumbs',ar:'\u0634\u0648\u0642\u0631 \u0643\u0631\u0645\u0628\u0633',av:'SC'},
-  gym:{en:'Iron Peak Gym',ar:'\u0622\u064a\u0631\u0648\u0646 \u0628\u064a\u0643 \u062c\u064a\u0645',av:'IP'},
-};
-const CV={
-  cafe:{
-    en:[{u:"What are your opening hours?",b:"We're open 7AM\u201311PM daily, including weekends! \u2615 Anything else I can help with?"},
-        {u:"Do you have oat milk?",b:"Yes! We carry oat, almond, and soy milk \ud83e\udd5b Just mention your preference when ordering."},
-        {u:"Can I book a table?",b:"Of course! We have seating for up to 6. Tell me your preferred time and date \ud83d\udcc5"}],
-    ar:[{u:"\u0623\u0648\u0642\u0627\u062a \u0627\u0644\u062f\u0648\u0627\u0645\u061f",b:"\u0646\u0641\u062a\u062d \u0645\u0646 7 \u0627\u0644\u0635\u0628\u062d \u0644\u0640 11 \u0627\u0644\u0644\u064a\u0644 \u0643\u0644 \u064a\u0648\u0645\u060c \u062d\u062a\u0649 \u0627\u0644\u0648\u064a\u0643\u0646\u062f! \u2615 \u0641\u064a \u0634\u064a \u062b\u0627\u0646\u064a\u061f"},
-        {u:"\u0639\u0646\u062f\u0643\u0645 \u062d\u0644\u064a\u0628 \u0634\u0648\u0641\u0627\u0646\u061f",b:"\u0625\u064a! \u0639\u0646\u062f\u0646\u0627 \u0634\u0648\u0641\u0627\u0646 \u0648\u0644\u0648\u0632 \u0648\u0635\u0648\u064a\u0627 \ud83e\udd5b \u0628\u0633 \u0642\u0648\u0644 \u0627\u0644\u0644\u064a \u062a\u0628\u064a\u0647 \u0644\u0645\u0627 \u062a\u0637\u0644\u0628."},
-        {u:"\u0623\u0642\u062f\u0631 \u0623\u062d\u062c\u0632 \u0637\u0627\u0648\u0644\u0629\u061f",b:"\u0623\u0643\u064a\u062f! \u0639\u0646\u062f\u0646\u0627 \u0645\u0642\u0627\u0639\u062f \u0644\u0640 6. \u0642\u0648\u0644\u064a \u0627\u0644\u0648\u0642\u062a \u0648\u0627\u0644\u062a\u0627\u0631\u064a\u062e \u0627\u0644\u0644\u064a \u064a\u0646\u0627\u0633\u0628\u0643 \ud83d\udcc5"}]
-  },
-  restaurant:{
-    en:[{u:"Do you have a kids menu?",b:"Yes! Grilled chicken, pasta, and mini burgers \ud83c\udf54 All with a free juice."},
-        {u:"What's your busiest time?",b:"Usually 7\u20139PM on weekends. We recommend booking ahead \ud83d\udcde"},
-        {u:"Do you deliver?",b:"Yes! We deliver via Talabat and Careem \ud83d\ude97 Or call us for large orders."}],
-    ar:[{u:"\u0639\u0646\u062f\u0643\u0645 \u0642\u0627\u0626\u0645\u0629 \u0623\u0637\u0641\u0627\u0644\u061f",b:"\u0625\u064a! \u0641\u064a\u0647\u0627 \u062f\u062c\u0627\u062c \u0645\u0634\u0648\u064a \u0648\u0628\u0627\u0633\u062a\u0627 \u0648\u0645\u064a\u0646\u064a \u0628\u0631\u062c\u0631 \ud83c\udf54 \u0648\u0639\u0635\u064a\u0631 \u0645\u062c\u0627\u0646\u064a \u0645\u0639 \u0643\u0644 \u0648\u062c\u0628\u0629."},
-        {u:"\u0648\u0627\u064a\u062f \u0639\u0646\u062f\u0643\u0645 \u0627\u0644\u062c\u0645\u0639\u0629\u061f",b:"\u0639\u0627\u062f\u0629\u064b 7 \u0644\u0640 9 \u0627\u0644\u0644\u064a\u0644 \u0641\u064a \u0627\u0644\u0648\u064a\u0643\u0646\u062f. \u0646\u0648\u0635\u064a \u0628\u0627\u0644\u062d\u062c\u0632 \u0627\u0644\u0645\u0633\u0628\u0642 \ud83d\udcde"},
-        {u:"\u062a\u062a\u0648\u0635\u0644\u0648\u0646\u061f",b:"\u0625\u064a! \u0639\u0644\u0649 \u0637\u0644\u0628\u0627\u062a \u0648\u0643\u0631\u064a\u0645 \ud83d\ude97 \u0623\u0648 \u0627\u062a\u0635\u0644 \u0641\u064a\u0646\u0627 \u0644\u0644\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u0643\u0628\u064a\u0631\u0629."}]
-  },
-  salon:{
-    en:[{u:"Do you take walk-ins?",b:"We do! Based on availability \ud83d\udc85 Booking ahead guarantees your spot."},
-        {u:"How much is a haircut?",b:"From 8 KWD women / 4 KWD men. Color & treatments vary \u2702\ufe0f"},
-        {u:"Do you have female-only hours?",b:"Yes! Sun, Tue & Thu are ladies only 10AM\u20136PM \ud83c\udf38"}],
-    ar:[{u:"\u062a\u0642\u0628\u0644\u0648\u0646 \u0628\u062f\u0648\u0646 \u062d\u062c\u0632\u061f",b:"\u0646\u0639\u0645 \u062d\u0633\u0628 \u0627\u0644\u0623\u0645\u0627\u0643\u0646! \u0627\u0644\u062d\u062c\u0632 \u0627\u0644\u0645\u0633\u0628\u0642 \u064a\u0636\u0645\u0646 \u0645\u0643\u0627\u0646\u0643 \ud83d\udc85"},
-        {u:"\u0628\u0643\u0645 \u0642\u0635\u0629 \u0627\u0644\u0634\u0639\u0631\u061f",b:"\u062a\u0628\u062f\u0623 \u0645\u0646 8 \u062f\u0646\u0627\u0646\u064a\u0631 \u0644\u0644\u062d\u0631\u064a\u0645 \u0648 4 \u0644\u0644\u0631\u062c\u0627\u0644. \u0627\u0644\u0635\u0628\u063a\u0629 \u0648\u0627\u0644\u0639\u0644\u0627\u062c\u0627\u062a \u0645\u062e\u062a\u0644\u0641\u0629 \u2702\ufe0f"},
-        {u:"\u0639\u0646\u062f\u0643\u0645 \u0648\u0642\u062a \u0644\u0644\u0646\u0633\u0627\u0621 \u0641\u0642\u0637\u061f",b:"\u0625\u064a! \u0627\u0644\u0623\u062d\u062f \u0648\u0627\u0644\u062b\u0644\u0627\u062b\u0627\u0621 \u0648\u0627\u0644\u062e\u0645\u064a\u0633 \u0645\u0646 10 \u0627\u0644\u0635\u0628\u062d \u0644\u0640 6 \u0627\u0644\u0645\u0633\u0627\u0621 \u0644\u0644\u062d\u0631\u064a\u0645 \u0641\u0642\u0637 \ud83c\udf38"}]
-  },
-  bakery:{
-    en:[{u:"Do you do custom cakes?",b:"Absolutely! Any occasion \ud83c\udf82 Order at least 3 days ahead. Want to see our gallery?"},
-        {u:"Are you open on Fridays?",b:"We open at 2PM (after prayers) and close at 11PM \ud83c\udf70"},
-        {u:"Do you have gluten-free options?",b:"Yes! GF croissants, brownies, and cookies — made fresh daily \ud83e\uddc1"}],
-    ar:[{u:"\u062a\u0633\u0648\u0648\u0646 \u0643\u064a\u0643\u0627\u062a \u0645\u062e\u0635\u0635\u0629\u061f",b:"\u0623\u0643\u064a\u062f! \u0644\u0623\u064a \u0645\u0646\u0627\u0633\u0628\u0629 \ud83c\udf82 \u0627\u0644\u0637\u0644\u0628 \u0642\u0628\u0644 3 \u0623\u064a\u0627\u0645. \u062a\u0628\u064a \u062a\u0634\u0648\u0641 \u0645\u0639\u0631\u0636 \u0635\u0648\u0631\u0646\u0627\u061f"},
-        {u:"\u062a\u0641\u062a\u062d\u0648\u0646 \u0627\u0644\u062c\u0645\u0639\u0629\u061f",b:"\u0646\u0641\u062a\u062d \u0627\u0644\u0633\u0627\u0639\u0629 2 \u0628\u0639\u062f \u0627\u0644\u0638\u0647\u0631 \u0648\u0646\u0633\u0643\u0631 11 \u0627\u0644\u0644\u064a\u0644 \ud83c\udf70"},
-        {u:"\u0639\u0646\u062f\u0643\u0645 \u062e\u064a\u0627\u0631\u0627\u062a \u0628\u062f\u0648\u0646 \u063a\u0644\u0648\u062a\u064a\u0646\u061f",b:"\u0625\u064a! \u0643\u0631\u0648\u0627\u0633\u0627\u0646 \u0648\u0628\u0631\u0627\u0648\u0646\u064a \u0648\u0643\u0648\u0643\u064a\u0632 \u062e\u0627\u0644\u064a\u0629 \u0645\u0646 \u0627\u0644\u063a\u0644\u0648\u062a\u064a\u0646\u060c \u0637\u0627\u0632\u062c\u0629 \u0643\u0644 \u064a\u0648\u0645 \ud83e\uddc1"}]
-  },
-  gym:{
-    en:[{u:"What's the monthly membership?",b:"From 25 KWD/month. 3-month at 65 KWD, annual at 220 KWD \ud83d\udcaa"},
-        {u:"Do you have personal trainers?",b:"8 certified PTs! Sessions from 15 KWD. Want a free consultation?"},
-        {u:"Are you open on public holidays?",b:"6AM\u201310PM on all holidays. Only closed Eid Al Fitr & National Day \ud83c\udfcb\ufe0f"}],
-    ar:[{u:"\u0628\u0643\u0645 \u0627\u0644\u0627\u0634\u062a\u0631\u0627\u0643 \u0627\u0644\u0634\u0647\u0631\u064a\u061f",b:"\u064a\u0628\u062f\u0623 \u0645\u0646 25 \u062f\u064a\u0646\u0627\u0631 \u0634\u0647\u0631\u064a\u064b\u0627. 3 \u0623\u0634\u0647\u0631 \u0628\u0640 65 \u0648\u0633\u0646\u0648\u064a \u0628\u0640 220 \ud83d\udcaa"},
-        {u:"\u0639\u0646\u062f\u0643\u0645 \u0645\u062f\u0631\u0628\u064a\u0646 \u0634\u062e\u0635\u064a\u064a\u0646\u061f",b:"8 \u0645\u062f\u0631\u0628\u064a\u0646 \u0645\u0639\u062a\u0645\u062f\u064a\u0646! \u062c\u0644\u0633\u0627\u062a \u0645\u0646 15 \u062f\u064a\u0646\u0627\u0631. \u062a\u0628\u064a \u0627\u0633\u062a\u0634\u0627\u0631\u0629 \u0645\u062c\u0627\u0646\u064a\u0629\u061f"},
-        {u:"\u062a\u0641\u062a\u062d\u0648\u0646 \u0641\u064a \u0627\u0644\u0625\u062c\u0627\u0632\u0627\u062a\u061f",b:"\u0645\u0646 6 \u0627\u0644\u0635\u0628\u062d \u0644\u0640 10 \u0627\u0644\u0644\u064a\u0644 \u0628\u0643\u0644 \u0627\u0644\u0625\u062c\u0627\u0632\u0627\u062a. \u0628\u0633 \u0646\u063a\u0644\u0642 \u0627\u0644\u0639\u064a\u062f \u0648\u0627\u0644\u064a\u0648\u0645 \u0627\u0644\u0648\u0637\u0646\u064a \ud83c\udfcb\ufe0f"}]
-  },
-};
-
-// ── Chat helpers ──
-let tmrs=[];
-function clrTmr(){tmrs.forEach(clearTimeout);tmrs=[];}
-function mkBubble(txt,isU,isAr){
-  const w=document.createElement('div');
-  w.style.cssText='display:flex;flex-direction:column;align-items:'+(isU?(isAr?'flex-start':'flex-end'):(isAr?'flex-end':'flex-start'));
-  w.className='ma';
-  const b=document.createElement('div');
-  b.className=isU?'mu':'mb';
-  b.textContent=txt;
-  const ts=document.createElement('div');
-  const n=new Date();
-  ts.style.cssText='font-size:9px;color:#4b5563;margin-top:2px;padding:0 3px;';
-  ts.textContent=n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0');
-  w.appendChild(b);w.appendChild(ts);return w;
-}
-function mkTyping(){
-  const w=document.createElement('div');
-  w.style.cssText='display:flex;flex-direction:column;align-items:flex-start;';
-  w.className='ma';
-  const b=document.createElement('div');
-  b.className='mb';
-  b.style.cssText='display:flex;gap:4px;align-items:center;padding:9px 13px;';
-  ['td','td','td'].forEach(c=>{const s=document.createElement('span');s.className=c;b.appendChild(s);});
-  w.appendChild(b);return w;
-}
-function playConv(el,pairs,isAr,d0){
-  el.textContent='';
-  let d=d0||350;
-  pairs.forEach(({u,b})=>{
-    tmrs.push(setTimeout(()=>{el.appendChild(mkBubble(u,true,isAr));el.scrollTop=99999;},d));
-    d+=800;
-    tmrs.push(setTimeout(()=>{
-      const t=mkTyping();el.appendChild(t);el.scrollTop=99999;
-      tmrs.push(setTimeout(()=>{t.remove();el.appendChild(mkBubble(b,false,isAr));el.scrollTop=99999;},1050));
-    },d));
-    d+=2100;
-  });
-}
-
-// ── Home phones ──
-let chb='cafe';
-function updHomeHdrs(biz){const i=BIZ[biz];document.getElementById('hnm-en').textContent=i.en;document.getElementById('hnm-ar').textContent=i.ar;document.getElementById('hav-en').textContent=i.av;document.getElementById('hav-ar').textContent=i.av;}
-function runHomeChat(biz){clrTmr();chb=biz;updHomeHdrs(biz);playConv(document.getElementById('hch-en'),CV[biz].en,false,350);playConv(document.getElementById('hch-ar'),CV[biz].ar,true,750);}
-function homePill(biz,btn){document.querySelectorAll('#hpills .pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');runHomeChat(biz);}
-window.homePill=homePill;
-
-// ── Demo phones ──
-let cdb='cafe';
-function updDemoHdrs(biz){const i=BIZ[biz];document.getElementById('dnm-en').textContent=i.en;document.getElementById('dnm-ar').textContent=i.ar;document.getElementById('dav-en').textContent=i.av;document.getElementById('dav-ar').textContent=i.av;}
-function buildQR(biz){
-  ['en','ar'].forEach(lang=>{
-    const bar=document.getElementById('dqr-'+lang);
-    bar.textContent='';
-    const isAr=lang==='ar';
-    CV[biz][lang].forEach((pair,i)=>{
-      const btn=document.createElement('button');
-      btn.className='qrbtn';
-      btn.textContent=pair.u;
-      btn.onclick=()=>sendQR(biz,i,lang);
-      bar.appendChild(btn);
-    });
-  });
-}
-function sendQR(biz,idx,lang){
-  const chat=document.getElementById('dch-'+lang);
-  const isAr=lang==='ar';
-  const pair=CV[biz][lang][idx];
-  chat.appendChild(mkBubble(pair.u,true,isAr));chat.scrollTop=99999;
-  const t=mkTyping();
-  setTimeout(()=>{chat.appendChild(t);chat.scrollTop=99999;setTimeout(()=>{t.remove();chat.appendChild(mkBubble(pair.b,false,isAr));chat.scrollTop=99999;},980);},420);
-}
-function runDemoChat(biz){cdb=biz;updDemoHdrs(biz);buildQR(biz);playConv(document.getElementById('dch-en'),CV[biz].en,false,350);playConv(document.getElementById('dch-ar'),CV[biz].ar,true,750);}
-function demoPill(biz,btn){document.querySelectorAll('#dpills .pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');clrTmr();runDemoChat(biz);}
-window.demoPill=demoPill;window.sendQR=sendQR;
-
-// ── FAQ ──
-const FAQS=[
-  {q:"How long does setup take?",a:"We typically set up your bot within 24 hours of receiving your business details. You'll be live the next day."},
-  {q:"Do I need technical knowledge?",a:"Zero. You provide your business info (menu, hours, FAQs) and we handle everything. No coding required."},
-  {q:"Can I customise the bot's personality?",a:"Yes! On Growth and Enterprise plans you can define the bot's name, tone, and personality to match your brand."},
-  {q:"What happens if I exceed message limits?",a:"On Starter, we notify you when you approach your limit. You can upgrade anytime — no interruption to service."},
-  {q:"Is my customer data secure?",a:"Absolutely. All conversations are encrypted and stored securely. We never share your data with third parties."},
-  {q:"Can I cancel anytime?",a:"Yes, no long-term contracts. Cancel with 7 days notice and you won't be charged for the next billing period."},
-];
-const fw=document.getElementById('fqw');
-FAQS.forEach((f,i)=>{
-  const d=document.createElement('div');d.className='glass fqi';
-  const q=document.createElement('button');q.className='fqq';q.onclick=()=>togFaq(i);
-  const qs=document.createElement('span');qs.textContent=f.q;
-  const ic=document.createElement('svg');ic.id='fi'+i;ic.setAttribute('width','17');ic.setAttribute('height','17');ic.setAttribute('viewBox','0 0 24 24');ic.setAttribute('fill','none');ic.setAttribute('stroke','currentColor');ic.setAttribute('stroke-width','2');ic.style.cssText='flex-shrink:0;color:var(--hi);transition:transform .3s;';
-  const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('stroke-linecap','round');path.setAttribute('stroke-linejoin','round');path.setAttribute('d','M19 9l-7 7-7-7');ic.appendChild(path);
-  q.appendChild(qs);q.appendChild(ic);
-  const a=document.createElement('div');a.id='fa'+i;a.className='fqa';a.textContent=f.a;
-  d.appendChild(q);d.appendChild(a);fw.appendChild(d);
-});
-function togFaq(i){const a=document.getElementById('fa'+i),ic=document.getElementById('fi'+i),open=a.style.display==='block';a.style.display=open?'none':'block';ic.style.transform=open?'':'rotate(180deg)';}
-window.togFaq=togFaq;
-
-// ── Apply ──
-function doApply(e){e.preventDefault();const b=document.getElementById('ab');b.textContent='Sending...';b.disabled=true;setTimeout(()=>{document.getElementById('af').style.display='none';document.getElementById('as').style.display='block';},1100);}
-window.doApply=doApply;
-
-// ── Cursor glow ──
-const cg=document.getElementById('cg');
-document.addEventListener('mousemove',e=>{cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px';});
-
-// ── Ripple ──
-document.addEventListener('click',e=>{const btn=e.target.closest('.bp');if(!btn)return;const r=document.createElement('span');r.className='brip';const rc=btn.getBoundingClientRect();r.style.left=(e.clientX-rc.left-5)+'px';r.style.top=(e.clientY-rc.top-5)+'px';btn.appendChild(r);r.addEventListener('animationend',()=>r.remove());});
-
-// ── Scroll reveal ──
-const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}});},{threshold:.1});
-document.querySelectorAll('.rev').forEach(el=>ro.observe(el));
-
-// ── Init ──
-const sp=(location.hash||'#home').slice(1);
-setPage(['home','demo','compare','features','pricing','apply'].includes(sp)?sp:'home');
-setTimeout(()=>runHomeChat('cafe'),700);
-</script>
 </body>
 </html>
