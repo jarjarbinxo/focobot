@@ -174,7 +174,8 @@
 
     /* ── HERO ───────────────────────────────────────────────── */
     #hero { position: relative; height: 100vh; min-height: 700px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    #hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.55; }
+    #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
     .hero-content {
       position: relative; z-index: 10; text-align: center;
       padding: 0 2rem; max-width: 860px;
@@ -447,6 +448,7 @@
 
   <!-- HERO -->
   <section id="hero">
+    <video id="hero-video" autoplay muted loop playsinline src="hero.mp4"></video>
     <canvas id="hero-canvas"></canvas>
     <div class="hero-content">
       <div class="hero-badge">
@@ -899,94 +901,48 @@
 <script type="module">
 import * as THREE from 'three';
 
-// ── Three.js Video Hero ────────────────────────────────────
+// ── Three.js particle overlay (video plays via CSS behind canvas) ──
 const canvas = document.getElementById('hero-canvas');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: false });
-renderer.setPixelRatio(1);
-renderer.setClearColor(0x050a12, 1);
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0x000000, 0); // fully transparent
 
-// Orthographic scene for fullscreen video quad
 const scene = new THREE.Scene();
-const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-
-// Video element
-const video = document.createElement('video');
-video.src = 'hero.mp4';
-video.loop = true;
-video.muted = true;
-video.playsInline = true;
-video.autoplay = true;
-
-const videoTexture = new THREE.VideoTexture(video);
-videoTexture.minFilter = THREE.LinearFilter;
-videoTexture.magFilter = THREE.LinearFilter;
-
-// Particle overlay scene (same renderer, separate scene + camera)
-const pScene = new THREE.Scene();
-const pCam = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
-pCam.position.z = 5;
-
-const pCount = 800;
-const positions = new Float32Array(pCount * 3);
-const alphas = new Float32Array(pCount);
-for (let i = 0; i < pCount; i++) {
-  positions[i*3]   = (Math.random()-0.5)*18;
-  positions[i*3+1] = (Math.random()-0.5)*18;
-  positions[i*3+2] = (Math.random()-0.5)*10;
-  alphas[i] = Math.random();
-}
-const pGeo = new THREE.BufferGeometry();
-pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-const pMat = new THREE.PointsMaterial({ color: 0x60a5fa, size: 0.06, transparent: true, opacity: 0.35, depthWrite: false });
-pScene.add(new THREE.Points(pGeo, pMat));
-
-// Fullscreen video quad shader
-const quadGeo = new THREE.PlaneGeometry(2, 2);
-const quadMat = new THREE.ShaderMaterial({
-  uniforms: {
-    uVideo:       { value: videoTexture },
-    uScreenRatio: { value: 1.0 },
-    uVideoRatio:  { value: 16/9 }
-  },
-  vertexShader: `
-    varying vec2 vUv;
-    void main() { vUv = uv; gl_Position = vec4(position, 1.0); }
-  `,
-  fragmentShader: `
-    uniform sampler2D uVideo;
-    uniform float uScreenRatio;
-    uniform float uVideoRatio;
-    varying vec2 vUv;
-    void main() {
-      vec2 uv = vUv;
-      // Cover fit
-      if (uScreenRatio > uVideoRatio) {
-        float s = uScreenRatio / uVideoRatio;
-        uv.y = (uv.y - 0.5) * s + 0.5;
-      } else {
-        float s = uVideoRatio / uScreenRatio;
-        uv.x = (uv.x - 0.5) * s + 0.5;
-      }
-      vec4 col = texture2D(uVideo, clamp(uv, 0.0, 1.0));
-      // Dark overlay + slight blue tint to match brand
-      col.rgb *= 0.42;
-      col.rgb += vec3(0.01, 0.02, 0.06);
-      gl_FragColor = col;
-    }
-  `
-});
-scene.add(new THREE.Mesh(quadGeo, quadMat));
+const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
+camera.position.z = 5;
 
 function resize() {
   const s = document.getElementById('hero');
   const w = s.clientWidth, h = s.clientHeight;
   renderer.setSize(w, h);
-  quadMat.uniforms.uScreenRatio.value = w / h;
-  pCam.aspect = w / h;
-  pCam.updateProjectionMatrix();
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
 }
 resize();
 window.addEventListener('resize', resize);
+
+// Particles
+const pCount = 1000;
+const pos = new Float32Array(pCount * 3);
+for (let i = 0; i < pCount; i++) {
+  pos[i*3]   = (Math.random()-0.5)*20;
+  pos[i*3+1] = (Math.random()-0.5)*20;
+  pos[i*3+2] = (Math.random()-0.5)*12;
+}
+const geo = new THREE.BufferGeometry();
+geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+const mat = new THREE.PointsMaterial({ color: 0x60a5fa, size: 0.055, transparent: true, opacity: 0.4, depthWrite: false });
+scene.add(new THREE.Points(geo, mat));
+
+// Faint connection lines
+const linePos = [];
+for (let i = 0; i < 50; i++) {
+  const a = Math.floor(Math.random()*pCount)*3, b = Math.floor(Math.random()*pCount)*3;
+  linePos.push(pos[a],pos[a+1],pos[a+2], pos[b],pos[b+1],pos[b+2]);
+}
+const lGeo = new THREE.BufferGeometry();
+lGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(linePos), 3));
+scene.add(new THREE.LineSegments(lGeo, new THREE.LineBasicMaterial({ color: 0x3b82f6, transparent: true, opacity: 0.08 })));
 
 let mx = 0, my = 0;
 document.addEventListener('mousemove', e => {
@@ -994,23 +950,14 @@ document.addEventListener('mousemove', e => {
   my = (e.clientY/window.innerHeight - 0.5)*2;
 });
 
-video.play().catch(() => {
-  document.addEventListener('click', () => video.play(), { once: true });
-});
-
 function animate(t) {
   requestAnimationFrame(animate);
   const time = t * 0.001;
-  pGeo.attributes.position.array.forEach((_, idx) => {
-    if (idx % 3 === 1) pGeo.attributes.position.array[idx] += Math.sin(time * 0.3 + idx) * 0.0003;
-  });
-  pGeo.attributes.position.needsUpdate = true;
-  pCam.position.x += (mx * 0.15 - pCam.position.x) * 0.03;
-  pCam.position.y += (-my * 0.1 - pCam.position.y) * 0.03;
-  renderer.autoClear = true;
+  scene.rotation.y = time * 0.02 + mx * 0.04;
+  scene.rotation.x = my * 0.02;
+  camera.position.x += (mx * 0.2 - camera.position.x) * 0.03;
+  camera.position.y += (-my * 0.15 - camera.position.y) * 0.03;
   renderer.render(scene, camera);
-  renderer.autoClear = false;
-  renderer.render(pScene, pCam);
 }
 animate(0);
 </script>
