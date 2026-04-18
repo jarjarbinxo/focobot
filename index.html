@@ -25,8 +25,8 @@
       --glow:        rgba(59,130,246,0.15);
       --accent:      #f59e0b;
       --txt:         #f0f8ff;
-      --txt2:        #a8c4e0;
-      --txt3:        #6888a8;
+      --txt2:        #c0d8f0;
+      --txt3:        #8aaac8;
       --wa:          #25D366;
       --grad:        linear-gradient(135deg,#1d4ed8 0%,#6d28d9 100%);
       --r-card:      16px;
@@ -173,31 +173,17 @@
     .nav-card p { font-size: 0.85rem; color: var(--txt2); }
 
     /* ── HERO ───────────────────────────────────────────────── */
-    #hero-scroll-zone { position: relative; height: 500vh; }
-    #hero {
-      position: sticky; top: 0; height: 100vh; min-height: 700px;
-      display: flex; align-items: center; justify-content: center; overflow: hidden;
-    }
+    #hero { position: relative; height: 100vh; min-height: 700px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
     #hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.65; }
     #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
     .hero-content {
       position: relative; z-index: 10; text-align: center;
       padding: 0 2rem; max-width: 860px;
-      opacity: 0; transform: translateY(28px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 1s ease, transform 1s ease;
       pointer-events: none;
     }
     .hero-content.revealed { opacity: 1; transform: translateY(0); pointer-events: auto; }
-    /* Scroll hint */
-    #scroll-hint {
-      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
-      z-index: 20; display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
-      color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em;
-      text-transform: uppercase; transition: opacity 0.5s;
-    }
-    #scroll-hint svg { animation: bounce-y 1.5s ease-in-out infinite; }
-    @keyframes bounce-y { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
-    #scroll-hint.hidden { opacity: 0; pointer-events: none; }
     .hero-badge {
       display: inline-flex; align-items: center; gap: 0.5rem;
       background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.25);
@@ -268,8 +254,16 @@
     .compare-table td:first-child { color: var(--txt2); }
     .compare-table td.human { color: var(--txt3); }
     .compare-table td.foco { color: var(--txt); font-weight: 600; }
-    .compare-table .col-foco { background: rgba(99,102,241,0.06); }
-    .compare-table th.col-foco { color: var(--primary-l); background: rgba(99,102,241,0.1); border-radius: 8px 8px 0 0; }
+    .compare-table .col-foco { background: rgba(59,130,246,0.06); }
+    .compare-table th.col-foco { color: var(--primary-l); background: rgba(59,130,246,0.1); border-radius: 8px 8px 0 0; }
+    .compare-table .col-win { text-align: center; }
+    .compare-table th.col-win { text-align: center; color: var(--accent); }
+    .win-pill {
+      display: inline-block; background: rgba(245,158,11,0.12); color: #fbbf24;
+      border: 1px solid rgba(245,158,11,0.25); border-radius: 100px;
+      font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.65rem;
+      letter-spacing: 0.02em; white-space: nowrap;
+    }
     .callout {
       margin-top: 3rem; padding: 2rem 2.5rem;
       background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.25);
@@ -465,14 +459,9 @@
 <div id="page-home" class="page">
 
   <!-- HERO -->
-  <div id="hero-scroll-zone">
   <section id="hero">
-    <video id="hero-video" muted playsinline preload="auto" src="hero.mp4"></video>
+    <video id="hero-video" autoplay muted playsinline preload="auto" src="hero.mp4"></video>
     <canvas id="hero-canvas"></canvas>
-    <div id="scroll-hint">
-      <span data-en="scroll" data-ar="مرر">scroll</span>
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-    </div>
     <div class="hero-content">
       <div class="hero-badge">
         <span class="hero-badge-dot"></span>
@@ -487,7 +476,6 @@
       <p class="hero-trust"><span>★★★★★</span> <span data-en="Trusted by Kuwait businesses" data-ar="يثق به أصحاب الأعمال في الكويت">Trusted by Kuwait businesses</span></p>
     </div>
   </section>
-  </div><!-- /hero-scroll-zone -->
 
   <!-- STATS STRIP -->
   <div class="stats-strip">
@@ -655,6 +643,7 @@
               <th data-en="Metric" data-ar="المعيار">Metric</th>
               <th data-en="Human Employee" data-ar="موظف بشري">Human Employee</th>
               <th class="col-foco" data-en="Focobot ✓" data-ar="فوكوبوت ✓">Focobot ✓</th>
+              <th class="col-win" data-en="Focobot Wins By" data-ar="التفوق">Focobot Wins By</th>
             </tr>
           </thead>
           <tbody>
@@ -662,51 +651,61 @@
               <td data-en="Response time" data-ar="وقت الرد">Response time</td>
               <td class="human" data-en="5–30 minutes" data-ar="5–30 دقيقة">5–30 minutes</td>
               <td class="foco col-foco" data-en="&lt; 2 seconds" data-ar="أقل من ثانيتين">&lt; 2 seconds</td>
+              <td class="col-win"><span class="win-pill">900× faster</span></td>
             </tr>
             <tr>
               <td data-en="Working hours" data-ar="ساعات العمل">Working hours</td>
               <td class="human" data-en="8hrs, days off" data-ar="8 ساعات، إجازات">8hrs, days off</td>
               <td class="foco col-foco" data-en="24/7/365" data-ar="24/7/365">24/7/365</td>
+              <td class="col-win"><span class="win-pill">3× more hours</span></td>
             </tr>
             <tr>
               <td data-en="Monthly cost" data-ar="التكلفة الشهرية">Monthly cost</td>
               <td class="human" data-en="150–300+ KWD" data-ar="150–300+ د.ك">150–300+ KWD</td>
               <td class="foco col-foco" data-en="29–59 KWD" data-ar="29–59 د.ك">29–59 KWD</td>
+              <td class="col-win"><span class="win-pill">80% cheaper</span></td>
             </tr>
             <tr>
               <td data-en="Languages" data-ar="اللغات">Languages</td>
               <td class="human" data-en="Usually one" data-ar="عادةً لغة واحدة">Usually one</td>
-              <td class="foco col-foco" data-en="Arabic + English" data-ar="العربية + الإنجليزية">Arabic + English</td>
+              <td class="foco col-foco" data-en="Arabic + English" data-ar="عربي + إنجليزي">Arabic + English</td>
+              <td class="col-win"><span class="win-pill">2× bilingual</span></td>
             </tr>
             <tr>
               <td data-en="Simultaneous chats" data-ar="المحادثات المتزامنة">Simultaneous chats</td>
               <td class="human" data-en="1–3" data-ar="1–3">1–3</td>
               <td class="foco col-foco" data-en="Unlimited" data-ar="غير محدود">Unlimited</td>
+              <td class="col-win"><span class="win-pill">∞ more capacity</span></td>
             </tr>
             <tr>
               <td data-en="Consistency" data-ar="الاتساق">Consistency</td>
               <td class="human" data-en="Varies by mood" data-ar="يتفاوت حسب المزاج">Varies by mood</td>
               <td class="foco col-foco" data-en="Always professional" data-ar="محترف دائماً">Always professional</td>
+              <td class="col-win"><span class="win-pill">100% consistent</span></td>
             </tr>
             <tr>
               <td data-en="Sick days" data-ar="أيام المرض">Sick days</td>
               <td class="human" data-en="~8/year" data-ar="~8 في السنة">~8/year</td>
               <td class="foco col-foco" data-en="Zero" data-ar="صفر">Zero</td>
+              <td class="col-win"><span class="win-pill">0 downtime</span></td>
             </tr>
             <tr>
               <td data-en="Setup time" data-ar="وقت الإعداد">Setup time</td>
               <td class="human" data-en="Weeks" data-ar="أسابيع">Weeks</td>
               <td class="foco col-foco" data-en="24 hours" data-ar="24 ساعة">24 hours</td>
+              <td class="col-win"><span class="win-pill">10× faster setup</span></td>
             </tr>
             <tr>
               <td data-en="Error rate" data-ar="معدل الأخطاء">Error rate</td>
               <td class="human" data-en="Common" data-ar="شائع">Common</td>
               <td class="foco col-foco" data-en="Minimal" data-ar="ضئيل جداً">Minimal</td>
+              <td class="col-win"><span class="win-pill">95% fewer errors</span></td>
             </tr>
             <tr>
               <td data-en="Scalability" data-ar="قابلية التوسع">Scalability</td>
               <td class="human" data-en="Hire more people" data-ar="توظيف المزيد">Hire more people</td>
               <td class="foco col-foco" data-en="Same price" data-ar="نفس السعر">Same price</td>
+              <td class="col-win"><span class="win-pill">Infinite scale</span></td>
             </tr>
           </tbody>
         </table>
@@ -985,36 +984,29 @@ function animate(t) {
 }
 animate(0);
 
-// ── Scroll-scrub video ─────────────────────────────────────
+// ── Video hero: play once → loop bounce portion → reveal text ──
 const heroVideo = document.getElementById('hero-video');
 const heroContent = document.querySelector('.hero-content');
-const scrollHint = document.getElementById('scroll-hint');
 
-let scrubRaf = null;
-function onScroll() {
-  if (scrubRaf) return;
-  scrubRaf = requestAnimationFrame(() => {
-    scrubRaf = null;
-    if (!heroVideo.duration) return;
-    const zone = document.getElementById('hero-scroll-zone');
-    const scrolled = window.scrollY;
-    const scrubDistance = zone.offsetHeight - window.innerHeight;
-    const progress = Math.min(Math.max(scrolled / scrubDistance, 0), 1);
+// The "bounce" loop start time (last ~1.5s of the 5s video)
+const BOUNCE_START = 3.5;
+let looping = false;
 
-    heroVideo.currentTime = progress * heroVideo.duration;
+heroVideo.addEventListener('ended', () => {
+  if (looping) return;
+  looping = true;
+  // Reveal hero text
+  heroContent.classList.add('revealed');
+  // Loop just the bouncing portion
+  heroVideo.currentTime = BOUNCE_START;
+  heroVideo.play();
+});
 
-    // Reveal text when video finishes (≥90%)
-    if (progress >= 0.88) {
-      heroContent.classList.add('revealed');
-      scrollHint.classList.add('hidden');
-    } else {
-      heroContent.classList.remove('revealed');
-      scrollHint.classList.toggle('hidden', progress > 0.05);
-    }
-  });
-}
-
-window.addEventListener('scroll', onScroll, { passive: true });
+heroVideo.addEventListener('timeupdate', () => {
+  if (looping && heroVideo.currentTime >= heroVideo.duration - 0.08) {
+    heroVideo.currentTime = BOUNCE_START;
+  }
+});
 </script>
 
 <script>
@@ -1121,9 +1113,8 @@ function setPage(name) {
   location.hash = name;
   if (name === 'home') {
     const v = document.getElementById('hero-video');
-    if (v) v.currentTime = 0;
+    if (v) { v.currentTime = 0; v.play(); }
     document.querySelector('.hero-content')?.classList.remove('revealed');
-    document.getElementById('scroll-hint')?.classList.remove('hidden');
   }
 }
 window.setPage = setPage;
