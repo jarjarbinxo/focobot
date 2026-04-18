@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Focobot — WhatsApp Customer Service, Automated</title>
+<meta name="description" content="Focobot automates your WhatsApp customer service 24/7. Built for Kuwaiti businesses. Arabic + English support. Setup in 24 hours.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['DM Sans', 'sans-serif'],
+        display: ['Syne', 'sans-serif'],
+      },
+      colors: {
+        forest: { 950: '#020f09', 900: '#071f18', 800: '#0a4f3c', 700: '#0d6650', 600: '#108060' },
+        wa: '#25D366',
+        'wa-dark': '#128C7E',
+      },
+      animation: {
+        'fade-up': 'fadeUp 0.6s ease forwards',
+        'fade-in': 'fadeIn 0.5s ease forwards',
+        'marquee': 'marquee 28s linear infinite',
+        'typing': 'typing 1.2s steps(1) infinite',
+        'pulse-slow': 'pulse 3s ease-in-out infinite',
+        'glow': 'glow 3s ease-in-out infinite',
+        'float': 'float 6s ease-in-out infinite',
+      },
+      keyframes: {
+        fadeUp: { from: { opacity: '0', transform: 'translateY(24px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
+        fadeIn: { from: { opacity: '0' }, to: { opacity: '1' } },
+        marquee: { from: { transform: 'translateX(0)' }, to: { transform: 'translateX(-50%)' } },
+        typing: { '0%,100%': { opacity: '1' }, '50%': { opacity: '0' } },
+        glow: { '0%,100%': { boxShadow: '0 0 20px rgba(37,211,102,0.3)' }, '50%': { boxShadow: '0 0 40px rgba(37,211,102,0.6)' } },
+        float: { '0%,100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-10px)' } },
+      }
+    }
+  }
+}
+</script>
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: #071f18; color: #f0faf5; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* Animated grid background */
+  .grid-bg {
+    background-image: linear-gradient(rgba(37,211,102,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(37,211,102,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* Glassmorphism */
+  .glass {
+    background: rgba(10, 79, 60, 0.15);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(37,211,102,0.15);
+  }
+  .glass-dark {
+    background: rgba(2, 15, 9, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(37,211,102,0.1);
+  }
+
+  /* Glow effects */
+  .glow-green { box-shadow: 0 0 30px rgba(37,211,102,0.25); }
+  .glow-green-lg { box-shadow: 0 0 60px rgba(37,211,102,0.3), 0 0 120px rgba(37,211,102,0.1); }
+  .text-glow { text-shadow: 0 0 30px rgba(37,211,102,0.4); }
+
+  /* Radial spotlight */
+  .spotlight {
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,211,102,0.12) 0%, transparent 70%);
+  }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+
+  /* WhatsApp chat bubble */
+  .wa-bubble-in { background: #fff; color: #111; border-radius: 0 12px 12px 12px; }
+  .wa-bubble-out { background: #dcf8c6; color: #111; border-radius: 12px 12px 0 12px; }
+  .wa-bubble-out-dark { background: #005c4b; color: #fff; border-radius: 12px 12px 0 12px; }
+
+  /* Typing dots */
+  .typing-dot { width: 8px; height: 8px; background: #aaa; border-radius: 50%; animation: typingBounce 1.2s ease-in-out infinite; }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typingBounce { 0%,60%,100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-6px); opacity: 1; } }
+
+  /* Marquee */
+  .marquee-track { display: flex; width: max-content; }
+
+  /* Navbar blur */
+  nav { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+
+  /* Pricing highlight */
+  .pricing-featured {
+    background: linear-gradient(135deg, rgba(37,211,102,0.15) 0%, rgba(10,79,60,0.3) 100%);
+    border: 1px solid rgba(37,211,102,0.4);
+    box-shadow: 0 0 40px rgba(37,211,102,0.2), inset 0 1px 0 rgba(37,211,102,0.2);
+    transform: scale(1.04);
+  }
+
+  /* FAQ accordion */
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
+  .faq-answer.open { max-height: 300px; }
+  .faq-chevron { transition: transform 0.3s ease; }
+  .faq-chevron.open { transform: rotate(180deg); }
+
+  /* Prefers reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #071f18; }
+  ::-webkit-scrollbar-thumb { background: #0a4f3c; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ NAVBAR -->
+<nav class="fixed top-0 left-0 right-0 z-50 border-b border-white/5" style="background: rgba(7,31,24,0.85);">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#" class="flex items-center gap-2 cursor-pointer">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: #25D366;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.849L.057 23.882l6.19-1.624A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-4.994-1.371l-.358-.213-3.714.974.991-3.623-.232-.372A9.818 9.818 0 012.182 12C2.182 6.574 6.574 2.182 12 2.182S21.818 6.574 21.818 12 17.426 21.818 12 21.818z"/></svg>
+      </div>
+      <span class="font-display font-700 text-xl text-white">focobot</span>
+    </a>
+
+    <!-- Nav links -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#features" class="text-sm text-white/60 hover:text-wa transition-colors duration-200 cursor-pointer">Features</a>
+      <a href="#how" class="text-sm text-white/60 hover:text-wa transition-colors duration-200 cursor-pointer">How It Works</a>
+      <a href="#pricing" class="text-sm text-white/60 hover:text-wa transition-colors duration-200 cursor-pointer">Pricing</a>
+      <a href="#faq" class="text-sm text-white/60 hover:text-wa transition-colors duration-200 cursor-pointer">FAQ</a>
+    </div>
+
+    <!-- CTA -->
+    <a href="#pricing" class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-600 cursor-pointer transition-all duration-200 hover:opacity-90 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-wa focus:ring-offset-2 focus:ring-offset-forest-900" style="background: #25D366; color: #071f18;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+      Get Started
+    </a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════ HERO -->
+<section class="relative min-h-screen flex items-center pt-16 overflow-hidden grid-bg spotlight" style="background-color: #020f09;">
+  <!-- Ambient orbs -->
+  <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-20 animate-pulse-slow" style="background: radial-gradient(circle, #25D366, transparent);"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full blur-3xl opacity-10 animate-pulse-slow" style="background: radial-gradient(circle, #0a4f3c, transparent); animation-delay: 1.5s;"></div>
+
+  <div class="max-w-7xl mx-auto px-6 py-24 relative z-10 w-full">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+      <!-- Left: Copy -->
+      <div>
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-500 mb-8 glass" style="animation: fadeUp 0.5s ease forwards; opacity: 0;">
+          <span class="w-2 h-2 rounded-full bg-wa animate-pulse"></span>
+          <span style="color: #25D366;">Now live in Kuwait</span>
+          <span class="text-white/40">·</span>
+          <span class="text-white/60">Limited spots this month</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="font-display font-800 leading-tight mb-6" style="font-size: clamp(2.5rem, 5vw, 4rem); animation: fadeUp 0.6s 0.1s ease forwards; opacity: 0;">
+          Every Unanswered<br>
+          <span style="color: #25D366;" class="text-glow">WhatsApp</span><br>
+          Is Lost Revenue.
+        </h1>
+
+        <!-- Subheadline -->
+        <p class="text-white/60 text-lg leading-relaxed mb-10 max-w-lg" style="animation: fadeUp 0.6s 0.2s ease forwards; opacity: 0;">
+          Focobot answers every customer message instantly — in Arabic and English — 24/7, so you never lose a lead while you sleep.
+        </p>
+
+        <!-- CTAs -->
+        <div class="flex flex-wrap gap-4 mb-12" style="animation: fadeUp 0.6s 0.3s ease forwards; opacity: 0;">
+          <a href="#pricing" class="flex items-center gap-2 px-7 py-4 rounded-xl font-600 text-base cursor-pointer transition-all duration-200 hover:opacity-90 hover:scale-105 glow-green focus:outline-none focus:ring-2 focus:ring-wa" style="background: #25D366; color: #071f18;">
+            Start Free Trial →
+          </a>
+          <a href="#how" class="flex items-center gap-2 px-7 py-4 rounded-xl font-500 text-base cursor-pointer transition-all duration-200 hover:bg-white/10 glass focus:outline-none focus:ring-2 focus:ring-wa focus:ring-offset-2 focus:ring-offset-forest-900">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color: #25D366;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+            See How It Works
+          </a>
+        </div>
+
+        <!-- Social proof mini -->
+        <div class="flex items-center gap-3" style="animation: fadeUp 0.6s 0.4s ease forwards; opacity: 0;">
+          <div class="flex -space-x-2">
+            <div class="w-8 h-8 rounded-full border-2 border-forest-900 flex items-center justify-center text-xs font-bold" style="background: #0a4f3c;">م</div>
+            <div class="w-8 h-8 rounded-full border-2 border-forest-900 flex items-center justify-center text-xs font-bold" style="background: #108060;">ف</div>
+            <div class="w-8 h-8 rounded-full border-2 border-forest-900 flex items-center justify-center text-xs font-bold" style="background: #25D366; color: #071f18;">س</div>
+          </div>
+          <div class="text-sm text-white/50">
+            Trusted by <span class="text-white/80 font-500">Kuwait businesses</span> · Rated <span style="color: #25D366;">★★★★★</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: WhatsApp Chat Mockup -->
+      <div class="flex justify-center lg:justify-end" style="animation: fadeUp 0.7s 0.3s ease forwards; opacity: 0;">
+        <div class="relative w-80 animate-float">
+          <!-- Phone frame -->
+          <div class="rounded-3xl overflow-hidden shadow-2xl glow-green-lg" style="background: #111b21; border: 1px solid rgba(37,211,102,0.2);">
+
+            <!-- Chat header -->
+            <div class="flex items-center gap-3 px-4 py-3 border-b" style="background: #1f2c34; border-color: rgba(255,255,255,0.05);">
+              <div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm" style="background: #25D366; color: #071f18;">FB</div>
+              <div>
+                <div class="text-sm font-600 text-white">Focobot</div>
+                <div class="text-xs flex items-center gap-1" style="color: #25D366;">
+                  <span class="w-1.5 h-1.5 rounded-full bg-wa inline-block"></span>
+                  Online now
+                </div>
+              </div>
+            </div>
+
+            <!-- Chat messages -->
+            <div class="p-4 space-y-3 text-sm" style="background: #0b141a; min-height: 380px;">
+
+              <!-- Incoming -->
+              <div style="animation: fadeIn 0.4s 0.8s ease forwards; opacity: 0;">
+                <div class="wa-bubble-in inline-block px-3 py-2 max-w-xs text-xs shadow-sm">
+                  مرحبا، هل المطعم مفتوح الآن؟
+                  <div class="text-right text-gray-400 text-[10px] mt-1">10:42</div>
+                </div>
+              </div>
+
+              <!-- Outgoing - bot reply -->
+              <div class="flex justify-end" style="animation: fadeIn 0.4s 1.3s ease forwards; opacity: 0;">
+                <div class="wa-bubble-out-dark px-3 py-2 max-w-xs text-xs shadow-sm">
+                  <div class="text-[10px] mb-1" style="color: #25D366;">🤖 Focobot</div>
+                  نعم! نحن مفتوحون الآن.<br>
+                  <span class="text-white/70">Yes! We're open 9AM–11PM daily 🕐</span>
+                  <div class="text-right text-[10px] mt-1 flex items-center justify-end gap-1" style="color: rgba(255,255,255,0.5);">
+                    10:42
+                    <svg width="14" height="8" viewBox="0 0 16 10" fill="#25D366"><path d="M0 5l4 4L16 1"/><path d="M5 5l4 4L16 1" transform="translate(2,0)"/></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Incoming 2 -->
+              <div style="animation: fadeIn 0.4s 1.9s ease forwards; opacity: 0;">
+                <div class="wa-bubble-in inline-block px-3 py-2 max-w-xs text-xs shadow-sm">
+                  How do I make a reservation?
+                  <div class="text-right text-gray-400 text-[10px] mt-1">10:43</div>
+                </div>
+              </div>
+
+              <!-- Outgoing 2 -->
+              <div class="flex justify-end" style="animation: fadeIn 0.4s 2.4s ease forwards; opacity: 0;">
+                <div class="wa-bubble-out-dark px-3 py-2 max-w-xs text-xs shadow-sm">
+                  <div class="text-[10px] mb-1" style="color: #25D366;">🤖 Focobot</div>
+                  Easy! Reply with:<br>
+                  📅 Date · 👥 Guests · ⏰ Time<br>
+                  <span class="text-white/70 text-[10px]">We'll confirm in seconds!</span>
+                  <div class="text-right text-[10px] mt-1 flex items-center justify-end gap-1" style="color: rgba(255,255,255,0.5);">
+                    10:43
+                    <svg width="14" height="8" viewBox="0 0 16 10" fill="#25D366"><path d="M0 5l4 4L16 1"/><path d="M5 5l4 4L16 1" transform="translate(2,0)"/></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Typing indicator -->
+              <div style="animation: fadeIn 0.4s 3s ease forwards; opacity: 0;">
+                <div class="wa-bubble-in inline-flex items-center gap-1 px-4 py-3 shadow-sm">
+                  <span class="typing-dot"></span>
+                  <span class="typing-dot"></span>
+                  <span class="typing-dot"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Input bar -->
+            <div class="flex items-center gap-2 px-3 py-2 border-t" style="background: #1f2c34; border-color: rgba(255,255,255,0.05);">
+              <div class="flex-1 rounded-full px-4 py-2 text-xs text-white/30" style="background: rgba(255,255,255,0.06);">Type a message...</div>
+              <div class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer" style="background: #25D366;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#071f18"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating stat badge -->
+          <div class="absolute -top-4 -right-4 glass rounded-xl px-4 py-2 text-sm font-600 shadow-lg" style="border-color: rgba(37,211,102,0.3);">
+            <span style="color: #25D366;">⚡ 2s</span>
+            <span class="text-white/60 text-xs ml-1">avg response</span>
+          </div>
+          <div class="absolute -bottom-4 -left-4 glass rounded-xl px-4 py-2 text-sm shadow-lg" style="border-color: rgba(37,211,102,0.3);">
+            <span class="font-700 text-white">500+</span>
+            <span class="text-white/60 text-xs ml-1">msgs/day</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ MARQUEE -->
+<div class="py-5 border-y overflow-hidden" style="background: rgba(37,211,102,0.04); border-color: rgba(37,211,102,0.1);">
+  <div class="marquee-track animate-marquee">
+    <div class="flex items-center gap-12 px-8 whitespace-nowrap text-sm text-white/40 font-500">
+      <span class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" opacity="0.6"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>Restaurants</span>
+      <span class="text-wa/30">·</span>
+      <span class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" opacity="0.6"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>Clinics</span>
+      <span class="text-wa/30">·</span>
+      <span class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" opacity="0.6"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm1-11h-2v3H8v2h3v3h2v-3h3v-2h-3z"/></svg>Salons</span>
+      <span class="text-wa/30">·</span>
+      <span class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" opacity="0.6"><path d="M20 4H4v2l8 5 8-5V4zm0 4.236l-8 5-8-5V18h16V8.236z"/></svg>Retail Shops</span>
+      <span class="text-wa/30">·</span>
+      <span class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" opacity="0.6"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99z"/></svg>Auto Services</span>
+      <span class="text-wa/30">·</span>
+      <span class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" opacity="0.6"><path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg>Gyms</span>
+      <span class="text-wa/30">·</span>
+      <span class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" opacity="0.6"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z"/></svg>Delivery</span>
+      <span class="text-wa/30">·</span>
+    </div>
+    <!-- Duplicate for seamless loop -->
+    <div class="flex items-center gap-12 px-8 whitespace-nowrap text-sm text-white/40 font-500" aria-hidden="true">
+      <span class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" opacity="0.6"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>Restaurants</span>
+      <span class="text-wa/30">·</span>
+      <span class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" opacity="0.6"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>Clinics</span>
+      <span class="text-wa/30">·</span>
+      <span class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" opacity="0.6"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm1-11h-2v3H8v2h3v3h2v-3h3v-2h-3z"/></svg>Salons</span>
+      <span class="text-wa/30">·</span>
+      <span class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" opacity="0.6"><path d="M20 4H4v2l8 5 8-5V4zm0 4.236l-8 5-8-5V18h16V8.236z"/></svg>Retail Shops</span>
+      <span class="text-wa/30">·</span>
+      <span class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" opacity="0.6"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99z"/></svg>Auto Services</span>
+      <span class="text-wa/30">·</span>
+      <span class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" opacity="0.6"><path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg>Gyms</span>
+      <span class="text-wa/30">·</span>
+      <span class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" opacity="0.6"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z"/></svg>Delivery</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ STATS -->
+<section class="py-20 relative" style="background: #071f18;">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+      <div class="reveal">
+        <div class="font-display font-800 text-5xl mb-2" style="color: #25D366;">500+</div>
+        <div class="text-white/50 text-sm">Messages automated daily<br>per business</div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <div class="font-display font-800 text-5xl mb-2" style="color: #25D366;">&lt; 2s</div>
+        <div class="text-white/50 text-sm">Average response time<br>in Arabic &amp; English</div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div class="font-display font-800 text-5xl mb-2" style="color: #25D366;">98%</div>
+        <div class="text-white/50 text-sm">Customer satisfaction<br>rate across all clients</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ FEATURES -->
+<section id="features" class="py-24 relative" style="background: #020f09;">
+  <div class="absolute inset-0 spotlight opacity-50"></div>
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="text-center mb-16 reveal">
+      <div class="inline-block px-4 py-1.5 rounded-full text-xs font-600 mb-4 uppercase tracking-widest" style="background: rgba(37,211,102,0.1); color: #25D366; border: 1px solid rgba(37,211,102,0.2);">Features</div>
+      <h2 class="font-display font-800 text-4xl md:text-5xl mb-4">Built for Kuwaiti<br>Business Owners</h2>
+      <p class="text-white/50 text-lg max-w-xl mx-auto">Everything you need to turn WhatsApp into your best employee — one that never sleeps, never calls in sick.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Feature 1 -->
+      <div class="glass rounded-2xl p-6 cursor-pointer group hover:border-wa/40 hover:scale-[1.02] transition-all duration-300 reveal">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style="background: rgba(37,211,102,0.15);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+        </div>
+        <h3 class="font-display font-700 text-lg mb-2">24/7 Auto-Replies</h3>
+        <p class="text-white/50 text-sm leading-relaxed">Your bot answers at 2am Friday, during Eid, and on public holidays. Zero gaps. Zero lost customers.</p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="glass rounded-2xl p-6 cursor-pointer group hover:border-wa/40 hover:scale-[1.02] transition-all duration-300 reveal reveal-delay-1">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style="background: rgba(37,211,102,0.15);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+        </div>
+        <h3 class="font-display font-700 text-lg mb-2">Arabic + English</h3>
+        <p class="text-white/50 text-sm leading-relaxed">Detects language automatically and responds naturally. Your Kuwaiti customers get replies that feel human.</p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="glass rounded-2xl p-6 cursor-pointer group hover:border-wa/40 hover:scale-[1.02] transition-all duration-300 reveal reveal-delay-2">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style="background: rgba(37,211,102,0.15);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+        </div>
+        <h3 class="font-display font-700 text-lg mb-2">Multi-Client Dashboard</h3>
+        <p class="text-white/50 text-sm leading-relaxed">Manage all your WhatsApp conversations, view analytics, and update bot responses from one clean dashboard.</p>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="glass rounded-2xl p-6 cursor-pointer group hover:border-wa/40 hover:scale-[1.02] transition-all duration-300 reveal reveal-delay-1">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style="background: rgba(37,211,102,0.15);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M13 2.05v2.02c3.95.49 7 3.85 7 7.93 0 3.21-1.81 6-4.72 7.28L13 17v5l5-3-1.22-1.22C19.91 16.07 22 13.14 22 12c0-5.18-3.94-9.45-9-9.95zM11 2.05C5.95 2.55 2 6.82 2 12c0 2.14 2.09 5.07 4.22 6.78L5 20l5 3v-5l-2.28 2.28C5.81 18 4 15.21 4 12c0-4.08 3.05-7.44 7-7.93V2.05z"/></svg>
+        </div>
+        <h3 class="font-display font-700 text-lg mb-2">Live in 24 Hours</h3>
+        <p class="text-white/50 text-sm leading-relaxed">Connect your WhatsApp Business account, customize your responses, and go live. No developers needed.</p>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="glass rounded-2xl p-6 cursor-pointer group hover:border-wa/40 hover:scale-[1.02] transition-all duration-300 reveal reveal-delay-2">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style="background: rgba(37,211,102,0.15);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a9.7 9.7 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+        </div>
+        <h3 class="font-display font-700 text-lg mb-2">WhatsApp Business API</h3>
+        <p class="text-white/50 text-sm leading-relaxed">Official API integration — not hacks or third-party workarounds. Reliable, compliant, and future-proof.</p>
+      </div>
+
+      <!-- Feature 6 -->
+      <div class="glass rounded-2xl p-6 cursor-pointer group hover:border-wa/40 hover:scale-[1.02] transition-all duration-300 reveal reveal-delay-3">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style="background: rgba(37,211,102,0.15);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg>
+        </div>
+        <h3 class="font-display font-700 text-lg mb-2">Analytics &amp; Reports</h3>
+        <p class="text-white/50 text-sm leading-relaxed">See peak hours, top questions, and response rates. Know what your customers ask before they ask it.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ HOW IT WORKS -->
+<section id="how" class="py-24" style="background: #071f18;">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="text-center mb-16 reveal">
+      <div class="inline-block px-4 py-1.5 rounded-full text-xs font-600 mb-4 uppercase tracking-widest" style="background: rgba(37,211,102,0.1); color: #25D366; border: 1px solid rgba(37,211,102,0.2);">How It Works</div>
+      <h2 class="font-display font-800 text-4xl md:text-5xl mb-4">From Zero to Automated<br>in 3 Steps</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 relative">
+      <!-- Connecting line -->
+      <div class="hidden md:block absolute top-10 left-1/6 right-1/6 h-px" style="background: linear-gradient(90deg, transparent, rgba(37,211,102,0.4), transparent);"></div>
+
+      <div class="text-center reveal">
+        <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 font-display font-800 text-3xl relative" style="background: rgba(37,211,102,0.1); border: 1px solid rgba(37,211,102,0.2); color: #25D366;">
+          1
+          <div class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-wa animate-ping opacity-40"></div>
+        </div>
+        <h3 class="font-display font-700 text-xl mb-3">Sign Up</h3>
+        <p class="text-white/50 text-sm leading-relaxed">Create your Focobot account and choose a plan that fits your business size and message volume.</p>
+      </div>
+
+      <div class="text-center reveal reveal-delay-2">
+        <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 font-display font-800 text-3xl" style="background: rgba(37,211,102,0.1); border: 1px solid rgba(37,211,102,0.2); color: #25D366;">2</div>
+        <h3 class="font-display font-700 text-xl mb-3">Connect WhatsApp</h3>
+        <p class="text-white/50 text-sm leading-relaxed">Link your WhatsApp Business number and customize your bot's responses in Arabic and English.</p>
+      </div>
+
+      <div class="text-center reveal reveal-delay-4">
+        <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 font-display font-800 text-3xl" style="background: rgba(37,211,102,0.15); border: 1px solid rgba(37,211,102,0.4); color: #25D366; box-shadow: 0 0 30px rgba(37,211,102,0.2);">3</div>
+        <h3 class="font-display font-700 text-xl mb-3">Go Live in 24hrs</h3>
+        <p class="text-white/50 text-sm leading-relaxed">Your bot is live. Watch messages get answered automatically while you focus on running your business.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ TESTIMONIALS -->
+<section class="py-20" style="background: #020f09;">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-12 reveal">
+      <h2 class="font-display font-800 text-3xl md:text-4xl mb-3">Kuwait Businesses Love Focobot</h2>
+      <p class="text-white/40 text-sm">Real results from real business owners</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <div class="glass rounded-2xl p-6 reveal">
+        <div class="flex items-center gap-1 mb-4">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <p class="text-white/70 text-sm leading-relaxed mb-5">"We were losing customers who messaged at night. Now Focobot handles everything. Our bookings went up 40% in the first month."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm" style="background: #0a4f3c; color: #25D366;">م</div>
+          <div>
+            <div class="text-sm font-600">Mohammed Al-Rashidi</div>
+            <div class="text-xs text-white/40">Restaurant Owner, Salmiya</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass rounded-2xl p-6 reveal reveal-delay-2" style="border-color: rgba(37,211,102,0.25);">
+        <div class="flex items-center gap-1 mb-4">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <p class="text-white/70 text-sm leading-relaxed mb-5">"My clinic used to miss appointment requests on weekends. Now patients get instant confirmation. My receptionist focuses on in-person care."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm" style="background: #0a4f3c; color: #25D366;">ف</div>
+          <div>
+            <div class="text-sm font-600">Dr. Fatima Al-Kandari</div>
+            <div class="text-xs text-white/40">Clinic Owner, Kuwait City</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass rounded-2xl p-6 reveal reveal-delay-4">
+        <div class="flex items-center gap-1 mb-4">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <p class="text-white/70 text-sm leading-relaxed mb-5">"Setup was surprisingly fast. Arabic replies sound natural — customers don't even know it's a bot. Best 59 KWD I spend every month."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm" style="background: #0a4f3c; color: #25D366;">س</div>
+          <div>
+            <div class="text-sm font-600">Sara Al-Mutairi</div>
+            <div class="text-xs text-white/40">Salon Owner, Hawalli</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ PRICING -->
+<section id="pricing" class="py-24" style="background: #071f18;">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 reveal">
+      <div class="inline-block px-4 py-1.5 rounded-full text-xs font-600 mb-4 uppercase tracking-widest" style="background: rgba(37,211,102,0.1); color: #25D366; border: 1px solid rgba(37,211,102,0.2);">Pricing</div>
+      <h2 class="font-display font-800 text-4xl md:text-5xl mb-4">Start for Less Than<br>One Lost Customer</h2>
+      <p class="text-white/50 max-w-md mx-auto">One missed WhatsApp order costs more than a month of Focobot. Simple pricing, no contracts.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 items-center">
+
+      <!-- Starter -->
+      <div class="glass rounded-2xl p-7 reveal">
+        <div class="text-white/50 text-sm font-500 mb-1">Starter</div>
+        <div class="font-display font-800 text-4xl mb-1">29 <span class="text-lg font-sans font-400 text-white/40">KWD/mo</span></div>
+        <p class="text-white/40 text-sm mb-6">Perfect for solo businesses just getting started</p>
+        <a href="#" class="block text-center py-3 rounded-xl text-sm font-600 cursor-pointer transition-all duration-200 hover:bg-white/10 glass mb-6 focus:outline-none focus:ring-2 focus:ring-wa">Get Started →</a>
+        <ul class="space-y-3">
+          <li class="flex items-center gap-3 text-sm text-white/60"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Up to 500 messages/month</li>
+          <li class="flex items-center gap-3 text-sm text-white/60"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Arabic + English support</li>
+          <li class="flex items-center gap-3 text-sm text-white/60"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Basic analytics dashboard</li>
+          <li class="flex items-center gap-3 text-sm text-white/60"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Setup in 24 hours</li>
+          <li class="flex items-center gap-3 text-sm text-white/60"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Email support</li>
+        </ul>
+      </div>
+
+      <!-- Growth - Featured -->
+      <div class="pricing-featured rounded-2xl p-7 reveal reveal-delay-1 relative animate-glow">
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full text-xs font-700 uppercase tracking-widest" style="background: #25D366; color: #071f18;">Most Popular</div>
+        <div class="font-500 text-sm mb-1" style="color: #25D366;">Growth</div>
+        <div class="font-display font-800 text-4xl mb-1">59 <span class="text-lg font-sans font-400 text-white/40">KWD/mo</span></div>
+        <p class="text-white/50 text-sm mb-6">For growing businesses that can't afford to miss a message</p>
+        <a href="#" class="block text-center py-3 rounded-xl text-sm font-700 cursor-pointer transition-all duration-200 hover:opacity-90 hover:scale-105 mb-6 focus:outline-none focus:ring-2 focus:ring-wa" style="background: #25D366; color: #071f18;">Start Free Trial →</a>
+        <ul class="space-y-3">
+          <li class="flex items-center gap-3 text-sm text-white/70"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Unlimited messages</li>
+          <li class="flex items-center gap-3 text-sm text-white/70"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Arabic + English + Emoji</li>
+          <li class="flex items-center gap-3 text-sm text-white/70"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Advanced analytics + reports</li>
+          <li class="flex items-center gap-3 text-sm text-white/70"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Custom bot personality</li>
+          <li class="flex items-center gap-3 text-sm text-white/70"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>WhatsApp catalog integration</li>
+          <li class="flex items-center gap-3 text-sm text-white/70"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Priority WhatsApp support</li>
+          <li class="flex items-center gap-3 text-sm text-white/70"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>7-day free trial</li>
+        </ul>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="glass rounded-2xl p-7 reveal reveal-delay-2">
+        <div class="text-white/50 text-sm font-500 mb-1">Enterprise</div>
+        <div class="font-display font-800 text-4xl mb-1">Custom</div>
+        <p class="text-white/40 text-sm mb-6">For multi-branch businesses and franchises across Kuwait</p>
+        <a href="mailto:hello@focobot.com" class="block text-center py-3 rounded-xl text-sm font-600 cursor-pointer transition-all duration-200 hover:bg-white/10 glass mb-6 focus:outline-none focus:ring-2 focus:ring-wa">Contact Us →</a>
+        <ul class="space-y-3">
+          <li class="flex items-center gap-3 text-sm text-white/60"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Everything in Growth</li>
+          <li class="flex items-center gap-3 text-sm text-white/60"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Multiple WhatsApp numbers</li>
+          <li class="flex items-center gap-3 text-sm text-white/60"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Dedicated account manager</li>
+          <li class="flex items-center gap-3 text-sm text-white/60"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Custom integrations</li>
+          <li class="flex items-center gap-3 text-sm text-white/60"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>SLA guarantee</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="text-center text-white/30 text-sm mt-8">No contracts. Cancel anytime. All plans include a 7-day free trial.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ FAQ -->
+<section id="faq" class="py-24" style="background: #020f09;">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="text-center mb-12 reveal">
+      <h2 class="font-display font-800 text-4xl mb-3">Common Questions</h2>
+      <p class="text-white/40">Everything you need to know before signing up</p>
+    </div>
+
+    <div class="space-y-3 reveal">
+
+      <div class="glass rounded-2xl overflow-hidden">
+        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-5 text-left cursor-pointer hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-wa focus:ring-inset" aria-expanded="false">
+          <span class="font-600 text-sm pr-4">Is 29 KWD/month really worth it?</span>
+          <svg class="faq-chevron flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer px-5 text-sm text-white/50 leading-relaxed">
+          <div class="pb-5">One missed order on a Friday night in Kuwait can easily be worth 15–30 KWD. Focobot pays for itself by capturing even 1–2 extra orders per month that you'd otherwise miss. Our customers average 40%+ more captured leads in the first month.</div>
+        </div>
+      </div>
+
+      <div class="glass rounded-2xl overflow-hidden">
+        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-5 text-left cursor-pointer hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-wa focus:ring-inset" aria-expanded="false">
+          <span class="font-600 text-sm pr-4">Does it really reply in Arabic correctly?</span>
+          <svg class="faq-chevron flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer px-5 text-sm text-white/50 leading-relaxed">
+          <div class="pb-5">Yes — proper Arabic, not machine-translated. You write your own responses in Arabic and the bot delivers them exactly. It also auto-detects language and switches between Arabic and English mid-conversation if needed.</div>
+        </div>
+      </div>
+
+      <div class="glass rounded-2xl overflow-hidden">
+        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-5 text-left cursor-pointer hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-wa focus:ring-inset" aria-expanded="false">
+          <span class="font-600 text-sm pr-4">How long does setup take?</span>
+          <svg class="faq-chevron flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer px-5 text-sm text-white/50 leading-relaxed">
+          <div class="pb-5">Most businesses are live within 24 hours. You connect your WhatsApp Business account, set up your responses using our simple editor (no coding), and you're done. Our team helps you for free if you get stuck.</div>
+        </div>
+      </div>
+
+      <div class="glass rounded-2xl overflow-hidden">
+        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-5 text-left cursor-pointer hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-wa focus:ring-inset" aria-expanded="false">
+          <span class="font-600 text-sm pr-4">Am I locked into a contract?</span>
+          <svg class="faq-chevron flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer px-5 text-sm text-white/50 leading-relaxed">
+          <div class="pb-5">No contracts, ever. Cancel from your dashboard anytime with one click. We don't believe in trapping customers — we believe in earning your business every month.</div>
+        </div>
+      </div>
+
+      <div class="glass rounded-2xl overflow-hidden">
+        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-5 text-left cursor-pointer hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-wa focus:ring-inset" aria-expanded="false">
+          <span class="font-600 text-sm pr-4">What if customers want to talk to a real person?</span>
+          <svg class="faq-chevron flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer px-5 text-sm text-white/50 leading-relaxed">
+          <div class="pb-5">The bot handles routine questions automatically. When a customer needs a human, Focobot flags the conversation and notifies you instantly. You take over seamlessly — the customer sees no difference.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ CTA BANNER -->
+<section class="py-24 relative overflow-hidden" style="background: #0a4f3c;">
+  <div class="absolute inset-0" style="background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(37,211,102,0.2) 0%, transparent 70%);"></div>
+  <div class="max-w-3xl mx-auto px-6 text-center relative z-10 reveal">
+    <h2 class="font-display font-800 text-4xl md:text-5xl mb-5 leading-tight">
+      Your competitors are<br>already automating.<br>
+      <span style="color: #25D366;">Are you?</span>
+    </h2>
+    <p class="text-white/60 text-lg mb-10">Join Kuwaiti businesses saving hours every week and capturing customers 24/7.</p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="#pricing" class="flex items-center gap-2 px-8 py-4 rounded-xl font-700 text-base cursor-pointer transition-all duration-200 hover:opacity-90 hover:scale-105 glow-green focus:outline-none focus:ring-2 focus:ring-wa" style="background: #25D366; color: #071f18;">
+        Start Free Trial — 7 Days Free
+      </a>
+      <a href="mailto:hello@focobot.com" class="flex items-center gap-2 px-8 py-4 rounded-xl font-500 text-base cursor-pointer transition-all duration-200 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-wa" style="border: 1px solid rgba(255,255,255,0.2);">
+        Talk to Us
+      </a>
+    </div>
+    <p class="text-white/30 text-sm mt-6">No credit card required · Setup in 24 hours · Cancel anytime</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ FOOTER -->
+<footer class="py-16 border-t" style="background: #020f09; border-color: rgba(37,211,102,0.1);">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-12">
+      <div class="col-span-2 md:col-span-1">
+        <a href="#" class="flex items-center gap-2 mb-4 cursor-pointer">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: #25D366;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          </div>
+          <span class="font-display font-700 text-white">focobot</span>
+        </a>
+        <p class="text-white/40 text-sm leading-relaxed">WhatsApp automation built for Kuwait's business owners.</p>
+      </div>
+      <div>
+        <div class="text-xs font-600 uppercase tracking-widest text-white/30 mb-4">Product</div>
+        <ul class="space-y-3">
+          <li><a href="#features" class="text-sm text-white/50 hover:text-wa transition-colors cursor-pointer">Features</a></li>
+          <li><a href="#pricing" class="text-sm text-white/50 hover:text-wa transition-colors cursor-pointer">Pricing</a></li>
+          <li><a href="#how" class="text-sm text-white/50 hover:text-wa transition-colors cursor-pointer">How It Works</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="text-xs font-600 uppercase tracking-widest text-white/30 mb-4">Support</div>
+        <ul class="space-y-3">
+          <li><a href="#faq" class="text-sm text-white/50 hover:text-wa transition-colors cursor-pointer">FAQ</a></li>
+          <li><a href="mailto:hello@focobot.com" class="text-sm text-white/50 hover:text-wa transition-colors cursor-pointer">Contact</a></li>
+          <li><a href="mailto:hello@focobot.com" class="text-sm text-white/50 hover:text-wa transition-colors cursor-pointer">WhatsApp Support</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="text-xs font-600 uppercase tracking-widest text-white/30 mb-4">Contact</div>
+        <ul class="space-y-3">
+          <li><a href="mailto:hello@focobot.com" class="text-sm text-white/50 hover:text-wa transition-colors cursor-pointer">hello@focobot.com</a></li>
+          <li><span class="text-sm text-white/50">Kuwait City, Kuwait</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="pt-8 border-t flex flex-col md:flex-row items-center justify-between gap-4" style="border-color: rgba(255,255,255,0.06);">
+      <p class="text-white/25 text-sm">© 2026 Focobot. All rights reserved.</p>
+      <p class="text-white/25 text-sm">Built for Kuwait 🇰🇼</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// FAQ accordion
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const chevron = btn.querySelector('.faq-chevron');
+  const isOpen = answer.classList.contains('open');
+  document.querySelectorAll('.faq-answer.open').forEach(a => { a.classList.remove('open'); a.previousElementSibling.querySelector('.faq-chevron').classList.remove('open'); a.previousElementSibling.setAttribute('aria-expanded','false'); });
+  if (!isOpen) { answer.classList.add('open'); chevron.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+}
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+</script>
+</body>
+</html>
