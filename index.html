@@ -15,18 +15,18 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:          #0e1c2f;
-      --surface:     #172438;
-      --surface-el:  #1f2f47;
-      --border:      rgba(255,255,255,0.13);
-      --border-h:    rgba(251,146,60,0.7);
+      --bg:          #f9fafb;
+      --surface:     #ffffff;
+      --surface-el:  #f3f4f6;
+      --border:      rgba(0,0,0,0.09);
+      --border-h:    rgba(255,122,26,0.55);
       --primary:     #ff7a1a;
-      --primary-l:   #ffaa5a;
-      --glow:        rgba(255,122,26,0.28);
-      --accent:      #ffd633;
-      --txt:         #ffffff;
-      --txt2:        #ffddb8;
-      --txt3:        #e09050;
+      --primary-l:   #ff9c4d;
+      --glow:        rgba(255,122,26,0.15);
+      --accent:      #f59e0b;
+      --txt:         #111827;
+      --txt2:        #374151;
+      --txt3:        #6b7280;
       --wa:          #25D366;
       --grad:        linear-gradient(135deg,#ff7a1a 0%,#ffd633 100%);
       --r-card:      16px;
@@ -55,9 +55,9 @@
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       height: 60px;
-      background: rgba(10,10,15,0.8);
+      background: rgba(255,255,255,0.88);
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
       display: flex; align-items: center;
     }
     .nav-inner {
@@ -80,14 +80,14 @@
       padding: 0.4rem 0.75rem; border-radius: 8px;
       transition: color 0.2s, background 0.2s; cursor: pointer;
     }
-    .nav-links a:hover { color: var(--txt); background: rgba(255,255,255,0.05); }
-    .nav-links a.active { color: var(--txt); }
+    .nav-links a:hover { color: var(--txt); background: rgba(0,0,0,0.05); }
+    .nav-links a.active { color: var(--txt); font-weight: 700; }
     .nav-right { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
-    .lang-toggle { display: flex; align-items: center; gap: 2px; background: var(--surface); border-radius: 8px; padding: 3px; border: 1px solid var(--border); }
+    .lang-toggle { display: flex; align-items: center; gap: 2px; background: var(--surface-el); border-radius: 8px; padding: 3px; border: 1px solid var(--border); }
     .lang-btn {
       font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.6rem;
       border-radius: 6px; cursor: pointer; border: none; background: transparent;
-      color: var(--txt2); transition: all 0.2s;
+      color: var(--txt3); transition: all 0.2s;
     }
     .lang-btn.active { background: var(--primary); color: #fff; }
     .btn-nav {
@@ -119,7 +119,7 @@
 
     /* ── Section wrapper ────────────────────────────────────── */
     .section { padding: 7rem 0; }
-    .section-alt { background: #0b1728; }
+    .section-alt { background: #f3f4f6; }
     .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
     .section-label {
       display: inline-flex; align-items: center; gap: 0.5rem;
@@ -154,7 +154,7 @@
     .stats-strip {
       display: flex; align-items: center; justify-content: center;
       gap: 3rem; flex-wrap: wrap;
-      padding: 2.5rem 0; border-top: 1px solid rgba(255,122,26,0.2); border-bottom: 1px solid rgba(255,122,26,0.2); background: rgba(255,122,26,0.04);
+      padding: 2.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
     }
     .stat-item { text-align: center; }
     .stat-num { font-size: 2rem; font-weight: 900; letter-spacing: -0.04em; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -173,7 +173,7 @@
     .nav-card p { font-size: 0.85rem; color: var(--txt2); }
 
     /* ── HERO ───────────────────────────────────────────────── */
-    #hero { position: relative; height: 100vh; min-height: 700px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    #hero { position: relative; height: 100vh; min-height: 700px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #0e1c2f; }
     #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
     .hero-content { position: relative; z-index: 10; text-align: center; padding: 0 2rem; max-width: 860px; }
     .hero-badge {
@@ -184,7 +184,9 @@
     }
     .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pulse-dot 2s infinite; }
     @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.3)} }
-    .hero-h1 { color: var(--txt); white-space: pre-line; margin-bottom: 1.5rem; }
+    .hero-h1 { color: #fff; white-space: pre-line; margin-bottom: 1.5rem; }
+    .hero-sub { color: rgba(255,255,255,0.75) !important; }
+    .hero-trust { color: rgba(255,255,255,0.6) !important; }
     .hero-sub { font-size: 1.2rem; color: var(--txt2); line-height: 1.65; margin: 0 auto 2.5rem; max-width: 520px; }
     .hero-ctas { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
     .hero-trust { font-size: 0.85rem; color: var(--txt3); }
@@ -202,42 +204,48 @@
     .pill.active, .pill:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
     .phones-wrap { display: flex; gap: 2.5rem; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
     .phone-device {
-      width: 280px; background: #1a1a22; border-radius: 40px;
-      border: 2px solid rgba(255,255,255,0.1);
-      box-shadow: 0 40px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
-      overflow: hidden; flex-shrink: 0;
+      width: 270px;
+      background: linear-gradient(145deg, #2a2a2c, #000);
+      border-radius: 44px;
+      padding: 10px;
+      box-shadow: 0 50px 100px -20px rgba(0,0,0,0.3), 0 30px 60px -30px rgba(0,0,0,0.25), inset 0 0 0 2px rgba(255,255,255,0.1);
+      position: relative; flex-shrink: 0;
     }
+    .phone-device::before {
+      content: ''; position: absolute; top: 13px; left: 50%; transform: translateX(-50%);
+      width: 88px; height: 18px; background: #000; border-radius: 14px; z-index: 10;
+    }
+    .phone-inner { border-radius: 36px; overflow: hidden; display: flex; flex-direction: column; }
     .phone-topbar {
-      background: #075e54; padding: 0.6rem 1rem;
+      background: #075e54; padding: 2.2rem 0.85rem 0.6rem;
       display: flex; align-items: center; gap: 0.6rem;
     }
-    .phone-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--wa); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .phone-avatar { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
     .phone-contact { flex: 1; }
-    .phone-contact-name { font-size: 0.8rem; font-weight: 700; color: #fff; }
-    .phone-contact-status { font-size: 0.68rem; color: rgba(255,255,255,0.7); }
+    .phone-contact-name { font-size: 0.78rem; font-weight: 700; color: #fff; }
+    .phone-contact-status { font-size: 0.65rem; color: rgba(255,255,255,0.75); }
     .chat-area {
-      background: #0d1a17;
-      min-height: 380px; padding: 1rem;
-      display: flex; flex-direction: column; gap: 0.5rem;
-      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background-color: #e5ddd5;
+      min-height: 340px; padding: 0.75rem;
+      display: flex; flex-direction: column; gap: 0.45rem; overflow-y: auto;
     }
     .chat-bubble-wrap { display: flex; }
     .chat-bubble-wrap.customer { justify-content: flex-end; }
     .chat-bubble-wrap.bot { justify-content: flex-start; }
     .chat-bubble {
-      max-width: 85%; padding: 0.55rem 0.85rem;
-      border-radius: 12px; font-size: 0.82rem; line-height: 1.45;
+      max-width: 82%; padding: 0.5rem 0.8rem;
+      border-radius: 12px; font-size: 0.8rem; line-height: 1.45;
       animation: bubble-in 0.3s ease;
     }
     @keyframes bubble-in { from{opacity:0;transform:scale(0.9) translateY(4px)} to{opacity:1;transform:none} }
-    .chat-bubble.customer { background: #005c4b; color: #fff; border-bottom-right-radius: 4px; }
-    .chat-bubble.bot { background: #202c33; color: #e9edef; border-bottom-left-radius: 4px; }
-    .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 0.6rem 0.85rem; background: #202c33; border-radius: 12px; border-bottom-left-radius: 4px; width: fit-content; }
-    .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: #94a3b8; animation: typing 1.2s infinite; }
+    .chat-bubble.customer { background: #005c4b; color: #fff; border-bottom-right-radius: 3px; }
+    .chat-bubble.bot { background: #fff; color: #111; border-bottom-left-radius: 3px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+    .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 0.55rem 0.8rem; background: #fff; border-radius: 12px; border-bottom-left-radius: 3px; width: fit-content; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+    .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: #aaa; animation: typing 1.2s infinite; }
     .typing-dot:nth-child(2){animation-delay:0.2s}
     .typing-dot:nth-child(3){animation-delay:0.4s}
     @keyframes typing{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
-    .phone-label { text-align: center; font-size: 0.8rem; font-weight: 600; color: var(--txt3); margin-top: 1rem; }
+    .phone-label { text-align: center; font-size: 0.8rem; font-weight: 700; color: var(--primary); margin-top: 1rem; letter-spacing: 0.04em; text-transform: uppercase; }
 
     /* ── Compare ────────────────────────────────────────────── */
     .compare-table { width: 100%; border-collapse: collapse; margin-top: 3rem; }
@@ -246,8 +254,8 @@
     .compare-table td:first-child { color: var(--txt2); }
     .compare-table td.human { color: var(--txt3); }
     .compare-table td.foco { color: var(--txt); font-weight: 600; }
-    .compare-table .col-foco { background: rgba(59,130,246,0.06); }
-    .compare-table th.col-foco { color: var(--primary-l); background: rgba(59,130,246,0.1); border-radius: 8px 8px 0 0; }
+    .compare-table .col-foco { background: rgba(255,122,26,0.06); }
+    .compare-table th.col-foco { color: var(--primary); background: rgba(255,122,26,0.1); border-radius: 8px 8px 0 0; }
     .compare-table .col-win { text-align: center; }
     .compare-table th.col-win { text-align: center; color: var(--accent); }
     .win-pill {
@@ -258,7 +266,7 @@
     }
     .callout {
       margin-top: 3rem; padding: 2rem 2.5rem;
-      background: rgba(249,115,22,0.12); border: 1px solid rgba(99,102,241,0.25);
+      background: rgba(255,122,26,0.08); border: 1px solid rgba(255,122,26,0.2);
       border-radius: var(--r-card); text-align: center;
     }
     .callout p { font-size: 1.1rem; color: var(--txt); font-weight: 600; }
@@ -324,7 +332,7 @@
 
     /* ── Apply ──────────────────────────────────────────────── */
     .apply-card {
-      background: var(--surface); border: 1px solid rgba(255,255,255,0.07);
+      background: var(--surface); border: 1px solid var(--border);
       border-radius: 24px; padding: 3rem; max-width: 620px; margin: 0 auto;
     }
     .progress-bar { height: 3px; background: var(--border); border-radius: 100px; margin-bottom: 2.5rem; overflow: hidden; }
@@ -401,8 +409,8 @@
     body.is-rtl .price-badge { align-self: flex-end; }
     body.is-rtl .chat-bubble-wrap.customer { justify-content: flex-start; }
     body.is-rtl .chat-bubble-wrap.bot { justify-content: flex-end; }
-    body.is-rtl .chat-bubble-wrap.customer .chat-bubble { background: #005c4b; }
-    body.is-rtl .chat-bubble-wrap.bot .chat-bubble { background: #202c33; }
+    body.is-rtl .chat-bubble-wrap.customer .chat-bubble { background: #005c4b; color: #fff; }
+    body.is-rtl .chat-bubble-wrap.bot .chat-bubble { background: #fff; color: #111; }
     body.is-rtl .compare-table { direction: rtl; }
 
     /* ── Responsive ─────────────────────────────────────────── */
@@ -507,20 +515,23 @@
         <!-- English Phone -->
         <div>
           <div class="phone-device">
-            <div class="phone-topbar">
-              <div class="phone-avatar">☕</div>
-              <div class="phone-contact">
-                <div class="phone-contact-name" id="en-biz-name">Sunrise Café</div>
-                <div class="phone-contact-status">● online</div>
+            <div class="phone-inner">
+              <div class="phone-topbar">
+                <div class="phone-avatar">☕</div>
+                <div class="phone-contact">
+                  <div class="phone-contact-name" id="en-biz-name">Sunrise Café</div>
+                  <div class="phone-contact-status">● online</div>
+                </div>
               </div>
+              <div class="chat-area" id="chat-en"></div>
             </div>
-            <div class="chat-area" id="chat-en"></div>
           </div>
           <div class="phone-label" data-en="English" data-ar="الإنجليزية">English</div>
         </div>
         <!-- Arabic Phone -->
         <div>
           <div class="phone-device" style="direction:rtl;">
+            <div class="phone-inner">
             <div class="phone-topbar" style="flex-direction:row-reverse;">
               <div class="phone-avatar">☕</div>
               <div class="phone-contact" style="text-align:right;">
@@ -529,6 +540,7 @@
               </div>
             </div>
             <div class="chat-area" id="chat-ar" style="direction:rtl;"></div>
+            </div>
           </div>
           <div class="phone-label" data-en="Arabic" data-ar="العربية">Arabic</div>
         </div>
@@ -960,7 +972,7 @@ const conversations = {
       {c:"How do I place an order?", b:"You can order via our link or simply tell me what you'd like and I'll take it from here 😊"}
     ],
     ar: [
-      {c:"تره الدوام شلون؟", b:"نفتح كل يوم من 7 الصبح لين 11 الليل ☕ في شي ثاني؟"},
+      {c:"الدوام شلون؟", b:"نفتح كل يوم من 7 الصبح لين 11 الليل ☕ في شي ثاني؟"},
       {c:"عندكم حليب شوفان؟", b:"إي عندنا شوفان ولوز وصويا 🥛 بس قول وقت الطلب شنو تبي"},
       {c:"اشلون أطلب؟", b:"تقدر تطلب من رابطنا، أو قولي شنو تبي وأنا أرتبه لك 😊"}
     ],
@@ -1062,7 +1074,7 @@ window.addEventListener('hashchange', () => setPage(location.hash.replace('#',''
 
 // ── Phone demo (home) ─────────────────────────────────────
 let currentBiz = 'cafe';
-let animTimer = null;
+const animTimers = {};
 
 function selectBiz(biz) {
   currentBiz = biz;
@@ -1078,14 +1090,13 @@ window.selectBiz = selectBiz;
 function renderPhoneConvo(id, msgs) {
   const area = document.getElementById(id);
   area.innerHTML = '';
-  if (animTimer) { clearTimeout(animTimer); animTimer = null; }
-  animateMsgs(area, msgs, 0);
+  if (animTimers[id]) { clearTimeout(animTimers[id]); delete animTimers[id]; }
+  animateMsgs(id, area, msgs, 0);
 }
 
-function animateMsgs(area, msgs, i) {
+function animateMsgs(id, area, msgs, i) {
   if (i >= msgs.length) return;
   const msg = msgs[i];
-  // Customer bubble
   const cWrap = document.createElement('div');
   cWrap.className = 'chat-bubble-wrap customer';
   const cBub = document.createElement('div');
@@ -1095,15 +1106,14 @@ function animateMsgs(area, msgs, i) {
   area.appendChild(cWrap);
   area.scrollTop = area.scrollHeight;
 
-  animTimer = setTimeout(() => {
-    // Typing indicator
+  animTimers[id] = setTimeout(() => {
     const tWrap = document.createElement('div');
     tWrap.className = 'chat-bubble-wrap bot';
     tWrap.innerHTML = '<div class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
     area.appendChild(tWrap);
     area.scrollTop = area.scrollHeight;
 
-    animTimer = setTimeout(() => {
+    animTimers[id] = setTimeout(() => {
       tWrap.remove();
       const bWrap = document.createElement('div');
       bWrap.className = 'chat-bubble-wrap bot';
@@ -1113,7 +1123,7 @@ function animateMsgs(area, msgs, i) {
       bWrap.appendChild(bBub);
       area.appendChild(bWrap);
       area.scrollTop = area.scrollHeight;
-      animTimer = setTimeout(() => animateMsgs(area, msgs, i+1), 1200);
+      animTimers[id] = setTimeout(() => animateMsgs(id, area, msgs, i+1), 1200);
     }, 1200);
   }, 800);
 }
