@@ -927,13 +927,15 @@ camera.position.z = 5;
 
 function resize() {
   const s = document.getElementById('hero');
-  const w = s.clientWidth, h = s.clientHeight;
+  const w = s.clientWidth || window.innerWidth;
+  const h = s.clientHeight || window.innerHeight;
   renderer.setSize(w, h);
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
 }
 resize();
 window.addEventListener('resize', resize);
+window.addEventListener('load', resize);
 
 // 1500 round particles using ShaderMaterial
 const pCount = 1500;
@@ -1130,7 +1132,7 @@ function setPage(name) {
   window.scrollTo(0, 0);
   location.hash = name;
   if (name === 'home') {
-    // nothing extra needed for particle background
+    window.dispatchEvent(new Event('resize'));
   }
 }
 window.setPage = setPage;
