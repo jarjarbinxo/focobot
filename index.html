@@ -1,1457 +1,1287 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Focobot — WhatsApp AI Customer Service for Kuwaiti Businesses</title>
+  <title>Focobot — WhatsApp AI for Kuwait Businesses</title>
   <meta name="description" content="Focobot replies to your WhatsApp customers in seconds, 24/7, in Arabic and English. Built for Kuwaiti businesses.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
-    }
-  }
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+
   <style>
-    :root {
-      --bg: #f8faff;
-      --surface: #ffffff;
-      --border: #e2e8f0;
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
-      --secondary: #818cf8;
-      --text: #0f172a;
-      --muted: #64748b;
-      --light: #94a3b8;
-      --wa: #25D366;
-      --gradient: linear-gradient(135deg, #6366f1, #8b5cf6);
-      --radius: 16px;
-      --radius-sm: 10px;
-    }
+    /* ── Reset & Base ───────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0a0a0f;
+      --surface:     #111118;
+      --surface-el:  #18181f;
+      --border:      rgba(255,255,255,0.08);
+      --border-h:    rgba(99,102,241,0.5);
+      --primary:     #6366f1;
+      --primary-l:   #818cf8;
+      --glow:        rgba(99,102,241,0.15);
+      --txt:         #f8fafc;
+      --txt2:        #94a3b8;
+      --txt3:        #475569;
+      --wa:          #25D366;
+      --grad:        linear-gradient(135deg,#6366f1 0%,#8b5cf6 100%);
+      --r-card:      16px;
+      --font:        'Inter', sans-serif;
+    }
+
     html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'DM Sans', sans-serif;
       background: var(--bg);
-      color: var(--text);
+      color: var(--txt);
+      font-family: var(--font);
+      font-size: 16px;
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
-    h1,h2,h3,h4 { font-family: 'Syne', sans-serif; line-height: 1.15; }
 
-    /* ── Pages ── */
+    body.is-rtl { font-family: 'Tajawal', sans-serif; }
+
+    /* ── Pages ──────────────────────────────────────────────── */
     .page { display: none; }
-    .page.active { display: block; animation: fadeIn 0.4s ease; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .page.active { display: block; }
 
-    /* ── Nav ── */
+    /* ── Nav ────────────────────────────────────────────────── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      background: rgba(255,255,255,0.85);
+      height: 60px;
+      background: rgba(10,10,15,0.8);
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      height: 64px;
-      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+      width: 100%;
+      display: flex; align-items: center; gap: 2rem;
     }
     .nav-logo {
-      display: flex; align-items: center; gap: 10px;
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: 1.25rem; color: var(--text);
-      cursor: pointer; text-decoration: none;
+      font-size: 1.15rem; font-weight: 800;
+      letter-spacing: -0.03em;
+      background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      cursor: pointer; white-space: nowrap; flex-shrink: 0;
     }
-    .nav-logo-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: var(--gradient);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
+    .nav-links {
+      display: flex; align-items: center; gap: 0.25rem;
+      list-style: none; flex: 1;
     }
-    .nav-links { display: flex; align-items: center; gap: 0.25rem; }
     .nav-links a {
-      padding: 0.4rem 0.9rem; border-radius: 8px;
-      font-size: 0.9rem; font-weight: 500; color: var(--muted);
-      cursor: pointer; text-decoration: none; transition: all 0.2s;
+      color: var(--txt2); text-decoration: none; font-size: 0.875rem; font-weight: 500;
+      padding: 0.4rem 0.75rem; border-radius: 8px;
+      transition: color 0.2s, background 0.2s; cursor: pointer;
     }
-    .nav-links a:hover, .nav-links a.active { color: var(--primary); background: rgba(99,102,241,0.08); }
-    .nav-cta {
-      background: var(--primary); color: #fff;
-      padding: 0.5rem 1.25rem; border-radius: 10px;
-      font-weight: 600; font-size: 0.9rem; cursor: pointer;
-      border: none; transition: all 0.2s; text-decoration: none;
+    .nav-links a:hover { color: var(--txt); background: rgba(255,255,255,0.05); }
+    .nav-links a.active { color: var(--txt); }
+    .nav-right { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+    .lang-toggle { display: flex; align-items: center; gap: 2px; background: var(--surface); border-radius: 8px; padding: 3px; border: 1px solid var(--border); }
+    .lang-btn {
+      font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.6rem;
+      border-radius: 6px; cursor: pointer; border: none; background: transparent;
+      color: var(--txt2); transition: all 0.2s;
     }
-    .nav-cta:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .lang-btn.active { background: var(--primary); color: #fff; }
+    .btn-nav {
+      font-size: 0.875rem; font-weight: 600; padding: 0.5rem 1.1rem;
+      background: var(--primary); color: #fff; border: none; border-radius: 10px;
+      cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    }
+    .btn-nav:hover { filter: brightness(1.1); transform: translateY(-1px); }
 
-    /* Mobile chip bar */
-    .chip-bar {
-      display: none;
-      position: fixed; top: 64px; left: 0; right: 0; z-index: 999;
-      background: rgba(255,255,255,0.92); backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      padding: 0.5rem 1rem; gap: 0.5rem; overflow-x: auto;
-      scrollbar-width: none;
+    /* ── Buttons ────────────────────────────────────────────── */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--primary); color: #fff; border: none;
+      padding: 0.75rem 1.6rem; border-radius: 10px; font-size: 1rem;
+      font-weight: 600; cursor: pointer; transition: all 0.2s;
+      font-family: inherit;
     }
-    .chip-bar::-webkit-scrollbar { display: none; }
-    .chip {
-      flex-shrink: 0; padding: 0.3rem 0.9rem; border-radius: 999px;
-      font-size: 0.8rem; font-weight: 500; background: var(--bg);
-      border: 1px solid var(--border); color: var(--muted);
-      cursor: pointer; white-space: nowrap; transition: all 0.2s;
-    }
-    .chip.active, .chip:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn-primary:hover { filter: brightness(1.12); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(99,102,241,0.35); }
 
-    /* ── Containers ── */
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
-    .section { padding: 5rem 0; }
-    .section-sm { padding: 3rem 0; }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: transparent; color: var(--txt);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 0.75rem 1.6rem; border-radius: 10px; font-size: 1rem;
+      font-weight: 600; cursor: pointer; transition: all 0.2s;
+      font-family: inherit;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.05); transform: translateY(-2px); }
 
-    /* ── Typography helpers ── */
-    .badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(99,102,241,0.1); color: var(--primary);
-      border: 1px solid rgba(99,102,241,0.25);
-      padding: 0.3rem 0.9rem; border-radius: 999px;
-      font-size: 0.8rem; font-weight: 600; font-family: 'DM Sans', sans-serif;
-    }
-    .badge-green {
-      background: rgba(37,211,102,0.1); color: #16a34a;
-      border-color: rgba(37,211,102,0.3);
-    }
+    /* ── Section wrapper ────────────────────────────────────── */
+    .section { padding: 7rem 0; }
+    .section-alt { background: #0d0d14; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
     .section-label {
-      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--primary); margin-bottom: 0.75rem;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--primary-l); margin-bottom: 1.25rem;
     }
-    .section-title { font-size: clamp(1.8rem, 4vw, 2.75rem); font-weight: 800; margin-bottom: 1rem; }
-    .section-sub { font-size: 1.05rem; color: var(--muted); max-width: 560px; }
+    .section-label::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+    h1.display {
+      font-size: clamp(2.8rem, 6vw, 5.5rem); font-weight: 900;
+      letter-spacing: -0.04em; line-height: 1.05; color: var(--txt);
+    }
+    h2.display {
+      font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 800;
+      letter-spacing: -0.03em; line-height: 1.1; color: var(--txt);
+    }
+    h3.display {
+      font-size: clamp(1.4rem, 2.5vw, 1.8rem); font-weight: 700;
+      letter-spacing: -0.025em; color: var(--txt);
+    }
+    p.lead { font-size: 1.15rem; color: var(--txt2); line-height: 1.7; max-width: 560px; }
+    p.body { font-size: 0.95rem; color: var(--txt2); line-height: 1.7; }
 
-    /* ── Buttons ── */
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 0.75rem 1.75rem; border-radius: 12px;
-      font-weight: 600; font-size: 0.95rem; cursor: pointer;
-      border: none; transition: all 0.2s; text-decoration: none;
-      position: relative; overflow: hidden;
-    }
-    .btn-primary { background: var(--primary); color: #fff; }
-    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,102,241,0.35); }
-    .btn-outline {
-      background: transparent; color: var(--primary);
-      border: 1.5px solid var(--primary);
-    }
-    .btn-outline:hover { background: rgba(99,102,241,0.06); transform: translateY(-2px); }
-    .btn-lg { padding: 1rem 2.25rem; font-size: 1.05rem; border-radius: 14px; }
-
-    /* ── Cards ── */
+    /* ── Cards ──────────────────────────────────────────────── */
     .card {
-      background: var(--surface); border-radius: var(--radius);
-      border: 1px solid var(--border); padding: 1.75rem;
+      background: var(--surface); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--r-card); padding: 2rem;
+      transition: border-color 0.25s, box-shadow 0.25s;
     }
-    .feat-card { transition: all 0.25s ease; border: 1px solid var(--border); }
-    .feat-card:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(99,102,241,0.12); }
+    .card:hover { border-color: rgba(99,102,241,0.4); box-shadow: 0 0 30px rgba(99,102,241,0.08); }
 
-    /* ── Ripple ── */
-    .ripple-host { position: relative; overflow: hidden; }
-    .ripple-circle {
-      position: absolute; border-radius: 50%;
-      background: rgba(255,255,255,0.4); transform: scale(0);
-      pointer-events: none; animation: rippleOut 0.55s ease-out forwards;
-    }
-    @keyframes rippleOut { to { transform: scale(4); opacity: 0; } }
-
-    /* ── Reveal ── */
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* ── Hero ── */
-    #hero-canvas-section {
-      position: relative; height: 100vh; min-height: 640px;
-      background: #f0f0ff; overflow: hidden;
-    }
-    #hero-canvas {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-    }
-    .hero-overlay {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; padding: 2rem;
-      z-index: 10;
-    }
-    .hero-title {
-      font-size: clamp(2.4rem, 6vw, 4.5rem);
-      font-weight: 800; color: var(--text);
-      line-height: 1.08; margin: 1rem 0;
-      max-width: 820px;
-    }
-    .hero-title span { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .hero-sub { font-size: clamp(1rem, 2vw, 1.2rem); color: var(--muted); max-width: 560px; margin-bottom: 2rem; }
-    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
-    .hero-social { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--muted); }
-    .stars { color: #f59e0b; letter-spacing: 1px; }
-
-    /* ── Phone section ── */
-    .phone-section { background: var(--surface); padding: 5rem 0; }
-    .business-pills {
-      display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;
-      margin-bottom: 3rem;
-    }
-    .biz-pill {
-      padding: 0.45rem 1.1rem; border-radius: 999px;
-      border: 1.5px solid var(--border); background: var(--bg);
-      font-size: 0.85rem; font-weight: 500; color: var(--muted);
-      cursor: pointer; transition: all 0.2s;
-    }
-    .biz-pill.active, .biz-pill:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
-    .phones-wrap {
-      display: flex; gap: 2rem; justify-content: center; align-items: flex-start;
-      flex-wrap: wrap;
-    }
-    .phone-mockup {
-      width: 260px; flex-shrink: 0;
-      background: #fff; border-radius: 28px;
-      border: 2px solid var(--border);
-      box-shadow: 0 24px 64px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-    .phone-header {
-      background: #075E54; color: #fff;
-      padding: 0.75rem 1rem;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .phone-avatar {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: var(--wa); display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-    }
-    .phone-name { font-size: 0.85rem; font-weight: 600; }
-    .phone-status { font-size: 0.7rem; opacity: 0.8; }
-    .phone-body {
-      background: #ECE5DD; padding: 0.75rem; min-height: 340px;
-      display: flex; flex-direction: column; gap: 0.5rem;
-    }
-    .msg {
-      max-width: 85%; padding: 0.5rem 0.75rem; border-radius: 10px;
-      font-size: 0.78rem; line-height: 1.4;
-      animation: msgIn 0.3s ease forwards;
-      opacity: 0;
-    }
-    @keyframes msgIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-    .msg-customer { background: #fff; align-self: flex-start; border-radius: 0 10px 10px 10px; color: #111; }
-    .msg-bot { background: #DCF8C6; align-self: flex-end; border-radius: 10px 10px 0 10px; color: #111; }
-    .msg-time { font-size: 0.6rem; color: #999; text-align: right; margin-top: 2px; }
-    .phone-label {
-      text-align: center; font-size: 0.75rem; font-weight: 600;
-      color: var(--muted); padding: 0.5rem;
-      text-transform: uppercase; letter-spacing: 0.08em;
-    }
-    .phone-ar .phone-body { direction: rtl; }
-    .phone-ar .msg-customer { border-radius: 10px 0 10px 10px; }
-    .phone-ar .msg-bot { border-radius: 10px 10px 10px 0; }
-
-    /* ── Nav cards grid ── */
-    .nav-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
-    .nav-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.5rem;
-      cursor: pointer; text-decoration: none; color: var(--text);
-      transition: all 0.25s; display: flex; flex-direction: column; gap: 0.75rem;
-    }
-    .nav-card:hover { border-color: var(--primary); box-shadow: 0 12px 32px rgba(99,102,241,0.1); transform: translateY(-3px); }
-    .nav-card.dark { background: var(--primary); color: #fff; border-color: var(--primary-dark); }
-    .nav-card.dark p { color: rgba(255,255,255,0.75); }
-    .nav-card-icon { font-size: 1.75rem; }
-    .nav-card h3 { font-size: 1rem; font-weight: 700; }
-    .nav-card p { font-size: 0.85rem; color: var(--muted); }
-    .nav-card-arrow { margin-left: auto; font-size: 1rem; opacity: 0.4; transition: all 0.2s; }
-    .nav-card:hover .nav-card-arrow { opacity: 1; transform: translateX(4px); }
-
-    /* ── Stats strip ── */
+    /* ── Stats strip ────────────────────────────────────────── */
     .stats-strip {
-      background: var(--primary); color: #fff;
-      padding: 1.25rem 0;
+      display: flex; align-items: center; justify-content: center;
+      gap: 3rem; flex-wrap: wrap;
+      padding: 2.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
     }
-    .stats-inner { display: flex; flex-wrap: wrap; justify-content: center; gap: 2.5rem; }
     .stat-item { text-align: center; }
-    .stat-value { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; }
-    .stat-label { font-size: 0.8rem; opacity: 0.8; margin-top: 2px; }
+    .stat-num { font-size: 2rem; font-weight: 900; letter-spacing: -0.04em; color: var(--txt); }
+    .stat-lbl { font-size: 0.8rem; font-weight: 500; color: var(--txt3); margin-top: 0.15rem; }
 
-    /* ── Demo page ── */
-    .demo-wrap {
-      max-width: 500px; margin: 0 auto;
-      background: var(--surface); border-radius: 24px;
-      border: 1px solid var(--border);
-      box-shadow: 0 24px 64px rgba(99,102,241,0.1);
-      overflow: hidden;
+    /* ── Nav cards grid ─────────────────────────────────────── */
+    .nav-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+    .nav-card {
+      background: var(--surface); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--r-card); padding: 1.5rem;
+      cursor: pointer; transition: all 0.25s; text-decoration: none; color: inherit;
     }
-    .demo-header {
-      background: #075E54; color: #fff;
-      padding: 1rem 1.25rem; display: flex; align-items: center; gap: 12px;
-    }
-    .demo-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--wa); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-    .demo-name { font-size: 1rem; font-weight: 600; }
-    .demo-status { font-size: 0.75rem; opacity: 0.8; }
-    .demo-body { background: #ECE5DD; min-height: 380px; padding: 1rem; display: flex; flex-direction: column; gap: 0.6rem; overflow-y: auto; max-height: 420px; }
-    .demo-input-row { display: flex; gap: 0.5rem; padding: 0.75rem; background: #f0f0f0; align-items: center; }
-    .demo-input { flex: 1; border: none; background: #fff; border-radius: 999px; padding: 0.6rem 1rem; font-size: 0.9rem; outline: none; font-family: 'DM Sans', sans-serif; }
-    .demo-send { width: 40px; height: 40px; border-radius: 50%; background: var(--wa); border: none; color: #fff; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.15s; }
-    .demo-send:hover { transform: scale(1.1); }
-    .typing-indicator { display: flex; gap: 4px; padding: 0.5rem 0.75rem; background: #fff; border-radius: 10px; width: fit-content; }
-    .typing-dot { width: 7px; height: 7px; border-radius: 50%; background: #999; animation: typingBounce 1.2s infinite ease; }
-    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes typingBounce { 0%,80%,100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
-    .demo-prompts { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0 0.75rem 0.75rem; }
-    .demo-prompt-btn {
-      padding: 0.35rem 0.8rem; border-radius: 999px; border: 1.5px solid var(--border);
-      background: var(--bg); font-size: 0.8rem; cursor: pointer; transition: all 0.15s;
-      font-family: 'DM Sans', sans-serif; color: var(--text);
-    }
-    .demo-prompt-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .nav-card:hover { border-color: rgba(99,102,241,0.4); box-shadow: 0 0 30px rgba(99,102,241,0.08); transform: translateY(-3px); }
+    .nav-card-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .nav-card h4 { font-size: 1rem; font-weight: 700; color: var(--txt); letter-spacing: -0.02em; margin-bottom: 0.35rem; }
+    .nav-card p { font-size: 0.85rem; color: var(--txt2); }
 
-    /* ── Compare page ── */
-    .compare-table { width: 100%; border-collapse: collapse; }
-    .compare-table th, .compare-table td {
-      padding: 1rem 1.25rem; text-align: left;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.92rem;
+    /* ── HERO ───────────────────────────────────────────────── */
+    #hero { position: relative; height: 100vh; min-height: 700px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .hero-content {
+      position: relative; z-index: 10; text-align: center;
+      padding: 0 2rem; max-width: 860px;
     }
-    .compare-table thead { background: var(--bg); }
-    .compare-table th { font-family: 'Syne', sans-serif; font-weight: 700; }
-    .compare-table .col-bot { background: rgba(99,102,241,0.04); font-weight: 600; color: var(--primary-dark); }
-    .compare-table .col-bot-head { background: rgba(99,102,241,0.1); color: var(--primary-dark); }
-    .compare-table tr:last-child td { border-bottom: none; }
-    .compare-table tbody tr:hover { background: rgba(99,102,241,0.03); }
-    .check { color: var(--primary); font-size: 1.1rem; }
-    .cross { color: #ef4444; }
-    .compare-callout {
-      background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.08));
-      border: 1px solid rgba(99,102,241,0.2);
-      border-radius: var(--radius); padding: 1.75rem; margin-top: 2.5rem;
-      text-align: center;
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.25);
+      color: var(--primary-l); font-size: 0.8rem; font-weight: 600;
+      padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 2rem;
     }
-    .compare-callout strong { font-size: 1.1rem; color: var(--text); }
+    .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pulse-dot 2s infinite; }
+    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.3)} }
+    .hero-h1 { color: var(--txt); white-space: pre-line; margin-bottom: 1.5rem; }
+    .hero-sub { font-size: 1.2rem; color: var(--txt2); line-height: 1.65; margin: 0 auto 2.5rem; max-width: 520px; }
+    .hero-ctas { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .hero-trust { font-size: 0.85rem; color: var(--txt3); }
+    .hero-trust span { color: #fbbf24; }
 
-    /* ── Features page ── */
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-    .feat-icon { font-size: 2rem; margin-bottom: 0.75rem; }
-    .feat-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
-    .feat-desc { font-size: 0.9rem; color: var(--muted); }
+    /* ── Phone demo ─────────────────────────────────────────── */
+    .phone-section { background: #0d0d14; padding: 7rem 0; }
+    .phone-picker { display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .pill {
+      padding: 0.45rem 1.1rem; border-radius: 100px; border: 1px solid var(--border);
+      font-size: 0.85rem; font-weight: 600; cursor: pointer; color: var(--txt2);
+      transition: all 0.2s; background: transparent;
+      font-family: inherit;
+    }
+    .pill.active, .pill:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .phones-wrap { display: flex; gap: 2.5rem; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
+    .phone-device {
+      width: 280px; background: #1a1a22; border-radius: 40px;
+      border: 2px solid rgba(255,255,255,0.1);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+      overflow: hidden; flex-shrink: 0;
+    }
+    .phone-topbar {
+      background: #075e54; padding: 0.6rem 1rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .phone-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--wa); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .phone-contact { flex: 1; }
+    .phone-contact-name { font-size: 0.8rem; font-weight: 700; color: #fff; }
+    .phone-contact-status { font-size: 0.68rem; color: rgba(255,255,255,0.7); }
+    .chat-area {
+      background: #0d1a17;
+      min-height: 380px; padding: 1rem;
+      display: flex; flex-direction: column; gap: 0.5rem;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .chat-bubble-wrap { display: flex; }
+    .chat-bubble-wrap.customer { justify-content: flex-end; }
+    .chat-bubble-wrap.bot { justify-content: flex-start; }
+    .chat-bubble {
+      max-width: 85%; padding: 0.55rem 0.85rem;
+      border-radius: 12px; font-size: 0.82rem; line-height: 1.45;
+      animation: bubble-in 0.3s ease;
+    }
+    @keyframes bubble-in { from{opacity:0;transform:scale(0.9) translateY(4px)} to{opacity:1;transform:none} }
+    .chat-bubble.customer { background: #005c4b; color: #fff; border-bottom-right-radius: 4px; }
+    .chat-bubble.bot { background: #202c33; color: #e9edef; border-bottom-left-radius: 4px; }
+    .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 0.6rem 0.85rem; background: #202c33; border-radius: 12px; border-bottom-left-radius: 4px; width: fit-content; }
+    .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: #94a3b8; animation: typing 1.2s infinite; }
+    .typing-dot:nth-child(2){animation-delay:0.2s}
+    .typing-dot:nth-child(3){animation-delay:0.4s}
+    @keyframes typing{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+    .phone-label { text-align: center; font-size: 0.8rem; font-weight: 600; color: var(--txt3); margin-top: 1rem; }
 
-    /* ── Pricing page ── */
-    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; align-items: start; }
-    .price-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 2rem; }
-    .price-card.popular { border-color: var(--primary); box-shadow: 0 8px 40px rgba(99,102,241,0.15); }
-    .pricing-hot { position: relative; }
-    @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
-    .pricing-hot::before {
-      content: '';
-      position: absolute; inset: -2px; border-radius: inherit; z-index: -1;
-      background: conic-gradient(from var(--angle,0deg), transparent 60%, #6366f1 75%, #8b5cf6 80%, #6366f1 85%, transparent 95%);
-      animation: spinBorder 3s linear infinite;
+    /* ── Compare ────────────────────────────────────────────── */
+    .compare-table { width: 100%; border-collapse: collapse; margin-top: 3rem; }
+    .compare-table th, .compare-table td { padding: 1rem 1.25rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--txt3); padding-bottom: 1rem; }
+    .compare-table td:first-child { color: var(--txt2); }
+    .compare-table td.human { color: var(--txt3); }
+    .compare-table td.foco { color: var(--txt); font-weight: 600; }
+    .compare-table .col-foco { background: rgba(99,102,241,0.06); }
+    .compare-table th.col-foco { color: var(--primary-l); background: rgba(99,102,241,0.1); border-radius: 8px 8px 0 0; }
+    .callout {
+      margin-top: 3rem; padding: 2rem 2.5rem;
+      background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.25);
+      border-radius: var(--r-card); text-align: center;
     }
-    @keyframes spinBorder { to { --angle: 360deg; } }
-    .popular-badge {
-      display: inline-block; background: var(--gradient); color: #fff;
-      font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.75rem;
-      border-radius: 999px; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;
+    .callout p { font-size: 1.1rem; color: var(--txt); font-weight: 600; }
+    .callout span { color: var(--primary-l); }
+
+    /* ── Features ───────────────────────────────────────────── */
+    .features-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.25rem; }
+    .feature-card { background: var(--surface); border: 1px solid rgba(255,255,255,0.07); border-radius: var(--r-card); padding: 2rem; transition: all 0.25s; }
+    .feature-card:hover { border-color: rgba(99,102,241,0.4); box-shadow: 0 0 30px rgba(99,102,241,0.08); }
+    .feature-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+    .feature-card h4 { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.02em; color: var(--txt); margin-bottom: 0.5rem; }
+    .feature-card p { font-size: 0.875rem; color: var(--txt2); line-height: 1.65; }
+
+    /* ── Pricing ────────────────────────────────────────────── */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; }
+    .price-card {
+      background: var(--surface); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--r-card); padding: 2rem;
+      display: flex; flex-direction: column;
     }
-    .price-plan { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .price-amount { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; color: var(--text); }
-    .price-unit { font-size: 0.9rem; color: var(--muted); }
-    .price-desc { font-size: 0.85rem; color: var(--muted); margin: 0.75rem 0 1.25rem; }
-    .price-features { list-style: none; margin-bottom: 1.75rem; display: flex; flex-direction: column; gap: 0.6rem; }
-    .price-features li { font-size: 0.88rem; display: flex; gap: 8px; align-items: flex-start; }
+    .price-card.hot { position: relative; z-index: 1; border-color: transparent; }
+
+    @property --a { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+    @keyframes spin { to { --a: 360deg; } }
+    .price-card.hot::before {
+      content: ''; position: absolute; inset: -2px; border-radius: calc(var(--r-card) + 2px); z-index: -1;
+      background: conic-gradient(from var(--a), transparent 60%, #6366f1 75%, #a78bfa 80%, #6366f1 85%, transparent);
+      animation: spin 3s linear infinite;
+    }
+    .price-card.hot::after {
+      content: ''; position: absolute; inset: 0; border-radius: var(--r-card); z-index: -1; background: var(--surface);
+    }
+
+    .price-badge {
+      display: inline-block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: #fff; background: var(--grad);
+      padding: 0.25rem 0.75rem; border-radius: 100px; margin-bottom: 1.25rem; align-self: flex-start;
+    }
+    .price-name { font-size: 1rem; font-weight: 700; color: var(--txt2); margin-bottom: 0.5rem; }
+    .price-amount { font-size: 2.8rem; font-weight: 900; letter-spacing: -0.05em; color: var(--txt); line-height: 1; }
+    .price-amount span { font-size: 1rem; font-weight: 500; color: var(--txt3); }
+    .price-desc { font-size: 0.875rem; color: var(--txt2); margin: 1rem 0 1.5rem; }
+    .price-divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
+    .price-features { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+    .price-features li { font-size: 0.875rem; color: var(--txt2); display: flex; align-items: center; gap: 0.5rem; }
     .price-features li::before { content: '✓'; color: var(--primary); font-weight: 700; flex-shrink: 0; }
-    .price-guarantee { text-align: center; margin-top: 2rem; font-size: 0.85rem; color: var(--muted); }
+    .price-cta { margin-top: 2rem; width: 100%; }
+
+    /* ── FAQ ────────────────────────────────────────────────── */
+    .faq { margin-top: 4rem; }
     .faq-item { border-bottom: 1px solid var(--border); }
     .faq-q {
-      padding: 1.25rem 0; display: flex; justify-content: space-between; align-items: center;
-      cursor: pointer; font-weight: 600; font-size: 0.95rem;
+      width: 100%; background: transparent; border: none; color: var(--txt);
+      font-size: 1rem; font-weight: 600; padding: 1.25rem 0;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      cursor: pointer; text-align: left; font-family: inherit;
     }
-    .faq-q:hover { color: var(--primary); }
-    .faq-icon { transition: transform 0.25s; font-size: 1rem; color: var(--muted); }
-    .faq-item.open .faq-icon { transform: rotate(180deg); }
-    .faq-a { display: none; padding-bottom: 1rem; font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
-    .faq-item.open .faq-a { display: block; }
+    .faq-q svg { flex-shrink: 0; transition: transform 0.25s; color: var(--txt3); }
+    .faq-item.open .faq-q svg { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s; }
+    .faq-item.open .faq-a { max-height: 300px; padding-bottom: 1.25rem; }
+    .faq-a p { color: var(--txt2); font-size: 0.95rem; line-height: 1.7; }
 
-    /* ── Apply page ── */
-    .apply-wrap { max-width: 640px; margin: 0 auto; }
-    .apply-form { display: flex; flex-direction: column; gap: 1.25rem; }
-    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
-    .form-label { font-size: 0.85rem; font-weight: 600; color: var(--text); }
-    .form-input, .form-select, .form-textarea {
-      border: 1.5px solid var(--border); border-radius: 10px;
-      padding: 0.75rem 1rem; font-size: 0.95rem;
-      font-family: 'DM Sans', sans-serif; background: var(--surface);
-      color: var(--text); transition: border-color 0.2s; outline: none;
+    /* ── Apply ──────────────────────────────────────────────── */
+    .apply-card {
+      background: var(--surface); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 24px; padding: 3rem; max-width: 620px; margin: 0 auto;
     }
-    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
-    .form-textarea { resize: vertical; min-height: 100px; }
-    .progress-wrap { margin-bottom: 1.5rem; }
-    .progress-label { font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
-    .progress-bar { height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--gradient); border-radius: 999px; transition: width 0.4s ease; }
-    .scarcity-banner {
-      background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2);
-      border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 1.5rem;
-      display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: #dc2626; font-weight: 500;
+    .progress-bar { height: 3px; background: var(--border); border-radius: 100px; margin-bottom: 2.5rem; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--grad); border-radius: 100px; width: 33%; transition: width 0.5s; }
+    .scarcity-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25);
+      color: #f87171; font-size: 0.8rem; font-weight: 600;
+      padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 2rem;
     }
-    .success-msg { display: none; text-align: center; padding: 3rem 2rem; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--txt2); margin-bottom: 0.5rem; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 0.8rem 1rem;
+      background: var(--surface-el); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--txt); font-size: 0.95rem;
+      font-family: inherit; transition: border-color 0.2s; outline: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); }
+    .form-group select option { background: var(--surface-el); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .success-state { text-align: center; padding: 2rem 0; display: none; }
     .success-icon { font-size: 3rem; margin-bottom: 1rem; }
-    .success-title { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; }
-    .success-sub { color: var(--muted); font-size: 0.95rem; }
 
-    /* ── Footer ── */
-    footer {
-      background: var(--surface); border-top: 1px solid var(--border);
-      padding: 2rem 0; margin-top: 4rem; text-align: center;
+    /* ── Demo page ──────────────────────────────────────────── */
+    .demo-wrap { max-width: 700px; margin: 0 auto; }
+    .demo-device {
+      background: #1a1a22; border-radius: 32px;
+      border: 2px solid rgba(255,255,255,0.1);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+      overflow: hidden;
     }
-    footer p { font-size: 0.85rem; color: var(--muted); }
-
-    /* ── Glassmorphism card ── */
-    .glass {
-      background: rgba(255,255,255,0.85);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.6);
+    .demo-topbar {
+      background: #075e54; padding: 0.75rem 1.25rem;
+      display: flex; align-items: center; gap: 0.75rem;
     }
+    .demo-chat { background: #0d1a17; min-height: 380px; max-height: 420px; overflow-y: auto; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; }
+    .demo-input-row {
+      background: #1a1a22; padding: 0.75rem 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .demo-input {
+      flex: 1; background: #202c33; border: none; border-radius: 24px;
+      padding: 0.6rem 1.1rem; color: #e9edef; font-size: 0.9rem;
+      outline: none; font-family: inherit;
+    }
+    .demo-send {
+      width: 38px; height: 38px; border-radius: 50%; background: var(--wa);
+      border: none; cursor: pointer; color: #fff; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .quick-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .chip {
+      padding: 0.4rem 0.9rem; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 100px; font-size: 0.8rem; color: var(--txt2); cursor: pointer;
+      transition: all 0.2s; font-family: inherit;
+    }
+    .chip:hover { border-color: var(--primary); color: var(--txt); }
 
-    /* ── Testimonials ── */
-    .testimonials { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
-    .testimonial-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
-    .t-stars { color: #f59e0b; font-size: 0.9rem; margin-bottom: 0.75rem; }
-    .t-text { font-size: 0.88rem; color: var(--text); line-height: 1.6; margin-bottom: 1rem; }
-    .t-author { font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+    /* ── RTL overrides ──────────────────────────────────────── */
+    body.is-rtl .nav-links { flex-direction: row-reverse; }
+    body.is-rtl .hero-ctas { flex-direction: row-reverse; }
+    body.is-rtl .chat-bubble.customer { border-radius: 12px; border-bottom-left-radius: 4px; border-bottom-right-radius: 12px; }
+    body.is-rtl .chat-bubble.bot { border-radius: 12px; border-bottom-right-radius: 4px; border-bottom-left-radius: 12px; }
+    body.is-rtl .compare-table th, body.is-rtl .compare-table td { text-align: right; }
+    body.is-rtl .price-features li { flex-direction: row-reverse; }
+    body.is-rtl .price-features li::before { margin-right: 0; }
+    body.is-rtl .nav-right { flex-direction: row-reverse; }
+    body.is-rtl p.lead { text-align: right; }
+    body.is-rtl .section-label { flex-direction: row-reverse; }
+    body.is-rtl .faq-q { flex-direction: row-reverse; text-align: right; }
+    body.is-rtl .form-group label { text-align: right; }
+    body.is-rtl .price-badge { align-self: flex-end; }
+    body.is-rtl .chat-bubble-wrap.customer { justify-content: flex-start; }
+    body.is-rtl .chat-bubble-wrap.bot { justify-content: flex-end; }
+    body.is-rtl .chat-bubble-wrap.customer .chat-bubble { background: #005c4b; }
+    body.is-rtl .chat-bubble-wrap.bot .chat-bubble { background: #202c33; }
+    body.is-rtl .compare-table { direction: rtl; }
 
-    /* ── Responsive ── */
+    /* ── Responsive ─────────────────────────────────────────── */
     @media (max-width: 768px) {
       .nav-links { display: none; }
-      .chip-bar { display: flex; }
-      body { padding-top: 100px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .nav-cards { grid-template-columns: 1fr 1fr; }
       .phones-wrap { flex-direction: column; align-items: center; }
-      .phone-mockup { width: 100%; max-width: 300px; }
-      .hero-title { font-size: 2.2rem; }
-      .compare-table { font-size: 0.82rem; }
-      .compare-table th, .compare-table td { padding: 0.75rem; }
+      .phone-device { width: 100%; max-width: 320px; }
+      .compare-table { font-size: 0.8rem; }
+      .compare-table th, .compare-table td { padding: 0.6rem 0.75rem; }
+      h1.display { font-size: 2.4rem; }
+      .section { padding: 4rem 0; }
     }
-    @media (min-width: 769px) {
-      body { padding-top: 64px; }
+    @media (max-width: 480px) {
+      .nav-cards { grid-template-columns: 1fr; }
+      .stats-strip { gap: 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── NAV ── -->
+<!-- ═══════════════════════════════════════════════ NAV -->
 <nav>
-  <a class="nav-logo" onclick="setPage('home')">
-    <div class="nav-logo-icon">🤖</div>
-    focobot
-  </a>
-  <div class="nav-links">
-    <a data-page="home" onclick="setPage('home')">Home</a>
-    <a data-page="demo" onclick="setPage('demo')">Demo</a>
-    <a data-page="compare" onclick="setPage('compare')">Compare</a>
-    <a data-page="features" onclick="setPage('features')">Features</a>
-    <a data-page="pricing" onclick="setPage('pricing')">Pricing</a>
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="setPage('home')">Focobot</div>
+    <ul class="nav-links">
+      <li><a data-page="home"    onclick="setPage('home')"    data-en="Home"     data-ar="الرئيسية">Home</a></li>
+      <li><a data-page="demo"    onclick="setPage('demo')"    data-en="Demo"     data-ar="تجربة">Demo</a></li>
+      <li><a data-page="compare" onclick="setPage('compare')" data-en="Compare"  data-ar="مقارنة">Compare</a></li>
+      <li><a data-page="features"onclick="setPage('features')"data-en="Features" data-ar="المزايا">Features</a></li>
+      <li><a data-page="pricing" onclick="setPage('pricing')" data-en="Pricing"  data-ar="الأسعار">Pricing</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="lang-ar" onclick="setLang('ar')">AR</button>
+      </div>
+      <button class="btn-nav" onclick="setPage('apply')" data-en="Get Started" data-ar="ابدأ الآن">Get Started</button>
+    </div>
   </div>
-  <button class="nav-cta ripple-host" onclick="setPage('apply');addRipple(event,this)">Get Started</button>
 </nav>
 
-<!-- Mobile chip bar -->
-<div class="chip-bar" id="chipBar">
-  <span class="chip" data-page="home" onclick="setPage('home')">Home</span>
-  <span class="chip" data-page="demo" onclick="setPage('demo')">Demo</span>
-  <span class="chip" data-page="compare" onclick="setPage('compare')">Compare</span>
-  <span class="chip" data-page="features" onclick="setPage('features')">Features</span>
-  <span class="chip" data-page="pricing" onclick="setPage('pricing')">Pricing</span>
-  <span class="chip" data-page="apply" onclick="setPage('apply')">Apply</span>
-</div>
+<!-- ═══════════════════════════════════════════════ HOME PAGE -->
+<div id="page-home" class="page">
 
-<!-- ══════════════════════════════════════════
-     HOME PAGE
-══════════════════════════════════════════ -->
-<div class="page active" id="page-home">
-
-  <!-- Hero with Three.js canvas -->
-  <section id="hero-canvas-section">
+  <!-- HERO -->
+  <section id="hero">
     <canvas id="hero-canvas"></canvas>
-    <div class="hero-overlay">
-      <div class="glass" style="border-radius:999px;padding:0.35rem 1rem;margin-bottom:1.25rem;display:inline-flex;align-items:center;gap:6px;">
-        <span style="color:#16a34a;font-size:0.7rem;">●</span>
-        <span style="font-size:0.82rem;font-weight:600;color:var(--muted);">Live in Kuwait · <span style="color:#dc2626;">Limited spots this month</span></span>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        <span data-en="Live in Kuwait — Limited spots this month" data-ar="متاح في الكويت — أماكن محدودة هذا الشهر">Live in Kuwait — Limited spots this month</span>
       </div>
-      <h1 class="hero-title">
-        Every Unanswered WhatsApp<br>
-        Is <span>Lost Revenue.</span>
-      </h1>
-      <p class="hero-sub">Focobot answers every customer instantly — Arabic and English — 24/7. Never miss another sale.</p>
+      <h1 class="display hero-h1" data-en="Stop Losing Customers&#10;At 2AM." data-ar="لا تخسر عميلاً&#10;الساعة ٢ صباحاً.">Stop Losing Customers<br>At 2AM.</h1>
+      <p class="hero-sub" data-en="Focobot handles every WhatsApp message instantly — in Arabic and English — so you never miss a sale." data-ar="فوكوبوت يرد على رسائل واتساب فوراً — بالعربية والإنجليزية — حتى لا تفوتك أي صفقة.">Focobot handles every WhatsApp message instantly — in Arabic and English — so you never miss a sale.</p>
       <div class="hero-ctas">
-        <button class="btn btn-primary btn-lg ripple-host" onclick="setPage('apply');addRipple(event,this)">
-          Start Free Trial
-          <span style="font-size:0.8em;">→</span>
-        </button>
-        <button class="btn btn-outline btn-lg" onclick="setPage('demo')">
-          See Demo
-        </button>
+        <button class="btn-primary" onclick="setPage('apply')" data-en="Start Free Trial →" data-ar="ابدأ تجربتك المجانية ←">Start Free Trial →</button>
+        <button class="btn-ghost" onclick="setPage('demo')" data-en="Watch Demo" data-ar="شاهد العرض">Watch Demo</button>
       </div>
-      <div class="hero-social">
-        <span class="stars">★★★★★</span>
-        <span>Trusted by Kuwait businesses</span>
-      </div>
+      <p class="hero-trust"><span>★★★★★</span> <span data-en="Trusted by Kuwait businesses" data-ar="موثوق به من أصحاب الأعمال في الكويت">Trusted by Kuwait businesses</span></p>
     </div>
   </section>
 
-  <!-- Phone demo section -->
+  <!-- STATS STRIP -->
+  <div class="stats-strip">
+    <div class="stat-item">
+      <div class="stat-num">&lt;2s</div>
+      <div class="stat-lbl" data-en="Response Time" data-ar="وقت الرد">Response Time</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">24/7</div>
+      <div class="stat-lbl" data-en="Always On" data-ar="دائماً متاح">Always On</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-en="AR + EN" data-ar="ع + EN">AR + EN</div>
+      <div class="stat-lbl" data-en="Bilingual" data-ar="ثنائي اللغة">Bilingual</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">500+</div>
+      <div class="stat-lbl" data-en="Businesses Served" data-ar="عمل تجاري يستخدمه">Businesses Served</div>
+    </div>
+  </div>
+
+  <!-- PHONE DEMO SECTION -->
   <section class="phone-section">
     <div class="container">
-      <div style="text-align:center;margin-bottom:2.5rem;" class="reveal">
-        <div class="section-label">See It In Action</div>
-        <h2 class="section-title" style="margin:0 auto;">Your Bot, Right Now</h2>
-        <p class="section-sub" style="margin:0.75rem auto 0;">Pick your business type and watch Focobot handle real conversations.</p>
+      <div style="text-align:center;margin-bottom:1rem;">
+        <div class="section-label" style="justify-content:center;" data-en="● Live Preview" data-ar="● معاينة حية">● Live Preview</div>
+        <h2 class="display" data-en="See It In Action" data-ar="شاهده في العمل">See It In Action</h2>
+        <p style="color:var(--txt2);margin-top:0.75rem;" data-en="Pick a business type — watch Focobot respond perfectly." data-ar="اختر نوع عملك — شاهد فوكوبوت يرد بشكل مثالي.">Pick a business type — watch Focobot respond perfectly.</p>
       </div>
-
-      <div class="business-pills reveal" id="bizPills">
-        <button class="biz-pill active" onclick="selectBiz('cafe',this)">☕ Coffee Shop</button>
-        <button class="biz-pill" onclick="selectBiz('restaurant',this)">🍽️ Restaurant</button>
-        <button class="biz-pill" onclick="selectBiz('salon',this)">💇 Salon</button>
-        <button class="biz-pill" onclick="selectBiz('bakery',this)">🧁 Bakery</button>
-        <button class="biz-pill" onclick="selectBiz('gym',this)">💪 Gym</button>
+      <div class="phone-picker" id="biz-picker">
+        <button class="pill active" data-biz="cafe" onclick="selectBiz('cafe')" data-en="Coffee Shop" data-ar="مقهى">Coffee Shop</button>
+        <button class="pill" data-biz="restaurant" onclick="selectBiz('restaurant')" data-en="Restaurant" data-ar="مطعم">Restaurant</button>
+        <button class="pill" data-biz="salon" onclick="selectBiz('salon')" data-en="Salon" data-ar="صالون">Salon</button>
+        <button class="pill" data-biz="bakery" onclick="selectBiz('bakery')" data-en="Bakery" data-ar="مخبزة">Bakery</button>
+        <button class="pill" data-biz="gym" onclick="selectBiz('gym')" data-en="Gym" data-ar="صالة رياضية">Gym</button>
       </div>
-
-      <div class="phones-wrap reveal">
+      <div class="phones-wrap">
         <!-- English Phone -->
         <div>
-          <div class="phone-mockup" id="phoneEN">
-            <div class="phone-header">
-              <div class="phone-avatar">🤖</div>
-              <div>
-                <div class="phone-name">Focobot</div>
-                <div class="phone-status">Online</div>
+          <div class="phone-device">
+            <div class="phone-topbar">
+              <div class="phone-avatar">☕</div>
+              <div class="phone-contact">
+                <div class="phone-contact-name" id="en-biz-name">Sunrise Café</div>
+                <div class="phone-contact-status">● online</div>
               </div>
             </div>
-            <div class="phone-body" id="phoneMsgsEN"></div>
+            <div class="chat-area" id="chat-en"></div>
           </div>
-          <div class="phone-label">English</div>
+          <div class="phone-label" data-en="English" data-ar="الإنجليزية">English</div>
         </div>
         <!-- Arabic Phone -->
         <div>
-          <div class="phone-mockup phone-ar" id="phoneAR">
-            <div class="phone-header">
-              <div class="phone-avatar">🤖</div>
-              <div>
-                <div class="phone-name">فوكوبوت</div>
-                <div class="phone-status">متصل</div>
+          <div class="phone-device" style="direction:rtl;">
+            <div class="phone-topbar" style="flex-direction:row-reverse;">
+              <div class="phone-avatar">☕</div>
+              <div class="phone-contact" style="text-align:right;">
+                <div class="phone-contact-name" id="ar-biz-name">كافيه الشروق</div>
+                <div class="phone-contact-status">● متصل</div>
               </div>
             </div>
-            <div class="phone-body" id="phoneMsgsAR" style="direction:rtl;"></div>
+            <div class="chat-area" id="chat-ar" style="direction:rtl;"></div>
           </div>
-          <div class="phone-label">Arabic (Kuwaiti)</div>
+          <div class="phone-label" data-en="Arabic" data-ar="العربية">Arabic</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Nav cards -->
+  <!-- NAV CARDS -->
   <section class="section">
     <div class="container">
-      <div style="text-align:center;margin-bottom:2.5rem;" class="reveal">
-        <div class="section-label">Explore Focobot</div>
-        <h2 class="section-title">Everything You Need to Know</h2>
+      <div style="text-align:center;margin-bottom:3rem;">
+        <h2 class="display" data-en="Everything You Need" data-ar="كل ما تحتاجه">Everything You Need</h2>
+        <p style="color:var(--txt2);margin-top:0.75rem;" data-en="Explore what Focobot can do for your business." data-ar="اكتشف ما يمكن لفوكوبوت فعله لعملك.">Explore what Focobot can do for your business.</p>
       </div>
-      <div class="nav-cards reveal">
+      <div class="nav-cards">
         <a class="nav-card" onclick="setPage('demo')">
-          <div class="nav-card-icon" style="color:#10b981;">💬</div>
-          <h3>Try the Bot Live</h3>
-          <p>Ask anything. See how Focobot responds in real time.</p>
-          <span class="nav-card-arrow">→</span>
+          <div class="nav-card-icon">💬</div>
+          <h4 data-en="Try the Demo" data-ar="جرب العرض التوضيحي">Try the Demo</h4>
+          <p data-en="Chat with Focobot live — ask anything you'd expect a customer to ask." data-ar="تحدث مع فوكوبوت مباشرة — اسأل أي شيء تتوقعه من عميل.">Chat with Focobot live — ask anything you'd expect a customer to ask.</p>
         </a>
         <a class="nav-card" onclick="setPage('compare')">
-          <div class="nav-card-icon" style="color:#f43f5e;">⚡</div>
-          <h3>Human vs Focobot</h3>
-          <p>Side-by-side comparison. The numbers don't lie.</p>
-          <span class="nav-card-arrow">→</span>
+          <div class="nav-card-icon">⚖️</div>
+          <h4 data-en="Human vs Focobot" data-ar="موظف بشري مقابل فوكوبوت">Human vs Focobot</h4>
+          <p data-en="See why smart businesses are switching. The numbers speak clearly." data-ar="اعرف لماذا تتحول الأعمال الذكية. الأرقام تتحدث بوضوح.">See why smart businesses are switching. The numbers speak clearly.</p>
         </a>
         <a class="nav-card" onclick="setPage('features')">
-          <div class="nav-card-icon" style="color:#8b5cf6;">🔮</div>
-          <h3>What It Does</h3>
-          <p>Every feature that keeps your business running 24/7.</p>
-          <span class="nav-card-arrow">→</span>
+          <div class="nav-card-icon">⚡</div>
+          <h4 data-en="Features" data-ar="المزايا">Features</h4>
+          <p data-en="Instant replies, bilingual AI, catalog integration, owner alerts and more." data-ar="ردود فورية، ذكاء اصطناعي ثنائي اللغة، تكامل الكتالوج، تنبيهات المالك والمزيد.">Instant replies, bilingual AI, catalog integration, owner alerts and more.</p>
         </a>
         <a class="nav-card" onclick="setPage('pricing')">
-          <div class="nav-card-icon" style="color:#f59e0b;">💳</div>
-          <h3>Pricing — from 29 KWD</h3>
-          <p>Less than one missed order per month.</p>
-          <span class="nav-card-arrow">→</span>
+          <div class="nav-card-icon">💎</div>
+          <h4 data-en="Pricing" data-ar="الأسعار">Pricing</h4>
+          <p data-en="Starting from 29 KWD/month — less than one missed sale." data-ar="يبدأ من ٢٩ د.ك شهرياً — أقل من صفقة واحدة فائتة.">Starting from 29 KWD/month — less than one missed sale.</p>
         </a>
-        <a class="nav-card dark ripple-host" onclick="setPage('apply');addRipple(event,this)" style="grid-column:auto;">
+        <a class="nav-card" onclick="setPage('apply')">
           <div class="nav-card-icon">🚀</div>
-          <h3>Apply Now</h3>
-          <p>10 spots/month. Limited availability.</p>
-          <span class="nav-card-arrow">→</span>
+          <h4 data-en="Apply Now" data-ar="قدّم طلبك الآن">Apply Now</h4>
+          <p data-en="Limited spots this month. Get set up in 24 hours." data-ar="أماكن محدودة هذا الشهر. انطلق خلال ٢٤ ساعة.">Limited spots this month. Get set up in 24 hours.</p>
+        </a>
+        <a class="nav-card" onclick="setPage('compare')">
+          <div class="nav-card-icon">📊</div>
+          <h4 data-en="ROI Calculator" data-ar="حساب العائد">ROI Calculator</h4>
+          <p data-en="Kuwait businesses lose 720–1,200 KWD/year to slow replies. See your savings." data-ar="الأعمال الكويتية تخسر ٧٢٠–١٢٠٠ د.ك سنوياً بسبب الردود البطيئة. احسب مدخراتك.">Kuwait businesses lose 720–1,200 KWD/year to slow replies. See your savings.</p>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Testimonials -->
-  <section class="section-sm" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+</div><!-- /page-home -->
+
+<!-- ═══════════════════════════════════════════════ DEMO PAGE -->
+<div id="page-demo" class="page">
+  <section class="section">
     <div class="container">
-      <div style="text-align:center;margin-bottom:2rem;" class="reveal">
-        <div class="section-label">Social Proof</div>
-        <h2 class="section-title">Kuwait Businesses Love Focobot</h2>
+      <div style="text-align:center;margin-bottom:3rem;">
+        <div class="section-label" style="justify-content:center;" data-en="● Interactive" data-ar="● تفاعلي">● Interactive</div>
+        <h2 class="display" data-en="Talk to Focobot" data-ar="تحدث مع فوكوبوت">Talk to Focobot</h2>
+        <p style="color:var(--txt2);margin-top:0.75rem;max-width:480px;margin-left:auto;margin-right:auto;" data-en="Type a message or tap a quick reply. Switch business type to see different contexts." data-ar="اكتب رسالة أو انقر على رد سريع. بدّل نوع العمل لرؤية سياقات مختلفة.">Type a message or tap a quick reply. Switch business type to see different contexts.</p>
       </div>
-      <div class="testimonials reveal">
-        <div class="testimonial-card">
-          <div class="t-stars">★★★★★</div>
-          <p class="t-text">"We were losing orders every Friday night. Now Focobot handles 80+ messages while we sleep. Revenue is up 30%."</p>
-          <div class="t-author">Khalid M. — Restaurant Owner, Salmiya</div>
+
+      <div class="phone-picker" id="demo-biz-picker" style="margin-bottom:2rem;">
+        <button class="pill active" data-biz="cafe" onclick="selectDemoBiz('cafe')" data-en="Coffee Shop" data-ar="مقهى">Coffee Shop</button>
+        <button class="pill" data-biz="restaurant" onclick="selectDemoBiz('restaurant')" data-en="Restaurant" data-ar="مطعم">Restaurant</button>
+        <button class="pill" data-biz="salon" onclick="selectDemoBiz('salon')" data-en="Salon" data-ar="صالون">Salon</button>
+        <button class="pill" data-biz="bakery" onclick="selectDemoBiz('bakery')" data-en="Bakery" data-ar="مخبزة">Bakery</button>
+        <button class="pill" data-biz="gym" onclick="selectDemoBiz('gym')" data-en="Gym" data-ar="صالة رياضية">Gym</button>
+      </div>
+
+      <div class="demo-wrap">
+        <div class="demo-device">
+          <div class="demo-topbar">
+            <div class="phone-avatar" id="demo-avatar">☕</div>
+            <div class="phone-contact">
+              <div class="phone-contact-name" id="demo-biz-label">Sunrise Café</div>
+              <div class="phone-contact-status">Focobot AI · online</div>
+            </div>
+          </div>
+          <div class="demo-chat" id="demo-chat"></div>
+          <div class="demo-input-row">
+            <input class="demo-input" id="demo-input" type="text" data-en-ph="Type a message..." data-ar-ph="اكتب رسالة..." placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendDemo()">
+            <button class="demo-send" onclick="sendDemo()">➤</button>
+          </div>
         </div>
-        <div class="testimonial-card">
-          <div class="t-stars">★★★★★</div>
-          <p class="t-text">"My salon used to miss half our bookings. Now the bot books appointments at 2AM and the client shows up. Game changer."</p>
-          <div class="t-author">Nour A. — Salon Owner, Kuwait City</div>
-        </div>
-        <div class="testimonial-card">
-          <div class="t-stars">★★★★★</div>
-          <p class="t-text">"Setup took one day. The Arabic dialect is perfect — customers think they're talking to a real employee."</p>
-          <div class="t-author">Faisal Al-R. — Café Chain, Mishref</div>
-        </div>
+        <div class="quick-chips" id="demo-chips"></div>
       </div>
     </div>
   </section>
+</div>
 
-  <!-- Stats strip -->
-  <div class="stats-strip">
+<!-- ═══════════════════════════════════════════════ COMPARE PAGE -->
+<div id="page-compare" class="page">
+  <section class="section">
     <div class="container">
-      <div class="stats-inner">
-        <div class="stat-item">
-          <div class="stat-value">&lt;2s</div>
-          <div class="stat-label">Average Reply Time</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value">24/7</div>
-          <div class="stat-label">Always On, Never Sick</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value">2 langs</div>
-          <div class="stat-label">Arabic + English</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value">500+</div>
-          <div class="stat-label">Simultaneous Chats</div>
-        </div>
+      <div class="section-label" data-en="● The Truth" data-ar="● الحقيقة">● The Truth</div>
+      <h2 class="display" style="max-width:700px;" data-en="Still paying 200 KWD/month for someone who doesn't answer after 10PM?" data-ar="لا تزال تدفع ٢٠٠ د.ك شهرياً لموظف لا يرد بعد العاشرة مساءً؟">Still paying 200 KWD/month for someone who doesn't answer after 10PM?</h2>
+      <p class="lead" style="margin-top:1.25rem;" data-en="The math is simple. See what you're actually paying for — versus what you get with Focobot." data-ar="الحساب بسيط. انظر ماذا تدفع فعلاً — مقابل ما ستحصل عليه مع فوكوبوت.">The math is simple. See what you're actually paying for — versus what you get with Focobot.</p>
+
+      <div style="overflow-x:auto;">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th data-en="Metric" data-ar="المعيار">Metric</th>
+              <th data-en="Human Employee" data-ar="موظف بشري">Human Employee</th>
+              <th class="col-foco" data-en="Focobot ✓" data-ar="فوكوبوت ✓">Focobot ✓</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-en="Response time" data-ar="وقت الرد">Response time</td>
+              <td class="human" data-en="5–30 minutes" data-ar="٥–٣٠ دقيقة">5–30 minutes</td>
+              <td class="foco col-foco" data-en="&lt; 2 seconds" data-ar="أقل من ثانيتين">&lt; 2 seconds</td>
+            </tr>
+            <tr>
+              <td data-en="Working hours" data-ar="ساعات العمل">Working hours</td>
+              <td class="human" data-en="8hrs, days off" data-ar="٨ ساعات، إجازات">8hrs, days off</td>
+              <td class="foco col-foco" data-en="24/7/365" data-ar="٢٤/٧/٣٦٥">24/7/365</td>
+            </tr>
+            <tr>
+              <td data-en="Monthly cost" data-ar="التكلفة الشهرية">Monthly cost</td>
+              <td class="human" data-en="150–300+ KWD" data-ar="١٥٠–٣٠٠+ د.ك">150–300+ KWD</td>
+              <td class="foco col-foco" data-en="29–59 KWD" data-ar="٢٩–٥٩ د.ك">29–59 KWD</td>
+            </tr>
+            <tr>
+              <td data-en="Languages" data-ar="اللغات">Languages</td>
+              <td class="human" data-en="Usually one" data-ar="عادةً لغة واحدة">Usually one</td>
+              <td class="foco col-foco" data-en="Arabic + English" data-ar="العربية + الإنجليزية">Arabic + English</td>
+            </tr>
+            <tr>
+              <td data-en="Simultaneous chats" data-ar="المحادثات المتزامنة">Simultaneous chats</td>
+              <td class="human" data-en="1–3" data-ar="١–٣">1–3</td>
+              <td class="foco col-foco" data-en="Unlimited" data-ar="غير محدود">Unlimited</td>
+            </tr>
+            <tr>
+              <td data-en="Consistency" data-ar="الاتساق">Consistency</td>
+              <td class="human" data-en="Varies by mood" data-ar="يتفاوت حسب المزاج">Varies by mood</td>
+              <td class="foco col-foco" data-en="Always professional" data-ar="محترف دائماً">Always professional</td>
+            </tr>
+            <tr>
+              <td data-en="Sick days" data-ar="أيام المرض">Sick days</td>
+              <td class="human" data-en="~8/year" data-ar="~٨ في السنة">~8/year</td>
+              <td class="foco col-foco" data-en="Zero" data-ar="صفر">Zero</td>
+            </tr>
+            <tr>
+              <td data-en="Setup time" data-ar="وقت الإعداد">Setup time</td>
+              <td class="human" data-en="Weeks" data-ar="أسابيع">Weeks</td>
+              <td class="foco col-foco" data-en="24 hours" data-ar="٢٤ ساعة">24 hours</td>
+            </tr>
+            <tr>
+              <td data-en="Error rate" data-ar="معدل الأخطاء">Error rate</td>
+              <td class="human" data-en="Common" data-ar="شائع">Common</td>
+              <td class="foco col-foco" data-en="Minimal" data-ar="ضئيل جداً">Minimal</td>
+            </tr>
+            <tr>
+              <td data-en="Scalability" data-ar="قابلية التوسع">Scalability</td>
+              <td class="human" data-en="Hire more people" data-ar="توظيف المزيد">Hire more people</td>
+              <td class="foco col-foco" data-en="Same price" data-ar="نفس السعر">Same price</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <p data-en="Kuwait businesses lose an average of <span>720–1,200 KWD/year</span> to slow replies." data-ar="الأعمال الكويتية تخسر في المتوسط <span>٧٢٠–١٢٠٠ د.ك سنوياً</span> بسبب الردود البطيئة.">Kuwait businesses lose an average of <span>720–1,200 KWD/year</span> to slow replies.</p>
+      </div>
+
+      <div style="text-align:center;margin-top:3rem;">
+        <button class="btn-primary" onclick="setPage('apply')" data-en="Fix It Now — Start Free Trial →" data-ar="أصلح الأمر الآن — ابدأ مجاناً ←">Fix It Now — Start Free Trial →</button>
       </div>
     </div>
-  </div>
+  </section>
+</div>
 
-</div><!-- end page-home -->
-
-<!-- ══════════════════════════════════════════
-     DEMO PAGE
-══════════════════════════════════════════ -->
-<div class="page" id="page-demo">
-  <div class="section">
+<!-- ═══════════════════════════════════════════════ FEATURES PAGE -->
+<div id="page-features" class="page">
+  <section class="section">
     <div class="container">
-      <div style="text-align:center;margin-bottom:3rem;" class="reveal">
-        <div class="section-label">Interactive Demo</div>
-        <h2 class="section-title">Talk to Focobot</h2>
-        <p class="section-sub" style="margin:0.75rem auto 0;">Type any customer question. See exactly how your business bot would respond.</p>
-      </div>
-
-      <div class="demo-wrap reveal">
-        <div class="demo-header">
-          <div class="demo-avatar">🤖</div>
-          <div>
-            <div class="demo-name">Focobot — Your Business Assistant</div>
-            <div class="demo-status">Online · Replies in &lt;2 seconds</div>
-          </div>
-        </div>
-        <div class="demo-body" id="demoBody">
-          <div class="msg msg-bot" style="opacity:1;">
-            👋 Hi! I'm Focobot. I can answer in Arabic or English. Ask me anything a customer might ask — hours, prices, bookings, delivery…
-          </div>
-        </div>
-        <div class="demo-prompts">
-          <button class="demo-prompt-btn" onclick="sendDemoPrompt('What are your opening hours?')">Opening hours?</button>
-          <button class="demo-prompt-btn" onclick="sendDemoPrompt('Do you deliver?')">Do you deliver?</button>
-          <button class="demo-prompt-btn" onclick="sendDemoPrompt('I want to make a booking')">Book a table</button>
-          <button class="demo-prompt-btn" onclick="sendDemoPrompt('كم سعركم؟')">كم سعركم؟</button>
-          <button class="demo-prompt-btn" onclick="sendDemoPrompt('تسلّمون؟')">تسلّمون؟</button>
-          <button class="demo-prompt-btn" onclick="sendDemoPrompt('في موعد بكرة؟')">في موعد بكرة؟</button>
-        </div>
-        <div class="demo-input-row">
-          <input class="demo-input" id="demoInput" placeholder="Type your message…" onkeydown="if(event.key==='Enter')sendDemo()">
-          <button class="demo-send" onclick="sendDemo()">➤</button>
-        </div>
-      </div>
-
-      <div style="text-align:center;margin-top:2.5rem;" class="reveal">
-        <p style="color:var(--muted);font-size:0.9rem;margin-bottom:1rem;">Ready to put this on your WhatsApp?</p>
-        <button class="btn btn-primary btn-lg ripple-host" onclick="setPage('apply');addRipple(event,this)">Apply Now — 10 Spots Left</button>
-      </div>
-    </div>
-  </div>
-</div><!-- end page-demo -->
-
-<!-- ══════════════════════════════════════════
-     COMPARE PAGE
-══════════════════════════════════════════ -->
-<div class="page" id="page-compare">
-  <div class="section">
-    <div class="container">
-      <div style="text-align:center;margin-bottom:3rem;" class="reveal">
-        <div class="section-label">Loss Aversion Check</div>
-        <h2 class="section-title">Still paying someone to reply<br>to WhatsApp at 2AM?</h2>
-        <p class="section-sub" style="margin:0.75rem auto 0;">A human employee costs 150–300 KWD/month. And they sleep. And they call in sick. And they quit.</p>
-      </div>
-
-      <div class="card reveal" style="overflow:hidden;padding:0;">
-        <div style="overflow-x:auto;">
-          <table class="compare-table">
-            <thead>
-              <tr>
-                <th style="width:35%;">Feature</th>
-                <th>Human Employee</th>
-                <th class="col-bot-head">🤖 Focobot</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Response time</strong></td>
-                <td><span class="cross">✗</span> 5–30 min (when awake)</td>
-                <td class="col-bot"><span class="check">✓</span> &lt;2 seconds, always</td>
-              </tr>
-              <tr>
-                <td><strong>Working hours</strong></td>
-                <td><span class="cross">✗</span> 8hrs/day, days off</td>
-                <td class="col-bot"><span class="check">✓</span> 24/7/365, never sick</td>
-              </tr>
-              <tr>
-                <td><strong>Monthly cost</strong></td>
-                <td><span class="cross">✗</span> 150–300+ KWD salary</td>
-                <td class="col-bot"><span class="check">✓</span> 29–59 KWD</td>
-              </tr>
-              <tr>
-                <td><strong>Languages</strong></td>
-                <td><span class="cross">✗</span> Usually one</td>
-                <td class="col-bot"><span class="check">✓</span> Arabic + English</td>
-              </tr>
-              <tr>
-                <td><strong>Simultaneous chats</strong></td>
-                <td><span class="cross">✗</span> 1–3</td>
-                <td class="col-bot"><span class="check">✓</span> Unlimited</td>
-              </tr>
-              <tr>
-                <td><strong>Consistency</strong></td>
-                <td><span class="cross">✗</span> Varies by mood</td>
-                <td class="col-bot"><span class="check">✓</span> Always professional</td>
-              </tr>
-              <tr>
-                <td><strong>Sick days</strong></td>
-                <td><span class="cross">✗</span> Yes (avg 8/year)</td>
-                <td class="col-bot"><span class="check">✓</span> Zero</td>
-              </tr>
-              <tr>
-                <td><strong>Setup time</strong></td>
-                <td><span class="cross">✗</span> Weeks to hire + train</td>
-                <td class="col-bot"><span class="check">✓</span> 24 hours</td>
-              </tr>
-              <tr>
-                <td><strong>Errors under pressure</strong></td>
-                <td><span class="cross">✗</span> Common</td>
-                <td class="col-bot"><span class="check">✓</span> Minimal</td>
-              </tr>
-              <tr>
-                <td><strong>Scalability</strong></td>
-                <td><span class="cross">✗</span> Hire more people</td>
-                <td class="col-bot"><span class="check">✓</span> Instant, same price</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="compare-callout reveal">
-        <strong>💸 The average Kuwait business loses 3–5 orders per week to slow replies.</strong>
-        <p style="color:var(--muted);margin-top:0.5rem;font-size:0.92rem;">At 15 KWD per order, that's <strong style="color:var(--text);">720–1,200 KWD/year</strong> walking out the door. Focobot costs less than one of those missed orders per month.</p>
-      </div>
-
-      <div style="text-align:center;margin-top:2.5rem;" class="reveal">
-        <p style="color:var(--muted);font-size:0.95rem;margin-bottom:1rem;">Reply speed is the #1 reason customers switch to a competitor.</p>
-        <button class="btn btn-primary btn-lg ripple-host" onclick="setPage('pricing');addRipple(event,this)">See Pricing →</button>
-      </div>
-    </div>
-  </div>
-</div><!-- end page-compare -->
-
-<!-- ══════════════════════════════════════════
-     FEATURES PAGE
-══════════════════════════════════════════ -->
-<div class="page" id="page-features">
-  <div class="section">
-    <div class="container">
-      <div style="text-align:center;margin-bottom:3rem;" class="reveal">
-        <div class="section-label">Capabilities</div>
-        <h2 class="section-title">Built for Kuwaiti Business</h2>
-        <p class="section-sub" style="margin:0.75rem auto 0;">Every feature designed around how customers in Kuwait actually shop and communicate.</p>
-      </div>
+      <div class="section-label" data-en="● What's Inside" data-ar="● ما بالداخل">● What's Inside</div>
+      <h2 class="display" style="max-width:560px;" data-en="Built for Businesses That Take Sales Seriously" data-ar="مبني للأعمال التي تأخذ المبيعات بجدية">Built for Businesses That Take Sales Seriously</h2>
+      <p class="lead" style="margin-top:1.25rem;margin-bottom:3.5rem;" data-en="Every feature is designed to capture more revenue, automatically." data-ar="كل ميزة مصممة لزيادة إيراداتك، بشكل تلقائي.">Every feature is designed to capture more revenue, automatically.</p>
 
       <div class="features-grid">
-        <div class="card feat-card reveal">
-          <div class="feat-icon">⚡</div>
-          <div class="feat-title">Instant Replies</div>
-          <p class="feat-desc">Under 2 seconds. Every message, every time. While your competitor takes 20 minutes to respond, your customer has already booked with you.</p>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h4 data-en="Instant Replies" data-ar="ردود فورية">Instant Replies</h4>
+          <p data-en="Responds to every WhatsApp message in under 2 seconds — day or night. No customer ever waits again." data-ar="يرد على كل رسالة واتساب في أقل من ثانيتين — نهاراً أو ليلاً. لن ينتظر أي عميل مجدداً.">Responds to every WhatsApp message in under 2 seconds — day or night. No customer ever waits again.</p>
         </div>
-        <div class="card feat-card reveal">
-          <div class="feat-icon">🌍</div>
-          <div class="feat-title">Bilingual AI</div>
-          <p class="feat-desc">Fluent Kuwaiti Arabic and English. Sounds local — not formal Gulf Standard Arabic. Your customers feel at home.</p>
+        <div class="feature-card">
+          <div class="feature-icon">🌐</div>
+          <h4 data-en="Bilingual AI" data-ar="ذكاء اصطناعي ثنائي اللغة">Bilingual AI</h4>
+          <p data-en="Fluent in Arabic and English. Detects the customer's language automatically and responds naturally in kind." data-ar="طليق بالعربية والإنجليزية. يكتشف لغة العميل تلقائياً ويرد بشكل طبيعي.">Fluent in Arabic and English. Detects the customer's language automatically and responds naturally in kind.</p>
         </div>
-        <div class="card feat-card reveal">
-          <div class="feat-icon">🕐</div>
-          <div class="feat-title">24/7 Operation</div>
-          <p class="feat-desc">Replies at 3AM on Eid. Never misses a message. While you sleep, Focobot is closing deals and booking appointments.</p>
+        <div class="feature-card">
+          <div class="feature-icon">🕐</div>
+          <h4 data-en="24/7 Operation" data-ar="عمل على مدار الساعة">24/7 Operation</h4>
+          <p data-en="Never closes. Never calls in sick. Never takes a day off. Your business is always open, always responsive." data-ar="لا يغلق أبداً. لا يمرض. لا يأخذ إجازة. عملك مفتوح ومتجاوب دائماً.">Never closes. Never calls in sick. Never takes a day off. Your business is always open, always responsive.</p>
         </div>
-        <div class="card feat-card reveal">
-          <div class="feat-icon">📦</div>
-          <div class="feat-title">Catalog Integration</div>
-          <p class="feat-desc">Customers ask about your products, prices, or menu — the bot knows every answer instantly. Updated whenever you update.</p>
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <h4 data-en="Catalog Integration" data-ar="تكامل الكتالوج">Catalog Integration</h4>
+          <p data-en="Connect your menu, services, or products. Focobot answers pricing and availability questions instantly." data-ar="اربط قائمتك أو خدماتك أو منتجاتك. فوكوبوت يجيب على أسئلة الأسعار والتوافر فوراً.">Connect your menu, services, or products. Focobot answers pricing and availability questions instantly.</p>
         </div>
-        <div class="card feat-card reveal">
-          <div class="feat-icon">📲</div>
-          <div class="feat-title">Owner Alerts</div>
-          <p class="feat-desc">Real orders and bookings ping your personal WhatsApp instantly. You stay in control without being in the chat.</p>
+        <div class="feature-card">
+          <div class="feature-icon">🔔</div>
+          <h4 data-en="Owner Alerts" data-ar="تنبيهات المالك">Owner Alerts</h4>
+          <p data-en="Get notified for VIP customers, complaints, or high-value orders. Stay in control without being chained to your phone." data-ar="احصل على إشعارات للعملاء المميزين والشكاوى والطلبات عالية القيمة. ابقَ في السيطرة دون التعلق بهاتفك.">Get notified for VIP customers, complaints, or high-value orders. Stay in control without being chained to your phone.</p>
         </div>
-        <div class="card feat-card reveal">
-          <div class="feat-icon">📊</div>
-          <div class="feat-title">Analytics Dashboard</div>
-          <p class="feat-desc">See response times, peak hours, top questions, and conversion rates. Know what your customers actually want.</p>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h4 data-en="Analytics" data-ar="التحليلات">Analytics</h4>
+          <p data-en="See peak hours, top questions, response rates, and customer satisfaction — all in a clean dashboard." data-ar="اعرف ساعات الذروة، الأسئلة الشائعة، معدلات الرد، ورضا العملاء — في لوحة تحكم نظيفة.">See peak hours, top questions, response rates, and customer satisfaction — all in a clean dashboard.</p>
         </div>
       </div>
 
-      <div style="text-align:center;margin-top:3rem;" class="reveal">
-        <button class="btn btn-primary btn-lg ripple-host" onclick="setPage('pricing');addRipple(event,this)">See Pricing →</button>
+      <div style="text-align:center;margin-top:4rem;">
+        <button class="btn-primary" onclick="setPage('apply')" data-en="Start Free Trial →" data-ar="ابدأ تجربتك المجانية ←">Start Free Trial →</button>
+        <p style="color:var(--txt3);font-size:0.85rem;margin-top:1rem;" data-en="No credit card required. Set up in 24 hours." data-ar="لا يلزم بطاقة ائتمان. الإعداد في ٢٤ ساعة.">No credit card required. Set up in 24 hours.</p>
       </div>
     </div>
-  </div>
-</div><!-- end page-features -->
+  </section>
+</div>
 
-<!-- ══════════════════════════════════════════
-     PRICING PAGE
-══════════════════════════════════════════ -->
-<div class="page" id="page-pricing">
-  <div class="section">
+<!-- ═══════════════════════════════════════════════ PRICING PAGE -->
+<div id="page-pricing" class="page">
+  <section class="section">
     <div class="container">
-      <div style="text-align:center;margin-bottom:1rem;" class="reveal">
-        <div class="section-label">Pricing</div>
-        <h2 class="section-title">Less Than One Lost Customer Per Month</h2>
-        <p class="section-sub" style="margin:0.75rem auto 0;">The average order in Kuwait is 15 KWD. Focobot pays for itself in 2 captured orders. A human employee costs 5–10x more.</p>
+      <div style="text-align:center;margin-bottom:1rem;">
+        <div class="section-label" style="justify-content:center;" data-en="● Simple Pricing" data-ar="● أسعار بسيطة">● Simple Pricing</div>
+        <h2 class="display" data-en="Less Than One Lost Customer" data-ar="أقل من عميل واحد مفقود">Less Than One Lost Customer</h2>
+        <p style="color:var(--txt2);margin-top:1rem;font-size:1.05rem;" data-en="One missed order = 15 KWD. Focobot pays for itself in 2 orders." data-ar="طلب فائت واحد = ١٥ د.ك. فوكوبوت يسدد تكلفته بطلبين.">One missed order = 15 KWD. Focobot pays for itself in 2 orders.</p>
       </div>
 
-      <div style="text-align:center;margin-bottom:2.5rem;" class="reveal">
-        <span class="badge" style="font-size:0.85rem;">💡 Anchoring: Human employee = 150–300 KWD/mo · Focobot from 29 KWD/mo</span>
-      </div>
-
-      <div class="pricing-grid reveal">
+      <div class="pricing-grid">
         <!-- Starter -->
         <div class="price-card">
-          <div class="price-plan">Starter</div>
-          <div style="display:flex;align-items:baseline;gap:4px;">
-            <span class="price-amount">29</span>
-            <span class="price-unit">KWD/mo</span>
-          </div>
-          <p class="price-desc">Perfect for small businesses just getting started with AI customer service.</p>
+          <div class="price-name" data-en="Starter" data-ar="المبتدئ">Starter</div>
+          <div class="price-amount">29 <span data-en="KWD/mo" data-ar="د.ك/شهر">KWD/mo</span></div>
+          <div class="price-desc" data-en="Perfect for small businesses getting started with WhatsApp automation." data-ar="مثالي للشركات الصغيرة التي تبدأ مع أتمتة واتساب.">Perfect for small businesses getting started with WhatsApp automation.</div>
+          <div class="price-divider"></div>
           <ul class="price-features">
-            <li>500 messages per month</li>
-            <li>Arabic + English replies</li>
-            <li>Basic analytics</li>
-            <li>24-hour setup</li>
-            <li>Email support</li>
+            <li data-en="Up to 500 messages/mo" data-ar="حتى ٥٠٠ رسالة شهرياً">Up to 500 messages/mo</li>
+            <li data-en="Arabic + English" data-ar="العربية والإنجليزية">Arabic + English</li>
+            <li data-en="Basic catalog" data-ar="كتالوج أساسي">Basic catalog</li>
+            <li data-en="Owner alerts" data-ar="تنبيهات المالك">Owner alerts</li>
+            <li data-en="Email support" data-ar="دعم البريد الإلكتروني">Email support</li>
           </ul>
-          <button class="btn btn-outline ripple-host" style="width:100%;justify-content:center;" onclick="setPage('apply');addRipple(event,this)">Get Started</button>
+          <button class="btn-ghost price-cta" onclick="setPage('apply')" data-en="Get Started →" data-ar="ابدأ الآن ←">Get Started →</button>
         </div>
 
-        <!-- Growth — POPULAR -->
-        <div class="price-card popular pricing-hot" style="position:relative;z-index:1;">
-          <div class="popular-badge">⭐ Most Popular</div>
-          <div class="price-plan">Growth</div>
-          <div style="display:flex;align-items:baseline;gap:4px;">
-            <span class="price-amount">59</span>
-            <span class="price-unit">KWD/mo</span>
-          </div>
-          <p class="price-desc">For businesses serious about never missing a sale. Includes our best features.</p>
+        <!-- Growth (HOT) -->
+        <div class="price-card hot">
+          <div class="price-badge" data-en="Most Popular" data-ar="الأكثر شعبية">Most Popular</div>
+          <div class="price-name" data-en="Growth" data-ar="النمو">Growth</div>
+          <div class="price-amount">59 <span data-en="KWD/mo" data-ar="د.ك/شهر">KWD/mo</span></div>
+          <div class="price-desc" data-en="The complete solution for businesses serious about customer experience." data-ar="الحل الكامل للأعمال الجادة في تجربة العملاء.">The complete solution for businesses serious about customer experience.</div>
+          <div class="price-divider"></div>
           <ul class="price-features">
-            <li>Unlimited messages</li>
-            <li>Custom bot personality & tone</li>
-            <li>Catalog integration</li>
-            <li>Advanced analytics</li>
-            <li>Priority support</li>
-            <li>Owner WhatsApp alerts</li>
-            <li><strong>7-day free trial</strong></li>
+            <li data-en="Unlimited messages" data-ar="رسائل غير محدودة">Unlimited messages</li>
+            <li data-en="Arabic + English" data-ar="العربية والإنجليزية">Arabic + English</li>
+            <li data-en="Full catalog + ordering" data-ar="كتالوج كامل + طلبات">Full catalog + ordering</li>
+            <li data-en="Priority owner alerts" data-ar="تنبيهات مالك ذات أولوية">Priority owner alerts</li>
+            <li data-en="Analytics dashboard" data-ar="لوحة التحليلات">Analytics dashboard</li>
+            <li data-en="24/7 WhatsApp support" data-ar="دعم واتساب ٢٤/٧">24/7 WhatsApp support</li>
           </ul>
-          <button class="btn btn-primary ripple-host" style="width:100%;justify-content:center;" onclick="setPage('apply');addRipple(event,this)">Start Free Trial →</button>
+          <button class="btn-primary price-cta" onclick="setPage('apply')" data-en="Start Free Trial →" data-ar="ابدأ تجربتك المجانية ←">Start Free Trial →</button>
         </div>
 
         <!-- Enterprise -->
         <div class="price-card">
-          <div class="price-plan">Enterprise</div>
-          <div style="display:flex;align-items:baseline;gap:4px;">
-            <span class="price-amount" style="font-size:1.75rem;">Custom</span>
-          </div>
-          <p class="price-desc">Multi-location businesses and brands that need dedicated support and SLA guarantees.</p>
+          <div class="price-name" data-en="Enterprise" data-ar="المؤسسات">Enterprise</div>
+          <div class="price-amount" style="font-size:2rem;" data-en="Custom" data-ar="حسب الطلب">Custom</div>
+          <div class="price-desc" data-en="Multiple locations, custom integrations, dedicated account manager." data-ar="فروع متعددة، تكاملات مخصصة، مدير حساب مخصص.">Multiple locations, custom integrations, dedicated account manager.</div>
+          <div class="price-divider"></div>
           <ul class="price-features">
-            <li>Everything in Growth</li>
-            <li>Multiple WhatsApp numbers</li>
-            <li>Dedicated account manager</li>
-            <li>Custom integrations</li>
-            <li>SLA guarantee</li>
-            <li>Onsite training</li>
+            <li data-en="Everything in Growth" data-ar="كل ما في خطة النمو">Everything in Growth</li>
+            <li data-en="Multiple locations" data-ar="فروع متعددة">Multiple locations</li>
+            <li data-en="Custom AI training" data-ar="تدريب ذكاء اصطناعي مخصص">Custom AI training</li>
+            <li data-en="API access" data-ar="وصول API">API access</li>
+            <li data-en="Dedicated account manager" data-ar="مدير حساب مخصص">Dedicated account manager</li>
+            <li data-en="SLA guarantee" data-ar="ضمان مستوى الخدمة">SLA guarantee</li>
           </ul>
-          <button class="btn btn-outline ripple-host" style="width:100%;justify-content:center;" onclick="setPage('apply');addRipple(event,this)">Contact Us</button>
+          <button class="btn-ghost price-cta" onclick="setPage('apply')" data-en="Contact Us →" data-ar="تواصل معنا ←">Contact Us →</button>
         </div>
-      </div>
-
-      <div class="price-guarantee reveal">
-        No contracts · Cancel anytime · 7-day free trial · Setup in 24 hours
       </div>
 
       <!-- FAQ -->
-      <div style="max-width:640px;margin:4rem auto 0;" class="reveal">
-        <h3 style="font-size:1.3rem;font-weight:700;margin-bottom:1.5rem;text-align:center;">Frequently Asked Questions</h3>
-        <div id="faqList">
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              Is 29 KWD really worth it?
-              <span class="faq-icon">▼</span>
-            </div>
-            <div class="faq-a">One missed order on a Friday night is 15–30 KWD. Focobot pays for itself in 2 captured orders. Meanwhile, your human employee takes weekends off, gets sick, and costs 5–10x more per month.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              Does it really speak Kuwaiti Arabic?
-              <span class="faq-icon">▼</span>
-            </div>
-            <div class="faq-a">Yes — fluent Kuwaiti dialect, not formal Arabic. Your customers won't know it's a bot. We tune the personality and dialect to match your brand voice.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              How fast is setup?
-              <span class="faq-icon">▼</span>
-            </div>
-            <div class="faq-a">We handle everything. You send us your menu, product catalog, or FAQs — we set up the bot, connect it to your WhatsApp Business, and you're live within 24 hours.</div>
-          </div>
+      <div class="faq">
+        <h3 class="display" style="margin-bottom:1.5rem;font-size:1.5rem;" data-en="Common Questions" data-ar="أسئلة شائعة">Common Questions</h3>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span data-en="How quickly can I get started?" data-ar="كم يستغرق البدء؟">How quickly can I get started?</span>
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="faq-a"><p data-en="Most businesses are fully live within 24 hours of signing up. We handle the setup — you just provide your business info and catalog." data-ar="معظم الأعمال تنطلق كلياً خلال ٢٤ ساعة من التسجيل. نحن نتولى الإعداد — تحتاج فقط لتزويدنا بمعلومات عملك وكتالوجك.">Most businesses are fully live within 24 hours of signing up. We handle the setup — you just provide your business info and catalog.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span data-en="Does it really understand Kuwaiti Arabic?" data-ar="هل يفهم فعلاً اللهجة الكويتية؟">Does it really understand Kuwaiti Arabic?</span>
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="faq-a"><p data-en="Yes. Focobot is trained on Gulf Arabic dialects including Kuwaiti. It understands colloquial expressions, handles code-switching between Arabic and English, and responds naturally." data-ar="نعم. فوكوبوت مدرّب على اللهجات العربية الخليجية بما فيها الكويتية. يفهم التعابير العامية، ويتعامل مع التبديل بين العربية والإنجليزية، ويرد بشكل طبيعي.">Yes. Focobot is trained on Gulf Arabic dialects including Kuwaiti. It understands colloquial expressions, handles code-switching between Arabic and English, and responds naturally.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span data-en="Can I try before committing?" data-ar="هل يمكنني التجربة قبل الالتزام؟">Can I try before committing?</span>
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="faq-a"><p data-en="Absolutely. We offer a 14-day free trial with full features. No credit card required. If Focobot doesn't prove its value in the first two weeks, you owe us nothing." data-ar="بالتأكيد. نقدم تجربة مجانية لمدة ١٤ يوماً بكامل المزايا. لا يلزم بطاقة ائتمان. إذا لم يُثبت فوكوبوت قيمته خلال الأسبوعين الأولين، لا تدين لنا بشيء.">Absolutely. We offer a 14-day free trial with full features. No credit card required. If Focobot doesn't prove its value in the first two weeks, you owe us nothing.</p></div>
         </div>
       </div>
-
-      <div style="text-align:center;margin-top:2.5rem;" class="reveal">
-        <button class="btn btn-primary btn-lg ripple-host" onclick="setPage('apply');addRipple(event,this)">Apply Now — Limited Spots</button>
-      </div>
-
     </div>
-  </div>
-</div><!-- end page-pricing -->
+  </section>
+</div>
 
-<!-- ══════════════════════════════════════════
-     APPLY PAGE
-══════════════════════════════════════════ -->
-<div class="page" id="page-apply">
-  <div class="section">
+<!-- ═══════════════════════════════════════════════ APPLY PAGE -->
+<div id="page-apply" class="page">
+  <section class="section">
     <div class="container">
-      <div class="apply-wrap">
-        <div style="text-align:center;margin-bottom:2rem;" class="reveal">
-          <div class="section-label">Apply Now</div>
-          <h2 class="section-title">Get Your Focobot</h2>
-          <p class="section-sub" style="margin:0.75rem auto 0;">We set everything up for you. Live in 24 hours.</p>
-        </div>
+      <div style="text-align:center;margin-bottom:3rem;">
+        <div class="section-label" style="justify-content:center;" data-en="● Limited Spots" data-ar="● أماكن محدودة">● Limited Spots</div>
+        <h2 class="display" data-en="Apply for Early Access" data-ar="قدّم طلبك للوصول المبكر">Apply for Early Access</h2>
+        <p style="color:var(--txt2);margin-top:0.75rem;" data-en="We onboard 20 new businesses per month to ensure quality. Apply now." data-ar="نضم ٢٠ عملاً جديداً شهرياً لضمان الجودة. قدّم طلبك الآن.">We onboard 20 new businesses per month to ensure quality. Apply now.</p>
+      </div>
 
-        <div class="scarcity-banner reveal">
-          🔥 We only onboard <strong>10 businesses per month</strong> to ensure quality. Spots fill fast.
+      <div class="apply-card">
+        <div class="scarcity-badge">
+          <span>🔴</span>
+          <span data-en="Only 7 spots remaining this month" data-ar="٧ أماكن فقط متبقية هذا الشهر">Only 7 spots remaining this month</span>
         </div>
+        <div class="progress-bar"><div class="progress-fill" id="apply-progress"></div></div>
 
-        <div class="progress-wrap reveal">
-          <div class="progress-label" id="progressLabel">Step 1 of 3 — Business Info</div>
-          <div class="progress-bar">
-            <div class="progress-fill" id="progressFill" style="width:33%;"></div>
-          </div>
-        </div>
-
-        <form class="apply-form reveal" id="applyForm" onsubmit="submitApply(event)">
+        <form id="apply-form" onsubmit="submitApply(event)">
           <div class="form-group">
-            <label class="form-label">Business Name *</label>
-            <input class="form-input" type="text" placeholder="e.g. Al-Nour Café" required oninput="updateProgress()">
+            <label data-en="Business Name" data-ar="اسم العمل التجاري">Business Name</label>
+            <input type="text" required data-en-ph="e.g. Sunrise Café" data-ar-ph="مثال: كافيه الشروق" placeholder="e.g. Sunrise Café" oninput="updateProgress()">
           </div>
           <div class="form-group">
-            <label class="form-label">WhatsApp Number *</label>
-            <input class="form-input" type="tel" placeholder="+965 XXXX XXXX" required oninput="updateProgress()">
+            <label data-en="WhatsApp Number" data-ar="رقم واتساب">WhatsApp Number</label>
+            <input type="tel" required data-en-ph="+965 XXXX XXXX" data-ar-ph="+965 XXXX XXXX" placeholder="+965 XXXX XXXX" oninput="updateProgress()">
           </div>
           <div class="form-group">
-            <label class="form-label">Business Type *</label>
-            <select class="form-select" required onchange="updateProgress()">
-              <option value="">Select your business type…</option>
-              <option>Restaurant</option>
-              <option>Café</option>
-              <option>Salon</option>
-              <option>Bakery</option>
-              <option>Gym</option>
-              <option>Retail</option>
-              <option>Other</option>
+            <label data-en="Business Type" data-ar="نوع العمل">Business Type</label>
+            <select required onchange="updateProgress()">
+              <option value="" disabled selected data-en="Select your business type" data-ar="اختر نوع عملك">Select your business type</option>
+              <option data-en="Coffee Shop / Café" data-ar="مقهى">Coffee Shop / Café</option>
+              <option data-en="Restaurant" data-ar="مطعم">Restaurant</option>
+              <option data-en="Salon / Spa" data-ar="صالون / سبا">Salon / Spa</option>
+              <option data-en="Bakery / Sweets" data-ar="مخبزة / حلويات">Bakery / Sweets</option>
+              <option data-en="Gym / Sports" data-ar="صالة رياضية">Gym / Sports</option>
+              <option data-en="Retail / Shop" data-ar="متجر">Retail / Shop</option>
+              <option data-en="Other" data-ar="أخرى">Other</option>
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label">Biggest Customer Service Challenge</label>
-            <textarea class="form-textarea" placeholder="What's your biggest pain point? e.g. Missing messages at night, not enough staff to reply..." oninput="updateProgress()"></textarea>
+            <label data-en="Biggest Customer Service Challenge" data-ar="أكبر تحدي في خدمة العملاء">Biggest Customer Service Challenge</label>
+            <textarea data-en-ph="e.g. Customers message us after hours and we miss orders..." data-ar-ph="مثال: العملاء يراسلوننا بعد ساعات العمل ونفقد الطلبات..." placeholder="e.g. Customers message us after hours and we miss orders..." oninput="updateProgress()"></textarea>
           </div>
-
-          <div style="background:rgba(99,102,241,0.05);border:1px solid rgba(99,102,241,0.15);border-radius:10px;padding:1rem;font-size:0.85rem;color:var(--muted);">
-            ✅ <strong style="color:var(--text);">Free 7-day trial</strong> on Growth plan · No credit card required · Setup in 24 hours
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-lg ripple-host" style="width:100%;justify-content:center;" onclick="addRipple(event,this)">
-            Apply for Focobot →
-          </button>
-
-          <p style="text-align:center;font-size:0.8rem;color:var(--light);">By applying, you agree to receive a call from our team within 24 hours. No spam, ever.</p>
+          <button type="submit" class="btn-primary" style="width:100%;justify-content:center;" data-en="Apply for Free Trial →" data-ar="قدّم طلبك للتجربة المجانية ←">Apply for Free Trial →</button>
+          <p style="color:var(--txt3);font-size:0.8rem;text-align:center;margin-top:0.75rem;" data-en="No credit card. Setup in 24 hours. Cancel anytime." data-ar="لا بطاقة ائتمان. إعداد في ٢٤ ساعة. إلغاء في أي وقت.">No credit card. Setup in 24 hours. Cancel anytime.</p>
         </form>
 
-        <div class="success-msg" id="successMsg">
+        <div class="success-state" id="apply-success">
           <div class="success-icon">🎉</div>
-          <div class="success-title">Application Submitted!</div>
-          <p class="success-sub">We'll contact you on WhatsApp within 24 hours to get you set up. Welcome to the Focobot family.</p>
-          <div style="margin-top:1.5rem;">
-            <button class="btn btn-outline" onclick="setPage('home')">Back to Home</button>
-          </div>
+          <h3 style="font-size:1.4rem;font-weight:800;letter-spacing:-0.03em;margin-bottom:0.5rem;" data-en="Application Received!" data-ar="تم استلام طلبك!">Application Received!</h3>
+          <p style="color:var(--txt2);" data-en="We'll WhatsApp you within 2 hours to get you set up. Check your messages." data-ar="سنرسل لك رسالة واتساب خلال ساعتين لإعداد حسابك. تحقق من رسائلك.">We'll WhatsApp you within 2 hours to get you set up. Check your messages.</p>
         </div>
-
       </div>
     </div>
-  </div>
-</div><!-- end page-apply -->
+  </section>
+</div>
 
-<!-- ── FOOTER ── -->
-<footer>
-  <div class="container">
-    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:0.75rem;">
-      <div class="nav-logo-icon" style="width:28px;height:28px;font-size:0.9rem;">🤖</div>
-      <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;">focobot</span>
-    </div>
-    <p>WhatsApp AI Customer Service for Kuwaiti Businesses · Arabic + English · 24/7</p>
-    <p style="margin-top:0.4rem;">© 2026 Focobot. Built for Kuwait.</p>
-  </div>
-</footer>
-
-<!-- ══════════════════════════════════════════
-     JAVASCRIPT
-══════════════════════════════════════════ -->
-<script>
-// ── Page routing ──
-function setPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const pg = document.getElementById('page-' + name);
-  if (pg) pg.classList.add('active');
-  document.querySelectorAll('[data-page]').forEach(l => {
-    l.classList.toggle('active', l.dataset.page === name);
-  });
-  window.scrollTo(0, 0);
-  initReveal();
-}
-window.addEventListener('hashchange', () => {
-  const p = location.hash.replace('#','') || 'home';
-  setPage(p);
-});
-window.addEventListener('load', () => {
-  const p = location.hash.replace('#','') || 'home';
-  setPage(p);
-  initReveal();
-  startPhoneAnimation('cafe');
-});
-
-// ── Reveal on scroll ──
-function initReveal() {
-  const els = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  els.forEach(el => {
-    if (!el.classList.contains('visible')) io.observe(el);
-    else el.classList.add('visible');
-  });
-}
-
-// ── Ripple effect ──
-function addRipple(e, btn) {
-  const rect = btn.getBoundingClientRect();
-  const size = Math.max(rect.width, rect.height);
-  const x = e.clientX - rect.left - size/2;
-  const y = e.clientY - rect.top - size/2;
-  const rip = document.createElement('span');
-  rip.className = 'ripple-circle';
-  rip.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px`;
-  btn.appendChild(rip);
-  rip.addEventListener('animationend', () => rip.remove());
-}
-
-// ── Phone animations ──
-const bizConvos = {
-  cafe: {
-    en: [
-      {c:"What are your hours?", b:"We're open 7AM–11PM daily ☕ Anything else I can help with?"},
-      {c:"Do you have oat milk?", b:"Yes! Oat, almond & soy available 🥛"},
-      {c:"How do I place an order?", b:"Easy! Tell me what you'd like or order via our link 😊"}
-    ],
-    ar: [
-      {c:"أوقات الدوام؟", b:"من 7 الصبح لـ 11 الليل كل يوم ☕ في شي ثاني؟"},
-      {c:"عندكم حليب شوفان؟", b:"إي عندنا شوفان، لوز، وصويا 🥛"},
-      {c:"كيف أطلب؟", b:"قلي وش تبي أو اطلب من اللينك 😊"}
-    ]
-  },
-  restaurant: {
-    en: [
-      {c:"Is there a table for 4?", b:"Yes! What time works for you? We'll reserve it now ✅"},
-      {c:"Do you deliver?", b:"We deliver via Talabat & Careem! Usually 30–45 min 🛵"},
-      {c:"What's today's special?", b:"Today: Lamb Machboos & Grilled Hammour 🍽️"}
-    ],
-    ar: [
-      {c:"في طاولة لـ 4 أشخاص؟", b:"إي! أي وقت يناسبكم؟ نحجزها الحين ✅"},
-      {c:"تسلّمون؟", b:"نسلّم عن طريق طلبات وكريم! عادةً 30-45 دقيقة 🛵"},
-      {c:"شو أكل اليوم؟", b:"اليوم: مچبوس لحم وهامور مشوي 🍽️"}
-    ]
-  },
-  salon: {
-    en: [
-      {c:"Do you have availability tomorrow?", b:"Yes! We have slots at 10AM, 2PM & 5PM 💇‍♀️"},
-      {c:"How much is a blowout?", b:"Blowout starts from 12 KWD 💅 Want to book?"},
-      {c:"Do you do bridal packages?", b:"Yes! Full bridal package from 80 KWD. Send 📅 your date!"}
-    ],
-    ar: [
-      {c:"في موعد بكرة؟", b:"إي! عندنا 10 صباح، 2 ظهر، و5 مساء 💇‍♀️"},
-      {c:"بكم البلو أوت؟", b:"البلو أوت يبدأ من 12 د.ك 💅 تحجزين؟"},
-      {c:"عندكم باقة عرايس؟", b:"إي! باقة كاملة من 80 د.ك. أرسلي تاريخ 📅 العرس!"}
-    ]
-  },
-  bakery: {
-    en: [
-      {c:"Do you make custom cakes?", b:"Absolutely! 3 days notice needed. What's the occasion? 🎂"},
-      {c:"Are you open on Fridays?", b:"Yes! Fri & Sat 9AM–10PM 🧁"},
-      {c:"Do you deliver?", b:"We deliver within Kuwait City! Min order 15 KWD 🚚"}
-    ],
-    ar: [
-      {c:"تسوون كيك بالطلب؟", b:"طبعاً! نحتاج 3 أيام. شو المناسبة؟ 🎂"},
-      {c:"مفتوحين الجمعة؟", b:"إي! الجمعة والسبت من 9 صباح لـ 10 ليل 🧁"},
-      {c:"تسلّمون؟", b:"نسلّم داخل الكويت! طلب أدنى 15 د.ك 🚚"}
-    ]
-  },
-  gym: {
-    en: [
-      {c:"What are the membership prices?", b:"Monthly: 25 KWD | 3-Month: 65 KWD | Annual: 200 KWD 💪"},
-      {c:"Do you have personal trainers?", b:"Yes! PT sessions from 15 KWD/hr. Want to book a free intro? 🏋️"},
-      {c:"What are opening hours?", b:"6AM–11PM weekdays, 8AM–9PM weekends 🕐"}
-    ],
-    ar: [
-      {c:"بكم الاشتراك؟", b:"شهري: 25 د.ك | 3 أشهر: 65 د.ك | سنوي: 200 د.ك 💪"},
-      {c:"عندكم مدربين شخصيين؟", b:"إي! من 15 د.ك للساعة. تبي حصة تجريبية مجانية؟ 🏋️"},
-      {c:"أوقات الدوام؟", b:"6 صباح-11 ليل أيام العمل، 8-9 ويكند 🕐"}
-    ]
-  }
-};
-
-let phoneTimer = null;
-let currentBiz = 'cafe';
-
-function selectBiz(biz, btn) {
-  currentBiz = biz;
-  document.querySelectorAll('.biz-pill').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  startPhoneAnimation(biz);
-}
-
-function startPhoneAnimation(biz) {
-  if (phoneTimer) clearTimeout(phoneTimer);
-  const enEl = document.getElementById('phoneMsgsEN');
-  const arEl = document.getElementById('phoneMsgsAR');
-  enEl.innerHTML = '';
-  arEl.innerHTML = '';
-  const convos = bizConvos[biz];
-  let i = 0;
-  function showNextPair() {
-    if (i >= convos.en.length) {
-      phoneTimer = setTimeout(() => {
-        enEl.innerHTML = '';
-        arEl.innerHTML = '';
-        i = 0;
-        showNextPair();
-      }, 3000);
-      return;
-    }
-    const pair = {en: convos.en[i], ar: convos.ar[i]};
-    addMsg(enEl, 'customer', pair.en.c);
-    addMsg(arEl, 'customer', pair.ar.c);
-    phoneTimer = setTimeout(() => {
-      addMsg(enEl, 'bot', pair.en.b);
-      addMsg(arEl, 'bot', pair.ar.b);
-      i++;
-      phoneTimer = setTimeout(showNextPair, 2200);
-    }, 900);
-  }
-  showNextPair();
-}
-
-function addMsg(container, type, text) {
-  const div = document.createElement('div');
-  div.className = `msg msg-${type === 'customer' ? 'customer' : 'bot'}`;
-  div.textContent = text;
-  const time = document.createElement('div');
-  time.className = 'msg-time';
-  const now = new Date();
-  time.textContent = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
-  div.appendChild(time);
-  container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
-}
-
-// ── Demo chat ──
-const demoResponses = {
-  hours: ["We're open 7AM–11PM daily ☕ Anything else?", "Open 7 days a week, 7AM to 11PM. How can I help?"],
-  deliver: ["Yes! We deliver within Kuwait City. Minimum order 15 KWD 🚚 Usually 30-45 min.", "We deliver via Talabat and Careem too! 🛵"],
-  book: ["Of course! What date and time works for you? I'll check availability right now ✅", "I'd love to book that for you! What's your preferred date? 📅"],
-  price: ["Great question! Here are our most popular items with prices. What are you interested in? 😊", "Our prices start from 5 KWD. What would you like to know about? 💳"],
-  arabic: {
-    "كم سعركم؟": "أسعارنا تبدأ من 5 د.ك. شو يهمك تعرف؟ 😊",
-    "تسلّمون؟": "إي نسلّم! داخل الكويت، طلب أدنى 15 د.ك 🚚 عادةً 30-45 دقيقة",
-    "في موعد بكرة؟": "إي! عندنا مواعيد متاحة. أي وقت يناسبك؟ 📅"
-  },
-  default: [
-    "Great question! Let me check that for you right away. 😊",
-    "I'd be happy to help with that! Can you give me a bit more detail?",
-    "Sure thing! Here's what I know about that… 📋"
-  ]
-};
-
-function getDemoResponse(msg) {
-  const m = msg.toLowerCase().trim();
-  if (demoResponses.arabic[msg]) return demoResponses.arabic[msg];
-  if (m.includes('hour') || m.includes('open') || m.includes('close') || m.includes('time')) return pick(demoResponses.hours);
-  if (m.includes('deliver') || m.includes('delivery')) return pick(demoResponses.deliver);
-  if (m.includes('book') || m.includes('reserv') || m.includes('appoint') || m.includes('table')) return pick(demoResponses.book);
-  if (m.includes('price') || m.includes('cost') || m.includes('much') || m.includes('كم')) return pick(demoResponses.price);
-  return pick(demoResponses.default);
-}
-
-function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-function sendDemo() {
-  const input = document.getElementById('demoInput');
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  const body = document.getElementById('demoBody');
-  const cMsg = document.createElement('div');
-  cMsg.className = 'msg msg-bot';
-  cMsg.style.cssText = 'opacity:1;align-self:flex-end;background:#fff;color:#111;border-radius:10px 10px 0 10px;';
-  cMsg.textContent = text;
-  body.appendChild(cMsg);
-
-  const typing = document.createElement('div');
-  typing.className = 'typing-indicator';
-  typing.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
-  body.appendChild(typing);
-  body.scrollTop = body.scrollHeight;
-
-  setTimeout(() => {
-    typing.remove();
-    const bMsg = document.createElement('div');
-    bMsg.className = 'msg msg-bot';
-    bMsg.style.cssText = 'opacity:1;background:#DCF8C6;align-self:flex-end;';
-    bMsg.textContent = getDemoResponse(text);
-    body.appendChild(bMsg);
-    body.scrollTop = body.scrollHeight;
-  }, 800 + Math.random() * 600);
-}
-
-function sendDemoPrompt(text) {
-  document.getElementById('demoInput').value = text;
-  sendDemo();
-}
-
-// ── FAQ ──
-function toggleFaq(el) {
-  const item = el.closest('.faq-item');
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
-}
-
-// ── Apply form progress ──
-function updateProgress() {
-  const inputs = document.querySelectorAll('#applyForm input, #applyForm select, #applyForm textarea');
-  let filled = 0;
-  inputs.forEach(i => { if (i.value.trim()) filled++; });
-  const pct = Math.round((filled / inputs.length) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  const step = filled < 2 ? 1 : filled < 4 ? 2 : 3;
-  const labels = ['', 'Step 1 of 3 — Business Info', 'Step 2 of 3 — Contact Details', 'Step 3 of 3 — Almost Done!'];
-  document.getElementById('progressLabel').textContent = labels[step];
-}
-
-function submitApply(e) {
-  e.preventDefault();
-  document.getElementById('applyForm').style.display = 'none';
-  document.getElementById('successMsg').style.display = 'block';
-  document.querySelector('.scarcity-banner').style.display = 'none';
-  document.querySelector('.progress-wrap').style.display = 'none';
-}
-</script>
-
-<!-- ── Three.js Hero Canvas ── -->
+<!-- ═══════════════════════════════════════════════ SCRIPTS -->
 <script type="module">
 import * as THREE from 'three';
 
+// ── Three.js Hero ──────────────────────────────────────────
 const canvas = document.getElementById('hero-canvas');
-const section = document.getElementById('hero-canvas-section');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0xf0f0ff, 1);
+renderer.setClearColor(0x0a0a0f, 1);
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
-camera.position.z = 80;
+const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+camera.position.z = 5;
 
-function resize() {
+function resizeRenderer() {
+  const section = document.getElementById('hero');
   const w = section.clientWidth, h = section.clientHeight;
   renderer.setSize(w, h);
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
 }
-resize();
-window.addEventListener('resize', resize);
+resizeRenderer();
+window.addEventListener('resize', resizeRenderer);
 
 // Particles
-const COUNT = 160;
-const positions = new Float32Array(COUNT * 3);
-const colors = new Float32Array(COUNT * 3);
-const sizes = new Float32Array(COUNT);
-const velocities = [];
+const pCount = 1500;
+const positions = new Float32Array(pCount * 3);
+const colors = new Float32Array(pCount * 3);
+const c1 = new THREE.Color('#6366f1');
+const c2 = new THREE.Color('#8b5cf6');
+for (let i = 0; i < pCount; i++) {
+  positions[i*3]   = (Math.random()-0.5)*20;
+  positions[i*3+1] = (Math.random()-0.5)*20;
+  positions[i*3+2] = (Math.random()-0.5)*20;
+  const c = Math.random() > 0.5 ? c1 : c2;
+  colors[i*3]   = c.r; colors[i*3+1] = c.g; colors[i*3+2] = c.b;
+}
+const pGeo = new THREE.BufferGeometry();
+pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+pGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-const palette = [
-  [0.388, 0.400, 0.945], // #6366f1 indigo
-  [0.506, 0.361, 0.965], // #8b5cf6 violet
-  [0.545, 0.353, 0.902], // blueviolet
-];
+const pMat = new THREE.ShaderMaterial({
+  uniforms: { uTime: { value: 0 } },
+  vertexShader: `
+    attribute vec3 color; varying vec3 vColor; varying float vDist;
+    void main() {
+      vColor = color;
+      vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
+      vDist = -mvPos.z;
+      gl_PointSize = 3.0 * (10.0 / vDist);
+      gl_Position = projectionMatrix * mvPos;
+    }`,
+  fragmentShader: `
+    varying vec3 vColor; varying float vDist;
+    void main() {
+      vec2 uv = gl_PointCoord - 0.5;
+      float d = length(uv);
+      if(d > 0.5) discard;
+      float alpha = smoothstep(0.5, 0.0, d) * 0.85;
+      gl_FragColor = vec4(vColor, alpha);
+    }`,
+  transparent: true, vertexColors: true, depthWrite: false
+});
+const particles = new THREE.Points(pGeo, pMat);
+scene.add(particles);
 
-for (let i = 0; i < COUNT; i++) {
-  positions[i*3]   = (Math.random() - 0.5) * 160;
-  positions[i*3+1] = (Math.random() - 0.5) * 100;
-  positions[i*3+2] = (Math.random() - 0.5) * 60;
-  const col = palette[Math.floor(Math.random() * palette.length)];
-  colors[i*3]   = col[0];
-  colors[i*3+1] = col[1];
-  colors[i*3+2] = col[2];
-  sizes[i] = 1.5 + Math.random() * 3.5;
-  velocities.push({
-    x: (Math.random() - 0.5) * 0.06,
-    y: (Math.random() - 0.5) * 0.04,
-    z: (Math.random() - 0.5) * 0.02
+// Connection lines
+const linePositions = [];
+for (let i = 0; i < 60; i++) {
+  const a = Math.floor(Math.random()*pCount)*3;
+  const b = Math.floor(Math.random()*pCount)*3;
+  linePositions.push(positions[a],positions[a+1],positions[a+2], positions[b],positions[b+1],positions[b+2]);
+}
+const lGeo = new THREE.BufferGeometry();
+lGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(linePositions), 3));
+const lMat = new THREE.LineBasicMaterial({ color: 0x6366f1, transparent: true, opacity: 0.12 });
+scene.add(new THREE.LineSegments(lGeo, lMat));
+
+// Orbs
+const orbData = [];
+for (let i = 0; i < 8; i++) {
+  const geo = new THREE.SphereGeometry(0.08 + Math.random()*0.1, 12, 12);
+  const mat = new THREE.MeshBasicMaterial({ color: i%2===0 ? 0x6366f1 : 0x8b5cf6, transparent: true, opacity: 0.4+Math.random()*0.3 });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set((Math.random()-0.5)*8,(Math.random()-0.5)*5,(Math.random()-0.5)*4);
+  scene.add(mesh);
+  orbData.push({ mesh, speed: 0.3+Math.random()*0.5, offset: Math.random()*Math.PI*2, rx: (Math.random()-0.5)*0.5 });
+}
+
+// Mouse parallax
+let mx = 0, my = 0;
+document.addEventListener('mousemove', e => {
+  mx = (e.clientX/window.innerWidth - 0.5)*2;
+  my = (e.clientY/window.innerHeight - 0.5)*2;
+});
+
+function animate(t) {
+  requestAnimationFrame(animate);
+  const time = t * 0.001;
+  pMat.uniforms.uTime.value = time;
+  particles.rotation.y = time * 0.04 + mx * 0.05;
+  particles.rotation.x = my * 0.03;
+  orbData.forEach(o => {
+    o.mesh.position.y += Math.sin(time*o.speed + o.offset)*0.003;
+    o.mesh.position.x += Math.cos(time*o.speed*0.7 + o.offset)*0.002;
+  });
+  camera.position.x += (mx*0.3 - camera.position.x)*0.03;
+  camera.position.y += (-my*0.2 - camera.position.y)*0.03;
+  renderer.render(scene, camera);
+}
+animate(0);
+</script>
+
+<script>
+// ── Data ──────────────────────────────────────────────────
+const conversations = {
+  cafe: {
+    en: [
+      {c:"What are your hours?", b:"We're open 7AM–11PM daily ☕ Anything else I can help with?"},
+      {c:"Do you have oat milk?", b:"Yes! We carry oat, almond & soy milk 🥛 Just mention your preference when ordering."},
+      {c:"How do I place an order?", b:"You can order via our link or simply tell me what you'd like and I'll take it from here 😊"}
+    ],
+    ar: [
+      {c:"ما هي أوقات عملكم؟", b:"نفتح يومياً من ٧ صباحاً حتى ١١ مساءً ☕ هل يمكنني مساعدتك بشيء آخر؟"},
+      {c:"هل لديكم حليب الشوفان؟", b:"نعم، لدينا حليب الشوفان واللوز والصويا 🥛 فقط أخبرنا بتفضيلك عند الطلب."},
+      {c:"كيف يمكنني الطلب؟", b:"يمكنك الطلب عبر رابطنا أو أخبرني بما تحتاجه وسأرتب كل شيء لك 😊"}
+    ],
+    enName: "Sunrise Café", arName: "كافيه الشروق", icon: "☕"
+  },
+  restaurant: {
+    en: [
+      {c:"Is there a table for 4?", b:"Of course! What time works for you? We'll reserve it right away ✅"},
+      {c:"Do you deliver?", b:"Yes, we deliver via Talabat & Careem — usually within 30–45 minutes 🛵"},
+      {c:"What's today's special?", b:"Today's special: Lamb Machboos & Grilled Hammour 🍽️ An excellent choice!"}
+    ],
+    ar: [
+      {c:"هل يوجد طاولة لـ 4 أشخاص؟", b:"بالتأكيد! ما هو الوقت المناسب لكم؟ سنحجزها فوراً ✅"},
+      {c:"هل توصّلون؟", b:"نعم، نوصّل عبر طلبات وكريم — عادةً خلال ٣٠–٤٥ دقيقة 🛵"},
+      {c:"ما هو طبق اليوم؟", b:"طبق اليوم: مچبوس لحم وهامور مشوي 🍽️ خيار رائع!"}
+    ],
+    enName: "Al Mashawi Grill", arName: "مطعم المشاوي", icon: "🍽️"
+  },
+  salon: {
+    en: [
+      {c:"Do you have availability tomorrow?", b:"Yes! We have open slots at 10AM, 2PM & 5PM 💇‍♀️ Which works for you?"},
+      {c:"How much is a blowout?", b:"A blowout starts from 12 KWD 💅 Would you like to book an appointment?"},
+      {c:"Do you do bridal packages?", b:"Absolutely! Our full bridal package starts from 80 KWD. Please share your 📅 wedding date to get started."}
+    ],
+    ar: [
+      {c:"هل يوجد موعد غداً؟", b:"نعم! لدينا مواعيد متاحة عند الساعة ١٠ صباحاً، ٢ ظهراً، و٥ مساءً 💇‍♀️ أيها يناسبك؟"},
+      {c:"ما هو سعر البلو أوت؟", b:"يبدأ البلو أوت من ١٢ د.ك 💅 هل تودّين حجز موعد؟"},
+      {c:"هل لديكم باقة للعرائس؟", b:"بالتأكيد! باقتنا الكاملة للعرائس تبدأ من ٨٠ د.ك. يرجى مشاركة تاريخ 📅 الزفاف للبدء."}
+    ],
+    enName: "Lumina Salon", arName: "صالون لومينا", icon: "💇‍♀️"
+  },
+  bakery: {
+    en: [
+      {c:"Do you make custom cakes?", b:"Absolutely! We need 3 days notice. What's the occasion? 🎂"},
+      {c:"Are you open on Fridays?", b:"Yes! We're open Friday & Saturday from 9AM–10PM 🧁"},
+      {c:"Do you deliver?", b:"We deliver within Kuwait City — minimum order is 15 KWD 🚚"}
+    ],
+    ar: [
+      {c:"هل تصنعون كيك بالطلب؟", b:"بالتأكيد! نحتاج إلى ٣ أيام مسبقاً. ما هي المناسبة؟ 🎂"},
+      {c:"هل أنتم مفتوحون يوم الجمعة؟", b:"نعم! نفتح الجمعة والسبت من ٩ صباحاً حتى ١٠ مساءً 🧁"},
+      {c:"هل توصّلون؟", b:"نوصّل داخل مدينة الكويت — الحد الأدنى للطلب ١٥ د.ك 🚚"}
+    ],
+    enName: "Sweet Layers", arName: "طبقات الحلوى", icon: "🎂"
+  },
+  gym: {
+    en: [
+      {c:"What are the membership prices?", b:"Monthly: 25 KWD | 3-Month: 65 KWD | Annual: 200 KWD 💪 Which suits you best?"},
+      {c:"Do you have personal trainers?", b:"Yes! Personal training sessions start from 15 KWD/hr. Would you like a free intro session? 🏋️"},
+      {c:"What are your opening hours?", b:"We're open 6AM–11PM on weekdays, and 8AM–9PM on weekends 🕐"}
+    ],
+    ar: [
+      {c:"ما هي أسعار الاشتراك؟", b:"شهري: ٢٥ د.ك | ٣ أشهر: ٦٥ د.ك | سنوي: ٢٠٠ د.ك 💪 أيها يناسبك؟"},
+      {c:"هل لديكم مدربون شخصيون؟", b:"نعم! تبدأ جلسات التدريب الشخصي من ١٥ د.ك للساعة. هل تودّ حجز جلسة تجريبية مجانية؟ 🏋️"},
+      {c:"ما هي أوقات العمل؟", b:"نفتح من ٦ صباحاً حتى ١١ مساءً أيام الأسبوع، ومن ٨ صباحاً حتى ٩ مساءً في نهاية الأسبوع 🕐"}
+    ],
+    enName: "ProFit Gym", arName: "صالة برو فيت", icon: "💪"
+  }
+};
+
+// ── Language ──────────────────────────────────────────────
+let currentLang = 'en';
+
+function setLang(lang) {
+  const isAr = lang === 'ar';
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+  document.body.classList.toggle('is-rtl', isAr);
+  document.querySelectorAll('[data-en][data-ar]').forEach(el => {
+    el.textContent = isAr ? el.dataset.ar : el.dataset.en;
+  });
+  document.querySelectorAll('[data-en-ph]').forEach(el => {
+    el.placeholder = isAr ? el.dataset.arPh : el.dataset.enPh;
+  });
+  document.getElementById('lang-en').classList.toggle('active', !isAr);
+  document.getElementById('lang-ar').classList.toggle('active', isAr);
+  // Re-render phone demo
+  selectBiz(currentBiz);
+  // Re-render demo page
+  selectDemoBiz(currentDemoBiz);
+}
+window.setLang = setLang;
+
+// ── Page routing ──────────────────────────────────────────
+function setPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const pg = document.getElementById('page-' + name);
+  if (pg) pg.classList.add('active');
+  document.querySelectorAll('[data-page]').forEach(l => l.classList.toggle('active', l.dataset.page === name));
+  window.scrollTo(0, 0);
+  location.hash = name;
+}
+window.setPage = setPage;
+window.addEventListener('load', () => setPage(location.hash.replace('#','') || 'home'));
+window.addEventListener('hashchange', () => setPage(location.hash.replace('#','') || 'home'));
+
+// ── Phone demo (home) ─────────────────────────────────────
+let currentBiz = 'cafe';
+let animTimer = null;
+
+function selectBiz(biz) {
+  currentBiz = biz;
+  document.querySelectorAll('#biz-picker .pill').forEach(p => p.classList.toggle('active', p.dataset.biz === biz));
+  const d = conversations[biz];
+  document.getElementById('en-biz-name').textContent = d.enName;
+  document.getElementById('ar-biz-name').textContent = d.arName;
+  renderPhoneConvo('chat-en', d.en);
+  renderPhoneConvo('chat-ar', d.ar);
+}
+window.selectBiz = selectBiz;
+
+function renderPhoneConvo(id, msgs) {
+  const area = document.getElementById(id);
+  area.innerHTML = '';
+  if (animTimer) { clearTimeout(animTimer); animTimer = null; }
+  animateMsgs(area, msgs, 0);
+}
+
+function animateMsgs(area, msgs, i) {
+  if (i >= msgs.length) return;
+  const msg = msgs[i];
+  // Customer bubble
+  const cWrap = document.createElement('div');
+  cWrap.className = 'chat-bubble-wrap customer';
+  const cBub = document.createElement('div');
+  cBub.className = 'chat-bubble customer';
+  cBub.textContent = msg.c;
+  cWrap.appendChild(cBub);
+  area.appendChild(cWrap);
+  area.scrollTop = area.scrollHeight;
+
+  animTimer = setTimeout(() => {
+    // Typing indicator
+    const tWrap = document.createElement('div');
+    tWrap.className = 'chat-bubble-wrap bot';
+    tWrap.innerHTML = '<div class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
+    area.appendChild(tWrap);
+    area.scrollTop = area.scrollHeight;
+
+    animTimer = setTimeout(() => {
+      tWrap.remove();
+      const bWrap = document.createElement('div');
+      bWrap.className = 'chat-bubble-wrap bot';
+      const bBub = document.createElement('div');
+      bBub.className = 'chat-bubble bot';
+      bBub.textContent = msg.b;
+      bWrap.appendChild(bBub);
+      area.appendChild(bWrap);
+      area.scrollTop = area.scrollHeight;
+      animTimer = setTimeout(() => animateMsgs(area, msgs, i+1), 1200);
+    }, 1200);
+  }, 800);
+}
+
+// ── Demo page ─────────────────────────────────────────────
+let currentDemoBiz = 'cafe';
+let demoTyping = false;
+
+function selectDemoBiz(biz) {
+  currentDemoBiz = biz;
+  document.querySelectorAll('#demo-biz-picker .pill').forEach(p => p.classList.toggle('active', p.dataset.biz === biz));
+  const d = conversations[biz];
+  document.getElementById('demo-avatar').textContent = d.icon;
+  document.getElementById('demo-biz-label').textContent = currentLang === 'ar' ? d.arName : d.enName;
+  const chat = document.getElementById('demo-chat');
+  chat.innerHTML = '';
+  // Welcome
+  addDemoMsg('bot', currentLang === 'ar' ? 'مرحباً! 👋 كيف يمكنني مساعدتك اليوم؟' : 'Hey! 👋 How can I help you today?');
+  renderDemoChips(biz);
+}
+window.selectDemoBiz = selectDemoBiz;
+
+function renderDemoChips(biz) {
+  const d = conversations[biz];
+  const msgs = currentLang === 'ar' ? d.ar : d.en;
+  const chips = document.getElementById('demo-chips');
+  chips.innerHTML = '';
+  msgs.forEach(m => {
+    const chip = document.createElement('button');
+    chip.className = 'chip';
+    chip.textContent = m.c;
+    chip.onclick = () => sendDemoMsg(m.c);
+    chips.appendChild(chip);
   });
 }
 
-const geo = new THREE.BufferGeometry();
-geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-
-const vShader = `
-  attribute float size;
-  attribute vec3 color;
-  varying vec3 vColor;
-  varying float vAlpha;
-  void main() {
-    vColor = color;
-    vAlpha = 0.7 + sin(position.x * 0.1) * 0.3;
-    vec4 mv = modelViewMatrix * vec4(position, 1.0);
-    gl_PointSize = size * (300.0 / -mv.z);
-    gl_Position = projectionMatrix * mv;
-  }
-`;
-const fShader = `
-  varying vec3 vColor;
-  varying float vAlpha;
-  void main() {
-    vec2 uv = gl_PointCoord - 0.5;
-    float d = length(uv);
-    if (d > 0.5) discard;
-    float alpha = (1.0 - d * 2.0) * vAlpha;
-    gl_FragColor = vec4(vColor, alpha);
-  }
-`;
-
-const mat = new THREE.ShaderMaterial({
-  vertexShader: vShader,
-  fragmentShader: fShader,
-  transparent: true,
-  blending: THREE.NormalBlending,
-  depthWrite: false,
-  vertexColors: true
-});
-
-const points = new THREE.Points(geo, mat);
-scene.add(points);
-
-// Connection lines
-const lineGeo = new THREE.BufferGeometry();
-const linePositions = new Float32Array(COUNT * COUNT * 6);
-let lp = 0;
-
-const lineMat = new THREE.LineBasicMaterial({
-  color: 0x6366f1,
-  transparent: true,
-  opacity: 0.12,
-  blending: THREE.NormalBlending
-});
-const linesMesh = new THREE.LineSegments(lineGeo, lineMat);
-scene.add(linesMesh);
-
-let mouse = { x: 0, y: 0 };
-document.addEventListener('mousemove', e => {
-  mouse.x = (e.clientX / window.innerWidth - 0.5) * 2;
-  mouse.y = -(e.clientY / window.innerHeight - 0.5) * 2;
-});
-
-function animate() {
-  requestAnimationFrame(animate);
-  const pos = geo.attributes.position.array;
-  const threshold = 30;
-  lp = 0;
-
-  for (let i = 0; i < COUNT; i++) {
-    pos[i*3]   += velocities[i].x;
-    pos[i*3+1] += velocities[i].y;
-    pos[i*3+2] += velocities[i].z;
-    if (Math.abs(pos[i*3])   > 85) velocities[i].x *= -1;
-    if (Math.abs(pos[i*3+1]) > 55) velocities[i].y *= -1;
-    if (Math.abs(pos[i*3+2]) > 35) velocities[i].z *= -1;
-
-    for (let j = i+1; j < COUNT; j++) {
-      const dx = pos[i*3]   - pos[j*3];
-      const dy = pos[i*3+1] - pos[j*3+1];
-      const dz = pos[i*3+2] - pos[j*3+2];
-      const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
-      if (dist < threshold && lp + 6 < linePositions.length) {
-        linePositions[lp++] = pos[i*3];   linePositions[lp++] = pos[i*3+1]; linePositions[lp++] = pos[i*3+2];
-        linePositions[lp++] = pos[j*3];   linePositions[lp++] = pos[j*3+1]; linePositions[lp++] = pos[j*3+2];
-      }
-    }
-  }
-
-  geo.attributes.position.needsUpdate = true;
-  lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions.slice(0, lp), 3));
-  lineGeo.setDrawRange(0, lp / 3);
-
-  camera.position.x += (mouse.x * 8 - camera.position.x) * 0.03;
-  camera.position.y += (mouse.y * 5 - camera.position.y) * 0.03;
-  camera.lookAt(scene.position);
-
-  renderer.render(scene, camera);
+function addDemoMsg(type, text) {
+  const chat = document.getElementById('demo-chat');
+  const wrap = document.createElement('div');
+  wrap.className = 'chat-bubble-wrap ' + type;
+  const bub = document.createElement('div');
+  bub.className = 'chat-bubble ' + type;
+  bub.textContent = text;
+  wrap.appendChild(bub);
+  chat.appendChild(wrap);
+  chat.scrollTop = chat.scrollHeight;
 }
-animate();
+
+function sendDemoMsg(text) {
+  if (demoTyping) return;
+  addDemoMsg('customer', text);
+  demoTyping = true;
+  // Find matching response
+  const d = conversations[currentDemoBiz];
+  const msgs = currentLang === 'ar' ? d.ar : d.en;
+  const match = msgs.find(m => m.c === text);
+  const replyText = match ? match.b : (currentLang === 'ar' ? 'شكراً على رسالتك! سأساعدك في أقرب وقت 😊' : 'Thanks for your message! I\'ll help you right away 😊');
+
+  const chat = document.getElementById('demo-chat');
+  const tWrap = document.createElement('div');
+  tWrap.className = 'chat-bubble-wrap bot';
+  tWrap.innerHTML = '<div class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
+  chat.appendChild(tWrap);
+  chat.scrollTop = chat.scrollHeight;
+
+  setTimeout(() => {
+    tWrap.remove();
+    addDemoMsg('bot', replyText);
+    demoTyping = false;
+  }, 1000 + Math.random()*800);
+}
+window.sendDemoMsg = sendDemoMsg;
+
+function sendDemo() {
+  const input = document.getElementById('demo-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  sendDemoMsg(text);
+}
+window.sendDemo = sendDemo;
+
+// ── FAQ ───────────────────────────────────────────────────
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+window.toggleFaq = toggleFaq;
+
+// ── Apply form ────────────────────────────────────────────
+function updateProgress() {
+  const inputs = document.querySelectorAll('#apply-form input, #apply-form select, #apply-form textarea');
+  let filled = 0;
+  inputs.forEach(i => { if(i.value.trim()) filled++; });
+  const pct = Math.round((filled / inputs.length) * 100);
+  document.getElementById('apply-progress').style.width = pct + '%';
+}
+window.updateProgress = updateProgress;
+
+function submitApply(e) {
+  e.preventDefault();
+  document.getElementById('apply-form').style.display = 'none';
+  document.getElementById('apply-success').style.display = 'block';
+  document.getElementById('apply-progress').style.width = '100%';
+}
+window.submitApply = submitApply;
+
+// ── Init ──────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  selectBiz('cafe');
+  selectDemoBiz('cafe');
+});
 </script>
 
 </body>
