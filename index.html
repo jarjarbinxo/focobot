@@ -89,6 +89,55 @@ nav{background:rgba(2,15,9,0.8);backdrop-filter:blur(20px);border-bottom:1px sol
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#020f09}::-webkit-scrollbar-thumb{background:#0a4f3c;border-radius:3px}
+
+/* === 21st.dev-inspired enhancements === */
+
+/* Rotating conic-gradient border on popular pricing card */
+.pricing-hot{position:relative;}
+.pricing-hot::before{
+  content:'';position:absolute;inset:-1.5px;border-radius:inherit;z-index:-1;
+  background:conic-gradient(from var(--angle,0deg),transparent 60%,#25D366 75%,#00ff7f 80%,#25D366 85%,transparent 95%);
+  animation:spinBorder 3s linear infinite;
+}
+.pricing-hot::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;z-index:-1;
+  background:linear-gradient(135deg,rgba(37,211,102,0.18),rgba(10,79,60,0.3));
+}
+@property --angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
+@keyframes spinBorder{to{--angle:360deg;}}
+
+/* Ripple on click */
+.ripple-host{position:relative;overflow:hidden;}
+.ripple-circle{
+  position:absolute;border-radius:50%;
+  background:rgba(255,255,255,0.3);
+  transform:scale(0);pointer-events:none;
+  animation:rippleOut .55s ease-out forwards;
+}
+@keyframes rippleOut{to{transform:scale(4);opacity:0;}}
+
+/* Cursor glow follower */
+#cursor-glow{
+  position:fixed;width:350px;height:350px;border-radius:50%;
+  background:radial-gradient(circle,rgba(37,211,102,0.06) 0%,transparent 65%);
+  pointer-events:none;z-index:0;transform:translate(-50%,-50%);
+  transition:left .12s ease,top .12s ease;will-change:left,top;
+}
+
+/* Card magnetic tilt */
+.tilt-card{transform-style:preserve-3d;transition:transform .25s ease,box-shadow .25s ease;}
+
+/* Shine sweep on hover */
+.shine-host{position:relative;overflow:hidden;}
+.shine-host::after{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.07) 50%,transparent 60%);
+  transition:left .5s ease;pointer-events:none;
+}
+.shine-host:hover::after{left:150%;}
+
+/* Animated counter */
+@keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
@@ -730,6 +779,80 @@ document.head.appendChild(style);
 
 // Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});} }));
+
+// ── Cursor glow ──────────────────────────────────────────────
+const glow = document.createElement('div');
+glow.id = 'cursor-glow';
+document.body.appendChild(glow);
+document.addEventListener('mousemove', e => {
+  glow.style.left = e.clientX + 'px';
+  glow.style.top  = e.clientY + 'px';
+});
+
+// ── Button ripple (21st.dev-inspired) ────────────────────────
+document.querySelectorAll('a.bg-wa, a.glow-btn, nav a.bg-wa').forEach(btn => {
+  btn.classList.add('ripple-host');
+  btn.addEventListener('click', e => {
+    const r = btn.getBoundingClientRect();
+    const size = Math.max(r.width, r.height) * 1.5;
+    const el = document.createElement('span');
+    el.className = 'ripple-circle';
+    el.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-r.left-size/2}px;top:${e.clientY-r.top-size/2}px;`;
+    btn.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  });
+});
+
+// ── Shine sweep on feature + pricing cards ───────────────────
+document.querySelectorAll('.feat-card, .glass.rounded-2xl').forEach(el => el.classList.add('shine-host'));
+
+// ── Magnetic card tilt ───────────────────────────────────────
+document.querySelectorAll('.feat-card').forEach(card => {
+  card.classList.add('tilt-card');
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width  - 0.5;
+    const y = (e.clientY - r.top)  / r.height - 0.5;
+    card.style.transform = `perspective(600px) rotateY(${x*10}deg) rotateX(${-y*10}deg) translateY(-4px)`;
+  });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+});
+
+// ── Animated stat counters ───────────────────────────────────
+const counters = document.querySelectorAll('.stat-num');
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+    const target = parseFloat(el.dataset.target || el.textContent);
+    const isFloat = el.dataset.target && el.dataset.target.includes('.');
+    const suffix = el.dataset.suffix || '';
+    const prefix = el.dataset.prefix || '';
+    let start = 0;
+    const duration = 1800;
+    const step = timestamp => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const val = eased * target;
+      el.textContent = prefix + (isFloat ? val.toFixed(1) : Math.floor(val)) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+    counterObs.unobserve(el);
+  });
+}, { threshold: 0.5 });
+counters.forEach(el => {
+  const raw = el.textContent.trim();
+  const match = raw.match(/[\d.]+/);
+  if (match) {
+    el.dataset.target = match[0];
+    if (raw.includes('%')) el.dataset.suffix = '%';
+    if (raw.includes('+')) el.dataset.suffix = '+';
+    el.textContent = '0' + (el.dataset.suffix || '');
+    counterObs.observe(el);
+  }
+});
 </script>
 </body>
 </html>
