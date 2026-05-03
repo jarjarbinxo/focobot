@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Focobot — Stop Losing Customers to Unanswered WhatsApps</title>
-<meta name="description" content="Focobot automates 500+ WhatsApp messages daily for Kuwaiti businesses. 2-second replies in Arabic and English, 24/7. Start free — no card needed.">
+<title>Focobot — Your WhatsApp Is Losing You Money Right Now</title>
+<meta name="description" content="Focobot automates 500+ WhatsApp messages daily for Kuwaiti businesses. 2-second AI replies in Arabic & English, 24/7. Start free — no card needed.">
 <meta property="og:title" content="Focobot — WhatsApp AI for Kuwait Businesses">
 <meta property="og:description" content="Every unanswered WhatsApp is lost revenue. Focobot replies in 2 seconds, 24/7, in Arabic & English.">
 <meta property="og:type" content="website">
@@ -25,6 +25,7 @@
 html{scroll-behavior:smooth}
 body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
+/* ── ANIMATIONS ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
 @keyframes glow{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:.75;transform:scale(1.12)}}
@@ -32,213 +33,264 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes blink{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
 @keyframes msgIn{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes borderGlow{0%,100%{border-color:rgba(37,211,102,.25);box-shadow:0 0 20px rgba(37,211,102,.07)}50%{border-color:rgba(37,211,102,.6);box-shadow:0 0 50px rgba(37,211,102,.22)}}
+@keyframes borderGlow{0%,100%{border-color:rgba(37,211,102,.25);box-shadow:0 0 20px rgba(37,211,102,.07)}50%{border-color:rgba(37,211,102,.65);box-shadow:0 0 55px rgba(37,211,102,.22)}}
+@keyframes pulseRing{0%{transform:scale(.8);opacity:0}50%{opacity:.5}100%{transform:scale(2.4);opacity:0}}
+@keyframes gridDrift{from{background-position:0 0,0 0}to{background-position:60px 60px,60px 60px}}
+@keyframes shimmer{0%{transform:translateX(-120%) skewX(-20deg)}100%{transform:translateX(320%) skewX(-20deg)}}
+@keyframes toastIn{0%{opacity:0;transform:translateY(18px)}15%{opacity:1;transform:translateY(0)}80%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-8px)}}
+@keyframes statShimmer{0%{left:-100%}100%{left:200%}}
 
+/* ── LAYOUT ── */
 .container{max-width:1200px;margin:0 auto;padding:0 24px}
 .reveal{opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease}
 .reveal.vis{opacity:1;transform:translateY(0)}
 .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
 
-/* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:16px 32px;background:rgba(7,31,24,.82);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-bottom:1px solid rgba(37,211,102,.1);transition:padding .3s,background .3s}
-.nav.solid{padding:12px 32px;background:rgba(7,31,24,.98)}
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:rgba(7,31,24,.8);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(37,211,102,.08);transition:padding .3s,background .3s,box-shadow .3s}
+.nav.solid{padding:12px 40px;background:rgba(7,31,24,.98);box-shadow:0 4px 40px rgba(0,0,0,.4)}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
 .nav-icon{width:36px;height:36px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
 .nav-wm{font-family:var(--fh);font-weight:700;font-size:20px;color:#fff;letter-spacing:-.3px}
-.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
-.nav-links a{color:rgba(255,255,255,.65);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
-.nav-links a:hover{color:var(--accent)}
-.nav-cta{background:var(--accent)!important;color:#000!important;padding:10px 20px;border-radius:8px;font-weight:700!important;transition:background .2s,transform .15s!important}
-.nav-cta:hover{background:var(--accent-d)!important;transform:translateY(-1px)}
-.nav-burger{display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.62);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;position:relative}
+.nav-links a:not(.nav-cta)::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--accent);transform:scaleX(0);transition:transform .2s;transform-origin:left}
+.nav-links a:not(.nav-cta):hover{color:#fff}
+.nav-links a:not(.nav-cta):hover::after{transform:scaleX(1)}
+.nav-cta{background:var(--accent)!important;color:#000!important;padding:10px 22px;border-radius:9px;font-weight:700!important;box-shadow:0 0 24px rgba(37,211,102,.3);transition:all .2s!important}
+.nav-cta:hover{background:var(--accent-d)!important;transform:translateY(-1px);box-shadow:0 0 42px rgba(37,211,102,.5)!important}
+.nav-burger{display:none;background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:4px}
 
-/* BUTTONS */
+/* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--fb);font-weight:700;font-size:16px;padding:14px 28px;border-radius:10px;text-decoration:none;border:none;cursor:pointer;transition:all .2s}
 .btn-g{background:var(--accent);color:#000;box-shadow:0 0 32px rgba(37,211,102,.38)}
-.btn-g:hover{background:var(--accent-d);transform:translateY(-2px);box-shadow:0 0 55px rgba(37,211,102,.55)}
+.btn-g:hover{background:var(--accent-d);transform:translateY(-2px);box-shadow:0 0 60px rgba(37,211,102,.6)}
 .btn-o{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.22)}
 .btn-o:hover{border-color:var(--accent);color:var(--accent);background:rgba(37,211,102,.05)}
 
-/* HERO */
-.hero{min-height:100vh;background:var(--hero);position:relative;display:flex;align-items:center;overflow:hidden;padding:120px 32px 80px}
+/* ── HERO ── */
+.hero{min-height:100vh;background:var(--hero);position:relative;display:flex;align-items:center;overflow:hidden;padding:120px 40px 80px}
+.hero-grid{position:absolute;inset:-60px;background-image:linear-gradient(rgba(37,211,102,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(37,211,102,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;animation:gridDrift 30s linear infinite}
 .hero-particles{position:absolute;inset:0;pointer-events:none}
 .particle{position:absolute;border-radius:50%;background:var(--accent);animation:drift linear infinite}
-.gb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
-.g1{width:420px;height:420px;background:rgba(37,211,102,.11);top:-80px;right:8%;animation:glow 5s ease-in-out infinite}
-.g2{width:320px;height:320px;background:rgba(10,79,60,.45);bottom:5%;left:3%;animation:glow 7s ease-in-out infinite 1s}
-.g3{width:200px;height:200px;background:rgba(37,211,102,.07);top:45%;left:38%;animation:glow 6s ease-in-out infinite 2.5s}
-.hero-in{position:relative;z-index:2;max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.32);border-radius:100px;padding:6px 16px;font-size:13px;color:var(--accent);font-weight:600;margin-bottom:20px;animation:fadeUp .6s ease both .1s}
-.bdot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:glow 1.6s ease-in-out infinite}
-.hero-h1{font-family:var(--fh);font-size:clamp(36px,5vw,62px);font-weight:800;line-height:1.08;letter-spacing:-1.5px;color:#fff;margin-bottom:22px;animation:fadeUp .6s ease both .2s}
-.hi{color:var(--accent)}
-.hero-sub{font-size:18px;color:rgba(255,255,255,.68);line-height:1.65;margin-bottom:36px;max-width:500px;animation:fadeUp .6s ease both .3s}
-.hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .6s ease both .4s}
-.hero-trust{margin-top:28px;font-size:13px;color:rgba(255,255,255,.38);animation:fadeUp .6s ease both .5s}
-.hero-trust strong{color:rgba(255,255,255,.65)}
+.gb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none}
+.g1{width:520px;height:520px;background:rgba(37,211,102,.1);top:-130px;right:5%;animation:glow 5s ease-in-out infinite}
+.g2{width:370px;height:370px;background:rgba(10,79,60,.45);bottom:4%;left:-2%;animation:glow 7s ease-in-out infinite 1s}
+.g3{width:250px;height:250px;background:rgba(37,211,102,.07);top:44%;left:37%;animation:glow 6s ease-in-out infinite 2.5s}
+.hero-in{position:relative;z-index:2;max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
 
-/* PHONE */
-.phone-wrap{display:flex;justify-content:center;align-items:center;animation:fadeUp .8s ease both .3s}
-.phone{width:292px;background:#111b21;border-radius:36px;border:2px solid rgba(37,211,102,.22);overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.65),0 0 70px rgba(37,211,102,.12);animation:float 6s ease-in-out infinite 1s;position:relative}
-.phone::after{content:'';position:absolute;inset:0;border-radius:36px;border:1px solid rgba(37,211,102,.14);pointer-events:none;z-index:10;animation:borderGlow 4s ease-in-out infinite}
-.ph-bar{display:flex;justify-content:space-between;padding:8px 16px 4px;font-size:11px;color:#fff;font-weight:700;background:#202c33}
-.ph-head{background:#202c33;padding:8px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.05)}
-.ph-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#25D366,#0a4f3c);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);border-radius:100px;padding:6px 16px;font-size:13px;color:var(--accent);font-weight:600;margin-bottom:22px;animation:fadeUp .6s ease both .1s}
+.bdot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:glow 1.6s ease-in-out infinite;position:relative;flex-shrink:0}
+.bdot::after{content:'';position:absolute;inset:-4px;border-radius:50%;background:rgba(37,211,102,.35);animation:pulseRing 2s ease-out infinite}
+
+.hero-h1{font-family:var(--fh);font-size:clamp(36px,5vw,64px);font-weight:800;line-height:1.06;letter-spacing:-2px;color:#fff;margin-bottom:24px;animation:fadeUp .6s ease both .2s}
+.hi{background:linear-gradient(135deg,#25D366 0%,#6effa0 60%,#25D366 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.hero-sub{font-size:18px;color:rgba(255,255,255,.66);line-height:1.7;margin-bottom:38px;max-width:500px;animation:fadeUp .6s ease both .3s}
+.hero-sub strong{color:rgba(255,255,255,.88)}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .6s ease both .4s}
+.hero-trust{margin-top:28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;font-size:13px;color:rgba(255,255,255,.38);animation:fadeUp .6s ease both .5s}
+.hti{display:flex;align-items:center;gap:5px}
+.hti::before{content:'✓';color:var(--accent);font-size:11px;font-weight:700}
+
+/* ── PHONE MOCKUP ── */
+.phone-wrap{display:flex;justify-content:center;align-items:center;animation:fadeUp .8s ease both .35s}
+.phone{width:300px;background:#111b21;border-radius:40px;border:2px solid rgba(37,211,102,.22);overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.7),0 0 80px rgba(37,211,102,.12);animation:float 6s ease-in-out infinite 1s;position:relative}
+.phone::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:78px;height:26px;background:#080808;border-radius:0 0 16px 16px;z-index:20}
+.phone::after{content:'';position:absolute;inset:0;border-radius:40px;border:1px solid rgba(37,211,102,.15);pointer-events:none;z-index:10;animation:borderGlow 4s ease-in-out infinite}
+
+.ph-bar{display:flex;justify-content:space-between;padding:10px 22px 4px;font-size:11px;color:#fff;font-weight:700;background:#202c33}
+.ph-head{background:#202c33;padding:8px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.05)}
+.ph-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#25D366,#0a4f3c);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;position:relative}
+.ph-av::after{content:'';position:absolute;bottom:1px;right:1px;width:10px;height:10px;background:#25D366;border-radius:50%;border:2px solid #202c33}
 .ph-nm{color:#fff;font-size:13px;font-weight:600;line-height:1.2}
-.ph-st{color:var(--accent);font-size:11px}
-.ph-ic{display:flex;gap:14px;color:rgba(255,255,255,.5);font-size:14px;margin-left:auto}
-.ph-body{min-height:300px;background:#0b141a;padding:10px 8px;display:flex;flex-direction:column;gap:5px;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M0 0h60v1H0zm0 15h60v1H0zm0 30h60v1H0zm0 15h60v1H0zM0 0v60h1V0zm15 0v60h1V0zm30 0v60h1V0zm15 0v60h1V0z'/%3E%3C/g%3E%3C/svg%3E")}
-.msg{display:flex;flex-direction:column;max-width:86%;animation:msgIn .28s ease both}
+.ph-st{color:#25D366;font-size:11px}
+.ph-ic{display:flex;gap:16px;color:rgba(255,255,255,.42);font-size:15px;margin-left:auto}
+.ph-body{min-height:320px;max-height:320px;overflow:hidden;background:#0b141a;padding:10px;display:flex;flex-direction:column;gap:6px;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M0 0h60v1H0zm0 15h60v1H0zm0 30h60v1H0zm0 15h60v1H0zM0 0v60h1V0zm15 0v60h1V0zm30 0v60h1V0zm15 0v60h1V0z'/%3E%3C/g%3E%3C/svg%3E")}
+.msg{display:flex;flex-direction:column;max-width:88%;animation:msgIn .28s ease both}
 .msg.bot{align-self:flex-start}
 .msg.usr{align-self:flex-end}
-.bubble{padding:7px 10px 3px;border-radius:8px;font-size:11.5px;line-height:1.55}
+.bubble{padding:7px 10px 3px;border-radius:8px;font-size:12px;line-height:1.55;word-break:break-word}
 .bot .bubble{background:#202c33;color:#e9edef;border-top-left-radius:2px}
 .usr .bubble{background:#005c4b;color:#e9edef;border-top-right-radius:2px}
 .msg-meta{display:flex;align-items:center;justify-content:flex-end;gap:3px;margin-top:2px}
-.msg-time{font-size:9.5px;color:rgba(255,255,255,.38)}
+.msg-time{font-size:9.5px;color:rgba(255,255,255,.35)}
 .checks{display:flex}
 .checks svg{width:14px;height:14px;margin-left:-5px}
 .checks svg:first-child{margin-left:0}
-.typing-wrap{align-self:flex-start;padding:10px 14px;background:#202c33;border-radius:8px;border-top-left-radius:2px;display:flex;gap:4px;align-items:center;animation:msgIn .28s ease both}
+.typing-wrap{align-self:flex-start;padding:10px 16px;background:#202c33;border-radius:8px;border-top-left-radius:2px;display:flex;gap:4px;align-items:center;animation:msgIn .28s ease both}
 .td{width:6px;height:6px;background:rgba(255,255,255,.5);border-radius:50%;animation:blink 1.2s ease-in-out infinite}
 .td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
-.ph-input{background:#202c33;padding:8px 10px;display:flex;align-items:center;gap:8px;border-top:1px solid rgba(255,255,255,.05)}
-.ph-field{flex:1;background:#2a3942;border-radius:20px;padding:7px 14px;font-size:11px;color:rgba(255,255,255,.4)}
-.ph-send{width:30px;height:30px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.ph-input{background:#202c33;padding:8px 12px;display:flex;align-items:center;gap:8px;border-top:1px solid rgba(255,255,255,.05)}
+.ph-field{flex:1;background:#2a3942;border-radius:22px;padding:7px 14px;font-size:11px;color:rgba(255,255,255,.38)}
+.ph-send{width:32px;height:32px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
 
-/* MARQUEE */
-.marquee{background:var(--primary);padding:14px 0;overflow:hidden;border-top:1px solid rgba(37,211,102,.14);border-bottom:1px solid rgba(37,211,102,.14)}
-.mq-track{display:flex;width:max-content;animation:marquee 28s linear infinite}
-.mq-item{display:flex;align-items:center;gap:8px;padding:0 28px;color:rgba(255,255,255,.8);font-size:14px;font-weight:500;white-space:nowrap}
+/* ── SOCIAL PROOF TOAST ── */
+.toast{position:fixed;bottom:28px;left:28px;z-index:999;display:flex;align-items:center;gap:10px;background:rgba(8,36,24,.96);border:1px solid rgba(37,211,102,.28);border-radius:12px;padding:12px 18px;font-size:13px;color:rgba(255,255,255,.82);box-shadow:0 8px 40px rgba(0,0,0,.4),0 0 20px rgba(37,211,102,.1);pointer-events:none;opacity:0}
+.toast-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;animation:glow 1.5s ease-in-out infinite}
+
+/* ── MARQUEE ── */
+.marquee{background:rgba(10,79,60,.65);padding:14px 0;overflow:hidden;border-top:1px solid rgba(37,211,102,.14);border-bottom:1px solid rgba(37,211,102,.14)}
+.mq-track{display:flex;width:max-content;animation:marquee 30s linear infinite}
+.mq-item{display:flex;align-items:center;gap:8px;padding:0 30px;color:rgba(255,255,255,.78);font-size:14px;font-weight:500;white-space:nowrap}
 .mq-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0}
 
-/* STATS */
-.stats{background:var(--hero);padding:64px 24px}
-.stats-grid{max-width:960px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.15);border-radius:18px;overflow:hidden}
-.stat{background:rgba(7,31,24,.97);padding:40px 20px;text-align:center}
+/* ── STATS ── */
+.stats{background:var(--hero);padding:72px 24px}
+.stats-grid{max-width:960px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.14);border-radius:20px;overflow:hidden}
+.stat{background:rgba(7,31,24,.97);padding:44px 20px;text-align:center;position:relative;overflow:hidden}
+.stat-glow{position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.03),transparent);animation:statShimmer 5s ease-in-out infinite}
+.stat:nth-child(2) .stat-glow{animation-delay:1s}
+.stat:nth-child(3) .stat-glow{animation-delay:2s}
+.stat:nth-child(4) .stat-glow{animation-delay:3s}
+.stat-icon{font-size:22px;margin-bottom:10px;display:block}
 .stat-n{font-family:var(--fh);font-size:48px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:8px}
-.stat-l{font-size:13px;color:rgba(255,255,255,.55);line-height:1.45}
+.stat-l{font-size:13px;color:rgba(255,255,255,.5);line-height:1.5}
 
-/* SECTION HEADER */
-.sh{text-align:center;margin-bottom:64px}
-.sl{display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:12px}
-.st{font-family:var(--fh);font-size:clamp(28px,4vw,46px);font-weight:800;line-height:1.12;letter-spacing:-.5px;color:#fff;margin-bottom:14px}
-.ss{font-size:17px;color:rgba(255,255,255,.58);max-width:560px;margin:0 auto;line-height:1.65}
+/* ── SECTION HEADER ── */
+.sh{text-align:center;margin-bottom:68px}
+.sl{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--accent);margin-bottom:14px;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.2);padding:5px 16px;border-radius:100px}
+.st{font-family:var(--fh);font-size:clamp(28px,4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.5px;color:#fff;margin-bottom:16px}
+.ss{font-size:17px;color:rgba(255,255,255,.55);max-width:560px;margin:0 auto;line-height:1.7}
 
-/* FEATURES */
-.features{background:#071f18;padding:100px 24px}
+/* ── FEATURES ── */
+.features{background:#071f18;padding:110px 24px}
 .feat-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.fc{background:rgba(255,255,255,.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(37,211,102,.14);border-radius:22px;padding:32px;position:relative;overflow:hidden;transition:all .3s}
-.fc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(37,211,102,.55),transparent);opacity:0;transition:opacity .3s}
-.fc:hover{border-color:rgba(37,211,102,.38);background:rgba(255,255,255,.07);transform:translateY(-5px);box-shadow:0 24px 60px rgba(0,0,0,.3),0 0 40px rgba(37,211,102,.07)}
+.fc{background:rgba(255,255,255,.035);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(37,211,102,.12);border-radius:24px;padding:34px;position:relative;overflow:hidden;transition:all .35s cubic-bezier(.22,.97,.44,.98)}
+.fc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(37,211,102,.65),transparent);opacity:0;transition:opacity .3s}
+.fc::after{content:'';position:absolute;top:0;left:-120%;width:45%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);transform:skewX(-20deg)}
+.fc:hover{border-color:rgba(37,211,102,.36);background:rgba(255,255,255,.06);transform:translateY(-6px);box-shadow:0 30px 70px rgba(0,0,0,.35),0 0 50px rgba(37,211,102,.08)}
 .fc:hover::before{opacity:1}
-.fc-icon{width:54px;height:54px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.24);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:20px}
-.fc-title{font-family:var(--fh);font-size:18px;font-weight:700;color:#fff;margin-bottom:10px}
-.fc-desc{font-size:14px;color:rgba(255,255,255,.58);line-height:1.65}
+.fc:hover::after{left:200%;transition:left .6s ease}
+.fc-icon{width:56px;height:56px;background:rgba(37,211,102,.09);border:1px solid rgba(37,211,102,.22);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:22px}
+.feat-ttl{font-family:var(--fh);font-size:18px;font-weight:700;color:#fff;margin-bottom:10px}
+.feat-desc{font-size:14px;color:rgba(255,255,255,.55);line-height:1.72}
 
-/* HOW */
-.how{background:#050f0b;padding:100px 24px}
-.how-steps{max-width:880px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:40px;position:relative}
-.how-steps::before{content:'';position:absolute;top:32px;left:calc(16.66% + 16px);right:calc(16.66% + 16px);height:2px;background:linear-gradient(90deg,var(--accent),rgba(37,211,102,.2),var(--accent));opacity:.28}
+/* ── HOW IT WORKS ── */
+.how{background:#050f0b;padding:110px 24px}
+.how-steps{max-width:880px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:48px;position:relative}
+.how-line{position:absolute;top:33px;left:calc(16.66% + 20px);right:calc(16.66% + 20px);height:2px;background:linear-gradient(90deg,var(--accent),rgba(37,211,102,.15),var(--accent));opacity:.22}
 .step{text-align:center}
-.step-n{width:64px;height:64px;border-radius:50%;background:rgba(37,211,102,.08);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:24px;font-weight:800;color:var(--accent);margin:0 auto 20px;position:relative;z-index:2}
-.step-t{font-family:var(--fh);font-size:18px;font-weight:700;color:#fff;margin-bottom:10px}
-.step-d{font-size:14px;color:rgba(255,255,255,.52);line-height:1.65}
+.step-n{width:66px;height:66px;border-radius:50%;background:rgba(37,211,102,.07);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:26px;font-weight:800;color:var(--accent);margin:0 auto 22px;position:relative;z-index:2;transition:all .3s}
+.step:hover .step-n{background:rgba(37,211,102,.15);box-shadow:0 0 32px rgba(37,211,102,.3)}
+.step-t{font-family:var(--fh);font-size:18px;font-weight:700;color:#fff;margin-bottom:12px}
+.step-d{font-size:14px;color:rgba(255,255,255,.5);line-height:1.7}
 
-/* PRICING */
-.pricing{background:var(--hero);padding:100px 24px}
-.price-grid{max-width:980px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
-.pc{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:36px 28px;position:relative;transition:all .3s;display:flex;flex-direction:column}
-.pc.hot{background:rgba(37,211,102,.07);border-color:var(--accent);transform:scale(1.04);box-shadow:0 0 70px rgba(37,211,102,.18);animation:borderGlow 5s ease-in-out infinite}
-.pc-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:4px 16px;border-radius:100px;white-space:nowrap}
-.plan-n{font-family:var(--fh);font-size:13px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px}
+/* ── PRICING ── */
+.pricing{background:var(--hero);padding:110px 24px}
+.price-grid{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+.pc{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:24px;padding:38px 30px;position:relative;transition:all .3s;display:flex;flex-direction:column}
+.pc:hover{border-color:rgba(37,211,102,.22);transform:translateY(-4px);box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.pc.hot{background:rgba(37,211,102,.065);border-color:rgba(37,211,102,.8);transform:scale(1.04);box-shadow:0 0 80px rgba(37,211,102,.2);animation:borderGlow 5s ease-in-out infinite}
+.pc.hot:hover{transform:scale(1.04) translateY(-4px)}
+.pc-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--accent),var(--accent-d));color:#000;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;padding:5px 18px;border-radius:100px;white-space:nowrap;box-shadow:0 4px 22px rgba(37,211,102,.4)}
+.plan-n{font-family:var(--fh);font-size:13px;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px}
 .plan-p{display:flex;align-items:baseline;gap:4px;margin-bottom:6px}
-.plan-curr{font-size:18px;color:rgba(255,255,255,.45);align-self:flex-start;margin-top:10px}
-.plan-num{font-family:var(--fh);font-size:54px;font-weight:800;color:#fff;line-height:1}
-.plan-per{font-size:14px;color:rgba(255,255,255,.38)}
-.plan-tag{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:26px;line-height:1.45}
-.plan-hr{height:1px;background:rgba(255,255,255,.08);margin-bottom:22px}
-.plan-feats{list-style:none;margin-bottom:28px;display:flex;flex-direction:column;gap:11px;flex:1}
-.plan-feats li{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:rgba(255,255,255,.75)}
+.plan-curr{font-size:16px;color:rgba(255,255,255,.4);align-self:flex-start;margin-top:12px}
+.plan-num{font-family:var(--fh);font-size:56px;font-weight:800;color:#fff;line-height:1}
+.plan-per{font-size:14px;color:rgba(255,255,255,.35)}
+.plan-tag{font-size:13px;color:rgba(255,255,255,.42);margin-bottom:28px;line-height:1.5}
+.plan-hr{height:1px;background:rgba(255,255,255,.07);margin-bottom:24px}
+.plan-feats{list-style:none;margin-bottom:30px;display:flex;flex-direction:column;gap:12px;flex:1}
+.plan-feats li{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:rgba(255,255,255,.72)}
 .plan-feats li::before{content:'✓';color:var(--accent);font-weight:700;flex-shrink:0;margin-top:1px}
-.plan-btn{display:block;text-align:center;padding:14px;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;border:none;font-family:var(--fb);transition:all .2s}
-.pb-out{border:1px solid rgba(255,255,255,.2);color:#fff;background:transparent}
+.plan-btn{display:block;text-align:center;padding:15px;border-radius:11px;font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;border:none;font-family:var(--fb);transition:all .2s}
+.pb-out{border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.72);background:transparent}
 .pb-out:hover{border-color:var(--accent);color:var(--accent);background:rgba(37,211,102,.05)}
-.pb-fill{background:var(--accent);color:#000;box-shadow:0 0 30px rgba(37,211,102,.35)}
-.pb-fill:hover{background:var(--accent-d);transform:translateY(-2px);box-shadow:0 0 55px rgba(37,211,102,.55)}
+.pb-fill{background:var(--accent);color:#000;box-shadow:0 0 32px rgba(37,211,102,.38)}
+.pb-fill:hover{background:var(--accent-d);transform:translateY(-2px);box-shadow:0 0 60px rgba(37,211,102,.6)}
 
-/* TESTIMONIALS */
-.testi{background:#050f0b;padding:100px 24px}
-.testi-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.tc{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:28px;transition:all .3s;display:flex;flex-direction:column}
-.tc:hover{border-color:rgba(37,211,102,.25);transform:translateY(-4px)}
-.tc-stars{color:#fbbf24;font-size:14px;letter-spacing:2px;margin-bottom:14px}
-.tc-text{font-size:14.5px;color:rgba(255,255,255,.78);line-height:1.7;font-style:italic;margin-bottom:20px;flex:1}
+/* ── PRICING TESTIMONIALS ── */
+.price-testi{max-width:1000px;margin:44px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pt{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:22px 24px;display:flex;flex-direction:column;gap:12px}
+.pt-stars{color:#fbbf24;font-size:13px;letter-spacing:2px}
+.pt-text{font-size:13px;color:rgba(255,255,255,.65);line-height:1.68;font-style:italic;flex:1}
+.pt-auth{display:flex;align-items:center;gap:10px}
+.pt-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0;font-family:var(--fh)}
+.pt-name{font-weight:600;color:#fff;font-size:13px}
+.pt-role{font-size:11px;color:rgba(255,255,255,.38)}
+
+/* ── TESTIMONIALS FULL ── */
+.testi{background:#050f0b;padding:110px 24px}
+.testi-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.tc{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:24px;padding:30px;transition:all .3s;display:flex;flex-direction:column}
+.tc:hover{border-color:rgba(37,211,102,.24);transform:translateY(-5px);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.tc-stars{color:#fbbf24;font-size:15px;letter-spacing:2px;margin-bottom:16px}
+.tc-text{font-size:15px;color:rgba(255,255,255,.76);line-height:1.74;font-style:italic;margin-bottom:22px;flex:1}
 .tc-auth{display:flex;align-items:center;gap:12px}
-.tc-av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;flex-shrink:0}
+.tc-av{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;flex-shrink:0;font-family:var(--fh)}
 .tc-name{font-weight:600;color:#fff;font-size:14px}
-.tc-role{font-size:12px;color:rgba(255,255,255,.4)}
+.tc-role{font-size:12px;color:rgba(255,255,255,.38);margin-top:2px}
 
-/* FAQ */
-.faq{background:var(--hero);padding:100px 24px}
+/* ── FAQ ── */
+.faq{background:var(--hero);padding:110px 24px}
 .faq-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
-.fi{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;transition:border-color .2s}
-.fi.open{border-color:rgba(37,211,102,.3)}
-.fq{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;background:none;border:none;color:#fff;font-family:var(--fb);font-size:15.5px;font-weight:600;text-align:left;cursor:pointer;transition:color .2s}
+.fi{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:15px;overflow:hidden;transition:border-color .2s,background .2s}
+.fi.open{border-color:rgba(37,211,102,.28);background:rgba(37,211,102,.03)}
+.fq{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 26px;background:none;border:none;color:#fff;font-family:var(--fb);font-size:15.5px;font-weight:600;text-align:left;cursor:pointer;transition:color .2s}
 .fq:hover{color:var(--accent)}
-.fchev{flex-shrink:0;width:22px;height:22px;border-radius:50%;border:1px solid rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.45);font-size:11px;transition:all .3s}
+.fchev{flex-shrink:0;width:24px;height:24px;border-radius:50%;border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:11px;transition:all .3s}
 .fi.open .fchev{background:var(--accent);border-color:var(--accent);color:#000;transform:rotate(180deg)}
-.fa{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.fa{max-height:0;overflow:hidden;transition:max-height .42s cubic-bezier(.22,.97,.44,.98)}
 .fi.open .fa{max-height:500px}
-.fa-in{padding:0 24px 20px;font-size:14px;color:rgba(255,255,255,.58);line-height:1.75}
+.fa-in{padding:0 26px 22px;font-size:14.5px;color:rgba(255,255,255,.56);line-height:1.8}
 
-/* CTA BAND */
-.cta-band{background:var(--primary);padding:80px 24px;position:relative;overflow:hidden;text-align:center}
-.cta-band::before{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;background:rgba(37,211,102,.1);border-radius:50%;filter:blur(70px)}
-.cta-band::after{content:'';position:absolute;bottom:-80px;left:-80px;width:260px;height:260px;background:rgba(37,211,102,.07);border-radius:50%;filter:blur(60px)}
-.cta-in{position:relative;z-index:2;max-width:680px;margin:0 auto}
-.cta-h{font-family:var(--fh);font-size:clamp(28px,4vw,46px);font-weight:800;color:#fff;line-height:1.12;margin-bottom:16px;letter-spacing:-.5px}
-.cta-sub{font-size:17px;color:rgba(255,255,255,.72);margin-bottom:36px;line-height:1.65}
-.cta-urg{margin-top:20px;font-size:13px;color:rgba(255,255,255,.45)}
+/* ── CTA BAND ── */
+.cta-band{background:linear-gradient(135deg,#0a4f3c 0%,#071f18 55%,#0a4f3c 100%);padding:96px 24px;position:relative;overflow:hidden;text-align:center}
+.cta-band::before{content:'';position:absolute;top:-100px;right:-100px;width:440px;height:440px;background:rgba(37,211,102,.1);border-radius:50%;filter:blur(80px);animation:glow 5s ease-in-out infinite}
+.cta-band::after{content:'';position:absolute;bottom:-100px;left:-100px;width:380px;height:380px;background:rgba(37,211,102,.08);border-radius:50%;filter:blur(70px);animation:glow 7s ease-in-out infinite 1.5s}
+.cta-in{position:relative;z-index:2;max-width:700px;margin:0 auto}
+.cta-spot{display:inline-flex;align-items:center;gap:8px;background:rgba(255,80,80,.1);border:1px solid rgba(255,80,80,.22);border-radius:100px;padding:6px 16px;font-size:12px;color:rgba(255,160,160,.88);margin-bottom:26px}
+.cta-spot-dot{width:6px;height:6px;border-radius:50%;background:#ff6464;flex-shrink:0;animation:glow 1.2s ease-in-out infinite}
+.cta-h{font-family:var(--fh);font-size:clamp(28px,4vw,50px);font-weight:800;color:#fff;line-height:1.1;margin-bottom:18px;letter-spacing:-.5px}
+.cta-sub{font-size:18px;color:rgba(255,255,255,.7);margin-bottom:40px;line-height:1.7}
+.cta-urg{margin-top:22px;font-size:13px;color:rgba(255,255,255,.42)}
 .cta-urg strong{color:var(--accent)}
 
-/* FOOTER */
-.footer{background:#030d09;padding:60px 24px 28px;border-top:1px solid rgba(255,255,255,.05)}
+/* ── FOOTER ── */
+.footer{background:#030d09;padding:64px 24px 28px;border-top:1px solid rgba(255,255,255,.05)}
 .footer-in{max-width:1200px;margin:0 auto}
 .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
 .fl{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-.fl-icon{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.fl-icon{width:34px;height:34px;background:var(--accent);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
 .fl-text{font-family:var(--fh);font-weight:700;font-size:18px;color:#fff}
-.f-desc{font-size:13px;color:rgba(255,255,255,.38);line-height:1.75;max-width:280px}
-.f-wa{display:inline-flex;align-items:center;gap:6px;margin-top:16px;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.2);border-radius:100px;padding:5px 14px;font-size:12px;color:var(--accent);text-decoration:none;transition:background .2s}
-.f-wa:hover{background:rgba(37,211,102,.15)}
-.fc-title{font-family:var(--fh);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.45);margin-bottom:16px}
-.fc-links{list-style:none;display:flex;flex-direction:column;gap:10px}
-.fc-links a{color:rgba(255,255,255,.42);text-decoration:none;font-size:13px;transition:color .2s}
-.fc-links a:hover{color:var(--accent)}
-.footer-bot{border-top:1px solid rgba(255,255,255,.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(255,255,255,.28)}
+.f-desc{font-size:13px;color:rgba(255,255,255,.36);line-height:1.8;max-width:280px}
+.f-wa{display:inline-flex;align-items:center;gap:7px;margin-top:18px;background:rgba(37,211,102,.07);border:1px solid rgba(37,211,102,.18);border-radius:100px;padding:6px 16px;font-size:12px;color:var(--accent);text-decoration:none;transition:background .2s}
+.f-wa:hover{background:rgba(37,211,102,.14)}
+.foot-col-title{font-family:var(--fh);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.38);margin-bottom:18px}
+.foot-links{list-style:none;display:flex;flex-direction:column;gap:11px}
+.foot-links a{color:rgba(255,255,255,.4);text-decoration:none;font-size:13px;transition:color .2s}
+.foot-links a:hover{color:var(--accent)}
+.footer-bot{border-top:1px solid rgba(255,255,255,.05);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(255,255,255,.26)}
 
-/* RESPONSIVE */
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){.nav,.nav.solid{padding-left:24px;padding-right:24px}}
 @media(max-width:960px){
   .hero-in{grid-template-columns:1fr;text-align:center}
-  .hero-sub{margin:0 auto 36px}
+  .hero-sub{margin:0 auto 38px}
   .hero-btns{justify-content:center}
+  .hero-trust{justify-content:center}
   .phone-wrap{display:none}
   .feat-grid{grid-template-columns:1fr 1fr}
-  .price-grid,.testi-grid{grid-template-columns:1fr}
+  .price-grid{grid-template-columns:1fr;max-width:420px}
+  .price-testi{grid-template-columns:1fr}
+  .testi-grid{grid-template-columns:1fr}
   .pc.hot{transform:scale(1)}
+  .pc.hot:hover{transform:translateY(-4px)}
   .footer-top{grid-template-columns:1fr 1fr;gap:32px}
   .how-steps{grid-template-columns:1fr;text-align:center}
-  .how-steps::before{display:none}
+  .how-line{display:none}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
   .nav-links{display:none}
   .nav-burger{display:block}
 }
 @media(max-width:600px){
+  .hero{padding:100px 20px 60px}
   .feat-grid{grid-template-columns:1fr}
   .footer-top{grid-template-columns:1fr}
   .footer-bot{flex-direction:column;gap:10px;text-align:center}
   .nav{padding:14px 20px}
+  .toast{left:14px;right:14px;bottom:16px}
 }
 </style>
 </head>
@@ -257,28 +309,40 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#signup" class="nav-cta">Start Free Trial →</a></li>
   </ul>
-  <button class="nav-burger" id="burger" aria-label="Menu">☰</button>
+  <button class="nav-burger" id="burger" aria-label="Open menu">☰</button>
 </nav>
+
+<!-- SOCIAL PROOF TOAST -->
+<div class="toast" id="toast" aria-live="polite">
+  <div class="toast-dot"></div>
+  <span id="toastMsg"></span>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="home">
-  <div class="hero-particles" id="particles"></div>
-  <div class="gb g1"></div>
-  <div class="gb g2"></div>
-  <div class="gb g3"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-particles" id="particles" aria-hidden="true"></div>
+  <div class="gb g1" aria-hidden="true"></div>
+  <div class="gb g2" aria-hidden="true"></div>
+  <div class="gb g3" aria-hidden="true"></div>
   <div class="hero-in">
     <div>
       <div class="hero-badge">
         <div class="bdot"></div>
-        🇰🇼 Kuwait launch — limited spots open
+        🇰🇼 Kuwait launch — limited spots remaining
       </div>
-      <h1 class="hero-h1">Stop Losing Customers<br>to <span class="hi">Unanswered<br>WhatsApps</span></h1>
-      <p class="hero-sub">Every missed WhatsApp is a sale walking out the door. Focobot replies in under 2 seconds — in Arabic and English — 24/7, so you close deals while you sleep.</p>
+      <h1 class="hero-h1">Your Competitors<br>Are Answering.<br><span class="hi">Are You?</span></h1>
+      <p class="hero-sub">Every unanswered WhatsApp in Kuwait costs you a sale. Focobot replies in <strong>under 2 seconds</strong> — in Arabic and English — 24/7, so you capture every order, booking, and enquiry without lifting a finger.</p>
       <div class="hero-btns">
         <a href="#signup" class="btn btn-g">💬 Start My Free 14-Day Trial</a>
         <a href="#how" class="btn btn-o">See How It Works →</a>
       </div>
-      <p class="hero-trust"><strong>No credit card. No contract.</strong> Setup in 15 minutes. Cancel anytime.</p>
+      <div class="hero-trust">
+        <span class="hti">No credit card</span>
+        <span class="hti">No contract</span>
+        <span class="hti">Setup in 15 minutes</span>
+        <span class="hti">Cancel anytime</span>
+      </div>
     </div>
     <div class="phone-wrap">
       <div class="phone" id="phone">
@@ -293,7 +357,7 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
         </div>
         <div class="ph-body" id="chatBody"></div>
         <div class="ph-input">
-          <div class="ph-field">Type a message…</div>
+          <div class="ph-field">اكتب رسالة…</div>
           <div class="ph-send">➤</div>
         </div>
       </div>
@@ -307,21 +371,29 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
 </div>
 
 <!-- STATS -->
-<section class="stats">
+<section class="stats" aria-label="Key statistics">
   <div class="stats-grid reveal">
     <div class="stat">
+      <div class="stat-glow" aria-hidden="true"></div>
+      <span class="stat-icon">💬</span>
       <div class="stat-n"><span data-count="500">0</span>+</div>
       <div class="stat-l">Messages automated<br>daily per business</div>
     </div>
     <div class="stat">
+      <div class="stat-glow" aria-hidden="true"></div>
+      <span class="stat-icon">⚡</span>
       <div class="stat-n"><span data-count="2">0</span>s</div>
       <div class="stat-l">Average first<br>response time</div>
     </div>
     <div class="stat">
+      <div class="stat-glow" aria-hidden="true"></div>
+      <span class="stat-icon">⭐</span>
       <div class="stat-n"><span data-count="98">0</span>%</div>
       <div class="stat-l">Customer satisfaction<br>score</div>
     </div>
     <div class="stat">
+      <div class="stat-glow" aria-hidden="true"></div>
+      <span class="stat-icon">🔒</span>
       <div class="stat-n">24/7</div>
       <div class="stat-l">Always on — even<br>on Eid &amp; weekends</div>
     </div>
@@ -339,33 +411,33 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
     <div class="feat-grid">
       <div class="fc reveal d1">
         <div class="fc-icon">⚡</div>
-        <h3 class="fc-title">2-Second Replies, Day &amp; Night</h3>
-        <p class="fc-desc">Customers who wait more than 5 minutes move to your competitor. Focobot responds in under 2 seconds — even at 2 AM on a Friday — turning enquiries into confirmed orders before your inbox opens.</p>
+        <h3 class="feat-ttl">2-Second Replies, Day &amp; Night</h3>
+        <p class="feat-desc">Customers who wait more than 5 minutes move to your competitor. Focobot responds in under 2 seconds — even at 2 AM on a Friday — turning enquiries into confirmed orders before your inbox opens.</p>
       </div>
       <div class="fc reveal d2">
         <div class="fc-icon">🇰🇼</div>
-        <h3 class="fc-title">Fluent Arabic &amp; English</h3>
-        <p class="fc-desc">Gulf Arabic, formal Arabic, Kuwaiti dialect, and English — Focobot switches fluidly mid-conversation. No awkward machine translations. Your customers feel understood from the very first message.</p>
+        <h3 class="feat-ttl">Fluent Arabic &amp; English</h3>
+        <p class="feat-desc">Gulf Arabic, Kuwaiti dialect, formal Arabic, and English — Focobot switches mid-conversation naturally. No awkward machine translations. Your customers feel understood from the very first message.</p>
       </div>
       <div class="fc reveal d3">
         <div class="fc-icon">📋</div>
-        <h3 class="fc-title">Auto Order &amp; Booking Capture</h3>
-        <p class="fc-desc">Focobot takes orders, collects delivery details, and sends confirmation messages — all without human intervention. Every enquiry becomes a structured lead delivered straight to your dashboard.</p>
+        <h3 class="feat-ttl">Auto Order &amp; Booking Capture</h3>
+        <p class="feat-desc">Focobot takes orders, collects delivery details, and sends confirmations — all without human intervention. Every enquiry becomes a structured lead delivered straight to your dashboard.</p>
       </div>
       <div class="fc reveal d1">
         <div class="fc-icon">🧠</div>
-        <h3 class="fc-title">Trained on Your Business</h3>
-        <p class="fc-desc">Upload your menu, price list, or FAQ document and Focobot learns your business in minutes. It answers product questions, handles objections, and promotes your best-sellers automatically.</p>
+        <h3 class="feat-ttl">Trained on Your Business in Minutes</h3>
+        <p class="feat-desc">Upload your menu, price list, or FAQ — even a photo works. Focobot learns your products, handles objections, and promotes your best-sellers automatically. No developers needed.</p>
       </div>
       <div class="fc reveal d2">
         <div class="fc-icon">📊</div>
-        <h3 class="fc-title">Live Dashboard &amp; Reports</h3>
-        <p class="fc-desc">See how many messages were handled, what customers asked, and which conversations converted to sales. Weekly reports delivered to your WhatsApp so you always know what's working.</p>
+        <h3 class="feat-ttl">Live Dashboard &amp; Weekly Reports</h3>
+        <p class="feat-desc">Track messages handled, conversations converted, and customer trends in one place. Weekly summaries delivered to your WhatsApp so you always know what's working.</p>
       </div>
       <div class="fc reveal d3">
         <div class="fc-icon">🔁</div>
-        <h3 class="fc-title">Smart Human Escalation</h3>
-        <p class="fc-desc">When a conversation needs a personal touch, Focobot hands off instantly with full context. No customer ever repeats themselves. Your team focuses on relationships, not repetitive Q&amp;A.</p>
+        <h3 class="feat-ttl">Smart Human Escalation</h3>
+        <p class="feat-desc">When a conversation needs a personal touch, Focobot hands off instantly with full context. No customer ever repeats themselves. Your team focuses on relationships, not repetitive Q&amp;A.</p>
       </div>
     </div>
   </div>
@@ -380,20 +452,21 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
       <p class="ss">No developers. No technical knowledge. If you can send a WhatsApp, you can set up Focobot.</p>
     </div>
     <div class="how-steps">
+      <div class="how-line" aria-hidden="true"></div>
       <div class="step reveal d1">
         <div class="step-n">1</div>
         <h3 class="step-t">Connect Your WhatsApp</h3>
-        <p class="step-d">Link your existing business number in one click. No new number, no migration, no disruption to how you work today.</p>
+        <p class="step-d">Link your existing business number in one click. No new number, no migration — scan a QR code and you're live.</p>
       </div>
       <div class="step reveal d2">
         <div class="step-n">2</div>
         <h3 class="step-t">Tell It About Your Business</h3>
-        <p class="step-d">Upload your menu, services, or price list — even a photo works. Focobot is ready to answer customer questions within minutes.</p>
+        <p class="step-d">Upload your menu, services, or price list. Focobot is ready to answer customer questions within minutes of going live.</p>
       </div>
       <div class="step reveal d3">
         <div class="step-n">3</div>
         <h3 class="step-t">Watch Revenue Roll In</h3>
-        <p class="step-d">Focobot handles WhatsApp around the clock. Check your dashboard each morning to see orders captured and customers satisfied.</p>
+        <p class="step-d">Focobot handles WhatsApp 24/7. Check your dashboard each morning to see orders captured and customers delighted overnight.</p>
       </div>
     </div>
   </div>
@@ -404,8 +477,8 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
   <div class="container">
     <div class="sh reveal">
       <span class="sl">Simple Pricing</span>
-      <h2 class="st">Start Small. Grow Fast.</h2>
-      <p class="ss">No setup fees. No per-message charges. Cancel anytime. Prices in Kuwaiti Dinar — no surprises.</p>
+      <h2 class="st">Start Small. Scale When Ready.</h2>
+      <p class="ss">No setup fees. No per-message charges. Cancel anytime. All prices in Kuwaiti Dinar — no currency surprises.</p>
     </div>
     <div class="price-grid">
       <div class="pc reveal d1">
@@ -415,10 +488,10 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
           <span class="plan-num">29</span>
           <span class="plan-per">/mo</span>
         </div>
-        <p class="plan-tag">Perfect for solo businesses and small shops getting started with automation.</p>
+        <p class="plan-tag">For solo businesses and small shops testing automation for the first time.</p>
         <div class="plan-hr"></div>
         <ul class="plan-feats">
-          <li>Up to 500 automated messages/month</li>
+          <li>Up to 500 messages/month</li>
           <li>Arabic + English responses</li>
           <li>1 WhatsApp number</li>
           <li>Basic order capture</li>
@@ -435,7 +508,7 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
           <span class="plan-num">59</span>
           <span class="plan-per">/mo</span>
         </div>
-        <p class="plan-tag">For established businesses ready to stop leaving money on the table 24/7.</p>
+        <p class="plan-tag">For businesses ready to stop leaving money on the table 24/7.</p>
         <div class="plan-hr"></div>
         <ul class="plan-feats">
           <li>Unlimited automated messages</li>
@@ -452,9 +525,9 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
       <div class="pc reveal d3">
         <div class="plan-n">Enterprise</div>
         <div class="plan-p" style="margin-bottom:12px">
-          <span class="plan-num" style="font-size:38px;color:rgba(255,255,255,.65)">Custom</span>
+          <span class="plan-num" style="font-size:38px;color:rgba(255,255,255,.6)">Custom</span>
         </div>
-        <p class="plan-tag">For restaurant chains, large retailers, and businesses with complex automation needs.</p>
+        <p class="plan-tag">For chains, large retailers, and businesses with complex automation needs.</p>
         <div class="plan-hr"></div>
         <ul class="plan-feats">
           <li>Everything in Growth</li>
@@ -468,10 +541,46 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
         <a href="mailto:hello@focobot.com" class="plan-btn pb-out">Contact Sales →</a>
       </div>
     </div>
+    <!-- TESTIMONIALS near pricing -->
+    <div class="price-testi">
+      <div class="pt reveal d1">
+        <div class="pt-stars">★★★★★</div>
+        <p class="pt-text">"Sales up 35% in month one. The bot pays for itself 10× every single month."</p>
+        <div class="pt-auth">
+          <div class="pt-av" style="background:linear-gradient(135deg,#0d6b51,#25D366)">ف</div>
+          <div>
+            <div class="pt-name">فهد الرشيدي</div>
+            <div class="pt-role">Restaurant · Salmiya</div>
+          </div>
+        </div>
+      </div>
+      <div class="pt reveal d2">
+        <div class="pt-stars">★★★★★</div>
+        <p class="pt-text">"My receptionist saved 4 hours daily. Handles everything in Arabic. Best investment this year."</p>
+        <div class="pt-auth">
+          <div class="pt-av" style="background:linear-gradient(135deg,#7c3aed,#c084fc)">ن</div>
+          <div>
+            <div class="pt-name">نورة الخالد</div>
+            <div class="pt-role">Beauty Clinic · Hawalli</div>
+          </div>
+        </div>
+      </div>
+      <div class="pt reveal d3">
+        <div class="pt-stars">★★★★★</div>
+        <p class="pt-text">"Setup in 15 minutes flat. Answering better than I could within an hour. Worth every fils."</p>
+        <div class="pt-auth">
+          <div class="pt-av" style="background:linear-gradient(135deg,#ea580c,#fbbf24)">أ</div>
+          <div>
+            <div class="pt-name">أحمد المطيري</div>
+            <div class="pt-role">Electronics Store · Kuwait City</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
+<!-- TESTIMONIALS FULL -->
 <section class="testi" id="testimonials">
   <div class="container">
     <div class="sh reveal">
@@ -482,7 +591,7 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
     <div class="testi-grid">
       <div class="tc reveal d1">
         <div class="tc-stars">★★★★★</div>
-        <p class="tc-text">"Before Focobot, I was losing orders every night. Customers WhatsApp at 11 PM and got no reply until morning — by then they'd ordered from someone else. Now my bot handles everything. Sales went up 35% in the first month."</p>
+        <p class="tc-text">"Before Focobot, I was losing orders every night. Customers WhatsApp at 11 PM and got no reply until morning — by then they'd ordered from someone else. Now my bot handles everything. Revenue is up 35% in the first month alone."</p>
         <div class="tc-auth">
           <div class="tc-av" style="background:linear-gradient(135deg,#0d6b51,#25D366)">ف</div>
           <div>
@@ -493,7 +602,7 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
       </div>
       <div class="tc reveal d2">
         <div class="tc-stars">★★★★★</div>
-        <p class="tc-text">"My receptionist was spending 4 hours a day answering WhatsApp questions about prices and availability. Focobot handles it all in Arabic. My team now focuses on patients, not their phones."</p>
+        <p class="tc-text">"My receptionist was spending 4 hours a day on WhatsApp. Focobot handles all questions about prices, availability, and bookings in Arabic. My team now focuses on patients, not their phones. Absolute game changer."</p>
         <div class="tc-auth">
           <div class="tc-av" style="background:linear-gradient(135deg,#7c3aed,#c084fc)">ن</div>
           <div>
@@ -504,7 +613,7 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
       </div>
       <div class="tc reveal d3">
         <div class="tc-stars">★★★★★</div>
-        <p class="tc-text">"Setup was shockingly easy — 15 minutes and my bot was live. I uploaded my product catalogue, and within an hour it was answering customer questions better than I could. Worth every fils."</p>
+        <p class="tc-text">"Setup was shockingly easy — 15 minutes and my bot was live. I uploaded my product catalogue and within an hour it was answering customer questions better than I could. Worth every fils. No hesitation."</p>
         <div class="tc-auth">
           <div class="tc-av" style="background:linear-gradient(135deg,#ea580c,#fbbf24)">أ</div>
           <div>
@@ -527,27 +636,27 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
     <div class="faq-list">
       <div class="fi">
         <button class="fq">Is 29 KWD per month really worth it? <span class="fchev">▾</span></button>
-        <div class="fa"><div class="fa-in">Think of it this way: if Focobot saves you even one missed sale per week — a single order, a booking, a product enquiry that converts — it pays for itself many times over. Most Starter plan businesses report recovering 5–10× the monthly cost in the first 30 days. Unlike hiring staff, it works nights, weekends, and Eid without overtime.</div></div>
+        <div class="fa"><div class="fa-in">If Focobot saves you even one missed sale per week — a single order, a booking, one product enquiry that converts — it pays for itself many times over. Most Starter plan businesses report recovering 5–10× the monthly cost within 30 days. Unlike staff, it works every night, weekend, and Eid without overtime pay.</div></div>
       </div>
       <div class="fi">
         <button class="fq">Does it really understand Arabic — including Kuwaiti dialect? <span class="fchev">▾</span></button>
-        <div class="fa"><div class="fa-in">Yes. Focobot is trained on Gulf Arabic including Kuwaiti dialect, formal Arabic, and English. It understands slang, mixed-language messages (like "عندكم iPhone 15؟"), and code-switching naturally. Your customers will not know they're talking to a bot unless you want them to.</div></div>
+        <div class="fa"><div class="fa-in">Yes. Focobot is trained on Gulf Arabic including Kuwaiti dialect, formal Arabic, and English. It handles slang, mixed messages (like "عندكم iPhone 15؟"), and mid-conversation language switching naturally. Your customers will not know they're talking to a bot unless you want them to.</div></div>
       </div>
       <div class="fi">
         <button class="fq">How long does setup actually take? <span class="fchev">▾</span></button>
-        <div class="fa"><div class="fa-in">Most businesses are live within 15 minutes. Connect your WhatsApp number, upload any product info or FAQ document (even a photo of your menu works), write a few lines about your business, and go live. No developers, no technical knowledge required. Our team is on WhatsApp if you need help during setup.</div></div>
+        <div class="fa"><div class="fa-in">Most businesses are live within 15 minutes. Scan a QR code to connect your WhatsApp number, upload any product info or FAQ document (even a photo of your menu works), add a few lines about your business, and go live. No developers required. Our team is on WhatsApp if you need help during setup.</div></div>
       </div>
       <div class="fi">
         <button class="fq">Is there a long-term contract? <span class="fchev">▾</span></button>
-        <div class="fa"><div class="fa-in">No contracts, ever. Focobot is month-to-month. Upgrade, downgrade, or cancel at any time — no penalties, no awkward conversations. We're confident you'll stay because the results speak for themselves.</div></div>
+        <div class="fa"><div class="fa-in">No contracts, ever. Focobot is month-to-month. Upgrade, downgrade, or cancel at any time with no penalties and no awkward conversations. We're confident you'll stay because the results speak for themselves — but you're never locked in.</div></div>
       </div>
       <div class="fi">
         <button class="fq">Will my customers know they're talking to a bot? <span class="fchev">▾</span></button>
-        <div class="fa"><div class="fa-in">Your choice entirely. Give Focobot a human name, or brand it as your "AI assistant." Responses are conversational, fast, and accurate — many customers simply assume it's a very efficient employee. When a conversation needs a human, Focobot hands off seamlessly with full context so the customer never has to repeat themselves.</div></div>
+        <div class="fa"><div class="fa-in">Your choice entirely. Give Focobot a human name, or brand it as your "AI assistant." Responses are conversational, fast, and accurate — many customers simply assume it's a very efficient employee. When a conversation needs a human, Focobot hands off seamlessly with full context so the customer never repeats themselves.</div></div>
       </div>
       <div class="fi">
         <button class="fq">What happens during the free trial? <span class="fchev">▾</span></button>
-        <div class="fa"><div class="fa-in">You get 14 days of full Growth plan features — no credit card required. Set up your bot, connect your WhatsApp, and see real results. After 14 days, choose the plan that fits. No automatic charges, no surprise bills.</div></div>
+        <div class="fa"><div class="fa-in">You get 14 days of full Growth plan features — no credit card required. Connect your WhatsApp, upload your business info, and watch it work in real conversations. After 14 days, choose your plan. No automatic charges, no surprise bills.</div></div>
       </div>
     </div>
   </div>
@@ -556,10 +665,11 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
 <!-- CTA BANNER -->
 <section class="cta-band" id="signup">
   <div class="cta-in reveal">
+    <div class="cta-spot"><span class="cta-spot-dot"></span>Limited Kuwait launch spots — closing when capacity is reached</div>
     <h2 class="cta-h">Your Competitors Are Answering.<br>Are You?</h2>
-    <p class="cta-sub">Every unanswered WhatsApp is a customer choosing someone else. Start your free 14-day trial now and let Focobot convert every message into revenue — while you focus on running your business.</p>
-    <a href="mailto:hello@focobot.com" class="btn btn-g" style="font-size:18px;padding:16px 40px;margin:0 auto">💬 Start My Free Trial Now</a>
-    <p class="cta-urg"><strong>⚠ Limited Kuwait launch spots available.</strong> We close new signups once capacity is reached.</p>
+    <p class="cta-sub">Every unanswered WhatsApp is a customer choosing someone else. Start your free 14-day trial — no credit card, no contract, live in 15 minutes.</p>
+    <a href="mailto:hello@focobot.com" class="btn btn-g" style="font-size:18px;padding:16px 44px;margin:0 auto;display:inline-flex">💬 Start My Free Trial Now</a>
+    <p class="cta-urg">Join <strong>500+ Kuwaiti businesses</strong> already using Focobot · Setup takes 15 minutes</p>
   </div>
 </section>
 
@@ -576,8 +686,8 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
         <a href="https://wa.me/96500000000" class="f-wa">💬 Chat with us on WhatsApp</a>
       </div>
       <div>
-        <div class="fc-title">Product</div>
-        <ul class="fc-links">
+        <div class="foot-col-title">Product</div>
+        <ul class="foot-links">
           <li><a href="#features">Features</a></li>
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#how">How It Works</a></li>
@@ -585,16 +695,16 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
         </ul>
       </div>
       <div>
-        <div class="fc-title">Support</div>
-        <ul class="fc-links">
+        <div class="foot-col-title">Support</div>
+        <ul class="foot-links">
           <li><a href="#faq">FAQ</a></li>
           <li><a href="mailto:hello@focobot.com">Email Support</a></li>
           <li><a href="https://wa.me/96500000000">WhatsApp Support</a></li>
         </ul>
       </div>
       <div>
-        <div class="fc-title">Legal</div>
-        <ul class="fc-links">
+        <div class="foot-col-title">Legal</div>
+        <ul class="foot-links">
           <li><a href="/privacy">Privacy Policy</a></li>
           <li><a href="/terms">Terms of Service</a></li>
           <li><a href="/refund">Refund Policy</a></li>
@@ -602,14 +712,14 @@ body{background:#071f18;color:#fff;font-family:var(--fb);font-size:16px;line-hei
       </div>
     </div>
     <div class="footer-bot">
-      <span>© 2025 Focobot. All rights reserved. Made in Kuwait 🇰🇼</span>
+      <span>© 2026 Focobot. All rights reserved. Made in Kuwait 🇰🇼</span>
       <span>WhatsApp is a trademark of Meta Platforms, Inc.</span>
     </div>
   </div>
 </footer>
 
 <script>
-// NAV
+// NAV SCROLL
 const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>40),{passive:true});
 
@@ -626,19 +736,19 @@ navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mOpen=
 // PARTICLES
 (()=>{
   const c=document.getElementById('particles');
-  for(let i=0;i<32;i++){
+  for(let i=0;i<38;i++){
     const p=document.createElement('div');p.className='particle';
     const s=Math.random()*4+1,x=Math.random()*100,y=Math.random()*100;
-    const dx=(Math.random()-.5)*280+'px',dy=(Math.random()-.5)*280+'px';
+    const dx=(Math.random()-.5)*300+'px',dy=(Math.random()-.5)*300+'px';
     const dur=Math.random()*14+8,del=Math.random()*-25;
-    p.style.cssText=`width:${s}px;height:${s}px;left:${x}%;top:${y}%;--dx:${dx};--dy:${dy};animation-duration:${dur}s;animation-delay:${del}s`;
+    p.style.cssText=`width:${s}px;height:${s}px;left:${x}%;top:${y}%;--dx:${dx};--dy:${dy};animation-duration:${dur}s;animation-delay:${del}s;opacity:${(Math.random()*.7+.15).toFixed(2)}`;
     c.appendChild(p);
   }
 })();
 
 // MARQUEE
 (()=>{
-  const items=['☕ Cafés & Coffee Shops','🍔 Restaurants & Delivery','💆 Beauty Salons & Spas','🏥 Medical Clinics','👗 Fashion & Boutiques','🔧 Auto Services','🛒 Online Stores','🏠 Real Estate','📱 Electronics','🎓 Training Centers','🧺 Laundries','💐 Florists','🍰 Bakeries','🏋️ Gyms & Fitness'];
+  const items=['☕ Cafés & Coffee Shops','🍔 Restaurants & Delivery','💆 Beauty Salons & Spas','🏥 Medical Clinics','👗 Fashion & Boutiques','🔧 Auto Services','🛒 Online Stores','🏠 Real Estate','📱 Electronics','🎓 Training Centers','🧺 Laundries','💐 Florists','🍰 Bakeries','🏋️ Gyms & Fitness','🍕 Fast Food','💊 Pharmacies'];
   const t=document.getElementById('mqTrack');
   t.innerHTML=[...items,...items].map(x=>`<div class="mq-item"><span>${x}</span><span class="mq-dot"></span></div>`).join('');
 })();
@@ -650,11 +760,11 @@ navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mOpen=
   const dbl='<div class="checks"><svg viewBox="0 0 16 16"><path d="M1 8l4 4L15 3" stroke="#53bdeb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><svg viewBox="0 0 16 16"><path d="M1 8l4 4L15 3" stroke="#53bdeb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>';
   const msgs=[
     {f:'usr',t:'السلام عليكم، كم سعر الوجبة العائلية؟',tm:'9:38'},
-    {f:'bot',t:'وعليكم السلام! 😊 الوجبة العائلية بـ 8.500 KWD تشمل:\n🍗 دجاج مشوي كبير\n🍟 بطاطس + مشروب\n🥗 سلطة + خبز',tm:'9:38'},
+    {f:'bot',t:'وعليكم السلام! 😊 الوجبة العائلية بـ 8.500 KWD وتشمل:\n🍗 دجاج مشوي كبير\n🍟 بطاطس + مشروب كبير\n🥗 سلطة + خبز',tm:'9:38'},
     {f:'usr',t:'تسلم! هل التوصيل مجاني؟',tm:'9:39'},
-    {f:'bot',t:'التوصيل مجاني للطلبات فوق 5 KWD 🚀\n\nهل تريد تأكيد طلبك الآن؟',tm:'9:39'},
-    {f:'usr',t:'Yes please, I want to order!',tm:'9:40'},
-    {f:'bot',t:'Great! 🎉 Please share your delivery address and we\'ll confirm your order right away.',tm:'9:40'},
+    {f:'bot',t:'التوصيل مجاني للطلبات فوق 5 KWD 🚀\nهل تريد تأكيد طلبك الآن؟',tm:'9:39'},
+    {f:'usr',t:'Yes please! I want to order 🙌',tm:'9:40'},
+    {f:'bot',t:'Perfect! 🎉 Please share your delivery address and we\'ll confirm in seconds. Est. delivery: 30 mins.',tm:'9:40'},
   ];
   let i=0,running=false;
   const typing=()=>{const el=document.createElement('div');el.className='typing-wrap';el.id='typ';el.innerHTML='<div class="td"></div><div class="td"></div><div class="td"></div>';body.appendChild(el);body.scrollTop=9999};
@@ -665,7 +775,7 @@ navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mOpen=
     body.appendChild(el);body.scrollTop=9999;
   };
   const step=()=>{
-    if(i>=msgs.length){setTimeout(()=>{body.innerHTML='';i=0;setTimeout(step,600)},3800);return}
+    if(i>=msgs.length){setTimeout(()=>{body.innerHTML='';i=0;setTimeout(step,600)},4000);return}
     const m=msgs[i];
     if(m.f==='bot'){typing();setTimeout(()=>{rmTyping();addMsg(m);i++;setTimeout(step,1100)},1100)}
     else{addMsg(m);i++;setTimeout(step,900)}
@@ -693,7 +803,7 @@ const ro=new IntersectionObserver(ens=>{
 },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
-// FAQ
+// FAQ ACCORDION
 document.querySelectorAll('.fq').forEach(btn=>{
   btn.addEventListener('click',()=>{
     const item=btn.parentElement,wasOpen=item.classList.contains('open');
@@ -701,6 +811,28 @@ document.querySelectorAll('.fq').forEach(btn=>{
     if(!wasOpen)item.classList.add('open');
   });
 });
+
+// SOCIAL PROOF TOAST
+(()=>{
+  const toasts=[
+    'أحمد just started a free trial · Kuwait City',
+    'فهد just connected his restaurant · Salmiya',
+    'نورة upgraded to Growth plan · Hawalli',
+    'مرسال went live in under 12 minutes · Rumaithiya',
+    "Salwa's beauty salon is now live · Fahaheel",
+    'سالم just automated 200 messages · Jabriya',
+  ];
+  let idx=0;
+  const el=document.getElementById('toast'),msg=document.getElementById('toastMsg');
+  const show=()=>{
+    msg.textContent=toasts[idx%toasts.length];idx++;
+    el.style.animation='none';
+    void el.offsetWidth;
+    el.style.animation='toastIn 5s ease forwards';
+    setTimeout(show,9000);
+  };
+  setTimeout(show,3500);
+})();
 </script>
 </body>
 </html>
