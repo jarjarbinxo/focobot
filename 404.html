@@ -4,48 +4,57 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Page Not Found — Focobot</title>
+<meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:#071f18;color:#fff;font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-@keyframes glow{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.7;transform:scale(1.15)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-@keyframes drift{0%{opacity:0;transform:translate(0,0)}10%{opacity:.8}90%{opacity:.3}100%{opacity:0;transform:translate(var(--dx),var(--dy))}}
-.particles{position:fixed;inset:0;pointer-events:none}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes glow{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.7;transform:scale(1.16)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+@keyframes drift{0%{opacity:0;transform:translate(0,0)}8%{opacity:.8}90%{opacity:.25}100%{opacity:0;transform:translate(var(--dx),var(--dy))}}
+@keyframes ping{0%{transform:scale(.8);opacity:0}45%{opacity:.5}100%{transform:scale(2.6);opacity:0}}
+.parts{position:fixed;inset:0;pointer-events:none}
 .p{position:absolute;border-radius:50%;background:#25D366;animation:drift linear infinite}
-.gb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none}
-.g1{width:380px;height:380px;background:rgba(37,211,102,.1);top:-80px;right:-60px;animation:glow 5s ease-in-out infinite}
-.g2{width:300px;height:300px;background:rgba(10,79,60,.4);bottom:-60px;left:-40px;animation:glow 7s ease-in-out infinite 1.5s}
-.inner{position:relative;z-index:2;padding:40px 24px;max-width:480px}
-.emoji{font-size:72px;margin-bottom:24px;animation:float 4s ease-in-out infinite;display:block}
-.num{font-family:'Syne',sans-serif;font-size:clamp(80px,18vw,120px);font-weight:800;background:linear-gradient(135deg,#25D366,#6effa0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:8px;animation:fadeUp .6s ease both .1s}
-h1{font-family:'Syne',sans-serif;font-size:clamp(22px,4vw,30px);font-weight:700;margin-bottom:14px;animation:fadeUp .6s ease both .2s}
-p{font-size:16px;color:rgba(255,255,255,.58);margin-bottom:32px;line-height:1.68;animation:fadeUp .6s ease both .3s}
-.btn{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#000;font-family:'DM Sans',sans-serif;font-weight:700;font-size:16px;padding:14px 30px;border-radius:10px;text-decoration:none;transition:all .2s;box-shadow:0 0 32px rgba(37,211,102,.38);animation:fadeUp .6s ease both .4s}
-.btn:hover{background:#1da851;transform:translateY(-2px);box-shadow:0 0 55px rgba(37,211,102,.58)}
+.gb{position:fixed;border-radius:50%;filter:blur(88px);pointer-events:none}
+.g1{width:420px;height:420px;background:rgba(37,211,102,.09);top:-90px;right:-70px;animation:glow 5.5s ease-in-out infinite}
+.g2{width:320px;height:320px;background:rgba(10,79,60,.4);bottom:-70px;left:-50px;animation:glow 7s ease-in-out infinite 1.8s}
+.inner{position:relative;z-index:2;padding:40px 24px;max-width:500px}
+.icon{font-size:76px;margin-bottom:22px;animation:float 5s ease-in-out infinite;display:block}
+.num{font-family:'Syne',sans-serif;font-size:clamp(88px,20vw,128px);font-weight:800;background:linear-gradient(135deg,#25D366,#6effa0 55%,#25D366);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:6px;animation:fadeUp .65s ease both .1s}
+h1{font-family:'Syne',sans-serif;font-size:clamp(22px,4vw,30px);font-weight:700;margin-bottom:14px;animation:fadeUp .65s ease both .2s}
+p{font-size:16px;color:rgba(255,255,255,.54);margin-bottom:34px;line-height:1.7;animation:fadeUp .65s ease both .3s;max-width:360px;margin-left:auto;margin-right:auto}
+.btn{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#000;font-family:'DM Sans',sans-serif;font-weight:700;font-size:15.5px;padding:14px 32px;border-radius:10px;text-decoration:none;transition:all .22s;box-shadow:0 0 36px rgba(37,211,102,.4);animation:fadeUp .65s ease both .4s;position:relative}
+.btn-dot{width:7px;height:7px;border-radius:50%;background:rgba(0,0,0,.35);position:relative}
+.btn-dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;background:rgba(0,0,0,.18);animation:ping 1.8s ease-out infinite}
+.btn:hover{background:#1da851;transform:translateY(-2px);box-shadow:0 0 60px rgba(37,211,102,.62)}
+.sub{margin-top:20px;font-size:13px;color:rgba(255,255,255,.3);animation:fadeUp .65s ease both .5s}
 </style>
 </head>
 <body>
-<div class="particles" id="p" aria-hidden="true"></div>
+<div class="parts" id="parts" aria-hidden="true"></div>
 <div class="gb g1" aria-hidden="true"></div>
 <div class="gb g2" aria-hidden="true"></div>
 <div class="inner">
-  <span class="emoji">💬</span>
+  <span class="icon">💬</span>
   <div class="num">404</div>
-  <h1>This page doesn't exist</h1>
-  <p>Looks like you wandered off. The page you're looking for has moved, or never existed. Let's get you back on track.</p>
-  <a href="/" class="btn">← Back to Focobot</a>
+  <h1>Page doesn't exist</h1>
+  <p>Looks like you wandered off. The page you're looking for has moved or never existed. Let's get you back.</p>
+  <a href="/" class="btn">
+    <span class="btn-dot"></span>
+    Back to Focobot
+  </a>
+  <p class="sub">Or <a href="mailto:hello@focobot.com" style="color:#25D366;text-decoration:none">email us</a> if something seems broken</p>
 </div>
 <script>
 (()=>{
-  const c=document.getElementById('p');
-  for(let i=0;i<20;i++){
+  const c=document.getElementById('parts');
+  for(let i=0;i<22;i++){
     const el=document.createElement('div');el.className='p';
-    const s=Math.random()*3+1;
-    el.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--dx:${(Math.random()-.5)*200}px;--dy:${(Math.random()-.5)*200}px;animation-duration:${Math.random()*12+8}s;animation-delay:${Math.random()*-20}s;opacity:${(Math.random()*.6+.1).toFixed(2)}`;
+    const s=Math.random()*3.5+.8;
+    el.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--dx:${(Math.random()-.5)*220}px;--dy:${(Math.random()-.5)*220}px;animation-duration:${Math.random()*14+9}s;animation-delay:${(Math.random()*-24).toFixed(1)}s;opacity:${(Math.random()*.65+.1).toFixed(2)}`;
     c.appendChild(el);
   }
 })();
