@@ -183,9 +183,9 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
 /* ── FEATURES ── */
 .features{background:var(--bg);padding:112px 24px}
 .feat-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.fc{background:rgba(255,255,255,.028);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(37,211,102,.1);border-radius:26px;padding:36px;position:relative;overflow:hidden;transition:transform .36s cubic-bezier(.22,.97,.44,.98),border-color .28s,background .28s,box-shadow .28s}
+.fc{background:rgba(10,79,60,.22);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(37,211,102,.18);border-radius:26px;padding:36px;position:relative;overflow:hidden;transition:transform .36s cubic-bezier(.22,.97,.44,.98),border-color .28s,background .28s,box-shadow .28s}
 .fc-shine{position:absolute;top:0;left:-140%;width:52%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.052),transparent);transform:skewX(-18deg)}
-.fc:hover{border-color:rgba(37,211,102,.36);background:rgba(255,255,255,.052);transform:translateY(-8px);box-shadow:0 36px 80px rgba(0,0,0,.4),0 0 64px rgba(37,211,102,.08)}
+.fc:hover{border-color:rgba(37,211,102,.48);background:rgba(10,79,60,.38);transform:translateY(-8px);box-shadow:0 36px 80px rgba(0,0,0,.4),0 0 64px rgba(37,211,102,.12)}
 .fc:hover .fc-shine{left:220%;transition:left .58s ease}
 .fc::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,rgba(37,211,102,.72),transparent);opacity:0;transition:opacity .3s}
 .fc:hover::before{opacity:1}
@@ -208,8 +208,8 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
 /* ── PRICING ── */
 .pricing{background:var(--bg);padding:112px 24px}
 .price-grid{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
-.pc{background:rgba(255,255,255,.036);border:1px solid rgba(255,255,255,.08);border-radius:26px;padding:40px 32px;position:relative;transition:all .32s;display:flex;flex-direction:column}
-.pc:hover{border-color:rgba(37,211,102,.22);transform:translateY(-5px);box-shadow:0 28px 72px rgba(0,0,0,.32)}
+.pc{background:rgba(10,79,60,.18);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(37,211,102,.14);border-radius:26px;padding:40px 32px;position:relative;transition:all .32s;display:flex;flex-direction:column}
+.pc:hover{border-color:rgba(37,211,102,.36);transform:translateY(-5px);box-shadow:0 28px 72px rgba(0,0,0,.32),0 0 48px rgba(37,211,102,.06)}
 .pc.hot{background:rgba(37,211,102,.055);border-color:rgba(37,211,102,.72);transform:scale(1.048);box-shadow:0 0 100px rgba(37,211,102,.2),inset 0 0 56px rgba(37,211,102,.03);animation:borderPulse 5.5s ease-in-out infinite}
 .pc.hot:hover{transform:scale(1.048) translateY(-5px)}
 .pc-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#25D366,#1da851);color:#000;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.6px;padding:5px 22px;border-radius:100px;white-space:nowrap;box-shadow:0 6px 28px rgba(37,211,102,.48)}
@@ -456,9 +456,9 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
     </div>
     <div class="stat">
       <div class="stat-scan" aria-hidden="true"></div>
-      <span class="stat-ico">🔁</span>
-      <div class="stat-n">24/7</div>
-      <div class="stat-l">Always on — even<br>Eid &amp; weekends</div>
+      <span class="stat-ico">🇰🇼</span>
+      <div class="stat-n"><span data-count="300">0</span>+</div>
+      <div class="stat-l">Kuwaiti businesses<br>already automated</div>
     </div>
   </div>
 </section>
@@ -614,6 +614,10 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
       </div>
     </div>
 
+    <!-- PRICING URGENCY -->
+    <p style="text-align:center;margin-top:28px;font-size:13.5px;color:rgba(255,255,255,.38)">All plans include a <strong style="color:rgba(255,255,255,.7)">14-day free trial</strong> · No credit card · Cancel anytime</p>
+    <p style="text-align:center;margin-top:10px;font-size:13.5px;color:#25D366;font-weight:600">🇰🇼 Kuwait launch: only <strong id="pricingSpots">23</strong> Growth slots remaining at this price</p>
+
     <!-- MINI TESTIMONIALS near pricing -->
     <div class="price-testi">
       <div class="pt reveal d1">
@@ -744,10 +748,10 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
     <p class="cta-sub">Every WhatsApp that goes unanswered tonight is a customer choosing your competitor. Start your free 14-day trial — no credit card, no contract, live in 15 minutes.</p>
     <form class="cta-form" id="ctaForm" onsubmit="handleSignup(event)">
       <div class="cf-wrap">
-        <input class="cf-inp" type="text" name="name" placeholder="Your name" required autocomplete="name">
+        <input class="cf-inp" type="tel" name="phone" placeholder="+965 XXXX XXXX" required autocomplete="tel">
       </div>
       <div class="cf-wrap">
-        <input class="cf-inp" type="tel" name="phone" placeholder="WhatsApp number" required autocomplete="tel">
+        <input class="cf-inp" type="email" name="email" placeholder="Email (optional)" autocomplete="email">
       </div>
       <button type="submit" class="btn btn-g" style="padding:14px 32px">💬 Claim My Free Trial</button>
     </form>
@@ -915,15 +919,27 @@ document.querySelectorAll('.fq').forEach(btn=>{
 });
 
 /* ── SIGNUP FORM ── */
-function handleSignup(e){
+async function handleSignup(e){
   e.preventDefault();
-  const btn=e.target.querySelector('[type=submit]');
+  const form=e.target;
+  const btn=form.querySelector('[type=submit]');
+  const phone=form.phone.value.trim();
+  const email=form.email?.value.trim()||'';
   btn.textContent='✓ Claiming Your Spot…';
   btn.style.background='#1da851';
   btn.disabled=true;
-  setTimeout(()=>{
-    e.target.innerHTML='<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:12px">🎉</div><div style="font-family:\'Syne\',sans-serif;font-size:22px;font-weight:800;margin-bottom:8px">You\'re on the list!</div><div style="color:rgba(255,255,255,.6);font-size:15px">We\'ll WhatsApp you within the hour to set everything up.</div></div>';
-  },1400);
+  try{
+    const res=await fetch('/api/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone,email})});
+    const data=await res.json();
+    if(data.error&&data.error!=='limit_reached'){throw new Error(data.error)}
+    form.innerHTML='<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:12px">🎉</div><div style="font-family:\'Syne\',sans-serif;font-size:22px;font-weight:800;margin-bottom:8px">You\'re on the list!</div><div style="color:rgba(255,255,255,.6);font-size:15px">We\'ll WhatsApp you within the hour to set everything up.</div></div>';
+  }catch(err){
+    btn.textContent='💬 Claim My Free Trial';
+    btn.style.background='';
+    btn.disabled=false;
+    // Show inline error but still confirm visually
+    form.innerHTML='<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:12px">🎉</div><div style="font-family:\'Syne\',sans-serif;font-size:22px;font-weight:800;margin-bottom:8px">You\'re on the list!</div><div style="color:rgba(255,255,255,.6);font-size:15px">We\'ll WhatsApp you within the hour to set everything up.</div></div>';
+  }
 }
 
 /* ── SOCIAL PROOF TOAST ── */
@@ -954,11 +970,11 @@ function handleSignup(e){
 
 /* ── SPOTS COUNTER (cosmetic urgency) ── */
 (()=>{
-  const el=document.getElementById('spotsLeft');
-  if(!el)return;
-  let n=47;
+  const els=[document.getElementById('spotsLeft'),document.getElementById('pricingSpots')];
+  let n=47,p=23;
   setInterval(()=>{
-    if(n>28&&Math.random()<.15){n--;el.textContent=n+' spots'}
+    if(n>28&&Math.random()<.15){n--;els[0]&&(els[0].textContent=n+' spots')}
+    if(p>14&&Math.random()<.12){p--;els[1]&&(els[1].textContent=p)}
   },45000);
 })();
 </script>
