@@ -13,7 +13,8 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#071f18;--accent:#25D366;--fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif}
 html,body{height:100%}
-body{background:var(--bg);color:#fff;font-family:var(--fb);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center;position:relative;overflow:hidden;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:#fff;font-family:var(--fb);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center;position:relative;overflow:hidden;-webkit-font-smoothing:antialiased;animation:pgIn .5s ease both}
+@keyframes pgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes float{0%,100%{transform:translateY(0) rotate(-.3deg)}50%{transform:translateY(-14px) rotate(.3deg)}}
 @keyframes glow{0%,100%{opacity:.18;transform:scale(1)}50%{opacity:.44;transform:scale(1.14)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
@@ -22,75 +23,86 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);display:flex;flex-dir
 @keyframes ping{0%{transform:scale(.7);opacity:0}40%{opacity:.5}100%{transform:scale(2.6);opacity:0}}
 @keyframes borderPulse{0%,100%{border-color:rgba(37,211,102,.18);box-shadow:0 0 28px rgba(37,211,102,.04)}50%{border-color:rgba(37,211,102,.6);box-shadow:0 0 70px rgba(37,211,102,.18)}}
 @keyframes drift{0%{opacity:0;transform:translate(0,0)}6%{opacity:.8}82%{opacity:.2}100%{opacity:0;transform:translate(var(--dx),var(--dy))}}
+@keyframes waPulse{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.56),0 8px 40px rgba(37,211,102,.38)}70%{box-shadow:0 0 0 18px rgba(37,211,102,0),0 8px 40px rgba(37,211,102,.18)}}
+
 .bg-grid{position:fixed;inset:-80px;background-image:linear-gradient(rgba(37,211,102,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(37,211,102,.022) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
 .parts{position:fixed;inset:0;pointer-events:none}
 .p{position:absolute;border-radius:50%;background:#25D366;animation:drift linear infinite}
 .gb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none}
 .g1{width:460px;height:460px;background:rgba(37,211,102,.065);top:-120px;right:-80px;animation:glow 5.5s ease-in-out infinite}
 .g2{width:360px;height:360px;background:rgba(10,79,60,.42);bottom:-80px;left:-60px;animation:glow 7.5s ease-in-out infinite 1.8s}
-.wrap{position:relative;z-index:2;max-width:540px;display:flex;flex-direction:column;align-items:center}
-.phone-mini{width:200px;margin-bottom:40px;background:#111b21;border-radius:32px;border:2px solid rgba(37,211,102,.17);overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.72),0 0 80px rgba(37,211,102,.06);animation:float 7s ease-in-out infinite,borderPulse 5s ease-in-out infinite}
-.ph-bar{background:#202c33;padding:8px 16px 4px;display:flex;justify-content:space-between;font-size:9px;color:#fff;font-weight:700}
-.ph-head{background:#202c33;padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.04)}
-.ph-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#25D366,#0d6b51);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-.ph-nm{color:#fff;font-size:11px;font-weight:600}
-.ph-st{color:#25D366;font-size:9px;display:flex;align-items:center;gap:3px}
-.ph-st::before{content:'';width:4px;height:4px;border-radius:50%;background:#25D366;display:inline-block}
-.ph-body{background:#0b141a;padding:10px 8px;display:flex;flex-direction:column;gap:5px;min-height:130px}
-.b{align-self:flex-start;background:#202c33;color:#e9edef;padding:7px 10px;border-radius:8px;border-top-left-radius:2px;font-size:10.5px;line-height:1.52;max-width:88%;opacity:0;animation:msgIn .4s ease forwards}
-.b:nth-child(1){animation-delay:.3s}
-.b:nth-child(2){animation-delay:.9s}
-.typmini{align-self:flex-start;background:#202c33;padding:9px 12px;border-radius:8px;border-top-left-radius:2px;display:flex;gap:3px;align-items:center;opacity:0;animation:msgIn .4s ease forwards 1.6s}
-.td{width:5px;height:5px;background:rgba(255,255,255,.36);border-radius:50%;animation:blink 1.3s ease-in-out infinite}
-.td:nth-child(2){animation-delay:.25s}.td:nth-child(3){animation-delay:.5s}
-.ph-inp{background:#202c33;padding:6px 10px;display:flex;align-items:center;gap:6px}
-.ph-field{flex:1;background:#2a3942;border-radius:20px;padding:6px 12px;font-size:9px;color:rgba(255,255,255,.28);font-family:var(--fb)}
-.ph-send{width:26px;height:26px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
-.num{font-family:var(--fh);font-size:clamp(80px,16vw,120px);font-weight:800;line-height:1;background:linear-gradient(135deg,#25D366,#7dffb0 55%,#25D366);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-4px;margin-bottom:-8px;animation:fadeUp .6s ease both .08s;user-select:none}
-.title{font-family:var(--fh);font-size:clamp(20px,4vw,30px);font-weight:800;margin-bottom:14px;animation:fadeUp .6s ease both .18s;letter-spacing:-.4px}
-.sub{font-size:16px;color:rgba(255,255,255,.44);line-height:1.78;margin-bottom:36px;max-width:420px;animation:fadeUp .6s ease both .28s}
-.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp .6s ease both .38s}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:11px;font-family:var(--fb);font-weight:700;font-size:15px;text-decoration:none;transition:all .22s;position:relative;overflow:hidden;border:none;cursor:pointer}
-.btn::after{content:'';position:absolute;top:0;left:-130%;width:46%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.13),transparent);transform:skewX(-18deg);transition:left .48s ease}
-.btn:hover::after{left:210%}
-.btn-g{background:#25D366;color:#000;box-shadow:0 0 36px rgba(37,211,102,.3)}
-.btn-g:hover{background:#1da851;transform:translateY(-2px);box-shadow:0 8px 64px rgba(37,211,102,.56)}
-.btn-o{background:transparent;color:rgba(255,255,255,.68);border:1.5px solid rgba(255,255,255,.16)}
-.btn-o:hover{border-color:#25D366;color:#25D366;background:rgba(37,211,102,.05)}
-.bdot{width:6px;height:6px;border-radius:50%;background:#25D366;flex-shrink:0;position:relative}
-.bdot::after{content:'';position:absolute;inset:-3px;border-radius:50%;background:rgba(37,211,102,.28);animation:ping 2.2s ease-out infinite}
-.hint{margin-top:26px;font-size:12.5px;color:rgba(255,255,255,.24);animation:fadeUp .6s ease both .48s}
-.hint a{color:rgba(37,211,102,.68);text-decoration:none;transition:color .18s}
-.hint a:hover{color:#25D366}
+
+.card{position:relative;z-index:2;max-width:520px;width:100%;animation:fadeUp .6s ease both .1s}
+
+.phone-mini{width:200px;height:auto;margin:0 auto 40px;background:#111b21;border-radius:32px;border:2px solid rgba(37,211,102,.2);overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.8),0 0 80px rgba(37,211,102,.06);animation:float 7s ease-in-out infinite;position:relative}
+.phone-mini::after{content:'';position:absolute;inset:0;border-radius:32px;border:1px solid rgba(37,211,102,.07);animation:borderPulse 5s ease-in-out infinite;pointer-events:none}
+.pm-bar{background:#202c33;padding:8px 14px 4px;display:flex;justify-content:space-between;font-size:9px;color:#fff;font-weight:700}
+.pm-bar::before{content:'';display:block;width:44px;height:12px;background:#060c0f;border-radius:0 0 8px 8px;position:absolute;top:0;left:50%;transform:translateX(-50%)}
+.pm-head{background:#202c33;padding:6px 10px;display:flex;align-items:center;gap:7px;border-bottom:1px solid rgba(255,255,255,.04)}
+.pm-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#25D366,#0d6b51);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;position:relative}
+.pm-av::after{content:'';position:absolute;bottom:0;right:0;width:8px;height:8px;background:#25D366;border-radius:50%;border:1.5px solid #202c33}
+.pm-nm{color:#fff;font-size:10px;font-weight:600}
+.pm-st{color:#25D366;font-size:8px}
+.pm-body{background:#0b141a;padding:8px 7px;display:flex;flex-direction:column;gap:4px;min-height:100px}
+.pm-msg{padding:5px 8px 3px;border-radius:6px;font-size:9px;color:#e9edef;line-height:1.5;max-width:86%}
+.pm-bot{background:#202c33;align-self:flex-start;border-top-left-radius:2px;animation:msgIn .3s ease both}
+.pm-usr{background:#005c4b;align-self:flex-end;border-top-right-radius:2px;animation:msgIn .3s ease both .6s}
+.pm-bot2{animation-delay:.4s}
+.pm-dots{align-self:flex-start;padding:7px 10px;background:#202c33;border-radius:6px;border-top-left-radius:2px;display:flex;gap:3px;align-items:center;animation:msgIn .3s ease both 1s}
+.pm-d{width:4px;height:4px;background:rgba(255,255,255,.36);border-radius:50%;animation:blink 1.3s ease-in-out infinite}
+.pm-d:nth-child(2){animation-delay:.25s}.pm-d:nth-child(3){animation-delay:.5s}
+
+.err-code{font-family:var(--fh);font-size:clamp(64px,14vw,120px);font-weight:800;line-height:1;color:rgba(37,211,102,.14);letter-spacing:-4px;margin-bottom:8px;user-select:none}
+.err-title{font-family:var(--fh);font-size:clamp(22px,5vw,34px);font-weight:800;margin-bottom:14px;color:#fff}
+.err-sub{font-size:16px;color:rgba(255,255,255,.44);line-height:1.8;margin-bottom:40px;max-width:380px;margin-left:auto;margin-right:auto}
+.err-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--fb);font-weight:700;font-size:15px;padding:14px 28px;border-radius:12px;text-decoration:none;border:none;cursor:pointer;transition:all .22s;white-space:nowrap}
+.btn-g{background:#25D366;color:#000;box-shadow:0 0 36px rgba(37,211,102,.32)}
+.btn-g:hover{background:#1da851;transform:translateY(-2px);box-shadow:0 8px 60px rgba(37,211,102,.6)}
+.btn-o{background:transparent;color:rgba(255,255,255,.6);border:1.5px solid rgba(255,255,255,.14)}
+.btn-o:hover{border-color:#25D366;color:#25D366}
+
+.wa-fab{position:fixed;bottom:28px;right:28px;z-index:800;display:flex;align-items:center;gap:10px;background:#25D366;color:#000;font-weight:700;font-size:13px;padding:13px 20px 13px 16px;border-radius:100px;text-decoration:none;animation:waPulse 2.8s ease-in-out infinite;transition:transform .22s,background .22s}
+.wa-fab:hover{background:#1da851;transform:translateY(-2px)}
 </style>
 </head>
 <body>
+
 <div class="bg-grid" aria-hidden="true"></div>
-<div class="parts" id="parts" aria-hidden="true"></div>
 <div class="gb g1" aria-hidden="true"></div>
 <div class="gb g2" aria-hidden="true"></div>
-<div class="wrap">
+<div class="parts" id="parts" aria-hidden="true"></div>
+
+<div class="card">
   <div class="phone-mini" aria-hidden="true">
-    <div class="ph-bar"><span>9:41</span><span>●●●</span></div>
-    <div class="ph-head"><div class="ph-av">🤖</div><div><div class="ph-nm">Focobot</div><div class="ph-st">Online always</div></div></div>
-    <div class="ph-body">
-      <div class="b">Hmm, I can't find that page! 🤔</div>
-      <div class="b">Let me take you somewhere useful instead 👇</div>
-      <div class="typmini"><div class="td"></div><div class="td"></div><div class="td"></div></div>
+    <div class="pm-bar"><span>9:41</span><span>●●●</span></div>
+    <div class="pm-head">
+      <div class="pm-av">🤖</div>
+      <div><div class="pm-nm">Focobot</div><div class="pm-st">Online always</div></div>
     </div>
-    <div class="ph-inp"><div class="ph-field">Message…</div><div class="ph-send">➤</div></div>
+    <div class="pm-body">
+      <div class="pm-msg pm-usr">Where did this page go? 🤔</div>
+      <div class="pm-msg pm-bot">Hmm, I can't find that one!</div>
+      <div class="pm-msg pm-bot pm-bot2">Let me take you back home 😊</div>
+      <div class="pm-dots"><div class="pm-d"></div><div class="pm-d"></div><div class="pm-d"></div></div>
+    </div>
   </div>
-  <div class="num" aria-label="404">404</div>
-  <h1 class="title">Page Not Found</h1>
-  <p class="sub">This page doesn’t exist — but your business missing WhatsApp messages does. Let Focobot fix that instead.</p>
-  <div class="actions">
-    <a href="/" class="btn btn-g"><span class="bdot"></span>Back to Focobot</a>
-    <a href="/#signup" class="btn btn-o">Start Free Trial →</a>
+
+  <div class="err-code" aria-hidden="true">404</div>
+  <h1 class="err-title">Page Not Found</h1>
+  <p class="err-sub">This page doesn't exist — but your unanswered WhatsApp messages do. Let's fix both.</p>
+  <div class="err-btns">
+    <a href="/" class="btn btn-g">← Back to Focobot</a>
+    <a href="/#signup" class="btn btn-o">💬 Start Free Trial</a>
   </div>
-  <p class="hint">Need help? <a href="mailto:hello@focobot.com">hello@focobot.com</a> or <a href="https://wa.me/96500000000">WhatsApp us</a></p>
 </div>
+
+<a class="wa-fab" href="https://wa.me/96500000000" target="_blank" rel="noopener" aria-label="Chat with Focobot support on WhatsApp">
+  💬 Need help?
+</a>
+
 <script>
-(()=>{const c=document.getElementById('parts');for(let i=0;i<30;i++){const p=document.createElement('div');p.className='p';const s=Math.random()*4+.6;p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--dx:${((Math.random()-.5)*300).toFixed(0)}px;--dy:${((Math.random()-.5)*300).toFixed(0)}px;animation-duration:${(Math.random()*13+9).toFixed(1)}s;animation-delay:${(Math.random()*-26).toFixed(1)}s;opacity:${(Math.random()*.68+.1).toFixed(2)}`;c.appendChild(p);}})();
+(()=>{const c=document.getElementById('parts');if(!c)return;for(let i=0;i<24;i++){const p=document.createElement('div');p.className='p';const s=Math.random()*4+1.5;p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--dx:${(Math.random()-.5)*160}px;--dy:${(Math.random()-.5)*160}px;opacity:${Math.random()*.6+.1};animation-duration:${Math.random()*8+5}s;animation-delay:${Math.random()*6}s`;c.appendChild(p);}})();
 </script>
 </body>
 </html>
