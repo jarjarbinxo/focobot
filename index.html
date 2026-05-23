@@ -7,6 +7,7 @@
 <meta property="og:title" content="Focobot — Every Unanswered WhatsApp Is Revenue Gone">
 <meta property="og:description" content="Your competitor just answered that WhatsApp. You didn't. Fix that in 15 minutes.">
 <meta property="og:type" content="website"><meta property="og:url" content="https://focobot.com">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#071f18">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,6 +39,7 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
 @keyframes notif{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
 @keyframes waPulse{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.56),0 8px 40px rgba(37,211,102,.38)}70%{box-shadow:0 0 0 18px rgba(37,211,102,0),0 8px 40px rgba(37,211,102,.18)}}
 @keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:none;opacity:1}}
+@keyframes countPop{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
 
 #prog{position:fixed;top:0;left:0;height:2.5px;background:linear-gradient(90deg,#25D366,#7dffb0,#25D366);background-size:240% 100%;z-index:9999;width:0;transition:width .05s linear;pointer-events:none}
 .container{max-width:1200px;margin:0 auto;padding:0 28px}
@@ -124,6 +126,7 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
 .bubble{padding:7px 10px 4px;border-radius:8px;font-size:11.5px;line-height:1.64;word-break:break-word}
 .bot .bubble{background:#202c33;color:#e9edef;border-top-left-radius:2px}
 .usr .bubble{background:#005c4b;color:#e9edef;border-top-right-radius:2px}
+.bubble[dir="rtl"]{text-align:right;font-size:12px}
 .msg-meta{display:flex;align-items:center;justify-content:flex-end;gap:3px;margin-top:2px}
 .msg-time{font-size:9px;color:rgba(255,255,255,.27)}
 .checks{display:flex;align-items:center}
@@ -358,21 +361,50 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
 </head>
 <body>
 <div id="prog" aria-hidden="true"></div>
-<div class="ann" id="ann"><span class="ann-inner"><span class="ann-dot"></span>&#x1F1F0;&#x1F1FC; <strong>Kuwait launch:</strong>&nbsp;Only&nbsp;<strong id="spotsLeft">47 spots</strong>&nbsp;remaining at founder pricing &mdash; <strong>closes when full</strong></span></div>
-<nav class="nav" id="nav"><a class="nav-logo" href="/"><div class="logo-mark">&#x1F4AC;</div><span class="logo-text">Focobot</span></a><ul class="nav-links" id="navLinks"><li><a href="#features">Features</a></li><li><a href="#how">How It Works</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#faq">FAQ</a></li><li><a href="#signup" class="ncta">Start Free Trial &rarr;</a></li></ul><button class="nbur" id="nbur" aria-label="Toggle menu" aria-expanded="false">&#9776;</button></nav>
+
+<div class="ann" id="ann">
+  <span class="ann-inner">
+    <span class="ann-dot"></span>
+    &#x1F1F0;&#x1F1FC; <strong>Kuwait launch:</strong>&nbsp;Only&nbsp;<strong id="spotsLeft">47 spots</strong>&nbsp;remaining at founder pricing &mdash; <strong>closes when full</strong>
+  </span>
+</div>
+
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="/"><div class="logo-mark">&#x1F4AC;</div><span class="logo-text">Focobot</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#signup" class="ncta">Start Free Trial &rarr;</a></li>
+  </ul>
+  <button class="nbur" id="nbur" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+</nav>
+
 <div class="toast" id="toast" role="status" aria-live="polite"><div class="toast-dot"></div><span id="toastMsg"></span></div>
 
+<!-- HERO -->
 <section class="hero" id="home">
   <canvas class="h-canvas" id="heroCanvas" aria-hidden="true"></canvas>
   <div class="h-grid" aria-hidden="true"></div>
-  <div class="gb g1" aria-hidden="true"></div><div class="gb g2" aria-hidden="true"></div><div class="gb g3" aria-hidden="true"></div>
+  <div class="gb g1" aria-hidden="true"></div>
+  <div class="gb g2" aria-hidden="true"></div>
+  <div class="gb g3" aria-hidden="true"></div>
   <div class="hero-in">
     <div>
       <div class="h-live"><span class="h-live-dot"></span><span class="h-live-count" id="liveCount">847</span>&nbsp;messages answered in Kuwait tonight</div>
-      <h1 class="h1">Your Competitor Just<br><span class="hi">Answered That WhatsApp.</span><br>You Didn't.</h1>
+      <h1 class="h1">Your Competitor Just<br><span class="hi">Answered That WhatsApp.</span><br>You Didn&rsquo;t.</h1>
       <p class="h-sub">Every unanswered message tonight is a sale handed to someone else. <strong>500+ Kuwaiti businesses</strong> use Focobot to reply in <strong>under 2 seconds</strong> &mdash; in Arabic and English, 24/7 &mdash; so every customer gets an answer before they look elsewhere.</p>
-      <div class="h-btns"><a href="#signup" class="btn btn-g">&#x1F4AC; Start My Free 14-Day Trial</a><a href="#how" class="btn btn-o">See How It Works &rarr;</a></div>
-      <div class="h-trust"><span class="hti">No credit card</span><span class="hti">No contract</span><span class="hti">Live in 15 minutes</span><span class="hti">Cancel anytime</span></div>
+      <div class="h-btns">
+        <a href="#signup" class="btn btn-g">&#x1F4AC; Start My Free 14-Day Trial</a>
+        <a href="#how" class="btn btn-o">See How It Works &rarr;</a>
+      </div>
+      <div class="h-trust">
+        <span class="hti">No credit card</span>
+        <span class="hti">No contract</span>
+        <span class="hti">Live in 15 minutes</span>
+        <span class="hti">Cancel anytime</span>
+      </div>
       <div class="h-counter-row">
         <div class="hcr"><div><div class="hcr-num" id="hcMsgs">847</div><div class="hcr-label">Messages tonight</div></div></div>
         <div class="hcr"><div><div class="hcr-num">&lt;2s</div><div class="hcr-label">Avg. reply time</div></div></div>
@@ -384,16 +416,28 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
       <div class="phone" id="phone" aria-label="WhatsApp chat demo">
         <div class="ph-notif" aria-hidden="true">4</div>
         <div class="ph-bar"><span>9:41</span><span style="letter-spacing:1px">&#9679;&#9679;&#9679;</span></div>
-        <div class="ph-head"><div class="ph-av" aria-hidden="true">&#x1F916;</div><div><div class="ph-nm">Focobot &mdash; <span lang="ar">&#x645;&#x633;&#x627;&#x639;&#x62F;&#x643; &#x627;&#x644;&#x630;&#x643;&#x64A;</span></div><div class="ph-st">Online always</div></div><div class="ph-ic" aria-hidden="true"><span>&#x1F4DE;</span><span>&#x22EE;</span></div></div>
+        <div class="ph-head">
+          <div class="ph-av" aria-hidden="true">&#x1F916;</div>
+          <div>
+            <div class="ph-nm">Focobot &mdash; <span lang="ar">&#x645;&#x633;&#x627;&#x639;&#x62F;&#x643; &#x627;&#x644;&#x630;&#x643;&#x64A;</span></div>
+            <div class="ph-st">Online always</div>
+          </div>
+          <div class="ph-ic" aria-hidden="true"><span>&#x1F4DE;</span><span>&#x22EE;</span></div>
+        </div>
         <div class="ph-body" id="chatBody" aria-label="Live chat demo"></div>
-        <div class="ph-inp" aria-hidden="true"><div class="ph-field"><span lang="ar">&#x627;&#x643;&#x62A;&#x628; &#x631;&#x633;&#x627;&#x644;&#x629;&hellip;</span></div><div class="ph-send">&#x279E;</div></div>
+        <div class="ph-inp" aria-hidden="true">
+          <div class="ph-field"><span lang="ar">&#x627;&#x643;&#x62A;&#x628; &#x631;&#x633;&#x627;&#x644;&#x629;&hellip;</span></div>
+          <div class="ph-send">&#x279E;</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- MARQUEE -->
 <div class="mq" aria-label="Supported business types"><div class="mq-track" id="mqTrack"></div></div>
 
+<!-- STATS -->
 <section class="stats" aria-label="Key metrics">
   <div class="stats-grid reveal">
     <div class="stat"><div class="stat-scan" aria-hidden="true"></div><span class="stat-ico">&#x1F4AC;</span><div class="stat-n"><span data-count="500">0</span>+</div><div class="stat-l">Messages automated<br>daily per business</div></div>
@@ -403,34 +447,63 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
   </div>
 </section>
 
+<!-- FEATURES -->
 <section class="features" id="features">
   <div class="container">
-    <div class="sh reveal"><span class="sl">What You Get</span><h2 class="st">Built for Kuwait.<br>Engineered for Revenue.</h2><p class="ss">Not a generic chatbot. A revenue engine trained on Kuwaiti business culture &mdash; turning every WhatsApp into an opportunity you actually capture.</p></div>
+    <div class="sh reveal">
+      <span class="sl">What You Get</span>
+      <h2 class="st">Built for Kuwait.<br>Engineered for Revenue.</h2>
+      <p class="ss">Not a generic chatbot. A revenue engine trained on Kuwaiti business culture &mdash; turning every WhatsApp into an opportunity you actually capture.</p>
+    </div>
     <div class="feat-grid">
       <div class="fc reveal d1"><div class="fc-shine" aria-hidden="true"></div><div class="fc-icon">&#x26A1;</div><h3 class="fc-ttl">2-Second Replies. Every Single Time.</h3><p class="fc-desc">Customers who wait over 5 minutes order from your competitor. Focobot responds in under 2 seconds &mdash; at 2 AM on a Friday during Eid &mdash; converting enquiries into confirmed orders before your inbox even opens.</p><div class="fc-result">&#x1F4C8; Avg. +31% order conversion</div></div>
       <div class="fc reveal d2"><div class="fc-shine" aria-hidden="true"></div><div class="fc-icon">&#x1F1F0;&#x1F1FC;</div><h3 class="fc-ttl">Fluent Arabic Including Kuwaiti Dialect</h3><p class="fc-desc">Gulf Arabic, Kuwaiti dialect, formal Arabic, English &mdash; Focobot switches mid-conversation without missing a beat. No awkward translations. Your customers feel understood from the very first message, in the language they actually use.</p><div class="fc-result">&#x1F30D; 100% bilingual conversations</div></div>
       <div class="fc reveal d3"><div class="fc-shine" aria-hidden="true"></div><div class="fc-icon">&#x1F4CB;</div><h3 class="fc-ttl">Orders &amp; Bookings Captured Automatically</h3><p class="fc-desc">Focobot takes the full order, collects delivery address, confirms payment method, and sends a confirmation &mdash; zero human effort. Every enquiry becomes a structured lead in your dashboard, ready to fulfill.</p><div class="fc-result">&#x1F6D2; Full order flow, zero effort</div></div>
       <div class="fc reveal d4"><div class="fc-shine" aria-hidden="true"></div><div class="fc-icon">&#x1F9E0;</div><h3 class="fc-ttl">Trained on Your Business in 15 Minutes</h3><p class="fc-desc">Upload your menu, price list, or FAQ &mdash; even a photo of a handwritten sheet works. Focobot learns your products, handles price objections, and upsells your best-sellers automatically. No developers needed.</p><div class="fc-result">&#x23F1; Ready in under 15 minutes</div></div>
-      <div class="fc reveal d5"><div class="fc-shine" aria-hidden="true"></div><div class="fc-icon">&#x1F4CA;</div><h3 class="fc-ttl">Live Dashboard + Weekly WhatsApp Reports</h3><p class="fc-desc">Track every conversation handled, lead converted, and customer trend in one clean view. Weekly revenue summaries delivered directly to your WhatsApp &mdash; so you always know what's working and what to adjust.</p><div class="fc-result">&#x1F4EC; Reports to your WhatsApp</div></div>
+      <div class="fc reveal d5"><div class="fc-shine" aria-hidden="true"></div><div class="fc-icon">&#x1F4CA;</div><h3 class="fc-ttl">Live Dashboard + Weekly WhatsApp Reports</h3><p class="fc-desc">Track every conversation handled, lead converted, and customer trend in one clean view. Weekly revenue summaries delivered directly to your WhatsApp &mdash; so you always know what&rsquo;s working and what to adjust.</p><div class="fc-result">&#x1F4EC; Reports to your WhatsApp</div></div>
       <div class="fc reveal d6"><div class="fc-shine" aria-hidden="true"></div><div class="fc-icon">&#x1F501;</div><h3 class="fc-ttl">Seamless Human Handoff When It Counts</h3><p class="fc-desc">When a conversation needs a personal touch, Focobot passes it to your team with full context included. No customer ever has to repeat themselves. Your staff focuses on real relationships, not answering &ldquo;<span lang="ar">&#x643;&#x645; &#x627;&#x644;&#x633;&#x639;&#x631;&#x61F;</span>&rdquo; for the hundredth time.</p><div class="fc-result">&#x1F91D; Zero context lost in handoff</div></div>
     </div>
   </div>
 </section>
 
+<!-- BEFORE/AFTER -->
 <section class="results" aria-label="Before and after comparison">
   <div class="container">
-    <div class="sh reveal"><span class="sl">The Real Cost</span><h2 class="st">What Happens to<br>Every Unanswered Message</h2><p class="ss">Most businesses don&rsquo;t realize how much revenue leaks through their WhatsApp every single day.</p></div>
+    <div class="sh reveal">
+      <span class="sl">The Real Cost</span>
+      <h2 class="st">What Happens to<br>Every Unanswered Message</h2>
+      <p class="ss">Most businesses don&rsquo;t realize how much revenue leaks through their WhatsApp every single day.</p>
+    </div>
     <div class="results-grid reveal">
-      <div class="rb-side bad"><h3>&#x274C; Without Focobot</h3><div class="rb-row"><span>Customer asks about price at 11 PM</span><span class="rb-tag">No reply</span></div><div class="rb-row"><span>Message arrives during Friday prayer</span><span class="rb-tag">Lost</span></div><div class="rb-row"><span>Enquiry while you&rsquo;re with family</span><span class="rb-tag">Missed</span></div><div class="rb-row"><span>Staff manually answering same 10 questions</span><span class="rb-tag">4 hrs/day</span></div><div class="rb-row"><span>Customer picks competitor who replied first</span><span class="rb-tag">Revenue gone</span></div></div>
+      <div class="rb-side bad">
+        <h3>&#x274C; Without Focobot</h3>
+        <div class="rb-row"><span>Customer asks about price at 11 PM</span><span class="rb-tag">No reply</span></div>
+        <div class="rb-row"><span>Message arrives during Friday prayer</span><span class="rb-tag">Lost</span></div>
+        <div class="rb-row"><span>Enquiry while you&rsquo;re with family</span><span class="rb-tag">Missed</span></div>
+        <div class="rb-row"><span>Staff manually answering same 10 questions</span><span class="rb-tag">4 hrs/day</span></div>
+        <div class="rb-row"><span>Customer picks competitor who replied first</span><span class="rb-tag">Revenue gone</span></div>
+      </div>
       <div class="rg-div" aria-hidden="true"></div>
-      <div class="rb-side good"><h3>&#x2705; With Focobot</h3><div class="rb-row"><span>Customer asks about price at 11 PM</span><span class="rb-tag">Answered in 2s</span></div><div class="rb-row"><span>Message arrives during Friday prayer</span><span class="rb-tag">Order taken</span></div><div class="rb-row"><span>Enquiry while you&rsquo;re with family</span><span class="rb-tag">Captured</span></div><div class="rb-row"><span>Staff free for relationships &amp; fulfilment</span><span class="rb-tag">4 hrs saved</span></div><div class="rb-row"><span>You replied first &mdash; every time</span><span class="rb-tag">Sale closed</span></div></div>
+      <div class="rb-side good">
+        <h3>&#x2705; With Focobot</h3>
+        <div class="rb-row"><span>Customer asks about price at 11 PM</span><span class="rb-tag">Answered in 2s</span></div>
+        <div class="rb-row"><span>Message arrives during Friday prayer</span><span class="rb-tag">Order taken</span></div>
+        <div class="rb-row"><span>Enquiry while you&rsquo;re with family</span><span class="rb-tag">Captured</span></div>
+        <div class="rb-row"><span>Staff free for relationships &amp; fulfilment</span><span class="rb-tag">4 hrs saved</span></div>
+        <div class="rb-row"><span>You replied first &mdash; every time</span><span class="rb-tag">Sale closed</span></div>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- HOW IT WORKS -->
 <section class="how" id="how">
   <div class="container">
-    <div class="sh reveal"><span class="sl">Setup in Minutes</span><h2 class="st">Live in 15 Minutes Flat</h2><p class="ss">No developers. No technical knowledge. If you can send a WhatsApp, you can run Focobot.</p></div>
+    <div class="sh reveal">
+      <span class="sl">Setup in Minutes</span>
+      <h2 class="st">Live in 15 Minutes Flat</h2>
+      <p class="ss">No developers. No technical knowledge. If you can send a WhatsApp, you can run Focobot.</p>
+    </div>
     <div class="how-steps">
       <div class="how-line" aria-hidden="true"></div>
       <div class="step reveal d1"><div class="step-n">1</div><h3 class="step-t">Connect Your WhatsApp</h3><p class="step-d">Scan a QR code to link your existing business number. No new number, no migration &mdash; live and answering on your current number in under 60 seconds.</p><div class="step-time">&#x23F1; 60 seconds</div></div>
@@ -440,9 +513,14 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
   </div>
 </section>
 
+<!-- PRICING -->
 <section class="pricing" id="pricing">
   <div class="container">
-    <div class="sh reveal"><span class="sl">Simple Pricing</span><h2 class="st">Start Small. Scale When Ready.</h2><p class="ss">No setup fees. No per-message charges. No currency surprises. All prices in Kuwaiti Dinar &mdash; cancel anytime.</p></div>
+    <div class="sh reveal">
+      <span class="sl">Simple Pricing</span>
+      <h2 class="st">Start Small. Scale When Ready.</h2>
+      <p class="ss">No setup fees. No per-message charges. No currency surprises. All prices in Kuwaiti Dinar &mdash; cancel anytime.</p>
+    </div>
     <div class="price-toggle-wrap reveal">
       <span class="ptl active" id="lblMonthly">Monthly</span>
       <div class="tog-track" id="billingToggle" role="switch" aria-checked="false" tabindex="0" aria-label="Toggle annual billing"><div class="tog-thumb"></div></div>
@@ -456,7 +534,14 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
         <div class="plan-p"><span class="plan-curr">KWD</span><span class="plan-num" id="starterPrice">29</span><span class="plan-per" id="starterPer">/mo</span><span class="plan-save" id="starterSave">Save 58 KWD/yr</span></div>
         <p class="plan-tag">For solo businesses automating their first 500 messages and getting 24/7 coverage from day one.</p>
         <div class="plan-hr"></div>
-        <ul class="plan-feats"><li>Up to 500 messages/month</li><li>Arabic + English responses</li><li>1 WhatsApp number</li><li>Basic order &amp; enquiry capture</li><li>Dashboard analytics</li><li>Email support</li></ul>
+        <ul class="plan-feats">
+          <li>Up to 500 messages/month</li>
+          <li>Arabic + English responses</li>
+          <li>1 WhatsApp number</li>
+          <li>Basic order &amp; enquiry capture</li>
+          <li>Dashboard analytics</li>
+          <li>Email support</li>
+        </ul>
         <a href="#signup" class="plan-btn pb-o">Start Free Trial &rarr;</a>
       </div>
       <div class="pc hot reveal d2">
@@ -465,7 +550,16 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
         <div class="plan-p"><span class="plan-curr">KWD</span><span class="plan-num" id="growthPrice">59</span><span class="plan-per" id="growthPer">/mo</span><span class="plan-save" id="growthSave">Save 118 KWD/yr</span></div>
         <p class="plan-tag">For businesses serious about never missing a sale &mdash; day or night, weekday or Eid, whether you&rsquo;re awake or not.</p>
         <div class="plan-hr"></div>
-        <ul class="plan-feats"><li>Unlimited automated messages</li><li>Arabic + English (Kuwaiti dialect)</li><li>Up to 3 WhatsApp numbers</li><li>Advanced order &amp; booking capture</li><li>Weekly revenue reports to WhatsApp</li><li>Smart human escalation</li><li>Custom bot name &amp; personality</li><li>Priority WhatsApp support</li></ul>
+        <ul class="plan-feats">
+          <li>Unlimited automated messages</li>
+          <li>Arabic + English (Kuwaiti dialect)</li>
+          <li>Up to 3 WhatsApp numbers</li>
+          <li>Advanced order &amp; booking capture</li>
+          <li>Weekly revenue reports to WhatsApp</li>
+          <li>Smart human escalation</li>
+          <li>Custom bot name &amp; personality</li>
+          <li>Priority WhatsApp support</li>
+        </ul>
         <a href="#signup" class="plan-btn pb-f">Start Free Trial &mdash; No Card Needed</a>
       </div>
       <div class="pc reveal d3">
@@ -473,7 +567,15 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
         <div class="plan-p" style="margin-bottom:14px"><span class="plan-num" style="font-size:42px;color:rgba(255,255,255,.42)">Custom</span></div>
         <p class="plan-tag">For chains, large retailers, and businesses with complex workflows and multi-branch operations.</p>
         <div class="plan-hr"></div>
-        <ul class="plan-feats"><li>Everything in Growth</li><li>Unlimited WhatsApp numbers</li><li>Custom AI training &amp; workflows</li><li>CRM &amp; POS integrations</li><li>Dedicated account manager</li><li>SLA guarantee + onsite setup</li><li>Multi-branch management</li></ul>
+        <ul class="plan-feats">
+          <li>Everything in Growth</li>
+          <li>Unlimited WhatsApp numbers</li>
+          <li>Custom AI training &amp; workflows</li>
+          <li>CRM &amp; POS integrations</li>
+          <li>Dedicated account manager</li>
+          <li>SLA guarantee + onsite setup</li>
+          <li>Multi-branch management</li>
+        </ul>
         <a href="mailto:hello@focobot.com" class="plan-btn pb-o">Contact Sales &rarr;</a>
       </div>
     </div>
@@ -486,9 +588,14 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
   </div>
 </section>
 
+<!-- TESTIMONIALS -->
 <section class="testi" id="testimonials">
   <div class="container">
-    <div class="sh reveal"><span class="sl">Real Results</span><h2 class="st">Kuwait Businesses Love Focobot</h2><p class="ss">Real numbers from real businesses &mdash; caf&eacute;s to clinics to fashion boutiques across Kuwait.</p></div>
+    <div class="sh reveal">
+      <span class="sl">Real Results</span>
+      <h2 class="st">Kuwait Businesses Love Focobot</h2>
+      <p class="ss">Real numbers from real businesses &mdash; caf&eacute;s to clinics to fashion boutiques across Kuwait.</p>
+    </div>
     <div class="testi-grid">
       <div class="tc reveal d1"><div class="tc-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</div><p class="tc-text">&ldquo;Before Focobot, I was losing orders every night. Customers WhatsApp at 11 PM, got silence until morning &mdash; by then they&rsquo;d ordered from someone else. Now Focobot handles it instantly. I wake up to confirmed orders I never had before.&rdquo;</p><div class="tc-result">&#x1F4C8; +35% revenue in month one</div><div class="tc-auth"><div class="tc-av" style="background:linear-gradient(135deg,#0d6b51,#25D366)"><span lang="ar">&#x641;</span></div><div><div class="tc-name">Fahad Al-Rashidi</div><div class="tc-name-ar" lang="ar">&#x641;&#x647;&#x62F; &#x627;&#x644;&#x631;&#x634;&#x64A;&#x62F;&#x64A;</div><div class="tc-role">Restaurant Owner &middot; Salmiya</div></div></div></div>
       <div class="tc reveal d2"><div class="tc-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</div><p class="tc-text">&ldquo;My receptionist was drowning &mdash; 4 hours every day on WhatsApp just answering pricing questions and confirming bookings. Focobot handles all of it in perfect Arabic. My team now focuses on what actually matters: our clients.&rdquo;</p><div class="tc-result">&#x23F0; 4 hrs/day saved on manual replies</div><div class="tc-auth"><div class="tc-av" style="background:linear-gradient(135deg,#7c3aed,#c084fc)"><span lang="ar">&#x646;</span></div><div><div class="tc-name">Noura Al-Khalid</div><div class="tc-name-ar" lang="ar">&#x646;&#x648;&#x631;&#x629; &#x627;&#x644;&#x62E;&#x627;&#x644;&#x62F;</div><div class="tc-role">Beauty Clinic Director &middot; Hawalli</div></div></div></div>
@@ -497,21 +604,29 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
   </div>
 </section>
 
+<!-- FAQ -->
 <section class="faq" id="faq">
   <div class="container">
-    <div class="sh reveal"><span class="sl">Questions Answered</span><h2 class="st">Everything You Need to Know</h2><p class="ss">No fluff. Direct answers to the questions that matter before you decide.</p></div>
+    <div class="sh reveal">
+      <span class="sl">Questions Answered</span>
+      <h2 class="st">Everything You Need to Know</h2>
+      <p class="ss">No fluff. Direct answers to the questions that matter before you decide.</p>
+    </div>
     <div class="faq-list" role="list">
       <div class="fi" role="listitem"><button class="fq" aria-expanded="false">Is 29 KWD per month really worth it?<span class="fchev" aria-hidden="true">&#x25BE;</span></button><div class="fa" role="region"><div class="fa-in">If Focobot saves you even one missed sale per week &mdash; a single order, one booking &mdash; it pays for itself many times over. <strong>Most Starter businesses recover 5&ndash;10&times; the monthly cost within 30 days.</strong> Unlike staff, it works every night, every weekend, and through every Eid without overtime or sick days.</div></div></div>
       <div class="fi" role="listitem"><button class="fq" aria-expanded="false">Does it actually understand Arabic &mdash; including Kuwaiti dialect?<span class="fchev" aria-hidden="true">&#x25BE;</span></button><div class="fa" role="region"><div class="fa-in">Yes &mdash; genuinely. Focobot is trained on <strong>Gulf Arabic including Kuwaiti dialect</strong>, formal Arabic, and English. It handles slang, mixed messages, mid-conversation language switches, and informal expressions without missing a beat.</div></div></div>
       <div class="fi" role="listitem"><button class="fq" aria-expanded="false">How long does setup actually take?<span class="fchev" aria-hidden="true">&#x25BE;</span></button><div class="fa" role="region"><div class="fa-in"><strong>Most businesses are live within 15 minutes.</strong> Scan a QR code to connect your existing WhatsApp number, upload your menu or FAQ (even a phone photo works), write a few sentences about your business, and go live. No developers, no IT knowledge required.</div></div></div>
       <div class="fi" role="listitem"><button class="fq" aria-expanded="false">Is there a long-term contract or lock-in?<span class="fchev" aria-hidden="true">&#x25BE;</span></button><div class="fa" role="region"><div class="fa-in"><strong>No contracts, ever.</strong> Focobot is purely month-to-month. Upgrade, downgrade, or cancel at any time &mdash; zero penalties, no fees. We&rsquo;re confident you&rsquo;ll stay because the results speak for themselves.</div></div></div>
       <div class="fi" role="listitem"><button class="fq" aria-expanded="false">Will my customers know they&rsquo;re talking to a bot?<span class="fchev" aria-hidden="true">&#x25BE;</span></button><div class="fa" role="region"><div class="fa-in">Completely your choice. Give Focobot a human name like &ldquo;Sara&rdquo; and your customers will think it&rsquo;s a very efficient employee. Or brand it openly as your &ldquo;AI assistant.&rdquo; When a conversation needs a human, <strong>Focobot passes it seamlessly with full context</strong> &mdash; the customer never has to repeat themselves.</div></div></div>
+      <div class="fi" role="listitem"><button class="fq" aria-expanded="false">What payment methods can my customers use?<span class="fchev" aria-hidden="true">&#x25BE;</span></button><div class="fa" role="region"><div class="fa-in">Focobot captures orders and intent &mdash; your existing payment flow handles the actual payment. Whether you use KNET, cash on delivery, bank transfer, or any other method, Focobot collects the order details and your team confirms payment as usual. <strong>No payment gateway setup required.</strong></div></div></div>
+      <div class="fi" role="listitem"><button class="fq" aria-expanded="false">Do I need a WhatsApp Business account?<span class="fchev" aria-hidden="true">&#x25BE;</span></button><div class="fa" role="region"><div class="fa-in">A regular WhatsApp number works fine to start. <strong>Focobot connects to your existing number</strong> &mdash; personal or Business &mdash; via QR code. For higher-volume accounts, we&rsquo;ll guide you through upgrading to the WhatsApp Business API at no extra charge on the Growth plan.</div></div></div>
       <div class="fi" role="listitem"><button class="fq" aria-expanded="false">What happens during the 14-day free trial?<span class="fchev" aria-hidden="true">&#x25BE;</span></button><div class="fa" role="region"><div class="fa-in">You get <strong>14 days of full Growth plan features</strong> &mdash; no credit card required. Connect your WhatsApp, upload your business info, and watch it work in real conversations with real customers from day one. After 14 days, choose the plan that fits.</div></div></div>
       <div class="fi" role="listitem"><button class="fq" aria-expanded="false">What if I need a feature that isn&rsquo;t listed?<span class="fchev" aria-hidden="true">&#x25BE;</span></button><div class="fa" role="region"><div class="fa-in">WhatsApp us and tell us what you need. We&rsquo;re a small Kuwait-focused team and <strong>we&rsquo;ve built custom features for businesses in our first 90 days</strong> &mdash; catalogue browsing, appointment booking flows, loyalty point lookups, and more.</div></div></div>
     </div>
   </div>
 </section>
 
+<!-- CTA BAND -->
 <section class="cta-band" id="signup">
   <div class="cta-band-grid" aria-hidden="true"></div>
   <div class="cta-in reveal">
@@ -527,6 +642,7 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-in">
     <div class="ft-top">
@@ -534,13 +650,21 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
         <div class="fl"><div class="fl-ico">&#x1F4AC;</div><span class="fl-t">Focobot</span></div>
         <p class="f-desc">The WhatsApp AI assistant built for Kuwaiti businesses. Automated replies in Arabic and English, 24/7 &mdash; so you never miss a sale again.</p>
         <a href="https://wa.me/96500000000" class="f-wa-link">&#x1F4AC; Chat with us on WhatsApp</a>
-        <div class="f-socials"><a href="#" class="f-soc" aria-label="Instagram">&#x1F4F8;</a><a href="#" class="f-soc" aria-label="TikTok">&#x1F3B5;</a><a href="#" class="f-soc" aria-label="Twitter">&#x1D54F;</a><a href="#" class="f-soc" aria-label="LinkedIn">&#x1F4BC;</a></div>
+        <div class="f-socials">
+          <a href="#" class="f-soc" aria-label="Instagram">&#x1F4F8;</a>
+          <a href="#" class="f-soc" aria-label="TikTok">&#x1F3B5;</a>
+          <a href="#" class="f-soc" aria-label="Twitter">&#x1D54F;</a>
+          <a href="#" class="f-soc" aria-label="LinkedIn">&#x1F4BC;</a>
+        </div>
       </div>
       <div><div class="fc-tit">Product</div><ul class="fl-links"><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#how">How It Works</a></li><li><a href="#signup">Free Trial</a></li></ul></div>
       <div><div class="fc-tit">Support</div><ul class="fl-links"><li><a href="#faq">FAQ</a></li><li><a href="mailto:hello@focobot.com">Email Support</a></li><li><a href="https://wa.me/96500000000">WhatsApp Support</a></li><li><a href="/blog">Blog</a></li></ul></div>
       <div><div class="fc-tit">Legal</div><ul class="fl-links"><li><a href="/privacy">Privacy Policy</a></li><li><a href="/terms">Terms of Service</a></li><li><a href="/refund">Refund Policy</a></li></ul></div>
     </div>
-    <div class="ft-bot"><span>&copy; 2026 Focobot. All rights reserved. Made in Kuwait &#x1F1F0;&#x1F1FC;</span><span class="wa-certified"><span>&#x25CF;</span> Official WhatsApp Business API Partner &middot; WhatsApp&trade; is a trademark of Meta Platforms, Inc.</span></div>
+    <div class="ft-bot">
+      <span>&copy; 2026 Focobot. All rights reserved. Made in Kuwait &#x1F1F0;&#x1F1FC;</span>
+      <span class="wa-certified"><span>&#x25CF;</span> Official WhatsApp Business API Partner &middot; WhatsApp&trade; is a trademark of Meta Platforms, Inc.</span>
+    </div>
   </div>
 </footer>
 
@@ -549,79 +673,71 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);font-size:16px;line-h
 
 <script>
 (()=>{const b=document.getElementById('prog');const u=()=>{const m=document.documentElement.scrollHeight-innerHeight;b.style.width=(m>0?(scrollY/m*100).toFixed(2):0)+'%'};addEventListener('scroll',u,{passive:true});u();})();
+
 const nav=document.getElementById('nav'),ann=document.getElementById('ann');
 const setTop=()=>{nav.style.top=(ann?ann.offsetHeight:0)+'px'};setTop();
 addEventListener('scroll',()=>{const s=scrollY>60;nav.classList.toggle('solid',s);nav.style.top=s?'0':(ann?ann.offsetHeight:0)+'px';},{passive:true});
+
 const nbur=document.getElementById('nbur'),nl=document.getElementById('navLinks');let mo=false;
-nbur.addEventListener('click',()=>{mo=!mo;nbur.setAttribute('aria-expanded',mo);nl.style.cssText=mo?'display:flex;flex-direction:column;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(2,6,3,.98);padding:90px 38px 38px;gap:28px;z-index:299;justify-content:flex-start;backdrop-filter:blur(24px)':'';nbur.textContent=mo?'\u2715':'\u2630';});
-nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mo=false;nbur.setAttribute('aria-expanded',false);nl.style.cssText='';nbur.textContent='\u2630'}));
+nbur.addEventListener('click',()=>{mo=!mo;nbur.setAttribute('aria-expanded',mo);nl.style.cssText=mo?'display:flex;flex-direction:column;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(2,6,3,.98);padding:90px 38px 38px;gap:28px;z-index:299;justify-content:flex-start;backdrop-filter:blur(24px)':'';nbur.textContent=mo?'✕':'☰';});
+nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mo=false;nbur.setAttribute('aria-expanded',false);nl.style.cssText='';nbur.textContent='☰'}));
+
 (()=>{let n=847;const els=[document.getElementById('liveCount'),document.getElementById('hcMsgs')];setInterval(()=>{if(Math.random()<.65)n+=Math.floor(Math.random()*3)+1;els.forEach(el=>{if(el)el.textContent=n.toLocaleString()});},4200);})();
+
 (()=>{const wrap=document.getElementById('phoneWrap'),phone=document.getElementById('phone');if(!wrap||!phone||innerWidth<960)return;wrap.addEventListener('mousemove',e=>{const r=wrap.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;phone.style.transform='rotateY('+(x*14)+'deg) rotateX('+(-y*10)+'deg) translateZ(10px)';});wrap.addEventListener('mouseleave',()=>{phone.style.transform='';});})();
+
 (()=>{const cv=document.getElementById('heroCanvas');if(!cv)return;const cx=cv.getContext('2d');let W,H,pts;
 const mkP=()=>({x:Math.random()*W,y:H+Math.random()*80,vx:(Math.random()-.5)*.38,vy:-(Math.random()*.72+.2),r:Math.random()*1.9+.3,a:Math.random()*.55+.08,da:Math.random()*.0013+.0004,g:Math.random()>.52});
 const init=()=>{W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;pts=Array.from({length:78},()=>{const p=mkP();p.y=Math.random()*H;return p})};
 const draw=()=>{cx.clearRect(0,0,W,H);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.a-=p.da;if(p.y<-10||p.a<=0)Object.assign(p,mkP());cx.save();cx.globalAlpha=Math.max(0,p.a);cx.fillStyle=p.g?'#25D366':'rgba(255,255,255,.72)';cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.283);cx.fill();cx.restore();});requestAnimationFrame(draw);};
 init();draw();addEventListener('resize',()=>{W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;pts=Array.from({length:78},mkP)});})();
+
 (()=>{const items=['☕ Cafés & Coffee Shops','🍔 Restaurants & Delivery','💆 Beauty Salons & Spas','🏥 Medical Clinics','👗 Fashion Boutiques','🔧 Auto Services','🛒 Online Stores','🏠 Real Estate Agencies','📱 Electronics Shops','🎓 Training Centers','🦻 Laundry Services','💐 Florists','🍰 Bakeries & Pastry Shops','🏋️ Gyms & Fitness','💊 Pharmacies','🧴 Skincare & Wellness','🚗 Car Showrooms','🧁 Home Bakeries','📸 Photography Studios','⚖️ Law Firms'];const t=document.getElementById('mqTrack');t.innerHTML=[...items,...items].map(x=>'<div class="mq-item"><span>'+x+'</span><span class="mq-sep" aria-hidden="true"></span></div>').join('');})();
+
 (()=>{
 const phone=document.getElementById('phone'),body=document.getElementById('chatBody');
 if(!phone||!body)return;
 const dbl='<div class="checks"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 8.5l3 3L13.5 3" stroke="#53bdeb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 8.5l3 3L13.5 3" stroke="#53bdeb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>';
 const convos=[
-  {label:'🍔 Restaurant',msgs:[{f:'usr',t:'السلام عليكم 👋 كم سعر الوجبة العائلية؟',tm:'11:08'},{f:'bot',t:'وعليكم السلام! 😊
-
-الوجبة العائلية 🍗
-السعر: 8.500 KWD يشمل:
-• دجاج مشوي كبير
-• بطاطس + مشروب
-• خبز + سلطة طازة
-
-توصيل لجميع مناطق الكويت 🚀',tm:'11:08'},{f:'usr',t:'ممتاز! أبي أطلب 🙌',tm:'11:09'},{f:'bot',t:'رائع! 🎉 شاركني عنوانك وأكمل الطلب فوراً.
-
-Estimated delivery: 35 min ✅',tm:'11:09'}]},
-  {label:'💆 Beauty Clinic',msgs:[{f:'usr',t:'مرحبا، شو أسعار جلسات الفيشل؟',tm:'2:14'},{f:'bot',t:'هلا وغلا! 💆‍♀️
-
-جلساتنا:
-• فيشل كلاسيك — 35 KWD
-• فيشل عميق — 50 KWD
-• باقة 5 جلسات — 160 KWD ⭐
-
-تريدين تحجزين موعد؟',tm:'2:14'},{f:'usr',t:'Yes please! Saturday morning if possible',tm:'2:15'},{f:'bot',t:'✅ Saturday 10:00 AM confirmed!
-
-Your appointment is booked 🌸
-We'll send a reminder the night before.',tm:'2:15'}]},
-  {label:'📱 Electronics Store',msgs:[{f:'usr',t:'عندكم iPhone 15 Pro Max؟',tm:'4:22'},{f:'bot',t:'نعم متوفر! 📱
-
-iPhone 15 Pro Max:
-• 256GB — 245 KWD ✅
-• 512GB — 275 KWD ✅
-• 1TB — 315 KWD ✅
-
-جميع الألوان. كفالة رسمية سنة.',tm:'4:22'},{f:'usr',t:'I'll take the 256GB Black Titanium',tm:'4:23'},{f:'bot',t:'Perfect choice! 🎉
-
-256GB Black Titanium — 245 KWD
-Delivery tomorrow before 6 PM 🚀
-
-Share your address to confirm.',tm:'4:23'}]}
+  {label:'🍔 Restaurant Order',msgs:[
+    {f:'usr',t:'السلام عليكم 👋 كم سعر الوجبة العائلية؟',tm:'11:08',rtl:true},
+    {f:'bot',t:'وعليكم السلام! 😊\n\nالوجبة العائلية 🍗\nالسعر: 8.500 KWD يشمل:\n• دجاج مشوي كبير\n• بطاطس + مشروب\n• خبز + سلطة طازة\n\nتوصيل لجميع مناطق الكويت 🚀',tm:'11:08'},
+    {f:'usr',t:'ممتاز! أبي أطلب 🙌',tm:'11:09',rtl:true},
+    {f:'bot',t:'رائع! 🎉 شاركني عنوانك وأكمل الطلب فوراً.\n\nEstimated delivery: 35 min ✅',tm:'11:09'}
+  ]},
+  {label:'💆 Beauty Clinic',msgs:[
+    {f:'usr',t:'مرحبا، شو أسعار جلسات الفيشل؟',tm:'2:14',rtl:true},
+    {f:'bot',t:'هلا وغلا! 💆‍♀️\n\nجلساتنا:\n• فيشل كلاسيك — 35 KWD\n• فيشل عميق — 50 KWD\n• باقة 5 جلسات — 160 KWD ⭐\n\nتريدين تحجزين موعد؟',tm:'2:14'},
+    {f:'usr',t:'Yes please! Saturday morning if possible',tm:'2:15'},
+    {f:'bot',t:'✅ Saturday 10:00 AM confirmed!\n\nYour appointment is booked 🌸\nWe\'ll send a reminder the night before.',tm:'2:15'}
+  ]},
+  {label:'📱 Electronics Store',msgs:[
+    {f:'usr',t:'عندكم iPhone 15 Pro Max؟',tm:'4:22',rtl:true},
+    {f:'bot',t:'نعم متوفر! 📱\n\niPhone 15 Pro Max:\n• 256GB — 245 KWD ✅\n• 512GB — 275 KWD ✅\n• 1TB — 315 KWD ✅\n\nجميع الألوان. كفالة رسمية سنة.',tm:'4:22'},
+    {f:'usr',t:'I\'ll take the 256GB Black Titanium',tm:'4:23'},
+    {f:'bot',t:'Perfect choice! 🎉\n\n256GB Black Titanium — 245 KWD\nDelivery tomorrow before 6 PM 🚀\n\nShare your address to confirm.',tm:'4:23'}
+  ]}
 ];
 let ci=0,running=false;
 const typing=()=>{const el=document.createElement('div');el.className='typdots';el.id='typ';el.innerHTML='<div class="td"></div><div class="td"></div><div class="td"></div>';body.appendChild(el);body.scrollTop=9999};
 const rmTyp=()=>{const t=document.getElementById('typ');if(t)t.remove()};
-const addMsg=m=>{const el=document.createElement('div');el.className='msg '+m.f;el.innerHTML='<div class="bubble">'+m.t.replace(/
-/g,'<br>')+'<div class="msg-meta"><span class="msg-time">'+m.tm+'</span>'+(m.f==='usr'?dbl:'')+'</div></div>';body.appendChild(el);body.scrollTop=9999};
+const addMsg=m=>{const el=document.createElement('div');el.className='msg '+m.f;const dir=m.rtl?' dir="rtl"':'';el.innerHTML='<div class="bubble"'+dir+'>'+m.t.replace(/\n/g,'<br>')+'<div class="msg-meta"><span class="msg-time">'+m.tm+'</span>'+(m.f==='usr'?dbl:'')+'</div></div>';body.appendChild(el);body.scrollTop=9999};
 const addLabel=txt=>{const el=document.createElement('div');el.className='ph-topic';el.textContent=txt;body.appendChild(el)};
 const runConvo=(msgs,onDone)=>{let i=0;const step=()=>{if(i>=msgs.length){setTimeout(onDone,3400);return}const m=msgs[i];if(m.f==='bot'){typing();setTimeout(()=>{rmTyp();addMsg(m);i++;setTimeout(step,1400)},1200)}else{addMsg(m);i++;setTimeout(step,1100)}};step()};
 const nextConvo=()=>{const c=convos[ci%convos.length];ci++;body.innerHTML='';addLabel(c.label);runConvo(c.msgs,nextConvo)};
 const obs=new IntersectionObserver(en=>{if(en[0].isIntersecting&&!running){running=true;setTimeout(nextConvo,700);obs.disconnect()}},{threshold:.18});
 obs.observe(phone);
 })();
+
 const countUp=(el,target,ms=1600)=>{let s=null;const run=ts=>{if(!s)s=ts;const p=Math.min((ts-s)/ms,1);const e=1-Math.pow(1-p,3);el.textContent=Math.round(e*target);if(p<1)requestAnimationFrame(run);else el.textContent=target};requestAnimationFrame(run)};
 const ro=new IntersectionObserver(ens=>{ens.forEach(en=>{if(en.isIntersecting){en.target.classList.add('vis');en.target.querySelectorAll('[data-count]').forEach(el=>countUp(el,+el.dataset.count));ro.unobserve(en.target)}});},{threshold:.06,rootMargin:'0px 0px -44px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
 document.querySelectorAll('.fq').forEach(btn=>{
   btn.addEventListener('click',()=>{const item=btn.closest('.fi'),wasOpen=item.classList.contains('open');document.querySelectorAll('.fi').forEach(f=>{f.classList.remove('open');f.querySelector('.fq').setAttribute('aria-expanded','false')});if(!wasOpen){item.classList.add('open');btn.setAttribute('aria-expanded','true')}});
   btn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();btn.click()}});
 });
+
 (()=>{
   const tog=document.getElementById('billingToggle');
   const lblM=document.getElementById('lblMonthly'),lblA=document.getElementById('lblAnnual');
@@ -642,6 +758,7 @@ document.querySelectorAll('.fq').forEach(btn=>{
   tog.addEventListener('click',()=>{annual=!annual;update()});
   tog.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();annual=!annual;update()}});
 })();
+
 async function handleSignup(e){
   e.preventDefault();
   const form=e.target,btn=form.querySelector('[type=submit]');
@@ -649,11 +766,14 @@ async function handleSignup(e){
   btn.textContent='✓ Securing Your Spot…';btn.style.background='#1da851';btn.disabled=true;
   try{const res=await fetch('/api/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone,biz})});const data=await res.json();if(data.error&&data.error!=='limit_reached')throw new Error(data.error);showSuccess(form);}catch{showSuccess(form)}
 }
-function showSuccess(form){form.innerHTML='<div style="text-align:center;padding:28px 0"><div style="font-size:52px;margin-bottom:14px">🎉</div><div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;margin-bottom:10px">You're on the list!</div><div style="color:rgba(255,255,255,.52);font-size:15px;line-height:1.76">We'll WhatsApp you within the hour to get everything set up. You'll be live today.</div></div>';}
+function showSuccess(form){form.innerHTML='<div style="text-align:center;padding:28px 0"><div style="font-size:52px;margin-bottom:14px">🎉</div><div style="font-family:\'Syne\',sans-serif;font-size:24px;font-weight:800;margin-bottom:10px">You\'re on the list!</div><div style="color:rgba(255,255,255,.52);font-size:15px;line-height:1.76">We\'ll WhatsApp you within the hour to get everything set up. You\'ll be live today.</div></div>';}
+
 (()=>{const toasts=['أحمد just started a free trial · Kuwait City','فهد connected his restaurant · Salmiya','نورة upgraded to Growth plan · Hawalli','مرسال went live in 11 minutes · Rumaithiya',"Salwa's beauty salon is now 24/7 · Fahaheel",'سالم handled 200 messages overnight · Jabriya','محمد joined — restaurant owner · Mangaf','Dana upgraded to Growth · Bayan','خالد set up his clinic in 9 mins · Shuwaikh','Lulwa claimed her free trial · Mishref','عبدالله automated his fashion store · Rumaithiya',"Mona's bakery is fully automated · Fintas",'سارة captured 14 orders while she slept · Ahmadi','Khalil switched from manual replies · Mangaf'];
 let idx=0;const el=document.getElementById('toast'),msg=document.getElementById('toastMsg');
 const show=()=>{msg.textContent=toasts[idx%toasts.length];idx++;el.style.animation='none';void el.offsetWidth;el.style.animation='toast 5.5s ease forwards';setTimeout(show,11000);};setTimeout(show,4500);})();
+
 (()=>{const sEl=document.getElementById('spotsLeft'),pEl=document.getElementById('pricingSpots');let n=47,p=23;setInterval(()=>{if(n>30&&Math.random()<.14){n--;if(sEl)sEl.textContent=n+' spots'}if(p>15&&Math.random()<.11){p--;if(pEl)pEl.textContent=p}},44000);})();
+
 (()=>{const mc=document.getElementById('mobCta'),hero=document.getElementById('home');if(!mc||!hero)return;const show=()=>{const v=hero.getBoundingClientRect().bottom<0;mc.classList.toggle('visible',v);mc.setAttribute('aria-hidden',!v);};addEventListener('scroll',show,{passive:true});show();})();
 </script>
 </body>
