@@ -14,6 +14,7 @@
 :root{--bg:#071f18;--accent:#25D366;--fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif}
 html,body{height:100%}
 body{background:var(--bg);color:#fff;font-family:var(--fb);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center;position:relative;overflow:hidden;-webkit-font-smoothing:antialiased;animation:pgIn .5s ease both}
+
 @keyframes pgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes float{0%,100%{transform:translateY(0) rotate(-.3deg)}50%{transform:translateY(-14px) rotate(.3deg)}}
 @keyframes glow{0%,100%{opacity:.18;transform:scale(1)}50%{opacity:.44;transform:scale(1.14)}}
@@ -102,7 +103,15 @@ body{background:var(--bg);color:#fff;font-family:var(--fb);display:flex;flex-dir
 </a>
 
 <script>
-(()=>{const c=document.getElementById('parts');if(!c)return;for(let i=0;i<24;i++){const p=document.createElement('div');p.className='p';const s=Math.random()*4+1.5;p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--dx:${(Math.random()-.5)*160}px;--dy:${(Math.random()-.5)*160}px;opacity:${Math.random()*.6+.1};animation-duration:${Math.random()*8+5}s;animation-delay:${Math.random()*6}s`;c.appendChild(p);}})();
+(()=>{
+  const c=document.getElementById('parts');if(!c)return;
+  for(let i=0;i<24;i++){
+    const p=document.createElement('div');p.className='p';
+    const s=Math.random()*4+1.5;
+    p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--dx:${(Math.random()-.5)*160}px;--dy:${(Math.random()-.5)*160}px;opacity:${Math.random()*.6+.1};animation-duration:${Math.random()*8+5}s;animation-delay:${Math.random()*6}s`;
+    c.appendChild(p);
+  }
+})();
 </script>
 </body>
 </html>
