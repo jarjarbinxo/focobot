@@ -3,5 +3,5 @@
 # API functions passthrough (Cloudflare Pages Functions)
 /api/*    /api/:splat    200
 
-# Explicit 404 page for unknown routes
-/*    /404.html    404
+# SPA fallback — serve index for all routes, custom 404 for truly missing assets
+/*    /index.html    200
