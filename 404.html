@@ -4,79 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Page Not Found — Focobot</title>
+<meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#071f18;--accent:#25D366;--text:#e8f5f0;--muted:#8ab5a3}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;overflow:hidden;position:relative}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#071f18;--accent:#25D366;--text:#e4f0eb;--muted:#8bb8a4}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;overflow:hidden;-webkit-font-smoothing:antialiased}
+h1,h2{font-family:'Syne',sans-serif}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulseGlow{0%,100%{box-shadow:0 0 20px rgba(37,211,102,.25)}50%{box-shadow:0 0 50px rgba(37,211,102,.55)}}
-@keyframes particleRise{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.5}90%{opacity:.5}100%{transform:translateY(-100px) scale(1);opacity:0}}
-.particles{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-.particle{position:absolute;border-radius:50%;background:var(--accent);animation:particleRise linear infinite;opacity:0}
-.card{position:relative;z-index:1;max-width:480px;width:100%}
-.chat-404{background:#111b21;border-radius:24px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 0 1px rgba(37,211,102,.1);margin:0 auto 2.5rem;max-width:300px;animation:float 5s ease-in-out infinite}
-.ch{background:#075E54;padding:.85rem 1.1rem;display:flex;align-items:center;gap:.65rem}
-.ca{width:38px;height:38px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.ci h4{font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;color:#fff;margin:0}
-.ci p{font-size:.7rem;color:rgba(255,255,255,.65);margin:0}
-.cb{background:#0b141a;padding:1rem;display:flex;flex-direction:column;gap:.65rem}
-.m-in,.m-out{max-width:90%;padding:.55rem .85rem;border-radius:12px;font-size:.8rem;line-height:1.5;color:#e9edef}
-.m-in{background:#202c33;align-self:flex-start;border-radius:0 12px 12px 12px}
-.m-out{background:#005c4b;align-self:flex-end;border-radius:12px 12px 0 12px}
-.mt{font-size:.64rem;color:rgba(255,255,255,.4);margin-top:.15rem;display:flex;justify-content:flex-end;gap:.2rem}
-.ticks{color:#53bdeb}
-.code{font-family:'Syne',sans-serif;font-size:5rem;font-weight:800;color:var(--accent);line-height:1;margin-bottom:.5rem;animation:fadeUp .5s ease .1s both}
-.title{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:.75rem;animation:fadeUp .5s ease .2s both}
-.sub{font-size:.95rem;color:var(--muted);line-height:1.7;margin-bottom:2rem;animation:fadeUp .5s ease .3s both}
-.actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:fadeUp .5s ease .4s both}
-.btn-p{display:inline-flex;align-items:center;gap:.4rem;background:var(--accent);color:#000;padding:.8rem 1.75rem;border-radius:10px;font-weight:700;font-size:.95rem;text-decoration:none;transition:all .25s;box-shadow:0 4px 25px rgba(37,211,102,.3)}
-.btn-p:hover{background:#34eb7a;transform:translateY(-2px);box-shadow:0 8px 35px rgba(37,211,102,.45)}
-.btn-g{display:inline-flex;align-items:center;gap:.4rem;color:var(--text);padding:.8rem 1.4rem;border-radius:10px;font-weight:500;font-size:.9rem;text-decoration:none;border:1px solid rgba(255,255,255,.12);transition:all .25s}
-.btn-g:hover{border-color:var(--accent);color:var(--accent)}
+@keyframes glow{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:.55;transform:scale(1.1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(37,211,102,.4)}70%{box-shadow:0 0 0 14px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;animation:glow 5s ease-in-out infinite}
+.orb-a{width:480px;height:480px;background:rgba(37,211,102,.07);top:-180px;right:-100px}
+.orb-b{width:320px;height:320px;background:rgba(10,79,60,.25);bottom:-100px;left:-80px;animation-delay:2.5s}
+.icon-wrap{animation:float 6s ease-in-out infinite;margin-bottom:28px}
+.icon-circle{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,rgba(37,211,102,.15),rgba(10,79,60,.35));border:2px solid rgba(37,211,102,.25);display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto}
+.code{font-family:'Syne',sans-serif;font-size:6rem;font-weight:800;color:rgba(37,211,102,.15);line-height:1;margin-bottom:4px;animation:fadeUp .6s ease .05s both}
+h2{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;letter-spacing:-.025em;margin-bottom:14px;animation:fadeUp .6s ease .15s both}
+p{color:var(--muted);font-size:1rem;line-height:1.7;max-width:440px;margin-bottom:36px;animation:fadeUp .6s ease .25s both}
+.btn-home{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#071f18;padding:13px 30px;border-radius:9999px;font-weight:700;font-size:.95rem;text-decoration:none;transition:background .2s,transform .15s,box-shadow .2s;animation:fadeUp .6s ease .35s both,pulseRing 2.5s ease .8s infinite}
+.btn-home:hover{background:#3fdf77;transform:translateY(-2px);box-shadow:0 12px 30px rgba(37,211,102,.35)}
+.wa-hint{margin-top:20px;font-size:.82rem;color:var(--muted);animation:fadeUp .6s ease .45s both}
+.wa-hint a{color:var(--accent);text-decoration:underline}
 </style>
 </head>
 <body>
-<div class="particles" id="p"></div>
-
-<div class="card">
-  <div class="chat-404">
-    <div class="ch">
-      <div class="ca">🤖</div>
-      <div class="ci"><h4>Focobot</h4><p>online</p></div>
-    </div>
-    <div class="cb">
-      <div class="m-in">هذه الصفحة غير موجودة 🤔</div>
-      <div class="m-out">
-        Hmm, that page doesn't exist! Let me take you back somewhere useful 😊
-        <div class="mt">just now <span class="ticks">✓✓</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="code">404</div>
-  <h1 class="title">This page went missing</h1>
-  <p class="sub">Even Focobot can't find it — and we respond to everything.<br>Head back to the homepage and let's get you sorted.</p>
-  <div class="actions">
-    <a href="/" class="btn-p">🏠 Back to Homepage</a>
-    <a href="/#pricing" class="btn-g">See Pricing →</a>
-  </div>
+<div class="orb orb-a" aria-hidden="true"></div>
+<div class="orb orb-b" aria-hidden="true"></div>
+<div class="icon-wrap" aria-hidden="true">
+  <div class="icon-circle">🤖</div>
 </div>
-
-<script>
-(function(){
-  const c=document.getElementById('p');
-  for(let i=0;i<20;i++){
-    const el=document.createElement('div');
-    el.className='particle';
-    const sz=(Math.random()*4+2)+'px';
-    el.style.cssText=`left:${Math.random()*100}%;width:${sz};height:${sz};animation-duration:${Math.random()*14+9}s;animation-delay:${Math.random()*12}s`;
-    c.appendChild(el);
-  }
-})();
-</script>
+<div class="code" aria-hidden="true">404</div>
+<h2>This page doesn't exist</h2>
+<p>Looks like this message went unanswered — just like WhatsApp messages without Focobot. Let's get you back on track.</p>
+<a href="/" class="btn-home">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+  Back to Focobot
+</a>
+<p class="wa-hint">Need help? <a href="/">WhatsApp us directly →</a></p>
 </body>
 </html>
