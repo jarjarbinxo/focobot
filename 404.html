@@ -1,82 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Page Not Found — Focobot</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#071f18;--accent:#25D366;--text:#e8f5f0;--muted:#8ab5a3}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;overflow:hidden;position:relative}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulseGlow{0%,100%{box-shadow:0 0 20px rgba(37,211,102,.25)}50%{box-shadow:0 0 50px rgba(37,211,102,.55)}}
-@keyframes particleRise{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.5}90%{opacity:.5}100%{transform:translateY(-100px) scale(1);opacity:0}}
-.particles{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-.particle{position:absolute;border-radius:50%;background:var(--accent);animation:particleRise linear infinite;opacity:0}
-.card{position:relative;z-index:1;max-width:480px;width:100%}
-.chat-404{background:#111b21;border-radius:24px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 0 1px rgba(37,211,102,.1);margin:0 auto 2.5rem;max-width:300px;animation:float 5s ease-in-out infinite}
-.ch{background:#075E54;padding:.85rem 1.1rem;display:flex;align-items:center;gap:.65rem}
-.ca{width:38px;height:38px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.ci h4{font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;color:#fff;margin:0}
-.ci p{font-size:.7rem;color:rgba(255,255,255,.65);margin:0}
-.cb{background:#0b141a;padding:1rem;display:flex;flex-direction:column;gap:.65rem}
-.m-in,.m-out{max-width:90%;padding:.55rem .85rem;border-radius:12px;font-size:.8rem;line-height:1.5;color:#e9edef}
-.m-in{background:#202c33;align-self:flex-start;border-radius:0 12px 12px 12px}
-.m-out{background:#005c4b;align-self:flex-end;border-radius:12px 12px 0 12px}
-.mt{font-size:.64rem;color:rgba(255,255,255,.4);margin-top:.15rem;display:flex;justify-content:flex-end;gap:.2rem}
-.ticks{color:#53bdeb}
-.code{font-family:'Syne',sans-serif;font-size:5rem;font-weight:800;color:var(--accent);line-height:1;margin-bottom:.5rem;animation:fadeUp .5s ease .1s both}
-.title{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:.75rem;animation:fadeUp .5s ease .2s both}
-.sub{font-size:.95rem;color:var(--muted);line-height:1.7;margin-bottom:2rem;animation:fadeUp .5s ease .3s both}
-.actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:fadeUp .5s ease .4s both}
-.btn-p{display:inline-flex;align-items:center;gap:.4rem;background:var(--accent);color:#000;padding:.8rem 1.75rem;border-radius:10px;font-weight:700;font-size:.95rem;text-decoration:none;transition:all .25s;box-shadow:0 4px 25px rgba(37,211,102,.3)}
-.btn-p:hover{background:#34eb7a;transform:translateY(-2px);box-shadow:0 8px 35px rgba(37,211,102,.45)}
-.btn-g{display:inline-flex;align-items:center;gap:.4rem;color:var(--text);padding:.8rem 1.4rem;border-radius:10px;font-weight:500;font-size:.9rem;text-decoration:none;border:1px solid rgba(255,255,255,.12);transition:all .25s}
-.btn-g:hover{border-color:var(--accent);color:var(--accent)}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Page Not Found | Focobot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg-deep: #071f18;
+      --accent:  #25D366;
+      --text-white: #f0faf4;
+      --text-muted: #7aad95;
+      --text-dim:   #4a7a63;
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-white);
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; position: relative;
+    }
+    .bg-glow {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(37,211,102,.08) 0%, transparent 65%);
+      pointer-events: none;
+      animation: breathe 4s ease-in-out infinite;
+    }
+    @keyframes breathe { 0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(1)} 50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)} }
+    .wrap {
+      text-align: center; padding: 24px; position: relative; z-index: 1;
+      max-width: 520px;
+    }
+    .num-wrap {
+      position: relative; display: inline-block; margin-bottom: 24px;
+    }
+    .num {
+      font-family: 'Syne', sans-serif; font-size: clamp(100px, 20vw, 180px);
+      font-weight: 800; line-height: 1;
+      background: linear-gradient(135deg, #25D366 20%, #0a4f3c 80%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .icon {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 70px; height: 70px; background: var(--bg-deep);
+      border: 2px solid rgba(37,211,102,.3); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px;
+    }
+    h1 {
+      font-family: 'Syne', sans-serif; font-size: clamp(22px, 4vw, 30px);
+      font-weight: 800; margin-bottom: 14px;
+    }
+    p {
+      font-size: 16px; color: var(--text-muted); line-height: 1.7;
+      margin-bottom: 36px;
+    }
+    .actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: #071f18;
+      font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 15px;
+      padding: 13px 26px; border-radius: 100px; border: none;
+      text-decoration: none; transition: all .25s;
+    }
+    .btn-primary:hover { background: #2ee877; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,.3); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--text-white);
+      font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 15px;
+      padding: 12px 24px; border-radius: 100px;
+      border: 1.5px solid rgba(255,255,255,.1);
+      text-decoration: none; transition: all .25s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .hint {
+      margin-top: 40px; font-size: 13px; color: var(--text-dim);
+    }
+    .hint a { color: var(--accent); text-decoration: none; }
+    .hint a:hover { text-decoration: underline; }
+  </style>
 </head>
 <body>
-<div class="particles" id="p"></div>
-
-<div class="card">
-  <div class="chat-404">
-    <div class="ch">
-      <div class="ca">🤖</div>
-      <div class="ci"><h4>Focobot</h4><p>online</p></div>
+  <div class="bg-glow"></div>
+  <div class="wrap">
+    <div class="num-wrap">
+      <div class="num">404</div>
+      <div class="icon">💬</div>
     </div>
-    <div class="cb">
-      <div class="m-in">هذه الصفحة غير موجودة 🤔</div>
-      <div class="m-out">
-        Hmm, that page doesn't exist! Let me take you back somewhere useful 😊
-        <div class="mt">just now <span class="ticks">✓✓</span></div>
-      </div>
+    <h1>This Page Went Offline</h1>
+    <p>Unlike your WhatsApp with Focobot, this page doesn't exist. The link may be broken or the page may have been moved.</p>
+    <div class="actions">
+      <a href="/" class="btn-primary">← Back to Homepage</a>
+      <a href="/#pricing" class="btn-outline">View Pricing</a>
+    </div>
+    <div class="hint">
+      Need help? <a href="mailto:hello@focobot.com">hello@focobot.com</a> · Kuwait support available
     </div>
   </div>
-
-  <div class="code">404</div>
-  <h1 class="title">This page went missing</h1>
-  <p class="sub">Even Focobot can't find it — and we respond to everything.<br>Head back to the homepage and let's get you sorted.</p>
-  <div class="actions">
-    <a href="/" class="btn-p">🏠 Back to Homepage</a>
-    <a href="/#pricing" class="btn-g">See Pricing →</a>
-  </div>
-</div>
-
-<script>
-(function(){
-  const c=document.getElementById('p');
-  for(let i=0;i<20;i++){
-    const el=document.createElement('div');
-    el.className='particle';
-    const sz=(Math.random()*4+2)+'px';
-    el.style.cssText=`left:${Math.random()*100}%;width:${sz};height:${sz};animation-duration:${Math.random()*14+9}s;animation-delay:${Math.random()*12}s`;
-    c.appendChild(el);
-  }
-})();
-</script>
 </body>
 </html>
