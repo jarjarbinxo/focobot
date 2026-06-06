@@ -1,109 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>404 — Page Not Found | Focobot</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg-deep: #071f18;
-      --accent:  #25D366;
-      --text-white: #f0faf4;
-      --text-muted: #7aad95;
-      --text-dim:   #4a7a63;
-    }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg-deep);
-      color: var(--text-white);
-      min-height: 100vh;
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden; position: relative;
-    }
-    .bg-glow {
-      position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(37,211,102,.08) 0%, transparent 65%);
-      pointer-events: none;
-      animation: breathe 4s ease-in-out infinite;
-    }
-    @keyframes breathe { 0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(1)} 50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)} }
-    .wrap {
-      text-align: center; padding: 24px; position: relative; z-index: 1;
-      max-width: 520px;
-    }
-    .num-wrap {
-      position: relative; display: inline-block; margin-bottom: 24px;
-    }
-    .num {
-      font-family: 'Syne', sans-serif; font-size: clamp(100px, 20vw, 180px);
-      font-weight: 800; line-height: 1;
-      background: linear-gradient(135deg, #25D366 20%, #0a4f3c 80%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: float 3s ease-in-out infinite;
-    }
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-    .icon {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-      width: 70px; height: 70px; background: var(--bg-deep);
-      border: 2px solid rgba(37,211,102,.3); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 30px;
-    }
-    h1 {
-      font-family: 'Syne', sans-serif; font-size: clamp(22px, 4vw, 30px);
-      font-weight: 800; margin-bottom: 14px;
-    }
-    p {
-      font-size: 16px; color: var(--text-muted); line-height: 1.7;
-      margin-bottom: 36px;
-    }
-    .actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--accent); color: #071f18;
-      font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 15px;
-      padding: 13px 26px; border-radius: 100px; border: none;
-      text-decoration: none; transition: all .25s;
-    }
-    .btn-primary:hover { background: #2ee877; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,.3); }
-    .btn-outline {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: transparent; color: var(--text-white);
-      font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 15px;
-      padding: 12px 24px; border-radius: 100px;
-      border: 1.5px solid rgba(255,255,255,.1);
-      text-decoration: none; transition: all .25s;
-    }
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
-    .hint {
-      margin-top: 40px; font-size: 13px; color: var(--text-dim);
-    }
-    .hint a { color: var(--accent); text-decoration: none; }
-    .hint a:hover { text-decoration: underline; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Not Found — Focobot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#071f18;--accent:#25D366;--txt2:rgba(255,255,255,.65);--gb:rgba(255,255,255,.09)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:2rem;text-align:center}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 20px rgba(37,211,102,.25)}50%{box-shadow:0 0 50px rgba(37,211,102,.6)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes dotBounce{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-5px)}}
+@keyframes glowPulse{0%,100%{opacity:.2}50%{opacity:.5}}
+.blob{position:fixed;border-radius:50%;pointer-events:none}
+.blob1{width:500px;height:500px;top:-15%;left:-10%;background:radial-gradient(ellipse,rgba(10,79,60,.4) 0%,transparent 70%);animation:glowPulse 4s ease-in-out infinite}
+.blob2{width:400px;height:400px;bottom:-10%;right:-8%;background:radial-gradient(ellipse,rgba(37,211,102,.06) 0%,transparent 70%);animation:glowPulse 5s ease-in-out infinite reverse}
+.phone-wrap{animation:float 5s ease-in-out infinite;margin-bottom:2.5rem}
+.phone{width:220px;background:#111827;border-radius:30px;padding:6px;box-shadow:0 30px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.05);animation:pulseGlow 3s ease-in-out infinite}
+.phone-inner{background:#e5ddd5;border-radius:24px;overflow:hidden}
+.chat-hdr{background:#075e54;padding:.6rem .85rem;display:flex;align-items:center;gap:.5rem}
+.chat-av{width:28px;height:28px;background:linear-gradient(135deg,#25D366,#1ba34a);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
+.chat-name{color:#fff;font-weight:700;font-size:.78rem}
+.chat-status{color:rgba(255,255,255,.6);font-size:.6rem}
+.chat-body{padding:.7rem .55rem;min-height:180px;display:flex;flex-direction:column;gap:.4rem}
+.msg{max-width:85%;padding:.4rem .55rem;border-radius:7px;font-size:.7rem;line-height:1.4;color:#111}
+.msg.rx{background:#fff;align-self:flex-start;border-top-left-radius:2px}
+.msg.tx{background:#dcf8c6;align-self:flex-end;border-top-right-radius:2px}
+.msg-time{font-size:.55rem;opacity:.5;text-align:right;margin-top:1px}
+.typing{background:#fff;border-radius:7px;border-top-left-radius:2px;padding:.4rem .6rem;align-self:flex-start;display:flex;gap:3px;align-items:center}
+.td{width:5px;height:5px;background:#aaa;border-radius:50%}
+.td:nth-child(1){animation:dotBounce 1.2s ease-in-out 0s infinite}
+.td:nth-child(2){animation:dotBounce 1.2s ease-in-out .2s infinite}
+.td:nth-child(3){animation:dotBounce 1.2s ease-in-out .4s infinite}
+.chat-bar{background:#f0f0f0;padding:.45rem .55rem;display:flex;gap:.4rem;align-items:center}
+.chat-field{flex:1;background:#fff;border-radius:16px;padding:.3rem .6rem;font-size:.68rem;color:#999}
+.send-btn{width:26px;height:26px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;color:#071f18;flex-shrink:0}
+.four04{font-family:'Syne',sans-serif;font-size:clamp(5rem,15vw,9rem);font-weight:800;line-height:1;letter-spacing:-.04em;color:rgba(37,211,102,.15);margin-bottom:-.5rem;animation:fadeUp .6s ease both}
+.title{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.8rem;animation:fadeUp .6s ease .1s both}
+.sub{font-size:1rem;color:var(--txt2);max-width:420px;line-height:1.65;margin-bottom:2rem;animation:fadeUp .6s ease .2s both}
+.btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;animation:fadeUp .6s ease .3s both}
+.btn{padding:.7rem 1.6rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;border:none}
+.btn-green{background:#25D366;color:#071f18}
+.btn-green:hover{background:#34eb77;transform:translateY(-2px);box-shadow:0 8px 25px rgba(37,211,102,.4)}
+.btn-ghost{background:transparent;color:var(--txt2);border:1px solid var(--gb)}
+.btn-ghost:hover{background:rgba(255,255,255,.05);color:#fff}
+.logo{display:flex;align-items:center;gap:.5rem;text-decoration:none;margin-bottom:2.5rem;animation:fadeUp .6s ease both}
+.logo-icon{width:32px;height:32px;background:linear-gradient(135deg,#25D366,#1ba34a);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.logo-text{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:#fff;letter-spacing:-.02em}
+</style>
 </head>
 <body>
-  <div class="bg-glow"></div>
-  <div class="wrap">
-    <div class="num-wrap">
-      <div class="num">404</div>
-      <div class="icon">💬</div>
-    </div>
-    <h1>This Page Went Offline</h1>
-    <p>Unlike your WhatsApp with Focobot, this page doesn't exist. The link may be broken or the page may have been moved.</p>
-    <div class="actions">
-      <a href="/" class="btn-primary">← Back to Homepage</a>
-      <a href="/#pricing" class="btn-outline">View Pricing</a>
-    </div>
-    <div class="hint">
-      Need help? <a href="mailto:hello@focobot.com">hello@focobot.com</a> · Kuwait support available
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+
+<a href="/" class="logo">
+  <div class="logo-icon">🤖</div>
+  <span class="logo-text">Focobot</span>
+</a>
+
+<div class="phone-wrap">
+  <div class="phone">
+    <div class="phone-inner">
+      <div class="chat-hdr">
+        <div class="chat-av">🤖</div>
+        <div>
+          <div class="chat-name">Focobot</div>
+          <div class="chat-status">● online</div>
+        </div>
+      </div>
+      <div class="chat-body">
+        <div class="msg rx">مرحباً، كيف أقدر أساعدك؟ 😊<div class="msg-time">Now</div></div>
+        <div class="msg tx">I'm looking for page 404…<div class="msg-time">Now</div></div>
+        <div class="typing"><div class="td"></div><div class="td"></div><div class="td"></div></div>
+      </div>
+      <div class="chat-bar">
+        <div class="chat-field">Type a message…</div>
+        <div class="send-btn">➤</div>
+      </div>
     </div>
   </div>
+</div>
+
+<div class="four04">404</div>
+<h1 class="title">That page doesn't exist</h1>
+<p class="sub">Looks like this message went unanswered — just like your WhatsApp inbox before Focobot. Let's get you back on track.</p>
+<div class="btns">
+  <a href="/" class="btn btn-green">← Back to Homepage</a>
+  <a href="/#pricing" class="btn btn-ghost">See Pricing</a>
+</div>
 </body>
 </html>
