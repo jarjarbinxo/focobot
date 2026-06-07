@@ -8,89 +8,88 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#071f18;--accent:#25D366;--txt2:rgba(255,255,255,.65);--gb:rgba(255,255,255,.09)}
+:root{--bg:#071f18;--accent:#25D366;--alt:#34eb77;--txt2:rgba(255,255,255,.65);--gb:rgba(255,255,255,.09);--border:rgba(255,255,255,.08)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:2rem;text-align:center}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
-@keyframes pulseGlow{0%,100%{box-shadow:0 0 20px rgba(37,211,102,.25)}50%{box-shadow:0 0 50px rgba(37,211,102,.6)}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 20px rgba(37,211,102,.25)}50%{box-shadow:0 0 52px rgba(37,211,102,.65)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes dotBounce{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-5px)}}
-@keyframes glowPulse{0%,100%{opacity:.2}50%{opacity:.5}}
+@keyframes glowPulse{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:.5;transform:scale(1.06)}}
+@keyframes ringPing{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.4);opacity:0}}
 .blob{position:fixed;border-radius:50%;pointer-events:none}
-.blob1{width:500px;height:500px;top:-15%;left:-10%;background:radial-gradient(ellipse,rgba(10,79,60,.4) 0%,transparent 70%);animation:glowPulse 4s ease-in-out infinite}
-.blob2{width:400px;height:400px;bottom:-10%;right:-8%;background:radial-gradient(ellipse,rgba(37,211,102,.06) 0%,transparent 70%);animation:glowPulse 5s ease-in-out infinite reverse}
+.blob1{width:520px;height:520px;top:-18%;left:-12%;background:radial-gradient(ellipse,rgba(10,79,60,.42) 0%,transparent 70%);animation:glowPulse 4s ease-in-out infinite}
+.blob2{width:420px;height:420px;bottom:-12%;right:-10%;background:radial-gradient(ellipse,rgba(37,211,102,.07) 0%,transparent 70%);animation:glowPulse 5s ease-in-out infinite reverse}
 .phone-wrap{animation:float 5s ease-in-out infinite;margin-bottom:2.5rem}
-.phone{width:220px;background:#111827;border-radius:30px;padding:6px;box-shadow:0 30px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.05);animation:pulseGlow 3s ease-in-out infinite}
-.phone-inner{background:#e5ddd5;border-radius:24px;overflow:hidden}
-.chat-hdr{background:#075e54;padding:.6rem .85rem;display:flex;align-items:center;gap:.5rem}
-.chat-av{width:28px;height:28px;background:linear-gradient(135deg,#25D366,#1ba34a);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
-.chat-name{color:#fff;font-weight:700;font-size:.78rem}
-.chat-status{color:rgba(255,255,255,.6);font-size:.6rem}
-.chat-body{padding:.7rem .55rem;min-height:180px;display:flex;flex-direction:column;gap:.4rem}
-.msg{max-width:85%;padding:.4rem .55rem;border-radius:7px;font-size:.7rem;line-height:1.4;color:#111}
-.msg.rx{background:#fff;align-self:flex-start;border-top-left-radius:2px}
-.msg.tx{background:#dcf8c6;align-self:flex-end;border-top-right-radius:2px}
-.msg-time{font-size:.55rem;opacity:.5;text-align:right;margin-top:1px}
-.typing{background:#fff;border-radius:7px;border-top-left-radius:2px;padding:.4rem .6rem;align-self:flex-start;display:flex;gap:3px;align-items:center}
-.td{width:5px;height:5px;background:#aaa;border-radius:50%}
-.td:nth-child(1){animation:dotBounce 1.2s ease-in-out 0s infinite}
-.td:nth-child(2){animation:dotBounce 1.2s ease-in-out .2s infinite}
-.td:nth-child(3){animation:dotBounce 1.2s ease-in-out .4s infinite}
-.chat-bar{background:#f0f0f0;padding:.45rem .55rem;display:flex;gap:.4rem;align-items:center}
-.chat-field{flex:1;background:#fff;border-radius:16px;padding:.3rem .6rem;font-size:.68rem;color:#999}
-.send-btn{width:26px;height:26px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;color:#071f18;flex-shrink:0}
-.four04{font-family:'Syne',sans-serif;font-size:clamp(5rem,15vw,9rem);font-weight:800;line-height:1;letter-spacing:-.04em;color:rgba(37,211,102,.15);margin-bottom:-.5rem;animation:fadeUp .6s ease both}
-.title{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.8rem;animation:fadeUp .6s ease .1s both}
-.sub{font-size:1rem;color:var(--txt2);max-width:420px;line-height:1.65;margin-bottom:2rem;animation:fadeUp .6s ease .2s both}
-.btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;animation:fadeUp .6s ease .3s both}
-.btn{padding:.7rem 1.6rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;border:none}
-.btn-green{background:#25D366;color:#071f18}
-.btn-green:hover{background:#34eb77;transform:translateY(-2px);box-shadow:0 8px 25px rgba(37,211,102,.4)}
-.btn-ghost{background:transparent;color:var(--txt2);border:1px solid var(--gb)}
-.btn-ghost:hover{background:rgba(255,255,255,.05);color:#fff}
-.logo{display:flex;align-items:center;gap:.5rem;text-decoration:none;margin-bottom:2.5rem;animation:fadeUp .6s ease both}
-.logo-icon{width:32px;height:32px;background:linear-gradient(135deg,#25D366,#1ba34a);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem}
-.logo-text{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:#fff;letter-spacing:-.02em}
+.phone{width:200px;background:#181c2e;border-radius:34px;padding:8px;box-shadow:0 30px 60px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05);animation:pulseGlow 3s ease-in-out infinite}
+.phone-inner{background:#e5ddd5;border-radius:26px;overflow:hidden}
+.wa-hdr{background:#075e54;padding:.6rem .8rem;display:flex;align-items:center;gap:.5rem}
+.wa-av{width:28px;height:28px;background:linear-gradient(135deg,#25D366,#1ba34a);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
+.wa-name{color:#fff;font-weight:700;font-size:.76rem}
+.wa-stat{color:rgba(255,255,255,.6);font-size:.58rem}
+.chat-body{padding:.65rem .5rem;min-height:180px;display:flex;flex-direction:column;gap:.38rem;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c1b8ae' fill-opacity='.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")}
+.msg{display:flex;flex-direction:column;max-width:84%}
+.msg-in{align-self:flex-start}
+.msg-out{align-self:flex-end}
+.bubble{padding:.38rem .52rem .25rem;border-radius:7px;font-size:.65rem;line-height:1.5;color:#111}
+.msg-in .bubble{background:#fff;border-top-left-radius:1px}
+.msg-out .bubble{background:#dcf8c6;border-top-right-radius:1px}
+.meta{display:flex;align-items:center;justify-content:flex-end;gap:.2rem;margin-top:2px;font-size:.52rem;color:rgba(0,0,0,.42)}
+.ticks{color:#53bdeb;font-size:.6rem}
+.typing{align-self:flex-start;background:#fff;border-radius:7px;border-top-left-radius:1px;padding:.42rem .6rem;display:flex;gap:4px;align-items:center}
+.td{width:6px;height:6px;border-radius:50%;background:#aaa}
+.td:nth-child(1){animation:dotBounce .9s 0s ease-in-out infinite}
+.td:nth-child(2){animation:dotBounce .9s .18s ease-in-out infinite}
+.td:nth-child(3){animation:dotBounce .9s .36s ease-in-out infinite}
+.content{position:relative;z-index:2;max-width:500px}
+.err-code{font-family:'Syne',sans-serif;font-weight:800;font-size:6rem;line-height:1;background:linear-gradient(135deg,#25D366,#34eb77);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeUp .6s ease both}
+h1{font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:800;margin:.5rem 0 .85rem;animation:fadeUp .6s .1s ease both}
+p{font-size:1rem;color:var(--txt2);line-height:1.7;margin-bottom:2rem;animation:fadeUp .6s .2s ease both}
+.btn-p{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#000;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.95rem;padding:.8rem 1.75rem;border-radius:100px;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s;animation:fadeUp .6s .3s ease both}
+.btn-p:hover{background:var(--alt);transform:translateY(-2px);box-shadow:0 12px 28px rgba(37,211,102,.38)}
+.btn-s{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:#fff;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9rem;padding:.8rem 1.6rem;border-radius:100px;border:1px solid var(--gb);text-decoration:none;margin-left:.75rem;transition:border-color .2s,transform .2s;animation:fadeUp .6s .35s ease both}
+.btn-s:hover{border-color:var(--accent);transform:translateY(-2px)}
 </style>
 </head>
 <body>
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 
-<a href="/" class="logo">
-  <div class="logo-icon">🤖</div>
-  <span class="logo-text">Focobot</span>
-</a>
-
 <div class="phone-wrap">
   <div class="phone">
     <div class="phone-inner">
-      <div class="chat-hdr">
-        <div class="chat-av">🤖</div>
+      <div class="wa-hdr">
+        <div class="wa-av">🤖</div>
         <div>
-          <div class="chat-name">Focobot</div>
-          <div class="chat-status">● online</div>
+          <div class="wa-name">Focobot</div>
+          <div class="wa-stat">● Online</div>
         </div>
       </div>
       <div class="chat-body">
-        <div class="msg rx">مرحباً، كيف أقدر أساعدك؟ 😊<div class="msg-time">Now</div></div>
-        <div class="msg tx">I'm looking for page 404…<div class="msg-time">Now</div></div>
-        <div class="typing"><div class="td"></div><div class="td"></div><div class="td"></div></div>
-      </div>
-      <div class="chat-bar">
-        <div class="chat-field">Type a message…</div>
-        <div class="send-btn">➤</div>
+        <div class="msg msg-in">
+          <div class="bubble">Hey, where am I? 😅</div>
+          <div class="meta">Now</div>
+        </div>
+        <div class="msg msg-out">
+          <div class="bubble">Hmm, I can't find that page either! 🤔<br>Let me take you somewhere better.</div>
+          <div class="meta">Now <span class="ticks">✓✓</span></div>
+        </div>
+        <div class="typing">
+          <div class="td"></div><div class="td"></div><div class="td"></div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="four04">404</div>
-<h1 class="title">That page doesn't exist</h1>
-<p class="sub">Looks like this message went unanswered — just like your WhatsApp inbox before Focobot. Let's get you back on track.</p>
-<div class="btns">
-  <a href="/" class="btn btn-green">← Back to Homepage</a>
-  <a href="/#pricing" class="btn btn-ghost">See Pricing</a>
+<div class="content">
+  <div class="err-code">404</div>
+  <h1>This page got lost in the chat</h1>
+  <p>Even our WhatsApp bot couldn't find it — and it finds everything. The page you're looking for doesn't exist, was moved, or took a day off.</p>
+  <div>
+    <a href="/" class="btn-p">🏠 Back to Home</a>
+    <a href="#" class="btn-s">💬 Contact Support</a>
+  </div>
 </div>
 </body>
 </html>
