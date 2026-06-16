@@ -1,142 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>404 — Page Not Found | Focobot</title>
+<title>Page Not Found — Focobot</title>
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#071f18">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2325D366'/><text y='.9em' font-size='68' x='12'>🤖</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2325D366'/><text y='.9em' font-size='72' x='10'>🤖</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#071f18;--accent:#25D366;--txt:#fff;--txt2:rgba(255,255,255,.7);--txt3:rgba(255,255,255,.35)}
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);overflow:hidden}
-
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+:root{--bg:#071f18;--accent:#25D366;--txt:#fff;--txt2:rgba(255,255,255,.65)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:100svh;text-align:center;padding:24px;overflow:hidden;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(10,79,60,.5) 0%,transparent 70%),#071f18
+}
+.big{font-family:'Syne',sans-serif;font-size:clamp(7rem,20vw,14rem);font-weight:800;line-height:1;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:2px rgba(37,211,102,.4);position:relative}
+.big span{color:var(--accent);-webkit-text-stroke:0}
+.emoji{font-size:clamp(3rem,8vw,5rem);margin:16px 0;animation:float 4s ease-in-out infinite}
+h1{font-family:'Syne',sans-serif;font-size:clamp(1.5rem,4vw,2.2rem);font-weight:700;letter-spacing:-.04em;margin-bottom:12px}
+p{font-size:1rem;color:var(--txt2);line-height:1.65;max-width:400px;margin:0 auto 32px}
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:50px;font-weight:600;font-size:.95rem;transition:all .22s;text-decoration:none}
+.btn-p{background:var(--accent);color:#071f18;box-shadow:0 8px 32px rgba(37,211,102,.35)}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 12px 48px rgba(37,211,102,.5)}
+.btn-o{border:1.5px solid rgba(37,211,102,.3);color:var(--txt)}
+.btn-o:hover{background:rgba(37,211,102,.1);border-color:rgba(37,211,102,.6);transform:translateY(-2px)}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulseGlow{0%,100%{box-shadow:0 0 22px rgba(37,211,102,.35)}50%{box-shadow:0 0 58px rgba(37,211,102,.8)}}
-@keyframes glowOrb{0%,100%{opacity:.1;transform:scale(1)}50%{opacity:.22;transform:scale(1.1)}}
-@keyframes dotBounce{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-5px)}}
-
-.page{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;padding:24px;
-}
-.bg-glow-1{
-  position:absolute;width:600px;height:600px;border-radius:50%;
-  background:radial-gradient(circle,rgba(37,211,102,.1) 0%,transparent 70%);
-  top:-150px;right:-100px;animation:glowOrb 7s ease-in-out infinite;pointer-events:none;
-}
-.bg-glow-2{
-  position:absolute;width:500px;height:500px;border-radius:50%;
-  background:radial-gradient(circle,rgba(10,79,60,.18) 0%,transparent 70%);
-  bottom:-100px;left:-80px;animation:glowOrb 10s ease-in-out infinite reverse;pointer-events:none;
-}
-.bg-grid{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-  background-size:56px 56px;
-  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 70%);
-  pointer-events:none;
-}
-
-.content{
-  position:relative;z-index:1;text-align:center;max-width:540px;
-  animation:fadeUp .8s ease both;
-}
-.bot-icon{
-  width:100px;height:100px;border-radius:28px;
-  background:rgba(37,211,102,.12);border:1.5px solid rgba(37,211,102,.3);
-  display:flex;align-items:center;justify-content:center;font-size:2.8rem;
-  margin:0 auto 28px;
-  animation:float 5s ease-in-out infinite, pulseGlow 3s ease-in-out infinite;
-}
-.error-code{
-  font-family:'Syne',sans-serif;font-size:clamp(6rem,18vw,11rem);font-weight:800;
-  line-height:1;letter-spacing:-.04em;
-  background:linear-gradient(135deg,rgba(37,211,102,.5),rgba(37,211,102,.15));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  margin-bottom:8px;user-select:none;
-}
-.error-title{font-family:'Syne',sans-serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;margin-bottom:14px}
-.error-sub{font-size:1rem;color:var(--txt2);line-height:1.7;margin-bottom:32px}
-
-.wa-bubble{
-  display:inline-flex;align-items:flex-start;gap:10px;
-  background:rgba(255,255,255,.05);border:1px solid rgba(37,211,102,.2);
-  border-radius:0 14px 14px 14px;padding:14px 18px;text-align:left;
-  margin-bottom:32px;max-width:360px;
-}
-.bot-mini{
-  width:32px;height:32px;border-radius:50%;
-  background:linear-gradient(135deg,#128C7E,#075E54);
-  display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;
-}
-.wa-text{font-size:.88rem;color:var(--txt2);line-height:1.6}
-.typing-row{display:flex;align-items:center;gap:5px;margin-top:6px}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--txt3)}
-.dot:nth-child(1){animation:dotBounce 1.4s ease-in-out 0s infinite}
-.dot:nth-child(2){animation:dotBounce 1.4s ease-in-out .2s infinite}
-.dot:nth-child(3){animation:dotBounce 1.4s ease-in-out .4s infinite}
-
-.btn-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px}
-.btn{
-  display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:50px;
-  font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;
-  text-decoration:none;cursor:pointer;border:none;transition:all .25s;
-}
-.btn-primary{background:var(--accent);color:#06200f;box-shadow:0 8px 28px rgba(37,211,102,.25)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(37,211,102,.4)}
-.btn-ghost{border:1.5px solid rgba(255,255,255,.15);color:var(--txt2)}
-.btn-ghost:hover{border-color:var(--accent);color:var(--accent);background:rgba(37,211,102,.08)}
-
-.logo{
-  position:absolute;top:24px;left:24px;z-index:2;
-  display:flex;align-items:center;gap:8px;
-  font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;color:var(--txt);
-}
-.logo-icon{
-  width:32px;height:32px;border-radius:9px;background:var(--accent);
-  display:flex;align-items:center;justify-content:center;font-size:.9rem;
-}
+.wrap{animation:fadeUp .7s ease forwards}
 </style>
 </head>
 <body>
-<div class="page">
-  <div class="bg-glow-1"></div>
-  <div class="bg-glow-2"></div>
-  <div class="bg-grid"></div>
-
-  <a href="/" class="logo" aria-label="Focobot home">
-    <div class="logo-icon">🤖</div>
-    Focobot
-  </a>
-
-  <div class="content">
-    <div class="bot-icon">🤖</div>
-    <div class="error-code">404</div>
-    <h1 class="error-title">This page took a wrong turn.</h1>
-    <p class="error-sub">Even our bot couldn't find this one. The page you're looking for doesn't exist, was moved, or the URL has a typo.</p>
-
-    <div class="wa-bubble">
-      <div class="bot-mini">F</div>
-      <div>
-        <div class="wa-text">مرحباً! لم أجد الصفحة التي تبحث عنها 😅<br>هل يمكنني مساعدتك بشيء آخر؟</div>
-        <div class="typing-row"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-      </div>
-    </div>
-
-    <div class="btn-row">
-      <a href="/" class="btn btn-primary">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Back to Home
-      </a>
-      <a href="/#pricing" class="btn btn-ghost">See Pricing</a>
-    </div>
+<div class="wrap">
+  <div class="big">4<span>0</span>4</div>
+  <div class="emoji">🤖</div>
+  <h1>Oops — Even Our Bot Got Lost</h1>
+  <p>This page doesn't exist. But your customers' WhatsApp messages do — and Focobot is ready to answer them 24/7.</p>
+  <div class="actions">
+    <a href="/" class="btn btn-p">← Back to Home</a>
+    <a href="/#pricing" class="btn btn-o">View Plans</a>
   </div>
 </div>
 </body>
