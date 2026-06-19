@@ -3,5 +3,8 @@
 # API functions passthrough (Cloudflare Pages Functions)
 /api/*    /api/:splat    200
 
+# 404 handler
+/404      /404.html      404
+
 # SPA fallback — serve index for all unmatched routes
-/*    /index.html    200
+/*        /index.html    200
