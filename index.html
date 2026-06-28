@@ -152,6 +152,7 @@
     .hero-blob-2 { position: absolute; width: 440px; height: 440px; background: radial-gradient(circle,rgba(10,79,60,.14) 0%,transparent 65%); bottom: -60px; right: 3%; animation: blobDrift2 28s ease-in-out infinite; transition: transform .1s ease-out; }
     @keyframes blobDrift1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(55px,35px) scale(1.08)} 66%{transform:translate(-28px,55px) scale(.94)} }
     @keyframes blobDrift2 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-38px,-28px) scale(1.06)} 66%{transform:translate(25px,-48px) scale(.92)} }
+    .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .045; z-index: 0; pointer-events: none; }
     .particles-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; width: 100%; height: 100%; }
     .hero-content { position: relative; z-index: 2; }
     .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
@@ -186,6 +187,7 @@
     .msg { max-width: 84%; padding: 9px 12px; border-radius: 12px; font-size: 12.5px; line-height: 1.5; opacity: 0; }
     @keyframes msgAppear { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
     .msg-in { background: #1f2c30; color: #e9e9e9; border-bottom-left-radius: 3px; align-self: flex-start; }
+    .msg-in[dir="rtl"] { text-align: right; }
     .msg-out { background: #005c4b; color: #e9e9e9; border-bottom-right-radius: 3px; align-self: flex-end; }
     .msg-time { font-size: 10px; color: rgba(255,255,255,.4); margin-top: 3px; display: flex; align-items: center; gap: 3px; justify-content: flex-end; }
     .msg-in .msg-time { justify-content: flex-start; }
@@ -484,9 +486,18 @@
       .stats-grid { grid-template-columns: 1fr 1fr; }
       .countdown-timer { flex-wrap: wrap; justify-content: center; }
     }
+
+    /* ── Scroll progress ──────────────────────────────────── */
+    #scroll-progress { position: fixed; top: 0; left: 0; z-index: 10000; height: 2px; background: var(--accent); width: 0%; box-shadow: 0 0 8px rgba(37,211,102,.7); pointer-events: none; transition: width .08s linear; }
+
+    /* ── Live counter badge ───────────────────────────────── */
+    .live-counter-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(37,211,102,.08); border: 1px solid rgba(37,211,102,.2); border-radius: 100px; padding: 7px 16px; font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 16px; }
+    .live-red-dot { width: 7px; height: 7px; background: #ff4040; border-radius: 50%; animation: pulse-dot 1s infinite; flex-shrink: 0; }
+    .live-num { font-family: 'Syne', sans-serif; font-weight: 800; }
   </style>
 </head>
 <body>
+<div id="scroll-progress"></div>
 
 <!-- ANNOUNCEMENT BAR -->
 <div id="announce-bar">
@@ -540,6 +551,9 @@
 <!-- HERO -->
 <section id="hero">
   <div class="hero-bg">
+    <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+      <source src="hero.mp4" type="video/mp4">
+    </video>
     <div class="hero-bg-grad"></div>
     <div class="hero-grid-overlay"></div>
     <div class="hero-blob-1"></div>
@@ -550,7 +564,8 @@
     <div class="hero-grid">
 
       <div class="hero-copy">
-        <div class="badge ha ha-d1"><span class="badge-dot"></span>🇰🇼 Now Live in Kuwait</div>
+        <div class="live-counter-badge ha ha-d1"><span class="live-red-dot"></span>LIVE &nbsp;·&nbsp; <span class="live-num" id="liveNum">0</span>&nbsp;messages automated today</div>
+        <div class="badge ha ha-d1" style="margin-top:0"><span class="badge-dot"></span>🇰🇼 Now Live in Kuwait</div>
         <h1 class="hero-headline ha ha-d2">
           Stop Losing Customers<br/>
           to Unanswered<br/>
@@ -604,13 +619,13 @@
             </div>
           </div>
           <div class="phone-chat">
-            <div class="msg msg-in">
+            <div class="msg msg-in" dir="rtl" lang="ar">
               السلام عليكم، كم سعر الطلب؟
-              <div class="msg-time">9:14 AM</div>
+              <div class="msg-time" style="direction:ltr">٩:١٤</div>
             </div>
-            <div class="msg msg-out">
-              وعليكم السلام! 😊<br/>طلبك للمطعم ١٥٠٠ فلس
-              <div class="msg-time">9:14 AM <span class="checkmarks">✓✓</span></div>
+            <div class="msg msg-out" dir="rtl" lang="ar">
+              وعليكم السلام! 😊<br/>طلبك ١٥٠٠ فلس — أوصلها لك اليوم
+              <div class="msg-time" style="direction:ltr">٩:١٤ <span class="checkmarks">✓✓</span></div>
             </div>
             <div class="msg msg-in">
               Do you deliver to Salmiya?
@@ -1265,6 +1280,36 @@
 
 <!-- SCRIPTS -->
 <script>
+/* ── Scroll progress bar ── */
+(function() {
+  const bar = document.getElementById('scroll-progress');
+  if (!bar) return;
+  window.addEventListener('scroll', function() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (max > 0 ? (window.scrollY / max * 100) : 0) + '%';
+  }, { passive: true });
+})();
+
+/* ── Live counter badge ── */
+(function() {
+  const el = document.getElementById('liveNum');
+  if (!el) return;
+  const base = 8400 + Math.floor(Math.random() * 3000);
+  const start = performance.now();
+  const dur = 2200;
+  function tick(now) {
+    const p = Math.min((now - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.floor(eased * base).toLocaleString();
+    if (p < 1) requestAnimationFrame(tick);
+    else {
+      let n = base;
+      setInterval(() => { n += Math.floor(Math.random() * 3) + 1; el.textContent = n.toLocaleString(); }, 3200);
+    }
+  }
+  requestAnimationFrame(tick);
+})();
+
 /* ── Announcement bar ── */
 function dismissBar() {
   const bar = document.getElementById('announce-bar');
