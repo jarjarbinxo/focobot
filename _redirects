@@ -1,10 +1,10 @@
 # Focobot — Netlify / Cloudflare Pages redirect rules
 
-# API functions passthrough (Cloudflare Pages Functions)
-/api/*    /api/:splat    200
+# API functions passthrough
+/api/*  /api/:splat  200
 
-# 404 handler
-/404      /404.html      404
+# Custom 404
+/404    /404.html    404
 
-# SPA fallback — serve index for all unmatched routes
-/*        /index.html    200
+# SPA fallback
+/*      /index.html  200
