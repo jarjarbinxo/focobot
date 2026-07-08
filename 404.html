@@ -3,134 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>404 — Page Not Found | Focobot</title>
+  <title>Page Not Found — Focobot</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #071f18;
-      --accent: #25D366;
-      --accent-dim: rgba(37,211,102,0.12);
-      --text: #fff;
-      --muted: rgba(255,255,255,0.55);
-    }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 24px;
-      overflow: hidden;
-      position: relative;
-    }
-    @keyframes floatParticle {
-      0%   { transform: translateY(0) scale(1); opacity: 0; }
-      20%  { opacity: 0.5; }
-      100% { transform: translateY(-100vh) scale(0.4); opacity: 0; }
-    }
-    @keyframes pulse {
-      0%,100% { transform: scale(1); }
-      50%      { transform: scale(1.06); }
-    }
-    @keyframes fadeUp {
-      from { opacity:0; transform:translateY(20px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    #particles { position:fixed; inset:0; pointer-events:none; }
-    .particle {
-      position: absolute; border-radius: 50%;
-      background: var(--accent); opacity: 0;
-      animation: floatParticle var(--dur) var(--delay) infinite linear;
-    }
-    .content {
-      position: relative; z-index: 2;
-      animation: fadeUp 0.7s ease both;
-    }
-    .big-num {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: clamp(6rem, 20vw, 12rem); line-height: 1;
-      color: var(--accent);
-      text-shadow: 0 0 80px rgba(37,211,102,0.4);
-      animation: pulse 3s ease-in-out infinite;
-      margin-bottom: 16px;
-      letter-spacing: -4px;
-    }
-    h1 {
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      font-size: clamp(1.4rem, 4vw, 2rem);
-      margin-bottom: 12px;
-    }
-    p {
-      color: var(--muted); font-size: 1rem; line-height: 1.7;
-      max-width: 420px; margin: 0 auto 36px;
-    }
-    .btn-home {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: var(--accent); color: #000; font-weight: 700;
-      font-size: 1rem; padding: 14px 28px; border-radius: 50px;
-      text-decoration: none; transition: all 0.25s;
-      box-shadow: 0 0 32px rgba(37,211,102,0.3);
-    }
-    .btn-home:hover {
-      background: #1ebe5a; transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(37,211,102,0.45);
-    }
-    .or { display:block; margin:20px auto 0; color:var(--muted); font-size:0.85rem; }
-    .wa-link {
-      display: inline-flex; align-items: center; gap: 6px; margin-top: 12px;
-      color: var(--accent); text-decoration: none; font-size: 0.9rem; font-weight: 600;
-    }
-    .wa-link:hover { text-decoration: underline; }
-    .orb {
-      position: fixed; border-radius: 50%; filter: blur(80px);
-      pointer-events: none;
-    }
-    .orb-1 {
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(10,79,60,0.4) 0%, transparent 70%);
-      top: -200px; right: -200px;
-    }
-    .orb-2 {
-      width: 350px; height: 350px;
-      background: radial-gradient(circle, rgba(37,211,102,0.12) 0%, transparent 70%);
-      bottom: -150px; left: -150px;
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#071f18;--acc:#25D366;--acc-l:#34eb77;--w:#fff;--w60:rgba(255,255,255,.6);--w20:rgba(255,255,255,.2);--fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif}
+    html,body{height:100%}
+    body{font-family:var(--fb);background:var(--bg);color:var(--w);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;overflow:hidden;text-align:center;padding:24px}
+    body::before{content:'';position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:800px;background:radial-gradient(ellipse,rgba(37,211,102,.1) 0%,transparent 65%);pointer-events:none}
+
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+    @keyframes riseup{0%{transform:translateY(0);opacity:0}10%{opacity:1}90%{opacity:.7}100%{transform:translateY(-110vh);opacity:0}}
+
+    .bot-icon{font-size:80px;animation:float 4s ease-in-out infinite;display:block;margin-bottom:24px}
+    .code{font-family:var(--fh);font-size:clamp(100px,18vw,160px);font-weight:800;line-height:1;background:linear-gradient(135deg,var(--acc),var(--acc-l));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeUp .6s ease .1s both}
+    h1{font-family:var(--fh);font-size:clamp(22px,4vw,36px);font-weight:700;margin-bottom:16px;animation:fadeUp .6s ease .2s both}
+    p{font-size:17px;color:var(--w60);max-width:420px;line-height:1.7;margin-bottom:36px;animation:fadeUp .6s ease .3s both}
+    .btn-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;animation:fadeUp .6s ease .4s both}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:100px;font-family:var(--fb);font-size:16px;font-weight:600;cursor:pointer;border:none;text-decoration:none;transition:all .25s}
+    .bp{background:var(--acc);color:#061a13}
+    .bp:hover{background:var(--acc-l);transform:translateY(-2px);box-shadow:0 10px 36px rgba(37,211,102,.45)}
+    .bo{background:transparent;color:var(--w);border:1.5px solid var(--w20)}
+    .bo:hover{border-color:var(--acc);color:var(--acc);transform:translateY(-2px)}
+    .wa-tip{margin-top:48px;font-size:13px;color:var(--w60);animation:fadeUp .6s ease .5s both}
+    .wa-tip a{color:var(--acc);font-weight:600;text-decoration:none}
+    .wa-tip a:hover{color:var(--acc-l)}
+    .particle{position:fixed;width:4px;height:4px;border-radius:50%;background:var(--acc);pointer-events:none;animation:riseup linear infinite}
   </style>
 </head>
 <body>
-  <div id="particles" aria-hidden="true"></div>
-  <div class="orb orb-1" aria-hidden="true"></div>
-  <div class="orb orb-2" aria-hidden="true"></div>
-
-  <div class="content">
-    <div class="big-num">404</div>
-    <h1>This page doesn't exist</h1>
-    <p>Looks like the link is broken or the page was moved. Let's get you back to where the action is.</p>
-    <a href="/" class="btn-home">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-      Back to Focobot Home
-    </a>
-    <span class="or">or</span>
-    <a href="https://wa.me/96500000000" class="wa-link" target="_blank" rel="noopener noreferrer">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
-      Chat with us on WhatsApp
-    </a>
+  <span class="bot-icon">🤖</span>
+  <div class="code">404</div>
+  <h1>This page went quiet</h1>
+  <p>Even Focobot can't find what you're looking for — but it would've replied in 2 seconds if it did.</p>
+  <div class="btn-row">
+    <a href="/" class="btn bp">← Back to Homepage</a>
+    <a href="/#pricing" class="btn bo">View Pricing</a>
   </div>
-
+  <div class="wa-tip">
+    Need help? <a href="https://wa.me/96565000000">Chat with us on WhatsApp →</a>
+  </div>
   <script>
-    const pc = document.getElementById('particles');
-    for (let i = 0; i < 20; i++) {
-      const p = document.createElement('div');
-      const s = Math.random() * 4 + 2;
-      p.className = 'particle';
-      p.style.cssText = 'width:'+s+'px;height:'+s+'px;left:'+(Math.random()*100)+'%;bottom:-10px;--dur:'+(Math.random()*12+8)+'s;--delay:'+(Math.random()*-15)+'s';
-      pc.appendChild(p);
+    for(let i=0;i<22;i++){
+      const p=document.createElement('div');
+      p.className='particle';
+      const size=Math.random()*4+1.5;
+      const dur=Math.random()*14+6;
+      const delay=Math.random()*-14;
+      const op=Math.random()*.35+.06;
+      p.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}vw;bottom:-10px;opacity:${op};animation-duration:${dur}s;animation-delay:${delay}s`;
+      document.body.appendChild(p);
     }
   </script>
 </body>
