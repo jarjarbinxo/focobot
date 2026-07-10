@@ -1,4 +1,4 @@
-# Focobot — Netlify / Cloudflare Pages redirect rules
+# Focobot — Netlify redirect rules
 
 # API functions passthrough
 /api/*  /api/:splat  200
@@ -6,5 +6,5 @@
 # Custom 404
 /404    /404.html    404
 
-# SPA fallback
+# SPA fallback — must be last
 /*      /index.html  200
