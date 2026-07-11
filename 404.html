@@ -1,77 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Page Not Found — Focobot</title>
-  <meta name="robots" content="noindex" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --bg:#071f18;--acc:#25D366;--acc-l:#34eb77;
-      --w:#fff;--w80:rgba(255,255,255,.8);--w60:rgba(255,255,255,.6);--w15:rgba(255,255,255,.15);
-      --fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
-    }
+    :root{--bg:#071f18;--acc:#25D366;--acc-l:#34eb77;--w:#fff;--w60:rgba(255,255,255,.6);--w20:rgba(255,255,255,.2);--fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif}
     html,body{height:100%}
-    body{font-family:var(--fb);background:var(--bg);color:var(--w);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;overflow:hidden;text-align:center;padding:24px;position:relative}
-
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+    body{font-family:var(--fb);background:var(--bg);color:var(--w);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;overflow:hidden;text-align:center;padding:24px}
+    body::before{content:'';position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:800px;background:radial-gradient(ellipse,rgba(37,211,102,.1) 0%,transparent 65%);pointer-events:none}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
     @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-    @keyframes riseup{0%{transform:translateY(0);opacity:0}8%{opacity:1}88%{opacity:.55}100%{transform:translateY(-110vh);opacity:0}}
-    @keyframes pulseRing{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(1.08);opacity:.5}}
-    @keyframes blink{0%,100%{opacity:.2}50%{opacity:1}}
-
-    .orb{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(ellipse,rgba(37,211,102,.1) 0%,transparent 65%);pointer-events:none;border-radius:50%}
-    .orb-ring{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;border:1px solid rgba(37,211,102,.12);border-radius:50%;animation:pulseRing 4s ease-in-out infinite;pointer-events:none}
-
-    .content{position:relative;z-index:1}
-    .bot{font-size:88px;display:block;animation:float 4.5s ease-in-out infinite;margin-bottom:20px}
-    .code{font-family:var(--fh);font-size:clamp(96px,18vw,160px);font-weight:800;line-height:1;background:linear-gradient(135deg,var(--acc),var(--acc-l));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeUp .6s ease .1s both}
-    h1{font-family:var(--fh);font-size:clamp(20px,4vw,34px);font-weight:700;margin-bottom:14px;animation:fadeUp .6s ease .2s both}
-    p{font-size:17px;color:var(--w60);max-width:420px;line-height:1.75;margin-bottom:36px;animation:fadeUp .6s ease .3s both}
-    .btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;animation:fadeUp .6s ease .4s both}
+    @keyframes riseup{0%{transform:translateY(0);opacity:0}10%{opacity:1}90%{opacity:.7}100%{transform:translateY(-110vh);opacity:0}}
+    @keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+    .bot-icon{font-size:80px;animation:float 4s ease-in-out infinite;display:block;margin-bottom:24px}
+    .code{font-family:var(--fh);font-size:clamp(100px,18vw,160px);font-weight:800;line-height:1;background:linear-gradient(135deg,var(--acc),var(--acc-l));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeUp .6s ease .1s both}
+    h1{font-family:var(--fh);font-size:clamp(22px,4vw,36px);font-weight:700;margin-bottom:16px;animation:fadeUp .6s ease .2s both}
+    p{font-size:17px;color:var(--w60);max-width:420px;line-height:1.7;margin-bottom:36px;animation:fadeUp .6s ease .3s both}
+    .btn-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;animation:fadeUp .6s ease .4s both}
     .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:100px;font-family:var(--fb);font-size:16px;font-weight:600;cursor:pointer;border:none;text-decoration:none;transition:all .25s}
     .bp{background:var(--acc);color:#061a13}
-    .bp:hover{background:var(--acc-l);transform:translateY(-2px);box-shadow:0 12px 36px rgba(37,211,102,.45)}
-    .bo{background:transparent;color:var(--w);border:1.5px solid var(--w15)}
+    .bp:hover{background:var(--acc-l);transform:translateY(-2px);box-shadow:0 10px 36px rgba(37,211,102,.45)}
+    .bo{background:transparent;color:var(--w);border:1.5px solid var(--w20)}
     .bo:hover{border-color:var(--acc);color:var(--acc);transform:translateY(-2px)}
-    .wa-cta{margin-top:40px;font-size:14px;color:var(--w60);animation:fadeUp .6s ease .5s both}
-    .wa-cta a{color:var(--acc);font-weight:600}
-    .wa-cta a:hover{color:var(--acc-l)}
-    .live{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);margin-bottom:8px;animation:fadeUp .6s ease 0s both}
-    .dot{width:6px;height:6px;background:var(--acc);border-radius:50%;animation:blink 1.5s infinite}
-    .particle{position:fixed;border-radius:50%;pointer-events:none;animation:riseup linear infinite;background:var(--acc)}
+    .badge{display:inline-flex;align-items:center;gap:7px;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.22);color:var(--acc);font-size:12px;font-weight:600;padding:8px 18px;border-radius:100px;margin-bottom:28px;animation:fadeUp .6s ease .05s both}
+    .dot{width:5px;height:5px;background:var(--acc);border-radius:50%;animation:blink 1.5s infinite}
+    .wa-tip{margin-top:48px;font-size:13px;color:var(--w60);animation:fadeUp .6s ease .5s both}
+    .wa-tip a{color:var(--acc);font-weight:600;text-decoration:none}
+    .wa-tip a:hover{color:var(--acc-l)}
+    .particle{position:fixed;width:4px;height:4px;border-radius:50%;background:var(--acc);pointer-events:none;animation:riseup linear infinite}
   </style>
 </head>
 <body>
-  <div class="orb" aria-hidden="true"></div>
-  <div class="orb-ring" aria-hidden="true"></div>
-
-  <div class="content">
-    <div class="live"><span class="dot"></span> Focobot is online</div>
-    <span class="bot" role="img" aria-label="Robot">🤖</span>
-    <div class="code" aria-label="Error 404">404</div>
-    <h1>This page went quiet</h1>
-    <p>Even Focobot can't find this one — but unlike a missed WhatsApp, we won't leave you hanging. Let's get you back on track.</p>
-    <div class="btns">
-      <a href="/" class="btn bp">← Back to Homepage</a>
-      <a href="/#pricing" class="btn bo">View Pricing</a>
-    </div>
-    <div class="wa-cta">
-      Need help? <a href="https://wa.me/96565000000">Chat with our team on WhatsApp →</a>
-    </div>
+  <span class="bot-icon">🤖</span>
+  <div class="badge"><span class="dot"></span> Focobot</div>
+  <div class="code">404</div>
+  <h1>This page went quiet</h1>
+  <p>Even Focobot can't find what you're looking for — but it would've replied in 2 seconds if it did.</p>
+  <div class="btn-row">
+    <a href="/" class="btn bp">← Back to Homepage</a>
+    <a href="/#pricing" class="btn bo">View Pricing</a>
   </div>
-
+  <div class="wa-tip">
+    Need help? <a href="https://wa.me/96565000000">Chat with us on WhatsApp →</a>
+  </div>
   <script>
-    // Floating particles
-    for(let i=0;i<28;i++){
+    for(let i=0;i<22;i++){
       const p=document.createElement('div');
       p.className='particle';
-      const s=Math.random()*3.5+1.5;
-      p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}vw;bottom:-8px;opacity:${(Math.random()*.3+.05).toFixed(2)};animation-duration:${(Math.random()*12+7).toFixed(1)}s;animation-delay:${(Math.random()*-14).toFixed(1)}s`;
+      const size=Math.random()*4+1.5;
+      const dur=Math.random()*14+6;
+      const delay=Math.random()*-14;
+      const op=Math.random()*.35+.06;
+      p.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}vw;bottom:-10px;opacity:${op};animation-duration:${dur}s;animation-delay:${delay}s`;
       document.body.appendChild(p);
     }
   </script>
