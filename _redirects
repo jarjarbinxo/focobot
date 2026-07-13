@@ -1,10 +1,7 @@
 # Focobot — Netlify redirect rules
 
 # API functions passthrough
-/api/*  /api/:splat  200
-
-# Custom 404
-/404    /404.html    404
+/api/*  /.netlify/functions/:splat  200
 
 # SPA fallback — must be last
 /*      /index.html  200
