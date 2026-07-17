@@ -11,39 +11,42 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{font-family:'DM Sans',sans-serif;background:#071f18;color:#e8f5f0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 5%;text-align:center;overflow:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:'DM Sans',sans-serif;background:#071f18;color:#e8f5f0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100svh;padding:40px 5%;text-align:center;overflow:hidden;-webkit-font-smoothing:antialiased}
 
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
-@keyframes pulse-ring{0%{transform:scale(.9);opacity:.8}70%{transform:scale(1.8);opacity:0}100%{transform:scale(.9);opacity:0}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-@keyframes particle-slow{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,-40px)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@keyframes pulse-ring{0%{transform:scale(.85);opacity:.7}100%{transform:scale(1.7);opacity:0}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes particle{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,-40px)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
 .particles{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
 .p{position:absolute;border-radius:50%}
-.p1{width:500px;height:500px;background:radial-gradient(circle,rgba(37,211,102,.1) 0%,transparent 70%);top:-120px;right:-100px;animation:particle-slow 16s ease-in-out infinite}
-.p2{width:350px;height:350px;background:radial-gradient(circle,rgba(10,79,60,.3) 0%,transparent 70%);bottom:-80px;left:-50px;animation:particle-slow 12s ease-in-out infinite reverse}
+.p1{width:560px;height:560px;background:radial-gradient(circle,rgba(37,211,102,.11) 0%,transparent 65%);top:-130px;right:-80px;animation:particle 18s ease-in-out infinite}
+.p2{width:380px;height:380px;background:radial-gradient(circle,rgba(10,79,60,.35) 0%,transparent 65%);bottom:-90px;left:-60px;animation:particle 14s ease-in-out infinite reverse}
 
-.card{position:relative;z-index:1;max-width:540px;width:100%}
+.card{position:relative;z-index:1;max-width:560px;width:100%;animation:fadeUp .7s cubic-bezier(.22,1,.36,1) both}
 
-.icon-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;width:100px;height:100px;background:rgba(37,211,102,.12);border:1.5px solid rgba(37,211,102,.25);border-radius:28px;margin-bottom:28px;font-size:2.8rem;animation:float 5s ease-in-out infinite}
-.icon-wrap::after{content:'';position:absolute;inset:-12px;border-radius:36px;border:1px solid rgba(37,211,102,.1);animation:pulse-ring 3s ease-out infinite}
+.icon-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;width:96px;height:96px;background:rgba(37,211,102,.1);border:1.5px solid rgba(37,211,102,.22);border-radius:28px;margin:0 auto 32px;animation:float 5s ease-in-out infinite}
+.icon-wrap::before,.icon-wrap::after{content:'';position:absolute;inset:-14px;border-radius:36px;border:1px solid rgba(37,211,102,.1);animation:pulse-ring 3s ease-out infinite}
+.icon-wrap::after{animation-delay:1.5s}
+.icon-wrap svg{width:44px;height:44px;fill:var(--accent,#25D366)}
 
-.big-num{font-family:'Syne',sans-serif;font-size:clamp(5rem,18vw,9rem);font-weight:800;line-height:1;background:linear-gradient(135deg,#25D366 0%,#0a4f3c 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;animation:fadeUp .6s ease both}
+.num{font-family:'Syne',sans-serif;font-size:clamp(5rem,18vw,9rem);font-weight:800;line-height:1;letter-spacing:-.05em;background:linear-gradient(135deg,#25D366,#0a4f3c 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;animation:fadeUp .7s .05s cubic-bezier(.22,1,.36,1) both}
 
-h1{font-family:'Syne',sans-serif;font-size:clamp(1.4rem,4vw,2rem);font-weight:700;margin-bottom:12px;animation:fadeUp .6s ease .1s both}
-p{color:#7dab97;font-size:1rem;line-height:1.7;max-width:420px;margin:0 auto 36px;animation:fadeUp .6s ease .2s both}
+h1{font-family:'Syne',sans-serif;font-size:clamp(1.5rem,4vw,2.2rem);font-weight:700;color:#e8f5f0;letter-spacing:-.025em;line-height:1.2;margin-bottom:14px;animation:fadeUp .7s .12s cubic-bezier(.22,1,.36,1) both}
 
-.actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;animation:fadeUp .6s ease .3s both}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;text-decoration:none;border:none;transition:all .25s ease;white-space:nowrap}
-.btn-primary{background:#25D366;color:#071f18}
-.btn-primary:hover{background:#2eef73;transform:translateY(-2px);box-shadow:0 12px 40px rgba(37,211,102,.35)}
-.btn-outline{background:transparent;color:#e8f5f0;border:1.5px solid rgba(255,255,255,.2)}
-.btn-outline:hover{border-color:#25D366;color:#25D366;transform:translateY(-2px)}
-.btn svg{width:18px;height:18px;flex-shrink:0}
+p{font-size:clamp(.95rem,2vw,1.05rem);color:#7dab97;max-width:420px;margin:0 auto 32px;line-height:1.65;animation:fadeUp .7s .18s cubic-bezier(.22,1,.36,1) both}
 
-.footer-note{margin-top:48px;font-size:.8rem;color:rgba(125,171,151,.5);animation:fadeUp .6s ease .4s both}
-.footer-note a{color:rgba(125,171,151,.7);text-decoration:none}
-.footer-note a:hover{color:#25D366}
+.actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;animation:fadeUp .7s .25s cubic-bezier(.22,1,.36,1) both}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;font-weight:600;border-radius:12px;cursor:pointer;transition:all .22s cubic-bezier(.22,1,.36,1);border:none;line-height:1;text-decoration:none;font-size:.95rem;padding:13px 26px}
+.btn-primary{background:#25D366;color:#071f18;box-shadow:0 4px 20px rgba(37,211,102,.28)}
+.btn-primary:hover{background:#2eef73;transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,211,102,.38)}
+.btn-ghost{background:rgba(37,211,102,.08);color:#e8f5f0;border:1px solid rgba(37,211,102,.2)}
+.btn-ghost:hover{background:rgba(37,211,102,.14);border-color:rgba(37,211,102,.35);transform:translateY(-2px)}
+
+.bubble-demo{margin-top:40px;animation:fadeUp .7s .35s cubic-bezier(.22,1,.36,1) both;opacity:.7}
+.bubble{display:inline-flex;align-items:center;gap:10px;background:rgba(10,79,60,.35);border:1px solid rgba(37,211,102,.18);border-radius:14px;padding:12px 18px;font-size:.85rem;color:#7dab97;backdrop-filter:blur(8px)}
+.bubble-dot{width:7px;height:7px;background:#25D366;border-radius:50%;animation:blink 1.4s ease-in-out infinite}
 </style>
 </head>
 <body>
@@ -53,22 +56,21 @@ p{color:#7dab97;font-size:1rem;line-height:1.7;max-width:420px;margin:0 auto 36p
 </div>
 
 <div class="card">
-  <div class="icon-wrap" aria-hidden="true">&#x1F4AC;</div>
-  <div class="big-num" aria-hidden="true">404</div>
-  <h1>This Page Went Offline.<br>Your Business Shouldn't.</h1>
-  <p>The page you're looking for doesn't exist — but Focobot makes sure <em>your</em> WhatsApp never goes offline. 500+ messages handled daily. 2-second response time. 24/7.</p>
-  <div class="actions">
-    <a href="/" class="btn btn-primary">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Back to Homepage
-    </a>
-    <a href="https://wa.me/96500000000?text=Hello%2C%20I%20want%20to%20learn%20about%20Focobot" class="btn btn-outline" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.116.552 4.103 1.517 5.829L.057 23.854c-.072.266.166.504.432.432l6.025-1.46A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.96 0-3.796-.529-5.368-1.452l-.385-.228-3.99.967.982-3.905-.251-.399A9.79 9.79 0 0 1 2.182 12C2.182 6.565 6.565 2.182 12 2.182S21.818 6.565 21.818 12 17.435 21.818 12 21.818z"/></svg>
-      Chat with Us
-    </a>
+  <div class="icon-wrap" aria-hidden="true">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.38 5.07L2 22l5.09-1.36C8.53 21.52 10.22 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.07 13.26c-.21.6-.84 1.08-1.52 1.22-.41.09-.94.16-2.74-.59-2.3-.96-3.78-3.3-3.9-3.46-.11-.15-.94-1.25-.94-2.38 0-1.13.59-1.68.8-1.91.21-.23.46-.28.61-.28.15 0 .31.001.44.007.14.007.34-.053.53.407.21.49.71 1.73.77 1.86.06.13.1.27.02.44-.08.17-.12.27-.23.42-.11.15-.24.33-.34.44-.11.12-.22.25-.1.48.13.23.57.94 1.22 1.52.84.75 1.55 1.03 1.81 1.14.26.11.41.09.56-.06.15-.15.64-.75.81-1.01.17-.26.34-.21.57-.13.23.08 1.46.69 1.71.82.25.13.41.19.47.3.06.11.06.65-.15 1.25z"/></svg>
   </div>
-  <div class="footer-note">
-    &#169; 2025 Focobot &mdash; <a href="/">focobot.com</a> &mdash; Made in Kuwait &#x1F1F0;&#x1F1FC;
+  <div class="num" aria-label="Error 404">404</div>
+  <h1>This Page Went Offline.<br>Focobot Never Does.</h1>
+  <p>Whatever you were looking for has moved or doesn't exist — but your WhatsApp inbox is probably full of unanswered leads right now. Let's fix that.</p>
+  <div class="actions">
+    <a href="/" class="btn btn-primary">← Back to Focobot</a>
+    <a href="/#pricing" class="btn btn-ghost">Start Free Trial</a>
+  </div>
+  <div class="bubble-demo" aria-hidden="true">
+    <div class="bubble">
+      <span class="bubble-dot"></span>
+      Focobot is online and replying to your customers right now
+    </div>
   </div>
 </div>
 </body>
