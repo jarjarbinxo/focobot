@@ -12,85 +12,68 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{font-family:'DM Sans',sans-serif;background:#071f18;color:#e4f2eb;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 5%;text-align:center;overflow:hidden;-webkit-font-smoothing:antialiased}
-
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
-@keyframes pulse-ring{0%{transform:scale(.88);opacity:.7}70%{transform:scale(1.95);opacity:0}100%{opacity:0}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
-@keyframes orb-move{0%,100%{transform:translate(0,0)}50%{transform:translate(50px,-36px)}}
-@keyframes floatP{0%{opacity:0;transform:translateY(0) scale(1)}10%{opacity:.8}90%{opacity:.3}100%{opacity:0;transform:translateY(-90vh) translateX(var(--dx,0)) scale(.2)}}
-
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+@keyframes pulse-ring{0%{transform:scale(.88);opacity:.7}70%{transform:scale(1.9);opacity:0}100%{opacity:0}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes orb-move{0%,100%{transform:translate(0,0)}50%{transform:translate(44px,-32px)}}
+@keyframes floatP{0%{opacity:0;transform:translateY(0) scale(1)}10%{opacity:.8}90%{opacity:.25}100%{opacity:0;transform:translateY(-90vh) translateX(var(--dx,0)) scale(.18)}}
 .bg-orb{position:fixed;border-radius:50%;pointer-events:none}
-.bg-orb-1{width:520px;height:520px;background:radial-gradient(circle,rgba(37,211,102,.1) 0%,transparent 70%);top:-120px;right:-100px;animation:orb-move 14s ease-in-out infinite}
-.bg-orb-2{width:380px;height:380px;background:radial-gradient(circle,rgba(10,79,60,.28) 0%,transparent 70%);bottom:-80px;left:-60px;animation:orb-move 10s ease-in-out infinite reverse}
+.bg-orb-1{width:500px;height:500px;background:radial-gradient(circle,rgba(37,211,102,.09) 0%,transparent 70%);top:-120px;right:-100px;animation:orb-move 14s ease-in-out infinite}
+.bg-orb-2{width:360px;height:360px;background:radial-gradient(circle,rgba(10,79,60,.26) 0%,transparent 70%);bottom:-80px;left:-60px;animation:orb-move 10s ease-in-out infinite reverse}
 #p-canvas{position:fixed;inset:0;pointer-events:none;overflow:hidden}
-
 .card{position:relative;z-index:1;max-width:540px;width:100%}
-
-.icon-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;width:100px;height:100px;background:rgba(37,211,102,.1);border:1.5px solid rgba(37,211,102,.22);border-radius:28px;margin-bottom:28px;font-size:2.8rem;animation:float 5s ease-in-out infinite}
-.icon-wrap::after{content:'';position:absolute;inset:-14px;border-radius:38px;border:1px solid rgba(37,211,102,.1);animation:pulse-ring 3s ease-out infinite}
-
-.big-num{font-family:'Syne',sans-serif;font-size:clamp(5.5rem,20vw,10rem);font-weight:800;line-height:1;background:linear-gradient(135deg,#25D366 0%,#0a4f3c 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;animation:fadeUp .55s ease both}
-
-h1{font-family:'Syne',sans-serif;font-size:clamp(1.4rem,4.5vw,2.1rem);font-weight:700;margin-bottom:14px;animation:fadeUp .55s .1s ease both;line-height:1.25}
-p{color:#7dab97;font-size:1rem;line-height:1.72;max-width:420px;margin:0 auto 36px;animation:fadeUp .55s .2s ease both}
-
-.actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;animation:fadeUp .55s .3s ease both}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;border:none;transition:all .25s ease;white-space:nowrap}
-.btn-primary{background:#25D366;color:#071f18;box-shadow:0 4px 28px rgba(37,211,102,.35)}
-.btn-primary:hover{background:#1fbd5a;transform:translateY(-2px);box-shadow:0 8px 48px rgba(37,211,102,.5)}
-.btn-outline{background:transparent;color:#e4f2eb;border:1.5px solid rgba(255,255,255,.18)}
-.btn-outline:hover{border-color:#25D366;color:#25D366;transform:translateY(-2px)}
-.btn svg{width:18px;height:18px;flex-shrink:0}
-
-.footer-note{margin-top:48px;font-size:.8rem;color:rgba(125,171,151,.45);animation:fadeUp .55s .4s ease both}
-.footer-note a{color:rgba(125,171,151,.65);text-decoration:none;transition:color .2s}
-.footer-note a:hover{color:#25D366}
+.icon-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;width:96px;height:96px;background:rgba(37,211,102,.09);border:1.5px solid rgba(37,211,102,.2);border-radius:26px;margin-bottom:28px;font-size:2.7rem;animation:float 5s ease-in-out infinite}
+.icon-wrap::after{content:'';position:absolute;inset:-12px;border-radius:36px;border:1px solid rgba(37,211,102,.09);animation:pulse-ring 3s ease-out infinite}
+h1{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;color:#fff;letter-spacing:-.03em;margin-bottom:12px;animation:fadeUp .6s ease both}
+p.sub{font-size:1rem;color:#7eab97;line-height:1.7;max-width:420px;margin:0 auto 32px;animation:fadeUp .6s .1s ease both}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp .6s .2s ease both}
+a.btn-p{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;background:#25D366;color:#071f18;border-radius:50px;font-weight:700;font-size:.93rem;transition:all .22s;box-shadow:0 4px 28px rgba(37,211,102,.35)}
+a.btn-p:hover{background:#1fbd5a;transform:translateY(-2px);box-shadow:0 10px 44px rgba(37,211,102,.55)}
+a.btn-o{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border:1.5px solid rgba(255,255,255,.15);color:#e4f2eb;border-radius:50px;font-weight:600;font-size:.93rem;transition:all .22s}
+a.btn-o:hover{border-color:#25D366;color:#25D366}
+.num-404{font-family:'Syne',sans-serif;font-size:clamp(5rem,15vw,9rem);font-weight:800;color:rgba(37,211,102,.12);line-height:1;letter-spacing:-.05em;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;z-index:0;user-select:none}
 </style>
 </head>
 <body>
-<div class="bg-orb bg-orb-1" aria-hidden="true"></div>
-<div class="bg-orb bg-orb-2" aria-hidden="true"></div>
-<div id="p-canvas" aria-hidden="true"></div>
+<div class="bg-orb bg-orb-1"></div>
+<div class="bg-orb bg-orb-2"></div>
+<div id="p-canvas"></div>
 
 <div class="card">
-  <div class="icon-wrap" aria-hidden="true">&#x1F4AC;</div>
-  <div class="big-num" aria-hidden="true">404</div>
-  <h1>This Page Went Offline.<br>Your Business Shouldn&rsquo;t.</h1>
-  <p>The page you&rsquo;re looking for doesn&rsquo;t exist &mdash; but Focobot makes sure <em>your</em> WhatsApp never goes offline. 500+ messages handled daily. 2-second response time. 24/7 in Arabic &amp; English.</p>
-  <div class="actions">
-    <a href="/" class="btn btn-primary">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Back to Homepage
-    </a>
-    <a href="https://wa.me/96500000000?text=Hello%2C%20I%20want%20to%20learn%20about%20Focobot" class="btn btn-outline" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.116.552 4.103 1.517 5.829L.057 23.854c-.072.266.166.504.432.432l6.025-1.46A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.96 0-3.796-.529-5.368-1.452l-.385-.228-3.99.967.982-3.905-.251-.399A9.79 9.79 0 0 1 2.182 12C2.182 6.565 6.565 2.182 12 2.182S21.818 6.565 21.818 12 17.435 21.818 12 21.818z"/></svg>
-      Chat with Us
-    </a>
+  <div style="position:relative;display:inline-block;margin-bottom:8px">
+    <div class="num-404">404</div>
+    <div class="icon-wrap" style="position:relative;z-index:1">&#x1F4AC;</div>
   </div>
-  <div class="footer-note">
-    &copy; 2026 Focobot &mdash; <a href="/">focobot.com</a> &mdash; Made in Kuwait &#x1F1F0;&#x1F1FC;
+  <h1>This page doesn&rsquo;t exist.</h1>
+  <p class="sub">But your customers&rsquo; WhatsApp messages do &mdash; and every unanswered one is lost revenue. Focobot replies in 2 seconds, 24/7, in Arabic and English.</p>
+  <div class="btns">
+    <a class="btn-p" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      Go Home
+    </a>
+    <a class="btn-o" href="https://wa.me/96500000000?text=Hi%2C%20I%20want%20to%20learn%20about%20Focobot" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.116.552 4.103 1.517 5.829L.057 23.854c-.072.266.166.504.432.432l6.025-1.46A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.96 0-3.796-.529-5.368-1.452l-.385-.228-3.99.967.982-3.905-.251-.399A9.79 9.79 0 0 1 2.182 12C2.182 6.565 6.565 2.182 12 2.182S21.818 6.565 21.818 12 17.435 21.818 12 21.818z"/></svg>
+      Chat on WhatsApp
+    </a>
   </div>
 </div>
 
 <script>
 (function(){
-  var c = document.getElementById('p-canvas');
-  for (var i = 0; i < 18; i++) {
-    var el = document.createElement('div');
-    var sz = Math.random() * 4 + 2;
-    el.style.cssText = [
-      'position:absolute',
-      'border-radius:50%',
-      'bottom:-10px',
-      'left:' + (Math.random() * 100) + '%',
-      'width:' + sz + 'px',
-      'height:' + sz + 'px',
-      '--dx:' + ((Math.random() - 0.5) * 140) + 'px',
-      'background:radial-gradient(circle,rgba(37,211,102,.85),rgba(37,211,102,.1))',
-      'box-shadow:0 0 ' + (sz * 2.5) + 'px rgba(37,211,102,.55)',
-      'animation:floatP ' + (Math.random() * 15 + 10) + 's ' + (Math.random() * 12) + 's linear infinite'
+  var c=document.getElementById('p-canvas');
+  for(var i=0;i<18;i++){
+    var p=document.createElement('div');
+    var sz=Math.random()*4+1.5;
+    p.style.cssText=[
+      'position:absolute','border-radius:50%','bottom:-10px',
+      'left:'+(Math.random()*100)+'%',
+      'width:'+sz+'px','height:'+sz+'px',
+      '--dx:'+((Math.random()-.5)*140)+'px',
+      'background:radial-gradient(circle,rgba(37,211,102,.9),rgba(37,211,102,.05))',
+      'box-shadow:0 0 '+(sz*3)+'px rgba(37,211,102,.6)',
+      'animation:floatP '+(Math.random()*18+10)+'s '+(Math.random()*16)+'s linear infinite'
     ].join(';');
-    c.appendChild(el);
+    c.appendChild(p);
   }
 })();
 </script>
