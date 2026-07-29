@@ -78,6 +78,15 @@ h3{font-size:1.15rem;font-weight:700}
 @keyframes gridDrift{from{background-position:0 0}to{background-position:60px 60px}}
 @keyframes countIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.0)}50%{box-shadow:0 0 0 10px rgba(37,211,102,.0),0 20px 60px rgba(37,211,102,.25)}}
+@keyframes progressGlow{0%,100%{opacity:1}50%{opacity:.7}}
+
+/* ── Scroll Progress ───────────────────────── */
+#progress-bar{position:fixed;top:0;left:0;width:0%;height:3px;background:linear-gradient(90deg,var(--accent-dk),var(--accent),#53e889);z-index:1002;pointer-events:none;transition:width .08s linear;animation:progressGlow 2s ease-in-out infinite}
+
+/* ── Trust strip ───────────────────────────── */
+.trust-strip{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:18px;margin-top:24px;animation:fadeUp .7s var(--ease) .42s both}
+.trust-item{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:50px;padding:5px 14px;font-size:.74rem;color:var(--text-dim);font-weight:500}
+.trust-item svg{width:14px;height:14px;color:var(--accent);flex-shrink:0}
 
 /* ── Reveal ────────────────────────────────── */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
@@ -118,8 +127,9 @@ h3{font-size:1.15rem;font-weight:700}
 .nav-logo-mark svg{width:20px;height:20px;color:#071f18}
 .nav-logo-text{font-family:var(--fh);font-size:1.25rem;font-weight:800;color:var(--text);letter-spacing:-.03em}
 .nav-links{display:flex;align-items:center;gap:30px}
-.nav-links a{color:var(--text-dim);font-size:.9rem;font-weight:500;transition:color .2s}
-.nav-links a:hover{color:var(--accent)}
+.nav-links a{color:var(--text-dim);font-size:.9rem;font-weight:500;transition:color .2s;position:relative}
+.nav-links a:hover,.nav-links a.active{color:var(--accent)}
+.nav-links a.active::after{content:'';position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);width:16px;height:2px;background:var(--accent);border-radius:2px}
 .nav-cta{display:flex;align-items:center;gap:12px}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
 .hamburger span{width:22px;height:2px;background:var(--text);border-radius:2px;transition:all .3s;display:block}
@@ -311,6 +321,11 @@ section{padding:100px 5%}
 .faq-a{max-height:0;overflow:hidden;transition:max-height .35s var(--ease),padding .3s}
 .faq-a-inner{padding:0 22px 18px;color:var(--text-dim);font-size:.9rem;line-height:1.8}
 
+/* ── Loss counter ──────────────────────────── */
+.loss-bar{background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.2);border-radius:var(--r);padding:16px 24px;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:0;font-size:.9rem;color:#f4a4a4}
+.loss-bar strong{color:#fca5a5;font-variant-numeric:tabular-nums}
+.loss-bar svg{width:18px;height:18px;color:#f87171;flex-shrink:0}
+
 /* ── CTA Banner ────────────────────────────── */
 #cta-banner{background:linear-gradient(135deg,var(--primary) 0%,var(--dark-3) 60%,rgba(37,211,102,.08) 100%);padding:100px 5%;text-align:center;position:relative;overflow:hidden;border-top:1px solid rgba(37,211,102,.1);border-bottom:1px solid rgba(37,211,102,.1)}
 #cta-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(37,211,102,.1) 0%,transparent 70%);pointer-events:none}
@@ -347,6 +362,9 @@ section{padding:100px 5%}
 </style>
 </head>
 <body>
+
+<!-- ── Scroll Progress ───────────────────────── -->
+<div id="progress-bar" aria-hidden="true"></div>
 
 <!-- ── FAB ──────────────────────────────────── -->
 <a id="float-wa" href="#cta-banner" aria-label="Start free trial">
@@ -435,6 +453,20 @@ section{padding:100px 5%}
         <div class="proof-text">
           <div class="stars-sm">★★★★★</div>
           <strong>218 Kuwait businesses</strong> already automated
+        </div>
+      </div>
+      <div class="trust-strip">
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          Official Meta WhatsApp API
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          GDPR Compliant
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          Kuwait-Based Support
         </div>
       </div>
     </div>
@@ -808,6 +840,10 @@ section{padding:100px 5%}
 <!-- ── CTA Banner ──────────────────────────────── -->
 <section id="cta-banner">
   <div class="cta-inner">
+    <div class="loss-bar reveal" style="margin-bottom:32px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Kuwait businesses lose an average of <strong id="loss-count">0</strong> potential customers every month from unanswered WhatsApps.
+    </div>
     <div class="cta-badge reveal">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
       Limited Kuwait Launch Spots
@@ -902,6 +938,15 @@ section{padding:100px 5%}
     }
   }
 
+  /* ── Scroll progress bar ─── */
+  const bar = document.getElementById('progress-bar');
+  if(bar){
+    window.addEventListener('scroll',function(){
+      const max=document.documentElement.scrollHeight-window.innerHeight;
+      bar.style.width=(max>0?Math.min(window.scrollY/max*100,100):0)+'%';
+    },{passive:true});
+  }
+
   /* ── Navbar ─── */
   const nav = document.getElementById('navbar');
   window.addEventListener('scroll',function(){
@@ -923,6 +968,21 @@ section{padding:100px 5%}
     entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible')});
   },{threshold:.12});
   document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el)});
+
+  /* ── Active nav links ─── */
+  var navAnchors=document.querySelectorAll('.nav-links a[href^="#"]');
+  var sections=document.querySelectorAll('section[id]');
+  var navIO=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var id=e.target.id;
+        navAnchors.forEach(function(a){
+          a.classList.toggle('active',a.getAttribute('href')==='#'+id);
+        });
+      }
+    });
+  },{rootMargin:'-40% 0px -50% 0px',threshold:0});
+  sections.forEach(function(s){navIO.observe(s)});
 
   /* ── FAQ accordion ─── */
   document.querySelectorAll('.faq-q').forEach(function(q){
@@ -970,6 +1030,25 @@ section{padding:100px 5%}
   },{threshold:.5});
   document.querySelectorAll('.stat-n').forEach(function(el){cro.observe(el)});
 
+  /* ── Loss counter animation ─── */
+  var lossEl=document.getElementById('loss-count');
+  if(lossEl){
+    var lossObs=new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting){
+        var start=performance.now(),target=47,dur=1400;
+        function tick(now){
+          var p=Math.min((now-start)/dur,1);
+          lossEl.textContent=Math.round(p*target*(1-Math.pow(1-p,3))+Math.pow(p,3)*target);
+          if(p<1)requestAnimationFrame(tick);
+          else lossEl.textContent=target;
+        }
+        requestAnimationFrame(tick);
+        lossObs.disconnect();
+      }
+    },{threshold:.5});
+    lossObs.observe(lossEl);
+  }
+
   /* ── Toast ─── */
   setTimeout(function(){
     const t=document.getElementById('toast');
@@ -988,19 +1067,24 @@ section{padding:100px 5%}
 
   /* ── Chat replay loop ─── */
   function replayChat(){
-    const msgs=document.querySelectorAll('.wa-body .msg,.wa-body .typing');
+    var msgs=document.querySelectorAll('.wa-body .msg,.wa-body .typing');
     msgs.forEach(function(el){
+      el.style.transition='none';
       el.style.animation='none';
       el.style.opacity='0';
     });
-    setTimeout(function(){
-      msgs.forEach(function(el){
-        el.style.animation='';
-        el.style.opacity='';
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        msgs.forEach(function(el){
+          el.style.transition='';
+          el.style.animation='';
+          el.style.opacity='';
+        });
       });
-    },60);
+    });
   }
-  setInterval(replayChat,12000);
+  /* replay every 15s — gives enough time to read all messages */
+  setInterval(replayChat,15000);
 })();
 </script>
 </body>
