@@ -80,6 +80,9 @@ h3{font-size:1.15rem;font-weight:700}
 @keyframes countIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.0)}50%{box-shadow:0 0 0 10px rgba(37,211,102,.0),0 20px 60px rgba(37,211,102,.25)}}
 @keyframes progressGlow{0%,100%{opacity:1}50%{opacity:.7}}
+@keyframes fomoPop{from{opacity:0;transform:translateX(28px) scale(.95)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes fomoOut{to{opacity:0;transform:translateX(28px) scale(.95)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;animation-iteration-count:1!important}}
 
 /* ── CTA Form ──────────────────────────────── */
 .cta-form{width:100%;max-width:560px;margin:0 auto}
@@ -368,6 +371,37 @@ section{padding:100px 5%}
 .footer-col li a{color:var(--text-dim);font-size:.88rem;transition:color .2s}
 .footer-col li a:hover{color:var(--accent)}
 .footer-bottom{max-width:var(--max);margin:0 auto;padding-top:28px;border-top:1px solid rgba(37,211,102,.07);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+/* ── Comparison ─────────────────────────── */
+#compare{background:var(--dark-2)}
+.compare-wrap{max-width:var(--max);margin:0 auto;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.compare-table{width:100%;border-collapse:separate;border-spacing:0;min-width:660px}
+.compare-table thead th{padding:18px 20px;font-family:var(--fh);font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);text-align:center;background:var(--dark-3)}
+.compare-table thead th:first-child{text-align:left;width:32%}
+.compare-table thead th.hi-col{background:linear-gradient(160deg,rgba(10,79,60,.7) 0%,rgba(37,211,102,.15) 100%);color:var(--accent);position:relative}
+.compare-table thead th.hi-col::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent)}
+.col-badge{display:inline-block;margin-left:8px;background:var(--accent);color:#071f18;font-size:.62rem;font-weight:800;padding:2px 8px;border-radius:20px;vertical-align:middle}
+.compare-table tbody tr{border-bottom:1px solid rgba(37,211,102,.06)}
+.compare-table tbody tr:last-child{border-bottom:none}
+.compare-table tbody td{padding:15px 20px;font-size:.9rem;text-align:center;vertical-align:middle;color:var(--text-dim);background:var(--dark-2)}
+.compare-table tbody td:first-child{text-align:left;font-weight:500;color:var(--text);font-size:.88rem;background:rgba(0,0,0,.12)}
+.compare-table tbody td.hi-col{background:rgba(37,211,102,.04);color:var(--text);font-weight:500}
+.compare-table tbody td.check{color:var(--accent);font-weight:700}
+.compare-table tbody td.x-mark{color:rgba(255,255,255,.28);font-size:.82rem}
+.compare-table tbody td.ok{color:var(--text-dim)}
+.compare-table tr:hover td{background:rgba(37,211,102,.03)}
+.compare-table tr:hover td.hi-col{background:rgba(37,211,102,.07)}
+.compare-note{text-align:center;margin-top:28px;font-size:.85rem;color:var(--text-dim)}
+.compare-note a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+
+/* ── FOMO ────────────────────────────────── */
+#fomo-wrap{position:fixed;bottom:100px;right:28px;z-index:902;max-width:260px;pointer-events:none}
+.fomo-card{background:#132a20;border:1px solid rgba(37,211,102,.28);border-radius:14px;padding:12px 16px;display:flex;align-items:flex-start;gap:10px;box-shadow:0 12px 40px rgba(0,0,0,.5);animation:fomoPop .4s var(--spring) both;pointer-events:auto}
+.fomo-card.out{animation:fomoOut .3s var(--ease) forwards}
+.fomo-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;flex-shrink:0;margin-top:4px;box-shadow:0 0 0 3px rgba(37,211,102,.2)}
+.fomo-text{font-size:.78rem;color:var(--text);line-height:1.5}
+.fomo-text strong{color:var(--accent)}
+.fomo-text em{font-style:normal;color:var(--text-dim);font-size:.72rem;display:block;margin-top:2px}
+
 .footer-bottom p{color:var(--text-dim);font-size:.82rem}
 .wa-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.2);border-radius:50px;padding:4px 12px;font-size:.75rem;font-weight:600;color:var(--accent)}
 .wa-badge svg{width:13px;height:13px}
@@ -383,6 +417,9 @@ section{padding:100px 5%}
 
 <!-- ── Scroll Progress ───────────────────────── -->
 <div id="progress-bar" aria-hidden="true"></div>
+
+<!-- ── FOMO Notifications ─────────────────────── -->
+<div id="fomo-wrap" aria-live="polite" aria-atomic="true"></div>
 
 <!-- ── FAB ──────────────────────────────────── -->
 <a id="float-wa" href="#cta-banner" aria-label="Start free trial">
@@ -736,7 +773,7 @@ section{padding:100px 5%}
       </ul>
       <a href="#cta-banner" class="btn btn-primary" style="width:100%;justify-content:center">Claim My Growth Plan →</a>
       <p class="p-note">14-day free trial • No card required</p>
-      <p class="p-urgency">⚡ 7 spots remaining at this price</p>
+      <p class="p-urgency">⚡ 11 spots remaining at this price</p>
       <div id="countdown-wrap" aria-live="polite">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         Offer ends in <span id="countdown">calculating…</span>
@@ -760,6 +797,38 @@ section{padding:100px 5%}
       <a href="#cta-banner" class="btn btn-outline" style="width:100%;justify-content:center">Talk to Our Team →</a>
       <p class="p-note">Custom pricing • White-glove setup</p>
     </div>
+  </div>
+</section>
+
+<!-- ── Comparison ─────────────────────────────── -->
+<section id="compare">
+  <div class="sec-head reveal">
+    <div class="sec-label">Why Focobot Wins</div>
+    <h2 class="sec-title">See How We Compare<br>Against Every Alternative</h2>
+    <p class="sec-sub">Manual replies miss sales. Generic chatbots don't speak Arabic. Focobot was built from day one for Kuwait.</p>
+  </div>
+  <div class="compare-wrap reveal">
+    <table class="compare-table" role="table">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Manual Reply</th>
+          <th scope="col">Generic Chatbot</th>
+          <th scope="col" class="hi-col">Focobot <span class="col-badge">Best Choice</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Response time</td><td class="x-mark">Hours (or never)</td><td class="ok">Instant</td><td class="check hi-col">Under 2 seconds ✓</td></tr>
+        <tr><td>Arabic &amp; Gulf dialect</td><td class="ok">Human ✓</td><td class="x-mark">Poor / broken</td><td class="check hi-col">Native AI ✓</td></tr>
+        <tr><td>Available 24 / 7</td><td class="x-mark">No — staff sleep</td><td class="ok">Yes</td><td class="check hi-col">Always on ✓</td></tr>
+        <tr><td>Booking &amp; order automation</td><td class="x-mark">Manual back-and-forth</td><td class="x-mark">Requires dev work</td><td class="check hi-col">Built-in ✓</td></tr>
+        <tr><td>Knows Kuwait business culture</td><td class="ok">Yes</td><td class="x-mark">No</td><td class="check hi-col">Designed for Kuwait ✓</td></tr>
+        <tr><td>AI upsell &amp; follow-up</td><td class="x-mark">Relies on staff</td><td class="x-mark">Rarely included</td><td class="check hi-col">Automated sequences ✓</td></tr>
+        <tr><td>Setup time</td><td class="ok">Immediate</td><td class="x-mark">Weeks of dev</td><td class="check hi-col">48 hours ✓</td></tr>
+        <tr><td>Monthly cost</td><td class="x-mark">Staff salary + overtime</td><td class="x-mark">100 – 500+ KWD</td><td class="check hi-col">From 29 KWD ✓</td></tr>
+      </tbody>
+    </table>
+    <p class="compare-note">Based on internal data and publicly available competitor pricing as of July 2026. All plans include a 14-day free trial. <a href="#pricing">View plans →</a></p>
   </div>
 </section>
 
@@ -1118,7 +1187,7 @@ section{padding:100px 5%}
   (function(){
     var el=document.getElementById('countdown');
     if(!el)return;
-    var end=new Date('2026-08-06T23:59:59+03:00').getTime();
+    var end=new Date('2026-08-14T23:59:59+03:00').getTime();
     function pad(n){return n<10?'0'+n:String(n)}
     function tick(){
       var diff=end-Date.now();
@@ -1131,6 +1200,32 @@ section{padding:100px 5%}
     }
     tick();
     setInterval(tick,1000);
+  })();
+
+  /* ── FOMO rotating notifications ─── */
+  (function(){
+    var wrap=document.getElementById('fomo-wrap');
+    if(!wrap)return;
+    var data=[
+      {name:'محمد العازمي',biz:'Restaurant · Salmiya',msg:'just activated Focobot'},
+      {name:'سارة الرشيد',biz:'Beauty Salon · Hawalli',msg:'got their first automated booking'},
+      {name:'فهد المطيري',biz:'Retail Store · Rumaithiya',msg:'joined 3 minutes ago'},
+      {name:'نورة الصباح',biz:'Dental Clinic · Farwaniya',msg:'started 14-day free trial'},
+      {name:'خالد العنزي',biz:'Café · Shuwaikh',msg:'went live in 48 hours'},
+      {name:'ريم الكندري',biz:'Fashion Boutique · Kuwait City',msg:'just activated Focobot'},
+      {name:'علي البدر',biz:'Auto Dealer · Mangaf',msg:'automated 500+ messages today'},
+    ];
+    var idx=0,card=null;
+    function showFomo(){
+      if(card){card.classList.add('out');setTimeout(function(){if(card&&card.parentNode)card.parentNode.removeChild(card);card=null},320)}
+      var d=data[idx%data.length];idx++;
+      var el=document.createElement('div');
+      el.className='fomo-card';
+      el.innerHTML='<div class="fomo-dot"></div><div class="fomo-text"><strong>'+d.name+'</strong> '+d.msg+'<em>'+d.biz+'</em></div>';
+      wrap.appendChild(el);card=el;
+      setTimeout(function(){if(card===el){el.classList.add('out');setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);if(card===el)card=null},320)}},6000);
+    }
+    setTimeout(function(){showFomo();setInterval(showFomo,14000)},18000);
   })();
 
   /* ── Trial form AJAX submit (Netlify) ─── */
