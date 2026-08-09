@@ -64,6 +64,7 @@ h3{font-size:1.15rem;font-weight:700}
 @keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes marqueeR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 @keyframes floatParticle{0%{opacity:0;transform:translateY(0) scale(1)}8%{opacity:.9}70%{opacity:.25}100%{opacity:0;transform:translateY(-105vh) translateX(var(--px,0)) scale(.15)}}
 @keyframes typingDot{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-5px);opacity:1}}
@@ -240,8 +241,9 @@ h3{font-size:1.15rem;font-weight:700}
 }
 
 /* ── Marquee ───────────────────────────────── */
-#marquee{padding:18px 0;border-top:1px solid rgba(37,211,102,.1);border-bottom:1px solid rgba(37,211,102,.1);background:rgba(10,79,60,.07);overflow:hidden}
+#marquee{padding:10px 0;border-top:1px solid rgba(37,211,102,.1);border-bottom:1px solid rgba(37,211,102,.1);background:rgba(10,79,60,.07);overflow:hidden}
 .mq-track{display:flex;animation:marquee 30s linear infinite;width:max-content}
+.mq-track.rev{animation:marqueeR 36s linear infinite;opacity:.65}
 #marquee:hover .mq-track{animation-play-state:paused}
 .mq-item{display:flex;align-items:center;gap:9px;padding:4px 30px;white-space:nowrap;color:var(--text-dim);font-size:.88rem;font-weight:500}
 .mq-item svg{color:var(--accent);flex-shrink:0;width:14px;height:14px}
@@ -630,6 +632,32 @@ section{padding:100px 5%}
     <div class="mq-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 12A5.5 5.5 0 0112 17.5 5.5 5.5 0 016.5 12 5.5 5.5 0 0112 6.5 5.5 5.5 0 0117.5 12M12 2A10 10 0 002 12a10 10 0 0010 10 10 10 0 0010-10A10 10 0 0012 2z"/></svg> Auto Dealers</div>
     <div class="mq-dot"></div>
   </div>
+  <div class="mq-track rev">
+    <div class="mq-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm1 14h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> Pharmacies</div>
+    <div class="mq-dot"></div>
+    <div class="mq-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg> Insurance</div>
+    <div class="mq-dot"></div>
+    <div class="mq-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg> Event Planning</div>
+    <div class="mq-dot"></div>
+    <div class="mq-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 6H14c-.17 0-.36.02-.53.07L8.46 15H10c.17 0 .36-.02.53-.07L16.54 8H15.5zm-7 0H7c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h1.5L15 8H13.5L8.5 8z"/></svg> Fitness & Gyms</div>
+    <div class="mq-dot"></div>
+    <div class="mq-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 6l-1-2H5v17h2v-7h5l1 2h7V6h-6zm4 8h-4l-1-2H7V6h5l1 2h5v6z"/></svg> Law Firms</div>
+    <div class="mq-dot"></div>
+    <div class="mq-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg> Marketing Agencies</div>
+    <div class="mq-dot"></div>
+    <div class="mq-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm1 14h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> Pharmacies</div>
+    <div class="mq-dot"></div>
+    <div class="mq-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg> Insurance</div>
+    <div class="mq-dot"></div>
+    <div class="mq-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg> Event Planning</div>
+    <div class="mq-dot"></div>
+    <div class="mq-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 6H14c-.17 0-.36.02-.53.07L8.46 15H10c.17 0 .36-.02.53-.07L16.54 8H15.5zm-7 0H7c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h1.5L15 8H13.5L8.5 8z"/></svg> Fitness & Gyms</div>
+    <div class="mq-dot"></div>
+    <div class="mq-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 6l-1-2H5v17h2v-7h5l1 2h7V6h-6zm4 8h-4l-1-2H7V6h5l1 2h5v6z"/></svg> Law Firms</div>
+    <div class="mq-dot"></div>
+    <div class="mq-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg> Marketing Agencies</div>
+    <div class="mq-dot"></div>
+  </div>
 </div>
 
 <!-- ── Stats ──────────────────────────────────── -->
@@ -872,7 +900,7 @@ section{padding:100px 5%}
         <tr><td>Monthly cost</td><td class="x-mark">Staff salary + overtime</td><td class="x-mark">100 – 500+ KWD</td><td class="check hi-col">From 29 KWD ✓</td></tr>
       </tbody>
     </table>
-    <p class="compare-note">Based on internal data and publicly available competitor pricing as of August 2026. All plans include a 14-day free trial. <a href="#pricing">View plans →</a></p>
+    <p class="compare-note">Based on internal data and publicly available competitor pricing as of 2026. All plans include a 14-day free trial. <a href="#pricing">View plans →</a></p>
   </div>
 </section>
 
@@ -1030,7 +1058,7 @@ section{padding:100px 5%}
   /* ── Particles ─── */
   const wrap = document.getElementById('particles');
   if(wrap){
-    for(let i=0;i<28;i++){
+    for(let i=0;i<38;i++){
       const p=document.createElement('div');
       p.className='prt';
       const x=Math.random()*100, size=2+Math.random()*5;
@@ -1187,7 +1215,7 @@ section{padding:100px 5%}
   (function(){
     var el=document.getElementById('countdown');
     if(!el)return;
-    var end=new Date('2026-08-20T23:59:59+03:00').getTime();
+    var now=new Date();var end=new Date(now.getFullYear(),now.getMonth(),now.getDate()+14,23,59,59,0).getTime();
     function pad(n){return n<10?'0'+n:String(n)}
     function tick(){
       var diff=end-Date.now();
