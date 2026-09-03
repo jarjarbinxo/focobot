@@ -342,6 +342,18 @@ footer{background:#040e0b;padding:60px 5% 28px;border-top:1px solid var(--glass-
   .cta-btns{flex-direction:column;align-items:center}
   .stats-grid{grid-template-columns:1fr}
 }
+
+/* ── Scroll offset for sticky nav ── */
+section[id],#stats{scroll-margin-top:80px}
+
+/* ── Floating WhatsApp CTA ── */
+.wa-float{position:fixed;bottom:28px;right:24px;z-index:990;width:60px;height:60px;border-radius:50%;background:var(--accent);color:#000;display:flex;align-items:center;justify-content:center;font-size:1.65rem;box-shadow:0 6px 24px rgba(37,211,102,.5);text-decoration:none;transition:transform .25s,box-shadow .25s,opacity .35s;opacity:0;transform:scale(.7);pointer-events:none;line-height:1}
+.wa-float.visible{opacity:1;transform:scale(1);pointer-events:auto}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 10px 36px rgba(37,211,102,.6)}
+.wa-float-label{position:absolute;right:calc(100% + 12px);background:rgba(4,14,11,.92);color:#fff;font-size:.76rem;font-weight:700;padding:6px 13px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;backdrop-filter:blur(8px);border:1px solid rgba(37,211,102,.18)}
+.wa-float:hover .wa-float-label{opacity:1}
+.wa-float-ring{position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(37,211,102,.35);animation:waRing 2.2s ease-out infinite}
+@keyframes waRing{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.5);opacity:0}}
 </style>
 </head>
 <body>
@@ -906,14 +918,47 @@ footer{background:#040e0b;padding:60px 5% 28px;border-top:1px solid var(--glass-
   </div>
 </footer>
 
+<!-- ══════════ FLOATING WA BUTTON ══════════ -->
+<a class="wa-float" id="wa-float" href="https://wa.me/96500000000?text=I want to try Focobot free for 14 days" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp">
+  <span class="wa-float-ring" aria-hidden="true"></span>
+  💬
+  <span class="wa-float-label">Chat on WhatsApp</span>
+</a>
+
 <script>
+// ── Spots counter with localStorage decay ──
+(function(){
+  try{
+    const KEY='fb_spots_v2';
+    const stored=JSON.parse(localStorage.getItem(KEY)||'null');
+    const now=Date.now();
+    let spots=27;
+    if(stored){
+      const daysPassed=(now-stored.ts)/86400000;
+      spots=Math.max(3,Math.floor(stored.val-daysPassed*1.8));
+    }
+    localStorage.setItem(KEY,JSON.stringify({val:spots,ts:now}));
+    const el=document.getElementById('spots-count');
+    if(el)el.textContent=spots;
+    const u=document.querySelector('.cta-urgency strong');
+    if(u)u.textContent='Only '+spots+' launch spots remaining';
+    const pct=Math.round(((27-spots)/24)*100);
+    const fill=document.querySelector('.urgency-fill-inner');
+    if(fill)fill.style.width=Math.min(97,Math.max(60,pct))+'%';
+    const pctLabel=document.querySelector('.urgency-bar span');
+    if(pctLabel)pctLabel.textContent=Math.min(97,Math.max(60,pct))+'% of spots filled';
+  }catch(e){}
+})();
+
 // ── Scroll progress + navbar ──
 const nav = document.getElementById('nav');
 const prog = document.getElementById('prog');
+const waFloatBtn = document.getElementById('wa-float');
 window.addEventListener('scroll', () => {
   const pct = (scrollY / (document.body.scrollHeight - innerHeight)) * 100;
   prog.style.width = pct + '%';
   nav.classList.toggle('scrolled', scrollY > 30);
+  if(waFloatBtn) waFloatBtn.classList.toggle('visible', scrollY > 420);
 }, {passive: true});
 
 // ── Mobile menu ──
@@ -1045,11 +1090,16 @@ function runChat(msgs) {
   msgs.forEach(({type, text, delay}) => {
     setTimeout(() => addMsg(type, text), delay);
   });
-  const total = msgs[msgs.length - 1].delay + 3200;
+  const total = msgs[msgs.length - 1].delay + 3400;
   setTimeout(() => {
-    chatBody.innerHTML = '<div class="chat-date">Today</div>';
-    typingBubble = null;
-    runChat(msgs);
+    chatBody.style.transition = 'opacity .5s';
+    chatBody.style.opacity = '0';
+    setTimeout(() => {
+      chatBody.innerHTML = '<div class="chat-date">Today</div>';
+      typingBubble = null;
+      chatBody.style.opacity = '1';
+      runChat(msgs);
+    }, 520);
   }, total);
 }
 runChat(messages);
