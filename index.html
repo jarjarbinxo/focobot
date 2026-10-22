@@ -242,11 +242,22 @@ footer{background:var(--bg);border-top:1px solid var(--glass-border);padding:52p
 }
 @media(max-width:600px){
   .nav-links{display:none}
+  .nav-links.mobile-open{display:flex;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:rgba(7,31,24,.97);backdrop-filter:blur(20px);padding:18px 24px 26px;gap:18px;border-bottom:1px solid var(--glass-border);z-index:99}
   .features-grid,.pricing-grid,.testi-grid{grid-template-columns:1fr}
   .stats-grid{grid-template-columns:1fr 1fr}
   .footer-top{grid-template-columns:1fr}
   .footer-bottom{flex-direction:column;gap:12px;text-align:center}
 }
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none}
+.hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:transform .25s,opacity .25s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media(max-width:600px){.hamburger{display:flex}}
+.wa-float{position:fixed;bottom:24px;right:22px;z-index:200;display:flex;align-items:center;gap:10px;background:var(--accent);color:#000;font-weight:700;font-size:.82rem;padding:13px 18px;border-radius:50px;box-shadow:0 8px 30px rgba(37,211,102,.45);text-decoration:none;transition:transform .2s,box-shadow .2s;white-space:nowrap;animation:fadeUp .6s 2s ease both;opacity:0}
+.wa-float:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(37,211,102,.55)}
+.wa-float-icon{font-size:1.1rem;animation:glowPulse 2s ease-in-out infinite}
+@media(max-width:400px){.wa-float span{display:none}.wa-float{padding:15px}}
 </style>
 </head>
 <body>
@@ -268,6 +279,9 @@ footer{background:var(--bg);border-top:1px solid var(--glass-border);padding:52p
       <a href="#faq">FAQ</a>
       <a href="#pricing" class="nav-cta">Start Free Trial</a>
     </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
@@ -713,7 +727,36 @@ footer{background:var(--bg);border-top:1px solid var(--glass-border);padding:52p
   </div>
 </footer>
 
+<a class="wa-float" href="#pricing" aria-label="Start free trial on WhatsApp">
+  <span class="wa-float-icon">💬</span>
+  <span>Start Free Trial</span>
+</a>
+
 <script>
+/* ── HAMBURGER MENU ── */
+(function(){
+  const btn=document.getElementById('hamburger');
+  const links=document.querySelector('.nav-links');
+  if(!btn||!links) return;
+  btn.addEventListener('click',()=>{
+    const open=links.classList.toggle('mobile-open');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',String(open));
+  });
+  document.addEventListener('click',e=>{
+    if(!btn.contains(e.target)&&!links.contains(e.target)){
+      links.classList.remove('mobile-open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+  links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+    links.classList.remove('mobile-open');
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
+  }));
+})();
+
 /* ── CANVAS PARTICLES ── */
 (function(){
   const canvas=document.getElementById('particle-canvas');
