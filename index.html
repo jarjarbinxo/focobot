@@ -1,623 +1,1345 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Focobot — WhatsApp AI That Closes Sales 24/7 | Kuwait</title>
-<meta name="description" content="Stop losing customers to unanswered WhatsApp messages. Focobot replies in 2 seconds, handles 500+ chats daily, closes sales while you sleep. Built for Kuwait businesses.">
-<link rel="canonical" href="https://focobot.com">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://focobot.com">
-<meta property="og:title" content="Focobot — WhatsApp AI That Closes Sales 24/7 | Kuwait">
-<meta property="og:description" content="Stop losing customers to unanswered WhatsApp messages. 2-second AI responses. 500+ chats daily. 98% satisfaction.">
-<meta property="og:image" content="https://focobot.com/og-image.png">
-<meta property="og:locale" content="en_KW">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Focobot — WhatsApp AI That Closes Sales 24/7">
-<meta name="twitter:description" content="Stop losing customers to unanswered WhatsApp messages. Built for Kuwait.">
-<meta name="robots" content="index, follow">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "SoftwareApplication",
-      "name": "Focobot",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "WhatsApp",
-      "offers": [
-        {"@type":"Offer","name":"Starter","price":"29","priceCurrency":"KWD"},
-        {"@type":"Offer","name":"Growth","price":"59","priceCurrency":"KWD"},
-        {"@type":"Offer","name":"Enterprise","priceSpecification":{"@type":"PriceSpecification","priceCurrency":"KWD","description":"Custom pricing"}}
-      ],
-      "aggregateRating": {"@type":"AggregateRating","ratingValue":"4.9","ratingCount":"312","bestRating":"5"}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focobot – WhatsApp Automation for Kuwait Businesses</title>
+  <meta name="description" content="Stop losing customers to unanswered WhatsApp messages. Focobot automates 500+ daily messages, responds in 2 seconds, and keeps your business running 24/7.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #071f18;
+      --primary: #0a4f3c;
+      --accent: #25D366;
+      --accent-light: #4ae088;
+      --accent-glow: rgba(37,211,102,0.25);
+      --glass-bg: rgba(10,79,60,0.18);
+      --glass-border: rgba(37,211,102,0.15);
+      --text-primary: #f0faf4;
+      --text-secondary: rgba(240,250,244,0.65);
+      --text-muted: rgba(240,250,244,0.4);
+      --card-bg: rgba(7,31,24,0.6);
+      --white: #ffffff;
+      --radius: 16px;
+      --radius-lg: 24px;
     }
-  ]
-}
-</script>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#071f18;
-  --bg2:#0a2a1e;
-  --primary:#0a4f3c;
-  --accent:#25D366;
-  --accent-light:#4ade80;
-  --accent-dark:#19a348;
-  --text-muted:#8ab8a0;
-  --glass:rgba(10,79,60,.3);
-  --glass-border:rgba(37,211,102,.12);
-}
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-#particle-canvas{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.6}
-.orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0}
-.orb1{width:650px;height:650px;background:rgba(37,211,102,.05);top:-200px;right:-140px;animation:drift 24s ease-in-out infinite}
-.orb2{width:450px;height:450px;background:rgba(10,79,60,.16);bottom:-120px;left:-100px;animation:drift 32s ease-in-out infinite;animation-delay:-13s}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(32px,-20px)}}
-@keyframes floatPhone{0%,100%{transform:translateY(0) rotate(1.5deg)}50%{transform:translateY(-10px) rotate(1.5deg)}}
-@keyframes glowPulse{0%,100%{box-shadow:0 0 18px rgba(37,211,102,.3)}50%{box-shadow:0 0 46px rgba(37,211,102,.65)}}
-@keyframes typing{0%,60%,100%{opacity:1}30%{opacity:.25}}
-@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
-@keyframes badgePop{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
-@keyframes ringPulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.2);opacity:0}}
-@keyframes spotFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
-@keyframes msgIn{from{opacity:0;transform:translateX(-12px) scale(.95)}to{opacity:1;transform:none}}
-@keyframes msgOut{from{opacity:0;transform:translateX(12px) scale(.95)}to{opacity:1;transform:none}}
-nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(7,31,24,.75);border-bottom:1px solid var(--glass-border)}
-.nav-inner{max-width:1140px;margin:0 auto;height:64px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.logo{display:flex;align-items:center;gap:10px;font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800}
-.logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
-.nav-links{display:flex;align-items:center;gap:30px;font-size:.875rem;font-weight:500}
-.nav-links a{color:var(--text-muted);transition:color .2s}
-.nav-links a:hover{color:#fff}
-.nav-cta{background:var(--accent);color:#000!important;font-weight:700!important;padding:8px 22px;border-radius:50px;transition:transform .2s,box-shadow .2s!important}
-.nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(37,211,102,.38)!important}
-section,footer,.marquee-section{position:relative;z-index:1}
-.hero{min-height:93vh;display:flex;align-items:center;padding:60px 24px 80px;overflow:hidden}
-.hero-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
-.hero-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.24);border-radius:50px;padding:7px 16px;font-size:.78rem;font-weight:700;color:var(--accent);margin-bottom:22px;animation:fadeUp .5s ease both,badgePop 3.8s ease-in-out 1.2s infinite}
-.badge-dot{position:relative;width:8px;height:8px;flex-shrink:0}
-.badge-dot-inner{position:absolute;inset:0;background:var(--accent);border-radius:50%;animation:glowPulse 1.8s ease-in-out infinite}
-.badge-dot-ring{position:absolute;inset:0;border:1.5px solid var(--accent);border-radius:50%;animation:ringPulse 1.8s ease-out infinite}
-h1{font-family:'Syne',sans-serif;font-size:clamp(2.3rem,5vw,3.8rem);font-weight:800;line-height:1.1;margin-bottom:22px;animation:fadeUp .5s .12s ease both}
-.hl{background:linear-gradient(135deg,var(--accent) 0%,var(--accent-light) 60%,var(--accent) 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 5s linear infinite}
-.hero-sub{font-size:1.06rem;color:var(--text-muted);line-height:1.78;max-width:510px;margin-bottom:34px;animation:fadeUp .5s .2s ease both}
-.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:38px;animation:fadeUp .5s .28s ease both}
-.btn-primary{position:relative;display:inline-flex;align-items:center;gap:8px;overflow:hidden;background:var(--accent);color:#000;font-weight:700;font-size:.97rem;padding:14px 28px;border-radius:50px;transition:transform .2s,box-shadow .2s;border:none;cursor:pointer;white-space:nowrap}
-.btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);background-size:200% auto;animation:shimmer 3s linear infinite}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 38px rgba(37,211,102,.4)}
-.btn-secondary{display:inline-flex;align-items:center;gap:8px;background:transparent;color:#fff;font-weight:600;font-size:.97rem;padding:14px 28px;border-radius:50px;border:1px solid rgba(255,255,255,.15);transition:border-color .25s,background .25s;white-space:nowrap}
-.btn-secondary:hover{border-color:var(--accent);background:rgba(37,211,102,.07)}
-.hero-trust{display:flex;align-items:center;gap:18px;font-size:.82rem;color:var(--text-muted);animation:fadeUp .5s .34s ease both}
-.trust-avatars{display:flex}
-.trust-avatars span{width:30px;height:30px;border-radius:50%;border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:.75rem;background:var(--primary);margin-left:-9px}
-.trust-avatars span:first-child{margin-left:0}
-#live-ticker{display:inline-flex;align-items:center;gap:8px;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.18);border-radius:9px;padding:7px 13px;font-size:.73rem;font-weight:600;color:var(--accent);margin-top:12px;animation:fadeIn .8s 1.8s ease both;opacity:0;transition:opacity .35s}
-#live-ticker::before{content:'';width:7px;height:7px;background:var(--accent);border-radius:50%;animation:glowPulse 1.5s ease-in-out infinite;flex-shrink:0}
-.hero-visual{display:flex;justify-content:center;align-items:center;animation:fadeUp .5s .1s ease both}
-.phone{width:268px;background:#1a1a2e;border-radius:38px;padding:14px;box-shadow:0 44px 88px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.06),0 0 50px rgba(37,211,102,.08);animation:floatPhone 4.5s ease-in-out infinite}
-.phone-bar{background:#075e54;border-radius:26px 26px 0 0;padding:10px 14px;display:flex;align-items:center;gap:10px}
-.phone-avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
-.phone-info{flex:1;min-width:0}
-.phone-name{font-size:.78rem;font-weight:700;color:#fff}
-.phone-status{font-size:.62rem;color:#a8d5ba}
-.phone-menu{display:flex;flex-direction:column;gap:4px;opacity:.4}
-.phone-menu-dot{width:3.5px;height:3.5px;background:#fff;border-radius:50%}
-.chat-body{background:#0b1f15;padding:10px;border-radius:0 0 26px 26px;display:flex;flex-direction:column;gap:8px;min-height:320px;overflow:hidden}
-.msg{max-width:84%;padding:8px 11px;border-radius:11px;font-size:.75rem;line-height:1.52;position:relative;opacity:0}
-.msg.show-in{animation:msgIn .4s ease both;opacity:1}
-.msg.show-out{animation:msgOut .4s ease both;opacity:1}
-.msg-in{background:#1f2c34;border-radius:11px 11px 11px 2px;align-self:flex-start;color:#e0e0e0}
-.msg-out{background:#005c4b;border-radius:11px 11px 2px 11px;align-self:flex-end;color:#e8f5e9}
-.msg-ar{direction:rtl;font-size:.78rem}
-.msg-time{font-size:.58rem;color:rgba(255,255,255,.38);margin-top:4px;text-align:right}
-.msg-check{color:var(--accent);margin-left:3px;font-size:.65rem}
-.typing{display:flex;gap:5px;align-items:center;padding:9px 12px;background:#1f2c34;border-radius:11px 11px 11px 2px;align-self:flex-start;width:54px;opacity:0;transition:opacity .3s}
-.typing.visible{opacity:1}
-.typing span{width:6px;height:6px;background:var(--text-muted);border-radius:50%}
-.typing span:nth-child(1){animation:typing 1.3s .0s infinite}
-.typing span:nth-child(2){animation:typing 1.3s .22s infinite}
-.typing span:nth-child(3){animation:typing 1.3s .44s infinite}
-.marquee-section{background:var(--bg2);padding:20px 0;border-top:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border);overflow:hidden}
-.marquee-track{display:flex;width:max-content;animation:marquee 38s linear infinite}
-.marquee-item{display:flex;align-items:center;gap:10px;padding:0 36px;font-size:.88rem;font-weight:600;color:var(--text-muted);white-space:nowrap}
-.marquee-emoji{font-size:1.05rem}
-.stats-section{padding:90px 24px;text-align:center}
-.stats-inner{max-width:980px;margin:0 auto}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
-.stat-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:22px;padding:36px 20px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:transform .3s,border-color .3s}
-.stat-card:hover{transform:translateY(-5px);border-color:rgba(37,211,102,.26)}
-.stat-number{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,4.5vw,3rem);font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:9px}
-.stat-label{font-size:.85rem;color:var(--text-muted);line-height:1.55}
-.demo-section{padding:80px 24px;background:var(--bg2)}
-.demo-inner{max-width:980px;margin:0 auto}
-.section-label{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
-.section-title{font-family:'Syne',sans-serif;font-size:clamp(1.75rem,3.5vw,2.6rem);font-weight:800;margin-bottom:14px}
-.section-sub{color:var(--text-muted);font-size:.95rem;max-width:520px;line-height:1.74;margin-bottom:42px}
-.tab-list{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:34px}
-.tab-btn{padding:9px 20px;border-radius:50px;font-size:.84rem;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--text-muted);transition:all .22s;font-family:'DM Sans',sans-serif}
-.tab-btn.active{background:var(--accent);color:#000;border-color:var(--accent)}
-.tab-panel{display:none}
-.tab-panel.active{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
-.tab-phone{width:220px;margin:0 auto;background:#1a1a2e;border-radius:30px;padding:10px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
-.tab-chat{background:#0b1f15;padding:10px;border-radius:22px;display:flex;flex-direction:column;gap:7px}
-.tab-copy h3{font-family:'Syne',sans-serif;font-size:1.38rem;font-weight:800;margin-bottom:12px}
-.tab-copy p{color:var(--text-muted);font-size:.92rem;line-height:1.72;margin-bottom:20px}
-.tag{display:inline-block;background:rgba(37,211,102,.1);color:var(--accent);font-size:.74rem;font-weight:700;padding:4px 11px;border-radius:20px;margin-right:6px;margin-bottom:6px}
-.features-section{padding:92px 24px;background:var(--bg2)}
-.features-header{max-width:1100px;margin:0 auto;text-align:center;padding-bottom:56px}
-.features-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.feature-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:22px;padding:34px 30px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:transform .3s,border-color .3s,box-shadow .3s}
-.feature-card:hover{transform:translateY(-7px);border-color:rgba(37,211,102,.3);box-shadow:0 22px 54px rgba(37,211,102,.09)}
-.feature-icon{width:50px;height:50px;background:linear-gradient(135deg,var(--primary),rgba(37,211,102,.2));border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:1.45rem;margin-bottom:20px}
-.feature-card h3{font-family:'Syne',sans-serif;font-size:1.08rem;font-weight:800;margin-bottom:10px}
-.feature-card p{font-size:.875rem;color:var(--text-muted);line-height:1.72}
-.feature-metric{display:inline-block;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.2);color:var(--accent);font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:12px}
-.how-section{padding:92px 24px}
-.how-inner{max-width:900px;margin:0 auto;text-align:center}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:44px;margin-top:56px;position:relative}
-.steps::before{content:'';position:absolute;top:36px;left:calc(16.66% + 20px);right:calc(16.66% + 20px);height:1px;background:linear-gradient(90deg,transparent,var(--glass-border) 20%,var(--glass-border) 80%,transparent)}
-.step{text-align:center}
-.step-num{width:72px;height:72px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;margin:0 auto 22px;box-shadow:0 0 30px rgba(37,211,102,.24)}
-.step h3{font-family:'Syne',sans-serif;font-size:1.08rem;font-weight:800;margin-bottom:11px}
-.step p{font-size:.86rem;color:var(--text-muted);line-height:1.7}
-.pricing-section{padding:92px 24px;background:var(--bg2)}
-.pricing-inner{max-width:1100px;margin:0 auto;text-align:center}
-.pricing-urgency{display:inline-flex;align-items:center;gap:10px;background:rgba(255,160,50,.1);border:1px solid rgba(255,160,50,.28);border-radius:50px;padding:8px 18px;font-size:.8rem;font-weight:700;color:#ffb347;margin-top:24px;margin-bottom:8px;animation:spotFade .6s ease both,badgePop 4s ease-in-out 2s infinite}
-.pricing-urgency::before{content:'';width:7px;height:7px;background:#ffb347;border-radius:50%;animation:glowPulse 1.8s ease-in-out infinite;flex-shrink:0}
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:48px}
-.plan{background:var(--glass);border:1px solid var(--glass-border);border-radius:26px;padding:38px 32px;text-align:left;position:relative;transition:transform .3s,box-shadow .3s}
-.plan-popular{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 26px 64px rgba(37,211,102,.13)}
-.plan-popular:hover{transform:translateY(-6px);box-shadow:0 0 0 1px var(--accent),0 36px 80px rgba(37,211,102,.18)}
-.plan:not(.plan-popular):hover{transform:translateY(-5px)}
-.plan-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;font-size:.72rem;font-weight:800;padding:5px 16px;border-radius:50px;white-space:nowrap;letter-spacing:.04em}
-.plan-name{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:7px}
-.plan-price{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;line-height:1;margin-bottom:4px}
-.plan-price sup{font-size:1rem;vertical-align:top;margin-top:10px;display:inline-block}
-.plan-period{font-size:.8rem;color:var(--text-muted);margin-bottom:24px}
-.plan-features{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
-.plan-features li{font-size:.87rem;color:var(--text-muted);display:flex;align-items:flex-start;gap:10px}
-.plan-features li::before{content:'✓';color:var(--accent);font-weight:800;flex-shrink:0;margin-top:1px}
-.testimonials-section{padding:72px 24px}
-.testimonials-inner{max-width:1100px;margin:0 auto;text-align:center}
-.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:52px}
-.testi-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:22px;padding:32px;text-align:left;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:transform .3s,border-color .3s}
-.testi-card:hover{transform:translateY(-5px);border-color:rgba(37,211,102,.22)}
-.stars{color:var(--accent);font-size:.9rem;margin-bottom:15px;letter-spacing:.04em}
-.testi-card blockquote{font-size:.89rem;line-height:1.74;color:#d4ead8;margin-bottom:22px;font-style:italic}
-.testi-author{display:flex;align-items:center;gap:13px}
-.testi-avatar{width:42px;height:42px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
-.testi-name{font-weight:700;font-size:.88rem}
-.testi-role{font-size:.74rem;color:var(--text-muted)}
-.faq-section{padding:92px 24px;background:var(--bg2)}
-.faq-inner{max-width:740px;margin:0 auto;text-align:center}
-.faq-list{margin-top:50px;text-align:left}
-.faq-item{border-bottom:1px solid var(--glass-border)}
-.faq-q{width:100%;background:none;border:none;color:#fff;font-size:.97rem;font-weight:600;padding:21px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:18px;text-align:left;font-family:'DM Sans',sans-serif;line-height:1.5}
-.faq-icon{width:24px;height:24px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;flex-shrink:0;transition:transform .3s,background .3s}
-.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--accent)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .42s ease,padding .3s}
-.faq-item.open .faq-a{max-height:300px;padding-bottom:20px}
-.faq-a p{font-size:.9rem;color:var(--text-muted);line-height:1.74}
-.cta-section{padding:110px 24px;text-align:center;background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 100%)}
-.cta-inner{max-width:700px;margin:0 auto}
-.cta-section h2{font-family:'Syne',sans-serif;font-size:clamp(2.1rem,5vw,3.1rem);font-weight:800;margin-bottom:20px}
-.cta-section p{color:var(--text-muted);font-size:1.02rem;line-height:1.74;margin-bottom:38px}
-.cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-.cta-note{font-size:.78rem;color:var(--text-muted);margin-top:18px}
-footer{background:var(--bg);border-top:1px solid var(--glass-border);padding:52px 24px 34px}
-.footer-inner{max-width:1140px;margin:0 auto}
-.footer-top{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:44px;margin-bottom:44px}
-.footer-brand p{font-size:.84rem;color:var(--text-muted);line-height:1.72;margin-top:12px;max-width:230px}
-.footer-col h4{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:15px}
-.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
-.footer-col ul a{font-size:.84rem;color:var(--text-muted);transition:color .2s}
-.footer-col ul a:hover{color:#fff}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:26px;border-top:1px solid var(--glass-border);font-size:.78rem;color:var(--text-muted)}
-.footer-social{display:flex;gap:16px}
-.footer-social a{color:var(--text-muted);transition:color .2s}
-.footer-social a:hover{color:var(--accent)}
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
-.reveal.visible{opacity:1;transform:none}
-@media(max-width:960px){
-  .hero-inner{grid-template-columns:1fr;gap:44px}
-  .hero-visual{order:-1}
-  .phone{width:230px}
-  .features-grid,.pricing-grid,.testi-grid{grid-template-columns:1fr 1fr}
-  .stats-grid{grid-template-columns:1fr 1fr}
-  .steps{grid-template-columns:1fr;gap:32px}
-  .steps::before{display:none}
-  .footer-top{grid-template-columns:1fr 1fr}
-  .tab-panel.active{grid-template-columns:1fr}
-  .tab-phone{display:none}
-}
-@media(max-width:600px){
-  .nav-links{display:none}
-  .nav-links.mobile-open{display:flex;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:rgba(7,31,24,.97);backdrop-filter:blur(20px);padding:18px 24px 26px;gap:18px;border-bottom:1px solid var(--glass-border);z-index:99}
-  .features-grid,.pricing-grid,.testi-grid{grid-template-columns:1fr}
-  .stats-grid{grid-template-columns:1fr 1fr}
-  .footer-top{grid-template-columns:1fr}
-  .footer-bottom{flex-direction:column;gap:12px;text-align:center}
-}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none}
-.hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:transform .25s,opacity .25s}
-.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.hamburger.open span:nth-child(2){opacity:0}
-.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-@media(max-width:600px){.hamburger{display:flex}}
-.wa-float{position:fixed;bottom:24px;right:22px;z-index:200;display:flex;align-items:center;gap:10px;background:var(--accent);color:#000;font-weight:700;font-size:.82rem;padding:13px 18px;border-radius:50px;box-shadow:0 8px 30px rgba(37,211,102,.45);text-decoration:none;transition:transform .2s,box-shadow .2s;white-space:nowrap;animation:fadeUp .6s 2s ease both;opacity:0}
-.wa-float:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(37,211,102,.55)}
-.wa-float-icon{font-size:1.1rem;animation:glowPulse 2s ease-in-out infinite}
-@media(max-width:400px){.wa-float span{display:none}.wa-float{padding:15px}}
-</style>
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5 { font-family: 'Syne', sans-serif; line-height: 1.1; }
+
+    /* ── PARTICLES ── */
+    #particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0;
+      animation: float-up linear infinite;
+    }
+
+    @keyframes float-up {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 0.4; }
+      90%  { opacity: 0.15; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    /* ── NAVBAR ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 5%;
+      background: rgba(7,31,24,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      transition: box-shadow 0.3s;
+    }
+
+    .nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #071f18;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1.5px solid var(--glass-border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .nav-cta { display: flex; gap: 12px; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 5% 80px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(37,211,102,0.12) 0%, transparent 70%);
+      animation: pulse-glow 6s ease-in-out infinite;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; right: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(10,79,60,0.3) 0%, transparent 70%);
+      animation: pulse-glow 8s ease-in-out infinite reverse;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.15); opacity: 0.7; }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      max-width: 580px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 28px;
+      backdrop-filter: blur(10px);
+      animation: fade-up 0.6s ease both;
+    }
+
+    .badge-dot {
+      width: 7px; height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: blink 1.5s ease infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 24px;
+      animation: fade-up 0.6s 0.1s ease both;
+    }
+
+    .hero h1 span { color: var(--accent); }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin-bottom: 36px;
+      animation: fade-up 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 48px;
+      animation: fade-up 0.6s 0.3s ease both;
+    }
+
+    .hero-social-proof {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: fade-up 0.6s 0.4s ease both;
+    }
+
+    .avatar-stack {
+      display: flex;
+    }
+
+    .avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 2.5px solid var(--bg-dark);
+      background: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-right: -10px;
+    }
+
+    .social-text { font-size: 0.85rem; color: var(--text-secondary); }
+    .social-text strong { color: var(--text-primary); }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── CHAT MOCKUP ── */
+    .hero-visual {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      animation: fade-up 0.7s 0.3s ease both;
+    }
+
+    .chat-phone {
+      width: 320px;
+      background: #1a1a1a;
+      border-radius: 40px;
+      padding: 12px;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06), 0 0 60px var(--accent-glow);
+      position: relative;
+    }
+
+    .chat-phone::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 42px;
+      background: linear-gradient(135deg, rgba(37,211,102,0.3), transparent 60%);
+      z-index: -1;
+    }
+
+    .phone-screen {
+      background: #0d1117;
+      border-radius: 30px;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background: var(--primary);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-avatar {
+      width: 38px; height: 38px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .chat-header-info h4 { font-size: 0.9rem; font-weight: 700; color: white; font-family: 'DM Sans', sans-serif; }
+    .chat-header-info span { font-size: 0.73rem; color: var(--accent-light); }
+
+    .chat-body {
+      background: #0b1a14;
+      padding: 14px 12px;
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bubble {
+      max-width: 82%;
+      padding: 9px 13px;
+      border-radius: 14px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      opacity: 0;
+      position: relative;
+    }
+
+    .bubble-in {
+      background: rgba(255,255,255,0.08);
+      color: var(--text-primary);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+      animation: bubble-appear 0.4s ease forwards;
+    }
+
+    .bubble-out {
+      background: #005c4b;
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+      animation: bubble-appear 0.4s ease forwards;
+    }
+
+    .bubble-out .check { font-size: 0.65rem; color: var(--accent-light); float: right; margin-left: 6px; margin-top: 2px; }
+
+    .bubble .time { font-size: 0.62rem; color: rgba(255,255,255,0.4); float: right; margin-left: 8px; margin-top: 3px; }
+
+    @keyframes bubble-appear {
+      from { opacity: 0; transform: scale(0.85) translateY(10px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .b1  { animation-delay: 0.5s; }
+    .b2  { animation-delay: 1.2s; }
+    .b3  { animation-delay: 2.0s; }
+    .b4  { animation-delay: 2.8s; }
+    .b5  { animation-delay: 3.5s; }
+    .b6  { animation-delay: 4.3s; }
+
+    .typing-indicator {
+      align-self: flex-start;
+      background: rgba(255,255,255,0.08);
+      border-radius: 14px;
+      border-bottom-left-radius: 4px;
+      padding: 10px 14px;
+      display: flex;
+      gap: 5px;
+      opacity: 0;
+      animation: bubble-appear 0.4s 1.0s ease forwards;
+    }
+
+    .typing-indicator .dot {
+      width: 7px; height: 7px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 50%;
+      animation: typing-dot 1.2s ease infinite;
+    }
+
+    .typing-indicator .dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing-dot {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-5px); opacity: 1; }
+    }
+
+    .chat-input-bar {
+      background: #1a2920;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-input-fake {
+      flex: 1;
+      background: rgba(255,255,255,0.07);
+      border-radius: 20px;
+      padding: 9px 14px;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .send-btn {
+      width: 36px; height: 36px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #071f18;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-section {
+      padding: 0;
+      overflow: hidden;
+      border-top: 1px solid var(--glass-border);
+      border-bottom: 1px solid var(--glass-border);
+      background: rgba(10,79,60,0.08);
+    }
+
+    .marquee-track {
+      display: flex;
+      animation: marquee-scroll 28s linear infinite;
+      width: max-content;
+    }
+
+    .marquee-track:hover { animation-play-state: paused; }
+
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 32px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .marquee-item span { color: var(--accent); font-size: 1rem; }
+
+    @keyframes marquee-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      padding: 70px 5%;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+
+    .stat-item {
+      flex: 1;
+      min-width: 200px;
+      text-align: center;
+      padding: 28px 20px;
+      border-right: 1px solid var(--glass-border);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .stat-item:last-child { border-right: none; }
+    .stat-item.visible { opacity: 1; transform: translateY(0); }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label { font-size: 0.9rem; color: var(--text-secondary); }
+
+    /* ── SECTION BASE ── */
+    section { position: relative; z-index: 1; }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 20px; height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .text-center { text-align: center; }
+
+    /* ── FEATURES ── */
+    .features {
+      padding: 90px 5%;
+    }
+
+    .features-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      backdrop-filter: blur(20px);
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+      opacity: 0;
+      transform: translateY(28px);
+    }
+
+    .feature-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3), 0 0 0 1px rgba(37,211,102,0.2);
+      border-color: rgba(37,211,102,0.3);
+    }
+
+    .feature-icon {
+      width: 52px; height: 52px;
+      background: rgba(37,211,102,0.12);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      border: 1px solid rgba(37,211,102,0.2);
+    }
+
+    .feature-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+
+    .feature-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; }
+
+    /* ── HOW IT WORKS ── */
+    .how-it-works {
+      padding: 90px 5%;
+      background: rgba(10,79,60,0.06);
+      border-top: 1px solid var(--glass-border);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .steps-container {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      max-width: 950px;
+      margin: 60px auto 0;
+      position: relative;
+    }
+
+    .steps-container::before {
+      content: '';
+      position: absolute;
+      top: 36px;
+      left: calc(16.67% + 36px);
+      right: calc(16.67% + 36px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), rgba(37,211,102,0.2));
+    }
+
+    .step {
+      flex: 1;
+      text-align: center;
+      padding: 0 24px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .step.visible { opacity: 1; transform: translateY(0); }
+    .step:nth-child(2) { transition-delay: 0.15s; }
+    .step:nth-child(3) { transition-delay: 0.3s; }
+
+    .step-num {
+      width: 72px; height: 72px;
+      background: var(--accent);
+      color: #071f18;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin: 0 auto 24px;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 0 30px var(--accent-glow);
+    }
+
+    .step h3 { font-size: 1.05rem; margin-bottom: 10px; }
+    .step p { font-size: 0.88rem; color: var(--text-secondary); }
+
+    /* ── PRICING ── */
+    .pricing {
+      padding: 90px 5%;
+    }
+
+    .pricing-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .pricing-grid {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      flex: 1;
+      min-width: 260px;
+      max-width: 320px;
+      backdrop-filter: blur(20px);
+      transition: transform 0.3s, box-shadow 0.3s;
+      opacity: 0;
+      transform: translateY(28px);
+    }
+
+    .pricing-card.visible { opacity: 1; transform: translateY(0); }
+    .pricing-card:hover { transform: translateY(-4px); }
+
+    .pricing-card.highlighted {
+      border-color: var(--accent);
+      background: rgba(37,211,102,0.06);
+      box-shadow: 0 0 40px rgba(37,211,102,0.15);
+      position: relative;
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #071f18;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 20px;
+    }
+
+    .plan-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .plan-price {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .plan-price span { font-size: 1.1rem; color: var(--text-secondary); font-weight: 400; }
+
+    .plan-period { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 24px; }
+
+    .plan-divider { height: 1px; background: var(--glass-border); margin-bottom: 24px; }
+
+    .plan-features { list-style: none; margin-bottom: 32px; }
+
+    .plan-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .plan-features li::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .plan-features li.dim::before { content: '–'; color: var(--text-muted); }
+    .plan-features li.dim { color: var(--text-muted); }
+
+    .btn-plan {
+      width: 100%;
+      justify-content: center;
+      padding: 14px 24px;
+      font-size: 0.95rem;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials {
+      padding: 90px 5%;
+      background: rgba(10,79,60,0.05);
+      border-top: 1px solid var(--glass-border);
+    }
+
+    .testimonials-header { text-align: center; margin-bottom: 60px; }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1050px;
+      margin: 0 auto;
+    }
+
+    .testimonial-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      backdrop-filter: blur(20px);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .testimonial-card.visible { opacity: 1; transform: translateY(0); }
+
+    .stars { color: #fbbf24; font-size: 0.9rem; margin-bottom: 14px; }
+
+    .testimonial-text {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+
+    .author-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      border: 2px solid var(--glass-border);
+      flex-shrink: 0;
+    }
+
+    .author-name { font-size: 0.9rem; font-weight: 700; }
+    .author-biz { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* ── FAQ ── */
+    .faq {
+      padding: 90px 5%;
+    }
+
+    .faq-header { text-align: center; margin-bottom: 60px; }
+
+    .faq-list {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: left;
+      padding: 22px 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      transition: color 0.2s;
+    }
+
+    .faq-q:hover { color: var(--accent); }
+
+    .faq-icon {
+      font-size: 1.4rem;
+      color: var(--accent);
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    .faq-a {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding-bottom 0.35s;
+    }
+
+    .faq-item.open .faq-a {
+      max-height: 500px;
+      padding-bottom: 22px;
+    }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      margin: 0 5% 80px;
+      background: linear-gradient(135deg, var(--primary), #0d6650 40%, rgba(37,211,102,0.15) 100%);
+      border: 1px solid rgba(37,211,102,0.25);
+      border-radius: var(--radius-lg);
+      padding: 70px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2325D366' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .cta-banner h2 {
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .cta-banner p {
+      color: rgba(240,250,244,0.7);
+      max-width: 500px;
+      margin: 0 auto 36px;
+      font-size: 1rem;
+      position: relative;
+    }
+
+    .cta-actions { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; position: relative; }
+
+    .urgency-note {
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: rgba(37,211,102,0.7);
+      position: relative;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 60px 5% 40px;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand { max-width: 280px; }
+    .footer-brand .logo { margin-bottom: 16px; }
+    .footer-brand p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
+
+    .footer-col h5 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul { list-style: none; }
+
+    .footer-col ul li { margin-bottom: 12px; }
+
+    .footer-col ul li a {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-col ul li a:hover { color: var(--accent); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 28px;
+      border-top: 1px solid var(--glass-border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-bottom p { font-size: 0.82rem; color: var(--text-muted); }
+
+    .footer-wa {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ── SCROLL ANIMATIONS ── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    [data-reveal].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      .hero { flex-direction: column; text-align: center; padding: 100px 5% 60px; }
+      .hero-content { max-width: 100%; }
+      .hero-actions { justify-content: center; }
+      .hero-social-proof { justify-content: center; }
+      .hero-visual { justify-content: center; margin-top: 48px; }
+      .chat-phone { width: 290px; }
+      .nav-links { display: none; }
+      .steps-container { flex-direction: column; align-items: center; gap: 32px; }
+      .steps-container::before { display: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .stats-bar { gap: 0; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--glass-border); }
+      .stat-item:last-child { border-bottom: none; }
+      .cta-banner { padding: 50px 30px; }
+    }
+
+    @media (max-width: 560px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .pricing-grid { flex-direction: column; align-items: center; }
+      .pricing-card { min-width: unset; width: 100%; max-width: 380px; }
+    }
+  </style>
 </head>
 <body>
-<canvas id="particle-canvas"></canvas>
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-inner">
-    <a href="/" class="logo">
-      <div class="logo-icon">🤖</div>
-      Focobot
-    </a>
-    <div class="nav-links">
-      <a href="#features">Features</a>
-      <a href="#how">How It Works</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#faq">FAQ</a>
-      <a href="#pricing" class="nav-cta">Start Free Trial</a>
-    </div>
-    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+<!-- Particles -->
+<div id="particles"></div>
+
+<!-- Navbar -->
+<nav class="nav" id="navbar">
+  <a href="#" class="logo">
+    <div class="logo-icon">🤖</div>
+    Focobot
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="#pricing" class="btn btn-outline">See Plans</a>
+    <a href="#start" class="btn btn-primary">Start Free Trial ↗</a>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- Hero -->
 <section class="hero">
-  <div class="hero-inner">
-    <div class="hero-copy">
-      <div class="hero-badge">
-        <div class="badge-dot"><div class="badge-dot-inner"></div><div class="badge-dot-ring"></div></div>
-        #1 WhatsApp AI in Kuwait
-      </div>
-      <h1>Every Unanswered Message<br>Is <span class="hl">Lost Revenue</span></h1>
-      <p class="hero-sub">Focobot replies to every WhatsApp in <strong>under 2 seconds</strong> — 24 hours a day, in Arabic and English. While you sleep, it closes sales, books appointments, and handles 500+ customers daily.</p>
-      <div class="hero-actions">
-        <a href="#pricing" class="btn-primary">Start Free 14-Day Trial →</a>
-        <a href="#how" class="btn-secondary">▶ See How It Works</a>
-      </div>
-      <div class="hero-trust">
-        <div class="trust-avatars">
-          <span>👨‍💼</span><span>👩‍💼</span><span>🧑‍💼</span><span>👩‍🦱</span>
-        </div>
-        <span>Trusted by <strong>500+ Kuwait businesses</strong> · 4.9★ (312 reviews)</span>
-      </div>
-      <div id="live-ticker">Focobot just replied to 12 messages in the last minute</div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Now live in Kuwait — limited spots remaining
     </div>
-    <div class="hero-visual">
-      <div class="phone">
-        <div class="phone-bar">
-          <div class="phone-avatar">🤖</div>
-          <div class="phone-info">
-            <div class="phone-name">Focobot Assistant</div>
-            <div class="phone-status">● Online — always</div>
-          </div>
-          <div class="phone-menu">
-            <div class="phone-menu-dot"></div>
-            <div class="phone-menu-dot"></div>
-            <div class="phone-menu-dot"></div>
+    <h1>Every Unanswered WhatsApp<br>Is <span>Lost Revenue.</span><br>Stop Losing.</h1>
+    <p class="hero-sub">Focobot responds to every customer in under 2 seconds — 24/7 — so your team wakes up to closed deals, not missed conversations.</p>
+    <div class="hero-actions">
+      <a href="#start" class="btn btn-primary">Claim Your Free Trial — Takes 5 min ↗</a>
+      <a href="#how" class="btn btn-outline">See How It Works</a>
+    </div>
+    <div class="hero-social-proof">
+      <div class="avatar-stack">
+        <div class="avatar">FM</div>
+        <div class="avatar">AA</div>
+        <div class="avatar">NK</div>
+        <div class="avatar">SA</div>
+      </div>
+      <p class="social-text"><strong>47 Kuwait businesses</strong> launched this month</p>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="chat-phone">
+      <div class="phone-screen">
+        <div class="chat-header">
+          <div class="chat-avatar">🤖</div>
+          <div class="chat-header-info">
+            <h4>Focobot – مطعمك</h4>
+            <span>● Online — responds instantly</span>
           </div>
         </div>
-        <div class="chat-body" id="hero-chat">
-          <div class="typing visible" id="hero-typing"><span></span><span></span><span></span></div>
+        <div class="chat-body" id="chatBody">
+          <div class="bubble bubble-in b1">
+            هلا، هل عندكم توصيل؟ 🍽️
+            <span class="time">9:14</span>
+          </div>
+          <div class="typing-indicator" id="typing1">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+          </div>
+          <div class="bubble bubble-out b2">
+            أهلاً وسهلاً! نعم، نوصل لجميع مناطق الكويت 🚀 الحد الأدنى للطلب 2 د.ك فقط.
+            <span class="check">✓✓</span>
+            <span class="time">9:14</span>
+          </div>
+          <div class="bubble bubble-in b3">
+            What's your delivery time?
+            <span class="time">9:15</span>
+          </div>
+          <div class="bubble bubble-out b4">
+            Delivery takes 30–45 min in Kuwait City, 45–60 min elsewhere. Track your order live! 📍
+            <span class="check">✓✓</span>
+            <span class="time">9:15</span>
+          </div>
+          <div class="bubble bubble-in b5">
+            Book a table for 4 tonight at 8pm?
+            <span class="time">9:16</span>
+          </div>
+          <div class="bubble bubble-out b6">
+            ✅ Done! Table for 4 at 8 PM tonight. We'll WhatsApp your confirmation shortly. See you! 🎉
+            <span class="check">✓✓</span>
+            <span class="time">9:16</span>
+          </div>
+        </div>
+        <div class="chat-input-bar">
+          <div class="chat-input-fake">Message…</div>
+          <div class="send-btn">➤</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MARQUEE — BUSINESS TYPES -->
-<div class="marquee-section" aria-label="Business types served">
-  <div class="marquee-track" aria-hidden="true">
-    <div class="marquee-item"><span class="marquee-emoji">🍽️</span> Restaurants &amp; Cafés</div>
-    <div class="marquee-item"><span class="marquee-emoji">💇‍♀️</span> Beauty Salons</div>
-    <div class="marquee-item"><span class="marquee-emoji">🏡</span> Real Estate</div>
-    <div class="marquee-item"><span class="marquee-emoji">👗</span> Fashion &amp; Boutiques</div>
-    <div class="marquee-item"><span class="marquee-emoji">📱</span> Electronics Stores</div>
-    <div class="marquee-item"><span class="marquee-emoji">💊</span> Pharmacies &amp; Clinics</div>
-    <div class="marquee-item"><span class="marquee-emoji">🚗</span> Car Dealers</div>
-    <div class="marquee-item"><span class="marquee-emoji">🏋️</span> Gyms &amp; Fitness</div>
-    <div class="marquee-item"><span class="marquee-emoji">🧁</span> Bakeries &amp; Sweet Shops</div>
-    <div class="marquee-item"><span class="marquee-emoji">🛒</span> Grocery &amp; Supermarkets</div>
-    <div class="marquee-item"><span class="marquee-emoji">🏥</span> Medical Centers</div>
-    <div class="marquee-item"><span class="marquee-emoji">🎓</span> Education &amp; Tutoring</div>
-    <div class="marquee-item"><span class="marquee-emoji">🛠️</span> Home Services</div>
-    <div class="marquee-item"><span class="marquee-emoji">✈️</span> Travel &amp; Tourism</div>
-    <div class="marquee-item"><span class="marquee-emoji">🍽️</span> Restaurants &amp; Cafés</div>
-    <div class="marquee-item"><span class="marquee-emoji">💇‍♀️</span> Beauty Salons</div>
-    <div class="marquee-item"><span class="marquee-emoji">🏡</span> Real Estate</div>
-    <div class="marquee-item"><span class="marquee-emoji">👗</span> Fashion &amp; Boutiques</div>
-    <div class="marquee-item"><span class="marquee-emoji">📱</span> Electronics Stores</div>
-    <div class="marquee-item"><span class="marquee-emoji">💊</span> Pharmacies &amp; Clinics</div>
-    <div class="marquee-item"><span class="marquee-emoji">🚗</span> Car Dealers</div>
-    <div class="marquee-item"><span class="marquee-emoji">🏋️</span> Gyms &amp; Fitness</div>
-    <div class="marquee-item"><span class="marquee-emoji">🧁</span> Bakeries &amp; Sweet Shops</div>
-    <div class="marquee-item"><span class="marquee-emoji">🛒</span> Grocery &amp; Supermarkets</div>
-    <div class="marquee-item"><span class="marquee-emoji">🏥</span> Medical Centers</div>
-    <div class="marquee-item"><span class="marquee-emoji">🎓</span> Education &amp; Tutoring</div>
-    <div class="marquee-item"><span class="marquee-emoji">🛠️</span> Home Services</div>
-    <div class="marquee-item"><span class="marquee-emoji">✈️</span> Travel &amp; Tourism</div>
+<!-- Marquee -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><span>🍔</span> Restaurants & Cafés</div>
+    <div class="marquee-item"><span>💈</span> Salons & Spas</div>
+    <div class="marquee-item"><span>🏥</span> Clinics & Pharmacies</div>
+    <div class="marquee-item"><span>🛍️</span> Retail Boutiques</div>
+    <div class="marquee-item"><span>🚗</span> Auto Services</div>
+    <div class="marquee-item"><span>🏠</span> Real Estate</div>
+    <div class="marquee-item"><span>📦</span> E-commerce & Delivery</div>
+    <div class="marquee-item"><span>🎓</span> Tutoring & Courses</div>
+    <div class="marquee-item"><span>🍔</span> Restaurants & Cafés</div>
+    <div class="marquee-item"><span>💈</span> Salons & Spas</div>
+    <div class="marquee-item"><span>🏥</span> Clinics & Pharmacies</div>
+    <div class="marquee-item"><span>🛍️</span> Retail Boutiques</div>
+    <div class="marquee-item"><span>🚗</span> Auto Services</div>
+    <div class="marquee-item"><span>🏠</span> Real Estate</div>
+    <div class="marquee-item"><span>📦</span> E-commerce & Delivery</div>
+    <div class="marquee-item"><span>🎓</span> Tutoring & Courses</div>
   </div>
 </div>
 
-<!-- STATS -->
-<section class="stats-section">
-  <div class="stats-inner">
-    <div class="stats-grid">
-      <div class="stat-card reveal">
-        <div class="stat-number" data-target="500">0</div>
-        <div class="stat-label">Messages handled<br>per business per day</div>
-      </div>
-      <div class="stat-card reveal">
-        <div class="stat-number" data-target="2" data-suffix="s">0s</div>
-        <div class="stat-label">Average response time<br>day and night, 365 days</div>
-      </div>
-      <div class="stat-card reveal">
-        <div class="stat-number" data-target="98" data-suffix="%">0%</div>
-        <div class="stat-label">Customer satisfaction<br>across all clients</div>
-      </div>
-      <div class="stat-card reveal">
-        <div class="stat-number" data-target="312" data-suffix="+">0+</div>
-        <div class="stat-label">Kuwait businesses<br>powered by Focobot</div>
-      </div>
-    </div>
+<!-- Stats Bar -->
+<div class="stats-bar">
+  <div class="stat-item" data-reveal>
+    <div class="stat-num">500+</div>
+    <div class="stat-label">Messages automated daily per business</div>
   </div>
-</section>
-
-<!-- DEMO TABS -->
-<section class="demo-section">
-  <div class="demo-inner">
-    <div class="section-label reveal">Live Demo</div>
-    <h2 class="section-title reveal">See Focobot Handle Real Conversations</h2>
-    <p class="section-sub reveal">Arabic, English, or both in the same chat — Focobot handles it all without missing a beat.</p>
-    <div class="tab-list reveal">
-      <button class="tab-btn active" data-tab="retail">Retail Store</button>
-      <button class="tab-btn" data-tab="food">Restaurant</button>
-      <button class="tab-btn" data-tab="salon">Beauty Salon</button>
-      <button class="tab-btn" data-tab="property">Real Estate</button>
-    </div>
-    <div id="tab-retail" class="tab-panel active">
-      <div class="tab-phone">
-        <div class="tab-chat">
-          <div class="msg msg-in" style="opacity:1">Is the iPhone 15 in stock?<div class="msg-time">2:14 PM</div></div>
-          <div class="msg msg-out" style="opacity:1">Yes! 128GB in Black, White &amp; Blue 📱 149 KWD. Want to reserve one?<div class="msg-time">2:14 PM <span class="msg-check">✓✓</span></div></div>
-          <div class="msg msg-in" style="opacity:1">Can I pay on delivery?<div class="msg-time">2:15 PM</div></div>
-          <div class="msg msg-out" style="opacity:1">Absolutely ✅ Cash on delivery. Same-day to Kuwait City. Shall I place the order?<div class="msg-time">2:15 PM <span class="msg-check">✓✓</span></div></div>
-        </div>
-      </div>
-      <div class="tab-copy">
-        <h3>Retail &amp; Electronics</h3>
-        <p>Focobot checks live inventory, answers product questions, and completes orders — all without human intervention. Sales happen even at 2 AM.</p>
-        <div><span class="tag">Stock Queries</span><span class="tag">Order Taking</span><span class="tag">Payment Info</span><span class="tag">Delivery ETA</span></div>
-      </div>
-    </div>
-    <div id="tab-food" class="tab-panel">
-      <div class="tab-phone">
-        <div class="tab-chat">
-          <div class="msg msg-in msg-ar" style="opacity:1">شو في اكل بدون جلوتين؟<div class="msg-time">7:30 PM</div></div>
-          <div class="msg msg-out msg-ar" style="opacity:1">عندنا قائمة خاصة خالية من الجلوتين 🌿 أرسل لك القائمة كاملة؟<div class="msg-time">7:30 PM <span class="msg-check">✓✓</span></div></div>
-          <div class="msg msg-in" style="opacity:1">Table for 4 tonight at 8?<div class="msg-time">7:31 PM</div></div>
-          <div class="msg msg-out" style="opacity:1">Table for 4 at 8 PM — confirmed! 🍽️ Name for the reservation?<div class="msg-time">7:31 PM <span class="msg-check">✓✓</span></div></div>
-        </div>
-      </div>
-      <div class="tab-copy">
-        <h3>Restaurants &amp; Cafés</h3>
-        <p>Handle reservations, menu questions, and dietary needs in both Arabic and English — automatically. Never miss a booking again.</p>
-        <div><span class="tag">Reservations</span><span class="tag">Menu Queries</span><span class="tag">Dietary Needs</span><span class="tag">Delivery Orders</span></div>
-      </div>
-    </div>
-    <div id="tab-salon" class="tab-panel">
-      <div class="tab-phone">
-        <div class="tab-chat">
-          <div class="msg msg-in" style="opacity:1">Do you have slots tomorrow for a haircut?<div class="msg-time">11:05 AM</div></div>
-          <div class="msg msg-out" style="opacity:1">Yes! Tomorrow: 10 AM, 1 PM, and 4 PM ✂️ Which works?<div class="msg-time">11:05 AM <span class="msg-check">✓✓</span></div></div>
-          <div class="msg msg-in" style="opacity:1">1 PM please, for Noura<div class="msg-time">11:06 AM</div></div>
-          <div class="msg msg-out" style="opacity:1">Done! Noura — haircut at 1 PM tomorrow 💇‍♀️ Reminder 1 hour before. See you!<div class="msg-time">11:06 AM <span class="msg-check">✓✓</span></div></div>
-        </div>
-      </div>
-      <div class="tab-copy">
-        <h3>Beauty Salons &amp; Spas</h3>
-        <p>Automated booking, reminders, and follow-ups. Reduce no-shows by 60% with Focobot's smart appointment management.</p>
-        <div><span class="tag">Booking</span><span class="tag">Reminders</span><span class="tag">Service Menu</span><span class="tag">Staff Assign</span></div>
-      </div>
-    </div>
-    <div id="tab-property" class="tab-panel">
-      <div class="tab-phone">
-        <div class="tab-chat">
-          <div class="msg msg-in" style="opacity:1">Any 2BR in Salmiya under 400 KWD?<div class="msg-time">3:22 PM</div></div>
-          <div class="msg msg-out" style="opacity:1">Yes! 3 units: 350, 370 &amp; 390 KWD/mo 🏠 All include parking. Want photos?<div class="msg-time">3:22 PM <span class="msg-check">✓✓</span></div></div>
-          <div class="msg msg-in" style="opacity:1">Yes please, can I visit tomorrow?<div class="msg-time">3:23 PM</div></div>
-          <div class="msg msg-out" style="opacity:1">Sending photos now 📸 Viewing tomorrow — morning or afternoon?<div class="msg-time">3:23 PM <span class="msg-check">✓✓</span></div></div>
-        </div>
-      </div>
-      <div class="tab-copy">
-        <h3>Real Estate</h3>
-        <p>Qualify leads, share listings, and schedule viewings automatically. Your agents focus on closing — Focobot handles every first contact.</p>
-        <div><span class="tag">Lead Qualify</span><span class="tag">Listings</span><span class="tag">Viewings</span><span class="tag">Follow-up</span></div>
-      </div>
-    </div>
+  <div class="stat-item" data-reveal>
+    <div class="stat-num">&lt;2s</div>
+    <div class="stat-label">Average response time, any hour</div>
   </div>
-</section>
+  <div class="stat-item" data-reveal>
+    <div class="stat-num">98%</div>
+    <div class="stat-label">Customer satisfaction score</div>
+  </div>
+  <div class="stat-item" data-reveal>
+    <div class="stat-num">47+</div>
+    <div class="stat-label">Kuwait businesses already running</div>
+  </div>
+</div>
 
-<!-- FEATURES -->
-<section class="features-section" id="features">
+<!-- Features -->
+<section id="features" class="features">
   <div class="features-header">
-    <div class="section-label reveal">Why Focobot</div>
-    <h2 class="section-title reveal">Built for Kuwait. Built to Sell.</h2>
-    <p class="section-sub reveal" style="margin:0 auto">Every feature designed around one goal: more revenue from your WhatsApp, without more work from you.</p>
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Everything your business needs<br>to never miss a lead</h2>
+    <p class="section-sub">Built specifically for Kuwait businesses — Arabic, English, or both. No tech skills required.</p>
   </div>
   <div class="features-grid">
-    <div class="feature-card reveal">
+    <div class="feature-card" data-reveal>
       <div class="feature-icon">⚡</div>
-      <h3>2-Second Response</h3>
-      <p>67% of customers message a competitor if you don't reply within 5 minutes. Focobot replies before they even consider leaving — every time, even at 3 AM on Eid.</p>
-      <span class="feature-metric">Median: 1.8s reply</span>
+      <h3>Instant 24/7 Response</h3>
+      <p>Every WhatsApp message answered in under 2 seconds — at 3 AM, on Fridays, during holidays. You never lose a sale to "sorry we were closed."</p>
     </div>
-    <div class="feature-card reveal">
+    <div class="feature-card" data-reveal>
       <div class="feature-icon">🌐</div>
-      <h3>Arabic &amp; English Fluency</h3>
-      <p>Auto-detects language per message and switches mid-conversation. Kuwaiti dialect, Modern Standard Arabic, English — handled natively without any configuration.</p>
-      <span class="feature-metric">100% bilingual</span>
+      <h3>Arabic & English, Seamlessly</h3>
+      <p>Focobot detects the customer's language automatically and replies in kind — no configuration needed. Natural Kuwaiti dialect support included.</p>
     </div>
-    <div class="feature-card reveal">
-      <div class="feature-icon">🧠</div>
-      <h3>Learns Your Business</h3>
-      <p>Train it once with your catalog, pricing, and policies. It gets smarter with every real customer conversation — no ongoing maintenance required from you.</p>
-      <span class="feature-metric">10-min setup</span>
+    <div class="feature-card" data-reveal>
+      <div class="feature-icon">📅</div>
+      <h3>Smart Appointment Booking</h3>
+      <p>Customers book, reschedule and cancel appointments via WhatsApp without calling. Sends automated reminders to cut no-shows by up to 60%.</p>
     </div>
-    <div class="feature-card reveal">
-      <div class="feature-icon">📦</div>
-      <h3>Handles Full Orders</h3>
-      <p>Takes orders, confirms quantities, collects delivery addresses, and sends tracking updates — closing the entire sale on WhatsApp without any human touch.</p>
-      <span class="feature-metric">0 missed orders</span>
+    <div class="feature-card" data-reveal>
+      <div class="feature-icon">🛒</div>
+      <h3>Order Taking & Tracking</h3>
+      <p>Accept food, product or service orders directly in the chat. Customers get live status updates so they never need to call to ask "where's my order?"</p>
     </div>
-    <div class="feature-card reveal">
+    <div class="feature-card" data-reveal>
       <div class="feature-icon">📊</div>
-      <h3>Revenue Analytics</h3>
-      <p>See which questions convert to sales, your peak inquiry hours, and where customers drop off. Data that directly improves your bottom line every month.</p>
-      <span class="feature-metric">Live dashboard</span>
+      <h3>Real-Time Analytics Dashboard</h3>
+      <p>See which questions get asked most, busiest hours, and how many leads converted — so you can fine-tune your bot and grow your business.</p>
     </div>
-    <div class="feature-card reveal">
+    <div class="feature-card" data-reveal>
       <div class="feature-icon">🔗</div>
-      <h3>Integrates Everywhere</h3>
-      <p>Connects to Shopify, spreadsheets, your existing CRM, or custom systems via API. No disruption to how you already run your business.</p>
-      <span class="feature-metric">30+ integrations</span>
+      <h3>Seamless Human Handoff</h3>
+      <p>When a customer needs a real person, Focobot escalates instantly and hands over the full conversation thread — zero context lost, zero frustration.</p>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="how-section" id="how">
-  <div class="how-inner">
-    <div class="section-label reveal">Simple Setup</div>
-    <h2 class="section-title reveal">Live in Under 10 Minutes</h2>
-    <p class="section-sub reveal" style="margin:0 auto;max-width:480px">No developers, no complicated setup. If you can send a WhatsApp message, you can launch Focobot today.</p>
-    <div class="steps">
-      <div class="step reveal">
-        <div class="step-num">1</div>
-        <h3>Connect WhatsApp</h3>
-        <p>Link your business number in one click via the official WhatsApp Business API. No QR codes, no technical knowledge, no third-party apps.</p>
-      </div>
-      <div class="step reveal">
-        <div class="step-num">2</div>
-        <h3>Train Your Bot</h3>
-        <p>Paste your catalog, FAQs, and pricing into our wizard. Focobot reads everything and is trained automatically — ready to answer in under 60 seconds.</p>
-      </div>
-      <div class="step reveal">
-        <div class="step-num">3</div>
-        <h3>Watch Sales Roll In</h3>
-        <p>Go live and let Focobot handle every conversation. You only get notified when a human decision is truly needed — everything else is handled.</p>
-      </div>
+<!-- How It Works -->
+<section id="how" class="how-it-works">
+  <div class="text-center">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Live in 5 minutes.<br>Not 5 days.</h2>
+    <p class="section-sub">No developers, no complicated setup. If you can send a WhatsApp message, you can launch Focobot.</p>
+  </div>
+  <div class="steps-container">
+    <div class="step" data-reveal>
+      <div class="step-num">1</div>
+      <h3>Connect Your Number</h3>
+      <p>Link your existing WhatsApp Business number in one click. We handle the API setup — you keep your number.</p>
+    </div>
+    <div class="step" data-reveal>
+      <div class="step-num">2</div>
+      <h3>Train With Your FAQs</h3>
+      <p>Paste in your menu, services, hours, and FAQs. Focobot learns your business in minutes and starts answering accurately.</p>
+    </div>
+    <div class="step" data-reveal>
+      <div class="step-num">3</div>
+      <h3>Go Live &amp; Grow</h3>
+      <p>Turn it on and watch your inbox — every message answered instantly. Check your dashboard each morning for insights and new leads.</p>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section class="pricing-section" id="pricing">
-  <div class="pricing-inner">
-    <div class="section-label reveal">Pricing</div>
-    <h2 class="section-title reveal">Simple, Transparent Pricing</h2>
-    <p class="section-sub reveal" style="margin:0 auto">Start free for 14 days. No credit card required. Cancel anytime.</p>
-    <div class="pricing-urgency reveal">Only 11 launch spots remaining for Kuwait businesses</div>
-    <div class="pricing-grid">
-      <div class="plan reveal">
-        <div class="plan-name">Starter</div>
-        <div class="plan-price"><sup>KWD</sup>29</div>
-        <div class="plan-period">per month · billed monthly</div>
-        <ul class="plan-features">
-          <li>Up to 500 messages/month</li>
-          <li>Arabic &amp; English support</li>
-          <li>Product catalog integration</li>
-          <li>Basic analytics dashboard</li>
-          <li>Email support (48h response)</li>
-        </ul>
-        <a href="#" class="btn-secondary" style="width:100%;justify-content:center">Get Started Free</a>
-      </div>
-      <div class="plan plan-popular reveal">
-        <div class="plan-badge">Most Popular — Best ROI</div>
-        <div class="plan-name">Growth</div>
-        <div class="plan-price"><sup>KWD</sup>59</div>
-        <div class="plan-period">per month · billed monthly</div>
-        <ul class="plan-features">
-          <li>Unlimited messages</li>
-          <li>Advanced AI + Kuwaiti dialect</li>
-          <li>Full order management</li>
-          <li>CRM &amp; Shopify integration</li>
-          <li>Priority WhatsApp support</li>
-          <li>Custom bot personality</li>
-          <li>Appointment scheduling</li>
-        </ul>
-        <a href="#" class="btn-primary" style="width:100%;justify-content:center">Start Free Trial →</a>
-      </div>
-      <div class="plan reveal">
-        <div class="plan-name">Enterprise</div>
-        <div class="plan-price" style="font-size:2rem">Custom</div>
-        <div class="plan-period">tailored to your volume</div>
-        <ul class="plan-features">
-          <li>Everything in Growth</li>
-          <li>Multiple WhatsApp numbers</li>
-          <li>Dedicated account manager</li>
-          <li>Custom AI model training</li>
-          <li>SLA uptime guarantee</li>
-          <li>On-site Kuwait onboarding</li>
-        </ul>
-        <a href="#" class="btn-secondary" style="width:100%;justify-content:center">Contact Sales</a>
-      </div>
+<!-- Pricing -->
+<section id="pricing" class="pricing">
+  <div class="pricing-header">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">Pay for what you use.<br>Cancel anytime.</h2>
+    <p class="section-sub">Simple KWD pricing. No hidden fees. No annual lock-in. Scale up or down as your business grows.</p>
+  </div>
+  <div class="pricing-grid">
+
+    <div class="pricing-card" data-reveal>
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">29 <span>KWD</span></div>
+      <div class="plan-period">per month · billed monthly</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Up to 1,000 conversations / mo</li>
+        <li>Arabic + English replies</li>
+        <li>FAQ automation</li>
+        <li>Basic analytics dashboard</li>
+        <li>Email support</li>
+        <li class="dim">Appointment booking</li>
+        <li class="dim">Order management</li>
+        <li class="dim">Multi-agent handoff</li>
+      </ul>
+      <a href="#start" class="btn btn-outline btn-plan">Start Free Trial</a>
     </div>
+
+    <div class="pricing-card highlighted" data-reveal>
+      <div class="popular-badge">Most Popular</div>
+      <div class="plan-name">Growth</div>
+      <div class="plan-price">59 <span>KWD</span></div>
+      <div class="plan-period">per month · billed monthly</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Unlimited conversations</li>
+        <li>Arabic + English replies</li>
+        <li>Full automation suite</li>
+        <li>Appointment booking & reminders</li>
+        <li>Order taking & live tracking</li>
+        <li>Advanced analytics + exports</li>
+        <li>Priority WhatsApp support</li>
+        <li>Multi-agent human handoff</li>
+      </ul>
+      <a href="#start" class="btn btn-primary btn-plan">Claim Your Spot — Start Free ↗</a>
+    </div>
+
+    <div class="pricing-card" data-reveal>
+      <div class="plan-name">Enterprise</div>
+      <div class="plan-price" style="font-size:1.8rem;">Custom</div>
+      <div class="plan-period">tailored to your volume</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Everything in Growth</li>
+        <li>Dedicated account manager</li>
+        <li>Custom AI training & flows</li>
+        <li>API & CRM integrations</li>
+        <li>SLA guarantee</li>
+        <li>White-label option</li>
+        <li>Multi-branch management</li>
+        <li>On-site onboarding (Kuwait)</li>
+      </ul>
+      <a href="https://wa.me/96500000000?text=Hi%2C+I%27d+like+to+discuss+Enterprise+pricing" class="btn btn-outline btn-plan">Talk to Us on WhatsApp ↗</a>
+    </div>
+
   </div>
 </section>
 
-<!-- TESTIMONIALS (adjacent to pricing for max conversion) -->
-<section class="testimonials-section">
-  <div class="testimonials-inner">
-    <div class="section-label reveal">Real Results</div>
-    <h2 class="section-title reveal">What Kuwait Businesses Say</h2>
-    <div class="testi-grid">
-      <div class="testi-card reveal">
-        <div class="stars">★★★★★</div>
-        <blockquote>"We were losing 30–40 customers a day to slow replies. Focobot fixed that overnight. Our WhatsApp revenue jumped 40% in the first month."</blockquote>
-        <div class="testi-author">
-          <div class="testi-avatar">👨‍💼</div>
-          <div><div class="testi-name">Ahmad Al-Mutairi</div><div class="testi-role">Owner, TechHub Kuwait · Electronics</div></div>
+<!-- Testimonials -->
+<section class="testimonials">
+  <div class="testimonials-header">
+    <div class="section-label">Testimonials</div>
+    <h2 class="section-title">Real results from real<br>Kuwait businesses</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card" data-reveal>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"Before Focobot, we were losing 20+ reservations a week because nobody was watching WhatsApp after 10 PM. Now we wake up to fully booked Fridays. حرفياً غير شغلنا."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">🍽️</div>
+        <div>
+          <div class="author-name">Fahad Al-Mutairi</div>
+          <div class="author-biz">Bait Al Kabsa Restaurant, Salmiya</div>
         </div>
       </div>
-      <div class="testi-card reveal">
-        <div class="stars">★★★★★</div>
-        <blockquote>"My salon books full every week without me lifting a finger. Focobot handles 200+ daily booking messages while my staff focuses only on clients."</blockquote>
-        <div class="testi-author">
-          <div class="testi-avatar">👩‍💼</div>
-          <div><div class="testi-name">Noura Al-Rashidi</div><div class="testi-role">Founder, Glow Beauty Studio · Salon</div></div>
+    </div>
+    <div class="testimonial-card" data-reveal>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"I was skeptical about an Arabic chatbot but Focobot handles dialect perfectly. Customers think they're talking to a real person. Bookings up 40% in the first month."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">💄</div>
+        <div>
+          <div class="author-name">Noura Al-Rashidi</div>
+          <div class="author-biz">Glam Studio, Hawally</div>
         </div>
       </div>
-      <div class="testi-card reveal">
-        <div class="stars">★★★★★</div>
-        <blockquote>"Setup took 8 minutes. Focobot now speaks to customers better than some of my staff — and it never calls in sick. Best investment of the year."</blockquote>
-        <div class="testi-author">
-          <div class="testi-avatar">🧑‍💼</div>
-          <div><div class="testi-name">Faisal Al-Osaimi</div><div class="testi-role">CEO, Desert Fresh Catering · Food</div></div>
+    </div>
+    <div class="testimonial-card" data-reveal>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"Setup took literally 8 minutes. I gave it our clinic FAQ and it started answering appointment questions accurately right away. The ROI paid back in 3 days."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">🏥</div>
+        <div>
+          <div class="author-name">Dr. Sara Al-Kandari</div>
+          <div class="author-biz">Al-Shifaa Medical Center, Kuwait City</div>
         </div>
       </div>
     </div>
@@ -625,266 +1347,185 @@ footer{background:var(--bg);border-top:1px solid var(--glass-border);padding:52p
 </section>
 
 <!-- FAQ -->
-<section class="faq-section" id="faq">
-  <div class="faq-inner">
-    <div class="section-label reveal">FAQ</div>
-    <h2 class="section-title reveal">Answers to Your Questions</h2>
-    <div class="faq-list reveal">
-      <div class="faq-item">
-        <button class="faq-q">Does it really reply in 2 seconds? <div class="faq-icon">+</div></button>
-        <div class="faq-a"><p>Yes — median response time is 1.8 seconds. Our AI runs on GCC-region servers for minimal latency. In load tests we've handled 1,000 simultaneous conversations with zero slowdown or queuing.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">Does it support Arabic — including Kuwaiti dialect? <div class="faq-icon">+</div></button>
-        <div class="faq-a"><p>Fully. Focobot reads and writes Modern Standard Arabic, Gulf dialect, and Kuwaiti-specific expressions. It auto-detects language per message and switches fluently mid-conversation — even if the customer mixes Arabic and English in a single chat.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">Will my WhatsApp number get banned? <div class="faq-icon">+</div></button>
-        <div class="faq-a"><p>No. Focobot uses the official WhatsApp Business API — the same channel used by global banks, airlines, and major retailers. Your number is fully protected. We are an official Meta Business Partner with a clean compliance record.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">What if the bot can't answer a question? <div class="faq-icon">+</div></button>
-        <div class="faq-a"><p>Focobot gracefully escalates to a human. It notifies your team instantly via WhatsApp, hands over the conversation with full context, and lets the customer know help is on the way. The customer never feels abandoned.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">How long does setup really take? <div class="faq-icon">+</div></button>
-        <div class="faq-a"><p>Most businesses are live in under 10 minutes. Paste your catalog, FAQs, and pricing into our wizard — the AI trains itself automatically. Our fastest customer went live in 6 minutes. No developers, no APIs to configure yourself.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">Is there a long-term contract? <div class="faq-icon">+</div></button>
-        <div class="faq-a"><p>No contracts, no lock-in. Cancel from your dashboard with one click. You keep access through the end of your current billing month. We never charge a cancellation fee — we earn your business every month on results alone.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">Is 29 KWD enough for a real business? <div class="faq-icon">+</div></button>
-        <div class="faq-a"><p>The Starter plan handles up to 500 messages/month — perfect for a smaller business or a single location. The Growth plan at 59 KWD gives you unlimited messages and is what most Kuwait businesses choose. One closed sale typically covers the entire monthly cost.</p></div>
-      </div>
+<section id="faq" class="faq">
+  <div class="faq-header">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">Questions we get asked<br>before people sign up</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q">
+        Is 29 KWD/month worth it for my small business?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">If your average order or appointment is worth 5 KWD, you need Focobot to capture just 6 extra leads per month to break even — that's 1 every 5 days. Most businesses see that in the first week. Every unanswered message is a lead your competitor is getting instead.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">
+        Does it really understand Arabic and Kuwaiti dialect?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">Yes. Focobot is trained specifically on Gulf Arabic and Kuwaiti dialect — not just Modern Standard Arabic. It handles slang, mixed Arabic/English messages, and switches automatically between languages mid-conversation based on what the customer writes.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">
+        How long does setup actually take?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">Most businesses are live within 5–15 minutes. You connect your WhatsApp Business number, paste in your FAQs, set your hours, and go live. Our onboarding wizard guides you through every step — no technical knowledge needed.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">
+        Do I need to sign a long-term contract?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">No contracts, no lock-in. All plans are month-to-month. Cancel anytime with 30 days notice. We're confident you'll stay because it works — not because you're trapped.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">
+        What happens when a customer needs a real human?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">Focobot detects when a conversation needs human attention — either automatically or when a customer asks — and instantly routes it to your team with the full message history. Your staff pick up right where the bot left off. No context lost.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">
+        Is my customer data kept private and secure?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">All data is encrypted in transit and at rest. We never share or sell customer data. You own your data fully and can export or delete it anytime. We comply with WhatsApp's Business API terms and regional data protection standards.</div>
     </div>
   </div>
 </section>
 
-<!-- CTA BANNER -->
-<section class="cta-section">
-  <div class="cta-inner">
-    <div class="section-label reveal">Don't Wait</div>
-    <h2 class="reveal">Your Competitors Are Already<br><span class="hl">Automating Their WhatsApp</span></h2>
-    <p class="reveal">Every day without Focobot is hundreds of unanswered messages — customers who chose someone faster. We're in limited launch in Kuwait. Spots fill up.</p>
-    <div class="cta-actions reveal">
-      <a href="#pricing" class="btn-primary">Claim Your Free 14-Day Trial →</a>
-      <a href="#how" class="btn-secondary">How It Works</a>
-    </div>
-    <p class="cta-note reveal">No credit card · Cancel anytime · Live in 10 minutes</p>
+<!-- CTA Banner -->
+<section id="start" class="cta-banner" data-reveal>
+  <h2>Kuwait's busiest businesses<br>are already automating. Are you?</h2>
+  <p>Join the waitlist now — only <strong>12 spots remaining</strong> in the Kuwait launch batch. Launch partners get 3 months free + dedicated setup support.</p>
+  <div class="cta-actions">
+    <a href="https://wa.me/96500000000?text=Hi%2C+I%27d+like+to+start+my+free+Focobot+trial" class="btn btn-primary" style="font-size:1rem; padding:16px 36px;">
+      ↗ Start My Free Trial on WhatsApp
+    </a>
+    <a href="mailto:hello@focobot.com" class="btn btn-outline" style="border-color:rgba(37,211,102,0.4);">Email Us Instead</a>
   </div>
+  <p class="urgency-note">⏳ No credit card required · 14-day free trial · Cancel anytime</p>
 </section>
 
-<!-- FOOTER -->
+<!-- Footer -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="logo">
-          <div class="logo-icon">🤖</div>
-          Focobot
-        </div>
-        <p>WhatsApp AI that closes sales 24/7 for Kuwait businesses. Built in Kuwait, for Kuwait.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Product</h4>
-        <ul>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#how">How It Works</a></li>
-          <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#">Integrations</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <ul>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
-          <li><a href="#">Cookie Policy</a></li>
-          <li><a href="#">GDPR</a></li>
-        </ul>
-      </div>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">
+        <div class="logo-icon">🤖</div>
+        Focobot
+      </a>
+      <p>WhatsApp automation built for Kuwait businesses. Respond faster, close more, grow without hiring.</p>
     </div>
-    <div class="footer-bottom">
-      <span>© 2026 Focobot. All rights reserved.</span>
-      <div class="footer-social">
-        <a href="#" aria-label="Instagram">📸</a>
-        <a href="#" aria-label="Twitter">🐦</a>
-        <a href="#" aria-label="LinkedIn">💼</a>
-        <a href="#" aria-label="WhatsApp">💬</a>
-      </div>
+    <div class="footer-col">
+      <h5>Product</h5>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
     </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">WhatsApp Policy</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Focobot. Made with ❤️ in Kuwait 🇰🇼</p>
+    <a href="https://wa.me/96500000000" class="footer-wa">
+      💬 Chat with us on WhatsApp
+    </a>
   </div>
 </footer>
 
-<a class="wa-float" href="#pricing" aria-label="Start free trial on WhatsApp">
-  <span class="wa-float-icon">💬</span>
-  <span>Start Free Trial</span>
-</a>
-
 <script>
-/* ── HAMBURGER MENU ── */
-(function(){
-  const btn=document.getElementById('hamburger');
-  const links=document.querySelector('.nav-links');
-  if(!btn||!links) return;
-  btn.addEventListener('click',()=>{
-    const open=links.classList.toggle('mobile-open');
-    btn.classList.toggle('open',open);
-    btn.setAttribute('aria-expanded',String(open));
-  });
-  document.addEventListener('click',e=>{
-    if(!btn.contains(e.target)&&!links.contains(e.target)){
-      links.classList.remove('mobile-open');
-      btn.classList.remove('open');
-      btn.setAttribute('aria-expanded','false');
+  // ── PARTICLES ──
+  (function(){
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 35; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.random() * 4 + 2;
+      p.style.cssText = `
+        width: ${size}px;
+        height: ${size}px;
+        left: ${Math.random() * 100}%;
+        animation-duration: ${Math.random() * 18 + 12}s;
+        animation-delay: ${Math.random() * 20}s;
+        filter: blur(${Math.random() > 0.5 ? '1px' : '0'});
+      `;
+      container.appendChild(p);
     }
-  });
-  links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
-    links.classList.remove('mobile-open');
-    btn.classList.remove('open');
-    btn.setAttribute('aria-expanded','false');
-  }));
-})();
+  })();
 
-/* ── CANVAS PARTICLES ── */
-(function(){
-  const canvas=document.getElementById('particle-canvas');
-  if(!canvas) return;
-  const ctx=canvas.getContext('2d');
-  let W=0,H=0,particles=[];
-  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
-  resize();
-  window.addEventListener('resize',resize,{passive:true});
-  let lastSpawn=0;
-  function frame(now){
-    ctx.clearRect(0,0,W,H);
-    if(now-lastSpawn>360){lastSpawn=now;spawn();}
-    particles=particles.filter(p=>{
-      const age=(now-p.born)/p.life;
-      if(age<0.15) p.opacity=Math.min(p.maxOp,p.opacity+0.015);
-      else if(age>0.7) p.opacity=Math.max(0,p.opacity-0.014);
-      p.y-=p.vy;p.x+=p.vx;
-      if(p.opacity<=0&&age>0.1) return false;
-      ctx.save();ctx.globalAlpha=p.opacity;ctx.fillStyle='#25D366';ctx.strokeStyle='#25D366';
-      if(p.ring){ctx.lineWidth=1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.stroke();}
-      else{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();}
-      ctx.restore();return true;
+  // ── NAVBAR SCROLL ──
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // ── INTERSECTION OBSERVER ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
     });
-    requestAnimationFrame(frame);
-  }
-  function spawn(){
-    const ring=Math.random()<0.28;
-    particles.push({x:Math.random()*W,y:H+10,r:ring?(Math.random()*9+5):(Math.random()*3.5+1),ring,vy:Math.random()*0.72+0.32,vx:(Math.random()-.5)*0.38,opacity:0,maxOp:Math.random()*0.44+0.14,born:performance.now(),life:Math.random()*4200+4600});
-  }
-  requestAnimationFrame(frame);
-})();
+  }, { threshold: 0.12 });
 
-/* ── HERO CHAT ANIMATION ── */
-(function(){
-  const chat=document.getElementById('hero-chat');
-  const typing=document.getElementById('hero-typing');
-  if(!chat||!typing) return;
-  const messages=[
-    {t:'in',text:'Hi, do you deliver to Salmiya?',time:'9:41 AM'},
-    {t:'out',text:'Yes! All of Kuwait 🇰🇼 Same-day to Salmiya before 10 PM. What would you like?',time:'9:41 AM'},
-    {t:'in',text:'كم سعر الشحن؟',time:'9:42 AM',ar:true},
-    {t:'out',text:'الشحن مجاني للطلبات فوق 10 دينار 🎉',time:'9:42 AM',ar:true},
-    {t:'in',text:'2 Family Sets please 🍕',time:'9:43 AM'},
-    {t:'out',text:'Order confirmed! 2× Family Set — 8.5 KWD ✅ Arriving before 10 PM. Track on WhatsApp.',time:'9:43 AM'}
-  ];
-  let i=0;
-  function addMsg(){
-    if(i>=messages.length){i=0;const kids=[...chat.querySelectorAll('.msg')];kids.forEach(k=>k.remove());setTimeout(addMsg,2000);return;}
-    typing.classList.add('visible');
-    const delay=messages[i].t==='out'?950:420;
-    setTimeout(()=>{
-      typing.classList.remove('visible');
-      const m=messages[i];
-      const div=document.createElement('div');
-      div.className='msg '+(m.t==='in'?'msg-in':'msg-out')+(m.ar?' msg-ar':'');
-      div.innerHTML=m.text+'<div class="msg-time">'+m.time+(m.t==='out'?' <span class="msg-check">✓✓</span>':'')+'</div>';
-      div.classList.add(m.t==='in'?'show-in':'show-out');
-      chat.insertBefore(div,typing);
-      chat.scrollTop=chat.scrollHeight;
-      i++;
-      setTimeout(addMsg,i%2===0?2400:1600);
-    },delay);
-  }
-  setTimeout(addMsg,1400);
-})();
+  document.querySelectorAll('[data-reveal], .feature-card, .stat-item, .step, .testimonial-card, .pricing-card').forEach(el => {
+    observer.observe(el);
+  });
 
-/* ── SCROLL REVEAL ── */
-(function(){
-  const io=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
-  },{threshold:.1});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-})();
-
-/* ── COUNT UP ── */
-(function(){
-  const io=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(!e.isIntersecting) return;
-      const el=e.target;
-      const target=+el.dataset.target;
-      const suffix=el.dataset.suffix||'+';
-      const dur=1500;const start=performance.now();
-      function step(now){const t=Math.min(1,(now-start)/dur);el.textContent=Math.round(t*t*(3-2*t)*target)+suffix;if(t<1) requestAnimationFrame(step);}
-      requestAnimationFrame(step);io.unobserve(el);
+  // ── FAQ ACCORDION ──
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
     });
-  },{threshold:.5});
-  document.querySelectorAll('.stat-number[data-target]').forEach(el=>io.observe(el));
-})();
-
-/* ── FAQ ACCORDION ── */
-document.querySelectorAll('.faq-q').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const item=btn.parentElement;
-    const isOpen=item.classList.contains('open');
-    document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
-    if(!isOpen) item.classList.add('open');
   });
-});
 
-/* ── DEMO TABS ── */
-document.querySelectorAll('.tab-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+  // ── SMOOTH NAV LINKS ──
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
   });
-});
 
-/* ── LIVE TICKER ── */
-(function(){
-  const msgs=['Focobot just replied to 12 messages in the last minute','A new order was placed via WhatsApp 3 seconds ago','Customer satisfied — rated 5 stars just now','Focobot handled 47 conversations this hour','New booking confirmed at Glow Beauty Studio','3 leads captured while the owner slept'];
-  let i=0;const el=document.getElementById('live-ticker');if(!el) return;
-  setInterval(()=>{el.style.opacity='0';setTimeout(()=>{i=(i+1)%msgs.length;el.textContent=msgs[i];el.style.opacity='1';},380);},4200);
-})();
-
-/* ── SPOTS COUNTDOWN ── */
-(function(){
-  const el=document.querySelector('.pricing-urgency');if(!el) return;
-  let spots=11;
-  try{const s=parseInt(localStorage.getItem('fb_spots')||'11',10);if(s>=3&&s<=11) spots=s;}catch(e){}
-  el.textContent='Only '+spots+' launch spots remaining for Kuwait businesses';
-  if(Math.random()<0.38&&spots>3){
-    setTimeout(()=>{spots--;try{localStorage.setItem('fb_spots',String(spots));}catch(e){}el.textContent='Only '+spots+' launch spots remaining for Kuwait businesses';},Math.random()*90000+60000);
+  // ── CHAT LOOP RESTART ──
+  function restartBubbles() {
+    document.querySelectorAll('.bubble, .typing-indicator').forEach(el => {
+      el.style.opacity = '0';
+      const anim = el.style.animationName || el.classList[1];
+      el.style.animation = 'none';
+      void el.offsetWidth;
+      el.style.animation = '';
+    });
   }
-})();
+  setInterval(restartBubbles, 12000);
 </script>
 </body>
 </html>
