@@ -240,6 +240,21 @@ footer{background:var(--bg);border-top:1px solid var(--glass-border);padding:52p
 .footer-social{display:flex;gap:16px}
 .footer-social a{color:var(--text-muted);transition:color .2s}
 .footer-social a:hover{color:var(--accent)}
+.ba-section{padding:80px 24px;background:var(--bg2)}
+.ba-inner{max-width:1000px;margin:0 auto}
+.ba-grid{display:grid;grid-template-columns:1fr 40px 1fr;gap:0;margin-top:48px;align-items:start}
+.ba-col{background:var(--glass);border:1px solid var(--glass-border);border-radius:22px;padding:32px}
+.ba-before{border-color:rgba(255,80,80,.18);background:rgba(255,60,60,.04)}
+.ba-after{border-color:rgba(37,211,102,.28);background:rgba(37,211,102,.05)}
+.ba-col-head{display:flex;align-items:center;gap:10px;font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:22px}
+.ba-before .ba-col-head{color:#ff8080}
+.ba-after .ba-col-head{color:var(--accent)}
+.ba-list{list-style:none;display:flex;flex-direction:column;gap:13px}
+.ba-list li{font-size:.875rem;line-height:1.6;color:var(--text-muted);padding-left:22px;position:relative}
+.ba-before .ba-list li::before{content:'✗';position:absolute;left:0;color:#ff6060;font-weight:800}
+.ba-after .ba-list li::before{content:'✓';position:absolute;left:0;color:var(--accent);font-weight:800}
+.ba-divider{display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--text-muted);padding-top:140px}
+@media(max-width:720px){.ba-grid{grid-template-columns:1fr;gap:16px}.ba-divider{padding:0;font-size:1.2rem}}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
 .reveal.visible{opacity:1;transform:none}
 @media(max-width:960px){
@@ -415,6 +430,39 @@ footer{background:var(--bg);border-top:1px solid var(--glass-border);padding:52p
       <div class="stat-card reveal" style="grid-column:1/-1;background:linear-gradient(135deg,rgba(10,79,60,.5),rgba(37,211,102,.08));border-color:rgba(37,211,102,.22)">
         <div class="stat-number" style="font-size:clamp(2rem,4vw,2.8rem)" data-target="847" data-suffix="+ KWD">0+ KWD</div>
         <div class="stat-label">Average monthly revenue recovered per business after switching to Focobot — based on real client data. How much are slow replies costing <em>you</em>?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section class="ba-section">
+  <div class="ba-inner">
+    <div class="section-label reveal" style="text-align:center">The Real Cost</div>
+    <h2 class="section-title reveal" style="text-align:center">What Changes When You Add Focobot</h2>
+    <div class="ba-grid reveal">
+      <div class="ba-col ba-before">
+        <div class="ba-col-head"><span>😰</span> Without Focobot</div>
+        <ul class="ba-list">
+          <li>50+ daily messages go unanswered overnight</li>
+          <li>Customers wait hours — then message a competitor</li>
+          <li>Staff drown in repetitive WhatsApp questions</li>
+          <li>No data on which messages become sales</li>
+          <li>Arabic customers get slower, less accurate replies</li>
+          <li>847+ KWD in revenue walks out the door monthly</li>
+        </ul>
+      </div>
+      <div class="ba-divider">→</div>
+      <div class="ba-col ba-after">
+        <div class="ba-col-head"><span>🚀</span> With Focobot</div>
+        <ul class="ba-list">
+          <li>Every message answered in 1.8 seconds, any time</li>
+          <li>Customer gets instant help — stays with you</li>
+          <li>Staff focus on high-value work only</li>
+          <li>Live dashboard shows conversion by message type</li>
+          <li>Native Arabic &amp; Kuwaiti dialect, fully automated</li>
+          <li>Revenue recovered — ROI typically &lt;3 days</li>
+        </ul>
       </div>
     </div>
   </div>
