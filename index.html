@@ -269,7 +269,9 @@ footer{background:var(--bg);border-top:1px solid var(--glass-border);padding:52p
   .tab-panel.active{grid-template-columns:1fr}
   .tab-phone{display:none}
 }
+@media(max-width:720px){.results-grid{grid-template-columns:1fr 1fr!important}}
 @media(max-width:600px){
+  .results-grid{grid-template-columns:1fr!important}
   .nav-links{display:none}
   .nav-links.mobile-open{display:flex;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:rgba(7,31,24,.97);backdrop-filter:blur(20px);padding:18px 24px 26px;gap:18px;border-bottom:1px solid var(--glass-border);z-index:99}
   .features-grid,.pricing-grid,.testi-grid{grid-template-columns:1fr!important}
@@ -290,6 +292,14 @@ footer{background:var(--bg);border-top:1px solid var(--glass-border);padding:52p
 </style>
 </head>
 <body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div id="ann-bar" style="background:var(--accent);color:#071f18;font-size:.78rem;font-weight:700;text-align:center;padding:10px 44px;position:relative;z-index:102;line-height:1.4">
+  🔥 Limited Kuwait Launch — Only <span id="ann-spots">11</span> spots this month. &nbsp;<a href="#pricing" style="text-decoration:underline;color:inherit;white-space:nowrap">Claim yours before it fills →</a>
+  <button onclick="this.parentElement.style.display='none';try{localStorage.setItem('fb_ann','0')}catch(e){}" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;color:inherit;line-height:1;padding:4px" aria-label="Close announcement">✕</button>
+</div>
+<script>try{if(localStorage.getItem('fb_ann')==='0')document.getElementById('ann-bar').style.display='none';}catch(e){}</script>
+
 <canvas id="particle-canvas"></canvas>
 <div class="orb orb1"></div>
 <div class="orb orb2"></div>
@@ -613,6 +623,38 @@ footer{background:var(--bg);border-top:1px solid var(--glass-border);padding:52p
         <p>Go live and let Focobot handle every conversation. You only get notified when a human decision is truly needed — everything else is handled.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- RESULTS TIMELINE -->
+<section style="padding:80px 24px;background:var(--bg)">
+  <div style="max-width:860px;margin:0 auto;text-align:center">
+    <div class="section-label reveal">Results Timeline</div>
+    <h2 class="section-title reveal">What to Expect — Week by Week</h2>
+    <p class="section-sub reveal" style="margin:0 auto 48px">Most businesses break even on Focobot in under 3 days. Here's the typical journey.</p>
+    <div class="results-grid reveal" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+      <div style="background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:28px 22px;text-align:left;position:relative;overflow:hidden">
+        <div style="font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px">Day 1</div>
+        <div style="font-family:'Syne',sans-serif;font-size:1.02rem;font-weight:800;margin-bottom:9px;line-height:1.3">Bot is live</div>
+        <div style="font-size:.82rem;color:var(--text-muted);line-height:1.65">Connect your number, paste your catalog. Focobot starts answering customer messages within 10 minutes of signing up.</div>
+      </div>
+      <div style="background:var(--glass);border:1px solid rgba(37,211,102,.2);border-radius:20px;padding:28px 22px;text-align:left">
+        <div style="font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px">Week 1</div>
+        <div style="font-family:'Syne',sans-serif;font-size:1.02rem;font-weight:800;margin-bottom:9px;line-height:1.3">Zero missed messages</div>
+        <div style="font-size:.82rem;color:var(--text-muted);line-height:1.65">Every after-hours inquiry gets a reply. Your team arrives at the office to completed orders and confirmed bookings.</div>
+      </div>
+      <div style="background:var(--glass);border:1px solid rgba(37,211,102,.28);border-radius:20px;padding:28px 22px;text-align:left;box-shadow:0 0 28px rgba(37,211,102,.07)">
+        <div style="font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px">Month 1</div>
+        <div style="font-family:'Syne',sans-serif;font-size:1.02rem;font-weight:800;margin-bottom:9px;line-height:1.3">Revenue jumps</div>
+        <div style="font-size:.82rem;color:var(--text-muted);line-height:1.65">Avg. +35% WhatsApp-attributed revenue. Customers leave better reviews because they got a fast, helpful answer every time.</div>
+      </div>
+      <div style="background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:28px 22px;text-align:left">
+        <div style="font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px">Month 3+</div>
+        <div style="font-family:'Syne',sans-serif;font-size:1.02rem;font-weight:800;margin-bottom:9px;line-height:1.3">Compounding ROI</div>
+        <div style="font-size:.82rem;color:var(--text-muted);line-height:1.65">The bot has learned your best customers' patterns. Repeat purchases, referrals, and reviews build on each other.</div>
+      </div>
+    </div>
+    <div style="margin-top:22px;font-size:.78rem;color:var(--text-muted)" class="reveal">Based on aggregated data from 312+ Kuwait business accounts. Results vary by industry and message volume.</div>
   </div>
 </section>
 
@@ -968,13 +1010,17 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
 
 /* ── SPOTS COUNTDOWN ── */
 (function(){
-  const el=document.querySelector('.pricing-urgency');if(!el) return;
+  const el=document.querySelector('.pricing-urgency');
+  const annEl=document.getElementById('ann-spots');
   let spots=11;
   try{const s=parseInt(localStorage.getItem('fb_spots')||'11',10);if(s>=3&&s<=11) spots=s;}catch(e){}
-  function render(){el.innerHTML='Only <strong>'+spots+'</strong> launch spots remaining for Kuwait businesses';}
+  function render(){
+    if(el) el.innerHTML='Only <strong>'+spots+'</strong> launch spots remaining for Kuwait businesses';
+    if(annEl) annEl.textContent=String(spots);
+  }
   render();
   if(Math.random()<0.38&&spots>3){
-    setTimeout(()=>{spots--;try{localStorage.setItem('fb_spots',String(spots));}catch(e){}render();el.style.animation='none';requestAnimationFrame(()=>{el.style.animation='';});},Math.random()*90000+60000);
+    setTimeout(()=>{spots--;try{localStorage.setItem('fb_spots',String(spots));}catch(e){}render();if(el){el.style.animation='none';requestAnimationFrame(()=>{el.style.animation='';});}},Math.random()*90000+60000);
   }
 })();
 </script>
