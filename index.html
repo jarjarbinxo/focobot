@@ -82,7 +82,8 @@ nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);-webkit-backdro
 .nav-cta{background:var(--accent);color:#000!important;font-weight:700!important;padding:8px 22px;border-radius:50px;transition:transform .2s,box-shadow .2s!important}
 .nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(37,211,102,.38)!important}
 section,footer,.marquee-section{position:relative;z-index:1}
-.hero{min-height:93vh;display:flex;align-items:center;padding:60px 24px 80px;overflow:hidden}
+.hero{position:relative;min-height:93vh;display:flex;align-items:center;padding:60px 24px 80px;overflow:hidden}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.04;pointer-events:none;z-index:0}
 .hero-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
 .hero-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.24);border-radius:50px;padding:7px 16px;font-size:.78rem;font-weight:700;color:var(--accent);margin-bottom:22px;animation:fadeUp .5s ease both,badgePop 3.8s ease-in-out 1.2s infinite}
 .badge-dot{position:relative;width:8px;height:8px;flex-shrink:0}
@@ -326,6 +327,9 @@ footer{background:var(--bg);border-top:1px solid var(--glass-border);padding:52p
 
 <!-- HERO -->
 <section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline aria-hidden="true">
+    <source src="/hero.mp4" type="video/mp4">
+  </video>
   <div class="hero-inner">
     <div class="hero-copy">
       <div class="hero-badge">
@@ -380,6 +384,8 @@ footer{background:var(--bg);border-top:1px solid var(--glass-border);padding:52p
     <div class="trust-item"><span class="trust-icon">⚡</span> 99.97% Uptime SLA</div>
     <div class="trust-divider"></div>
     <div class="trust-item"><span class="trust-icon">🔐</span> 256-bit Encrypted</div>
+    <div class="trust-divider"></div>
+    <div class="trust-item"><span class="trust-icon">💳</span> KNET &amp; Local Payments</div>
   </div>
 </div>
 
@@ -791,6 +797,14 @@ footer{background:var(--bg);border-top:1px solid var(--glass-border);padding:52p
         <button class="faq-q">Is 29 KWD enough for a real business? <div class="faq-icon">+</div></button>
         <div class="faq-a"><p>The Starter plan handles up to 500 messages/month — perfect for a smaller business or a single location. The Growth plan at 59 KWD gives you unlimited messages and is what most Kuwait businesses choose. One closed sale typically covers the entire monthly cost.</p></div>
       </div>
+      <div class="faq-item">
+        <button class="faq-q">Does Focobot integrate with KNET and local Kuwait payment links? <div class="faq-icon">+</div></button>
+        <div class="faq-a"><p>Yes. Focobot can send KNET payment links, MyFatoorah, Tap Payments, and WhatsApp Pay directly in the chat. Customers complete the payment without leaving WhatsApp — reducing drop-off and closing sales faster. We also support cash-on-delivery confirmation flows popular with Kuwait businesses.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What happens to my data? Is it stored in Kuwait? <div class="faq-icon">+</div></button>
+        <div class="faq-a"><p>All customer conversation data is stored and processed in GCC-region servers, fully compliant with Kuwait's data protection guidelines. We never sell, share, or train models on your business data. Your conversations, customer details, and catalog are yours — exportable at any time.</p></div>
+      </div>
     </div>
   </div>
 </section>
@@ -1003,7 +1017,7 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
 
 /* ── LIVE TICKER ── */
 (function(){
-  const msgs=['Focobot just replied to 12 messages in the last minute','A new order was placed via WhatsApp 3 seconds ago','Customer satisfied — rated 5 stars just now','Focobot handled 47 conversations this hour','New booking confirmed at Glow Beauty Studio','3 leads captured while the owner slept'];
+  const msgs=['Focobot just replied to 12 messages in the last minute','A new order was placed via WhatsApp 3 seconds ago','Customer satisfied — rated 5 stars just now','Focobot handled 47 conversations this hour','New booking confirmed at Glow Beauty Studio','3 leads captured while the owner slept','KNET payment link sent — order completed in 40 seconds','New Arabic inquiry answered in 1.6s while owner slept'];
   let i=0;const el=document.getElementById('live-ticker');if(!el) return;
   setInterval(()=>{el.style.opacity='0';setTimeout(()=>{i=(i+1)%msgs.length;el.textContent=msgs[i];el.style.opacity='1';},380);},4200);
 })();
