@@ -1,155 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page Not Found – Focobot</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found — Focobot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg-dark: #071f18;
+      --bg: #071f18;
       --accent: #25D366;
-      --accent-glow: rgba(37,211,102,0.2);
-      --text-primary: #f0faf4;
-      --text-secondary: rgba(240,250,244,0.6);
-      --glass-border: rgba(37,211,102,0.15);
+      --text: #f0faf5;
+      --muted: #8bbfa7;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'DM Sans', sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-primary);
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 40px 20px;
-      overflow: hidden;
+      padding: 20px;
     }
-    body::before {
-      content: '';
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(37,211,102,0.08) 0%, transparent 70%);
-      pointer-events: none;
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-16px); }
     }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.4rem;
-      color: var(--text-primary);
-      text-decoration: none;
-      margin-bottom: 60px;
-    }
-    .logo-icon {
-      width: 36px; height: 36px;
-      background: var(--accent);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-    }
-    .error-code {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(6rem, 18vw, 12rem);
-      font-weight: 800;
-      line-height: 1;
-      background: linear-gradient(135deg, var(--accent), rgba(37,211,102,0.3));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 16px;
-      position: relative;
-      z-index: 1;
+    .icon {
+      font-size: 5rem;
+      animation: float 4s ease-in-out infinite;
+      display: block;
+      margin-bottom: 28px;
     }
     h1 {
       font-family: 'Syne', sans-serif;
-      font-size: clamp(1.5rem, 4vw, 2.2rem);
-      font-weight: 700;
-      margin-bottom: 14px;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
     }
     p {
-      font-size: 1rem;
-      color: var(--text-secondary);
+      font-size: 1.1rem;
+      color: var(--muted);
       max-width: 400px;
-      line-height: 1.7;
-      margin-bottom: 40px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
     }
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      justify-content: center;
-    }
-    .btn {
+    a {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 13px 28px;
-      border-radius: 50px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 0.95rem;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      transition: all 0.25s;
-    }
-    .btn-primary {
       background: var(--accent);
-      color: #071f18;
+      color: var(--bg);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 14px 30px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.35);
     }
-    .btn-primary:hover {
-      filter: brightness(1.1);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px var(--accent-glow);
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--text-primary);
-      border: 1.5px solid var(--glass-border);
-    }
-    .btn-outline:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-    .chat-bubble {
-      margin-top: 50px;
-      background: rgba(10,79,60,0.18);
-      border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      padding: 16px 22px;
-      font-size: 0.88rem;
-      color: var(--text-secondary);
-      backdrop-filter: blur(10px);
-    }
-    .chat-bubble strong { color: var(--accent); }
+    a:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
   </style>
 </head>
 <body>
-  <a href="/" class="logo">
-    <div class="logo-icon">🤖</div>
-    Focobot
-  </a>
-  <div class="error-code">404</div>
-  <h1>This page got lost in the chat</h1>
-  <p>Looks like this page doesn't exist — but your customers' WhatsApp messages don't have to get lost too.</p>
-  <div class="actions">
-    <a href="/" class="btn btn-primary">← Back to Focobot Home</a>
-    <a href="https://wa.me/96500000000" class="btn btn-outline">💬 Chat with Us</a>
-  </div>
-  <div class="chat-bubble">
-    Did you mean to visit our <strong>pricing page</strong> or <strong>start a free trial?</strong>
+  <div>
+    <span class="icon">💬</span>
+    <h1>404</h1>
+    <p>Looks like this page got lost in the chat. Let's get you back on track.</p>
+    <a href="/">← Back to Focobot</a>
   </div>
 </body>
 </html>
