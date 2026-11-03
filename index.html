@@ -7,7 +7,7 @@
   <meta name="description" content="Automate 500+ WhatsApp messages daily. 2-second response time. 98% customer satisfaction. The WhatsApp AI chatbot built for Kuwaiti businesses." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
   <style>
     /* =====================================================
        TOKENS & RESET
@@ -462,6 +462,7 @@
       flex-direction: column;
       gap: 8px;
       position: relative;
+      animation: slideInRight .4s ease both;
     }
     .chat-bubble {
       max-width: 75%;
@@ -631,8 +632,8 @@
     }
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
     }
     .feature-card {
       background: var(--bg-card);
@@ -874,9 +875,8 @@
       margin-bottom: 60px;
     }
     .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
     }
     .testimonial-card {
       background: var(--bg-card);
@@ -927,6 +927,7 @@
       font-size: 12px;
       color: var(--text-muted);
     }
+    .faq-a-inner { padding: 0 1.5rem 1.3rem; }
 
     /* =====================================================
        FAQ
@@ -1011,8 +1012,7 @@
       border-radius: 28px;
       padding: 72px 48px;
       text-align: center;
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
     .cta-inner::before {
       content: '';
@@ -1273,6 +1273,7 @@
             <strong>140+ Kuwait businesses</strong> automated this month
           </div>
         </div>
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="#8a9ca4"/><circle cx="12" cy="12" r="1.5" fill="#8a9ca4"/><circle cx="12" cy="19" r="1.5" fill="#8a9ca4"/></svg>
       </div>
 
       <!-- CHAT MOCKUP -->
@@ -1339,7 +1340,7 @@
       </div>
     </div>
   </div>
-</section>
+</div>
 
 <!-- ===================================================
      FEATURES
@@ -1393,6 +1394,15 @@
         <p class="feature-desc">See every conversation in real time. Get notified when a VIP customer messages, when a lead goes cold, or when revenue triggers fire. Your business at a glance, always.</p>
         <div class="feature-outcome">↑ 50% faster human escalation for hot leads</div>
       </div>
+    </div>
+
+    <div class="loss-banner reveal">
+      <div class="loss-icon">⚠️</div>
+      <div class="loss-body">
+        <strong>The average Kuwait business misses 47 WhatsApp messages per day after 9 PM.</strong>
+        <p>At even 5 KWD average order value, that's 235 KWD walking out the door every night. Focobot closes that gap starting tonight.</p>
+      </div>
+      <a href="#pricing" class="btn-primary" style="white-space:nowrap">Stop the Leaks →</a>
     </div>
   </div>
 </section>
@@ -1491,7 +1501,6 @@
           <strong>Only 7 spots left</strong> for Kuwait's launch window
         </div>
       </div>
-
       <!-- Enterprise -->
       <div class="pricing-card reveal reveal-delay-4">
         <div class="pricing-plan">Enterprise</div>
@@ -1731,6 +1740,7 @@
           <li><a href="#">Data Processing</a></li>
         </ul>
       </div>
+      <p style="margin-top:1.2rem;font-size:.83rem;color:var(--text-muted)">7-day free trial · Cancel anytime · No setup fee · Official WhatsApp API</p>
     </div>
 
     <div class="footer-bottom">
@@ -1740,7 +1750,38 @@
           💬 WhatsApp Business API Partner
         </div>
       </div>
+      <p>Kuwait's leading WhatsApp Business automation platform. Built for local businesses, powered by AI, trusted by 240+ companies.</p>
     </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Focobot. All rights reserved. Kuwait 🇰🇼</span>
+    <span>Made with ♥ for Kuwaiti businesses</span>
   </div>
 </footer>
 
@@ -1956,6 +1997,7 @@ mobileMenu.querySelectorAll('a').forEach(a => {
       });
       if (!isOpen) item.classList.add('open');
     });
+    container.appendChild(el);
   });
 })();
 
