@@ -3,918 +3,1302 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Focobot — WhatsApp Automation for Kuwait Businesses</title>
-  <meta name="description" content="Turn every WhatsApp message into a sale. Focobot automates 500+ customer conversations daily for Kuwaiti businesses — 2-second reply, zero missed leads." />
+  <title>Focobot – Kuwait's #1 WhatsApp Chatbot for Business</title>
+  <meta name="description" content="Automate 500+ WhatsApp messages daily. 2-second response time. 98% customer satisfaction. The WhatsApp AI chatbot built for Kuwaiti businesses." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
   <style>
-    /* ── Design tokens ── */
+    /* =====================================================
+       TOKENS & RESET
+    ===================================================== */
     :root {
-      --bg-hero: #071f18;
+      --bg-dark: #071f18;
+      --bg-card: rgba(255,255,255,0.04);
       --primary: #0a4f3c;
-      --primary-light: #0d6b51;
+      --primary-light: #0d6b52;
       --accent: #25D366;
       --accent-glow: rgba(37,211,102,0.35);
-      --text: #f0faf5;
-      --text-muted: #8bbfa7;
-      --glass-bg: rgba(10,79,60,0.18);
-      --glass-border: rgba(37,211,102,0.15);
-      --surface: #0c2a20;
-      --surface-2: #0f3829;
+      --accent-dim: rgba(37,211,102,0.12);
+      --text: #e8f5f0;
+      --text-muted: rgba(232,245,240,0.6);
+      --text-dim: rgba(232,245,240,0.35);
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(37,211,102,0.25);
+      --radius-card: 20px;
+      --radius-pill: 999px;
       --font-head: 'Syne', sans-serif;
       --font-body: 'DM Sans', sans-serif;
-      --radius: 16px;
-      --radius-lg: 24px;
+      --nav-h: 72px;
+      --transition: 0.35s cubic-bezier(.4,0,.2,1);
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
-
     body {
-      font-family: var(--font-body);
-      background: var(--bg-hero);
+      background: var(--bg-dark);
       color: var(--text);
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
-
-    /* ── Utility ── */
-    .container { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
-    .tag {
-      display: inline-block;
-      background: rgba(37,211,102,0.12);
-      color: var(--accent);
       font-family: var(--font-body);
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(37,211,102,0.25);
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
     }
+    a { color: inherit; text-decoration: none; }
+    img, video { display: block; max-width: 100%; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; background: none; font: inherit; }
+    ::selection { background: var(--accent-dim); color: var(--accent); }
 
-    /* ── Animations ── */
+    /* =====================================================
+       ANIMATIONS
+    ===================================================== */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(32px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    @keyframes float {
-      0%,100% { transform: translateY(0px); }
-      50%      { transform: translateY(-14px); }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
-    @keyframes glow-pulse {
-      0%,100% { opacity: 0.5; transform: scale(1); }
-      50%      { opacity: 1;   transform: scale(1.15); }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-12px); }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px var(--accent-glow), 0 0 40px var(--accent-glow); }
+      50%       { box-shadow: 0 0 40px var(--accent-glow), 0 0 80px var(--accent-glow); }
     }
     @keyframes marquee {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    @keyframes blink {
-      0%,100% { opacity: 1; }
-      50%      { opacity: 0; }
-    }
-    @keyframes typing-dots {
-      0%,60%,100% { opacity: 0.3; transform: scale(0.8); }
-      30%          { opacity: 1;   transform: scale(1.2); }
-    }
-    @keyframes slideInRight {
-      from { opacity: 0; transform: translateX(30px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes slideInLeft {
-      from { opacity: 0; transform: translateX(-30px); }
-      to   { opacity: 1; transform: translateX(0); }
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
     @keyframes particle-drift {
-      0%   { transform: translateY(100vh) translateX(0px) scale(0); opacity: 0; }
-      10%  { opacity: 1; }
-      90%  { opacity: 0.6; }
-      100% { transform: translateY(-20vh) translateX(60px) scale(1.2); opacity: 0; }
+      0%   { transform: translate(0, 0) scale(1);   opacity: 0; }
+      20%  { opacity: 0.7; }
+      80%  { opacity: 0.4; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0.5); opacity: 0; }
     }
-    @keyframes spin-slow {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
+    @keyframes typing-dot {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+      40%            { transform: scale(1);   opacity: 1; }
+    }
+    @keyframes bubble-in {
+      from { opacity: 0; transform: scale(0.85) translateY(8px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes tick {
+      from { stroke-dashoffset: 40; }
+      to   { stroke-dashoffset: 0; }
+    }
+    @keyframes gradShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes borderGlow {
+      0%, 100% { border-color: var(--border-accent); }
+      50%       { border-color: var(--accent); }
     }
 
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+    /* =====================================================
+       UTILITY
+    ===================================================== */
+    .container {
+      width: min(1200px, 100% - 48px);
+      margin-inline: auto;
     }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* ── Particles ── */
-    #particles {
-      position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;
-    }
-    .particle {
-      position: absolute;
-      bottom: -10px;
-      width: 4px; height: 4px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: particle-drift linear infinite;
-    }
-
-    /* ── Navbar ── */
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(7,31,24,0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(37,211,102,0.1);
-    }
-    .nav-inner {
-      display: flex; align-items: center; justify-content: space-between;
-      height: 68px;
-    }
-    .nav-logo {
-      font-family: var(--font-head);
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--text);
-      text-decoration: none;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .nav-logo .logo-icon {
-      width: 36px; height: 36px;
-      background: var(--accent);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-    }
-    .nav-links {
-      display: flex; align-items: center; gap: 32px;
-      list-style: none;
-    }
-    .nav-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
+    .section { padding: 100px 0; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-pill);
+      font-size: 13px;
       font-weight: 500;
-      transition: color 0.2s;
+      color: var(--accent);
+      background: var(--accent-dim);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
-    .nav-links a:hover { color: var(--text); }
+    .tag-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
     .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
       font-family: var(--font-body);
+      font-size: 15px;
       font-weight: 600;
-      font-size: 0.95rem;
-      border: none; cursor: pointer;
-      text-decoration: none;
-      border-radius: 12px;
-      transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+      transition: var(--transition);
+      white-space: nowrap;
     }
-    .btn:hover { transform: translateY(-2px); }
     .btn-primary {
       background: var(--accent);
       color: #071f18;
-      padding: 12px 24px;
-      box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+      box-shadow: 0 0 24px var(--accent-glow);
     }
-    .btn-primary:hover { background: #2de370; box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
+    .btn-primary:hover {
+      background: #2ce872;
+      box-shadow: 0 0 40px rgba(37,211,102,0.6);
+      transform: translateY(-2px);
+    }
     .btn-outline {
-      background: transparent;
+      border: 1.5px solid var(--border-accent);
       color: var(--text);
-      padding: 12px 24px;
-      border: 1.5px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(8px);
     }
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
-    .btn-lg { padding: 16px 34px; font-size: 1.05rem; border-radius: 14px; }
-    .hamburger {
-      display: none;
-      flex-direction: column; gap: 5px; cursor: pointer; padding: 4px;
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
     }
-    .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+    .section-label {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    .section-sub {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 540px;
+      margin-top: 12px;
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
 
-    /* ── Hero ── */
+    /* =====================================================
+       PARTICLES
+    ===================================================== */
+    #particles-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* =====================================================
+       NAVBAR
+    ===================================================== */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      transition: background 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
+    }
+    .nav.scrolled {
+      background: rgba(7,31,24,0.85);
+      backdrop-filter: blur(24px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .nav-inner {
+      width: min(1200px, 100% - 48px);
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-left: auto;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { margin-left: 8px; }
+    .nav-hamburger {
+      display: none;
+      margin-left: auto;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: var(--nav-h); left: 0; right: 0;
+      background: rgba(7,31,24,0.97);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+      padding: 24px;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 99;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-muted);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* =====================================================
+       HERO
+    ===================================================== */
     .hero {
       position: relative;
       min-height: 100vh;
-      display: flex; align-items: center;
-      padding: 80px 0 60px;
+      display: flex;
+      align-items: center;
+      padding-top: var(--nav-h);
       overflow: hidden;
     }
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 30% 40%, rgba(37,211,102,0.08) 0%, transparent 65%),
-                  radial-gradient(ellipse 60% 80% at 75% 80%, rgba(10,79,60,0.3) 0%, transparent 60%);
-      pointer-events: none;
+    .hero-bg-gradient {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 30% 50%, rgba(10,79,60,0.45) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 20%, rgba(37,211,102,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 60% at 70% 90%, rgba(10,79,60,0.2) 0%, transparent 50%);
+      z-index: 0;
     }
     .hero-grid {
-      position: relative; z-index: 1;
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: 1fr 1fr;
+      gap: 80px;
       align-items: center;
-      gap: 60px;
+      padding: 80px 0;
     }
+    .hero-text { }
     .hero-eyebrow {
-      margin-bottom: 20px;
-      animation: fadeUp 0.7s ease both;
+      animation: fadeUp 0.7s ease 0.1s both;
     }
-    .hero h1 {
+    .hero-headline {
       font-family: var(--font-head);
-      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-size: clamp(2.4rem, 5vw, 4rem);
       font-weight: 800;
       line-height: 1.1;
-      color: #fff;
-      margin-bottom: 22px;
-      animation: fadeUp 0.7s 0.1s ease both;
+      letter-spacing: -0.03em;
+      margin-top: 20px;
+      animation: fadeUp 0.7s ease 0.25s both;
     }
-    .hero h1 em {
-      font-style: normal;
+    .hero-headline .accent-word {
       color: var(--accent);
       position: relative;
     }
-    .hero-sub {
-      font-size: 1.1rem;
+    .hero-subheadline {
+      font-size: 18px;
       color: var(--text-muted);
+      margin-top: 16px;
       max-width: 480px;
-      margin-bottom: 34px;
-      animation: fadeUp 0.7s 0.2s ease both;
+      animation: fadeUp 0.7s ease 0.4s both;
     }
+    .hero-loss {
+      margin-top: 20px;
+      padding: 14px 18px;
+      background: rgba(255,60,60,0.08);
+      border: 1px solid rgba(255,100,100,0.18);
+      border-radius: 12px;
+      font-size: 14px;
+      color: #ff9f9f;
+      line-height: 1.5;
+      animation: fadeUp 0.7s ease 0.5s both;
+    }
+    .hero-loss strong { color: #ffbaba; }
     .hero-ctas {
-      display: flex; flex-wrap: wrap; gap: 12px;
-      animation: fadeUp 0.7s 0.3s ease both;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+      animation: fadeUp 0.7s ease 0.55s both;
     }
-    .hero-trust {
-      margin-top: 32px;
-      display: flex; align-items: center; gap: 14px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      animation: fadeUp 0.7s 0.4s ease both;
+    .hero-social-proof {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 28px;
+      animation: fadeUp 0.7s ease 0.65s both;
     }
-    .trust-avatars {
+    .avatar-stack {
       display: flex;
     }
-    .trust-avatars span {
-      width: 32px; height: 32px; border-radius: 50%;
+    .avatar-stack img, .avatar-stack .avatar-placeholder {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 2px solid var(--bg-dark);
+      margin-left: -10px;
+      object-fit: cover;
+    }
+    .avatar-stack .avatar-placeholder {
+      display: grid;
+      place-items: center;
       background: var(--primary);
-      border: 2px solid var(--bg-hero);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem;
-      margin-left: -8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
     }
-    .trust-avatars span:first-child { margin-left: 0; }
-    .trust-stars { color: #ffd700; letter-spacing: 1px; }
+    .avatar-stack .avatar-placeholder:first-child { margin-left: 0; }
+    .social-proof-text {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .social-proof-text strong { color: var(--text); }
+    .stars {
+      color: #fbbf24;
+      letter-spacing: 2px;
+    }
 
-    /* ── WhatsApp Mockup ── */
-    .chat-mockup {
-      animation: fadeUp 0.7s 0.25s ease both, float 6s 1s ease-in-out infinite;
-      position: relative;
+    /* CHAT MOCKUP */
+    .hero-mockup {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.7s ease 0.3s both;
     }
-    .chat-window {
+    .chat-phone {
+      width: 320px;
       background: #111b21;
-      border-radius: 24px;
+      border-radius: 28px;
       overflow: hidden;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(37,211,102,0.1), 0 0 60px rgba(37,211,102,0.08);
-      max-width: 380px;
-      margin: 0 auto;
+      box-shadow:
+        0 40px 120px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.06),
+        0 0 80px rgba(37,211,102,0.12);
+      animation: float 6s ease-in-out infinite;
+      position: relative;
     }
     .chat-header {
-      background: #1f2c34;
-      padding: 14px 18px;
-      display: flex; align-items: center; gap: 12px;
+      background: #202c33;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .chat-back-btn {
+      color: var(--accent);
+      font-size: 18px;
     }
     .chat-avatar {
-      width: 42px; height: 42px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--primary));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: grid;
+      place-items: center;
+      font-size: 18px;
     }
-    .chat-info h4 { font-size: 0.95rem; font-weight: 600; color: #e9edef; }
-    .chat-info p { font-size: 0.78rem; color: #8696a0; }
-    .chat-online { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-top: 2px; }
+    .chat-info { flex: 1; }
+    .chat-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #e9edef;
+    }
+    .chat-status {
+      font-size: 12px;
+      color: var(--accent);
+    }
+    .chat-actions { display: flex; gap: 16px; color: #8696a0; font-size: 18px; }
     .chat-body {
-      padding: 16px 14px;
-      display: flex; flex-direction: column; gap: 10px;
-      background: #0d1418;
-      min-height: 320px;
-    }
-    .msg {
-      max-width: 82%;
-      padding: 9px 13px;
-      border-radius: 12px;
-      font-size: 0.88rem;
-      line-height: 1.45;
+      height: 380px;
+      overflow: hidden;
+      padding: 12px;
+      background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='200' height='200' fill='%23111b21'/%3E%3C/svg%3E") center / cover;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
       position: relative;
     }
-    .msg-in {
-      background: #1f2c34;
-      color: #e9edef;
-      align-self: flex-start;
-      border-bottom-left-radius: 4px;
+    .chat-bubble {
+      max-width: 75%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      position: relative;
+      opacity: 0;
     }
-    .msg-out {
+    .chat-bubble.incoming {
+      background: #202c33;
+      color: #e9edef;
+      border-radius: 0px 8px 8px 8px;
+      align-self: flex-start;
+    }
+    .chat-bubble.outgoing {
       background: #005c4b;
       color: #e9edef;
+      border-radius: 8px 0px 8px 8px;
       align-self: flex-end;
-      border-bottom-right-radius: 4px;
-    }
-    .msg-time {
-      font-size: 0.68rem;
-      color: #8696a0;
       text-align: right;
-      margin-top: 4px;
-      display: flex; align-items: center; justify-content: flex-end; gap: 4px;
     }
-    .msg-in .msg-time { color: #8696a0; }
-    .msg-out .msg-time { color: rgba(134,150,160,0.85); }
-    .ticks { color: #53bdeb; font-size: 0.8rem; }
-    .msg-ar { direction: rtl; text-align: right; }
+    .chat-bubble.arabic {
+      font-size: 14px;
+      direction: rtl;
+      text-align: right;
+    }
+    .bubble-time {
+      font-size: 10px;
+      color: rgba(134,150,160,0.8);
+      margin-top: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 3px;
+    }
+    .check-double {
+      display: inline-flex;
+      gap: 1px;
+      color: var(--accent);
+    }
+    .check-double svg { width: 12px; height: 12px; }
     .typing-indicator {
-      display: flex; align-items: center; gap: 5px;
-      background: #1f2c34;
+      background: #202c33;
       padding: 10px 14px;
-      border-radius: 12px;
-      border-bottom-left-radius: 4px;
+      border-radius: 0 8px 8px 8px;
       align-self: flex-start;
-      width: fit-content;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      opacity: 0;
     }
-    .typing-indicator span {
-      width: 7px; height: 7px; border-radius: 50%;
+    .typing-dot {
+      width: 7px; height: 7px;
       background: #8696a0;
-      animation: typing-dots 1.4s infinite;
+      border-radius: 50%;
     }
-    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    .typing-dot:nth-child(1) { animation: typing-dot 1.2s ease 0.0s infinite; }
+    .typing-dot:nth-child(2) { animation: typing-dot 1.2s ease 0.2s infinite; }
+    .typing-dot:nth-child(3) { animation: typing-dot 1.2s ease 0.4s infinite; }
+    .chat-input-bar {
+      background: #202c33;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .chat-input-field {
+      flex: 1;
+      background: #2a3942;
+      border-radius: 24px;
+      padding: 8px 16px;
+      font-size: 14px;
+      color: #e9edef;
+    }
+    .chat-send-btn {
+      width: 38px; height: 38px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #111b21;
+    }
 
-    /* chat message animation */
-    .msg-animated { opacity: 0; }
-    .msg-animated.show { animation: slideInRight 0.4s ease forwards; }
-    .msg-animated.show-left { animation: slideInLeft 0.4s ease forwards; }
-
-    /* ── Marquee ── */
+    /* =====================================================
+       MARQUEE
+    ===================================================== */
     .marquee-section {
-      padding: 28px 0;
-      background: var(--surface);
-      border-top: 1px solid rgba(37,211,102,0.08);
-      border-bottom: 1px solid rgba(37,211,102,0.08);
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
       overflow: hidden;
+      background: rgba(10,79,60,0.08);
     }
     .marquee-track {
       display: flex;
       width: max-content;
       animation: marquee 28s linear infinite;
-      gap: 0;
     }
+    .marquee-track:hover { animation-play-state: paused; }
     .marquee-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 0 28px;
-      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 32px;
+      font-size: 14px;
       font-weight: 500;
       color: var(--text-muted);
       white-space: nowrap;
     }
-    .marquee-item .dot {
-      width: 6px; height: 6px; border-radius: 50%;
+    .marquee-item .icon {
+      font-size: 20px;
+    }
+    .marquee-sep {
+      width: 4px; height: 4px;
       background: var(--accent);
-      opacity: 0.6;
+      border-radius: 50%;
+      margin: 0 16px;
     }
 
-    /* ── Stats Bar ── */
-    .stats-bar {
-      padding: 72px 0 60px;
+    /* =====================================================
+       STATS BAR
+    ===================================================== */
+    .stats-section {
+      padding: 70px 0;
     }
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 2px;
-    }
-    .stat-card {
-      padding: 36px 28px;
-      background: var(--surface);
-      text-align: center;
-      position: relative;
+      background: var(--border);
+      border-radius: 20px;
       overflow: hidden;
     }
-    .stat-card::after {
-      content: '';
-      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 60%; height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    .stat-card {
+      background: var(--bg-dark);
+      padding: 40px 32px;
+      text-align: center;
+      transition: background 0.3s;
     }
-    .stat-card:first-child { border-radius: var(--radius) 0 0 var(--radius); }
-    .stat-card:last-child  { border-radius: 0 var(--radius) var(--radius) 0; }
-    .stat-num {
+    .stat-card:hover { background: rgba(10,79,60,0.2); }
+    .stat-number {
       font-family: var(--font-head);
-      font-size: 3rem;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
       font-weight: 800;
       color: var(--accent);
+      letter-spacing: -0.03em;
       line-height: 1;
-      margin-bottom: 8px;
     }
-    .stat-label { font-size: 0.9rem; color: var(--text-muted); }
-
-    /* ── Section headings ── */
-    .section-head {
-      text-align: center;
-      margin-bottom: 56px;
+    .stat-unit {
+      font-size: 1.5rem;
     }
-    .section-head .tag { margin-bottom: 14px; }
-    .section-head h2 {
-      font-family: var(--font-head);
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800;
-      color: #fff;
-      line-height: 1.15;
-      margin-bottom: 16px;
-    }
-    .section-head p {
-      font-size: 1.05rem;
+    .stat-label {
+      font-size: 14px;
       color: var(--text-muted);
-      max-width: 580px;
-      margin: 0 auto;
+      margin-top: 8px;
     }
 
-    /* ── Features ── */
-    .features-section { padding: 80px 0; }
+    /* =====================================================
+       FEATURES
+    ===================================================== */
+    .features-section { }
+    .features-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
     .features-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
     .feature-card {
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      padding: 32px 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 32px;
+      backdrop-filter: blur(16px);
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
       position: relative;
       overflow: hidden;
-      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
     }
     .feature-card::before {
       content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(37,211,102,0.4), transparent);
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,211,102,0.06), transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
     }
     .feature-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(37,211,102,0.35);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3), 0 0 30px rgba(37,211,102,0.08);
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 40px rgba(37,211,102,0.06);
     }
+    .feature-card:hover::before { opacity: 1; }
     .feature-icon {
       width: 52px; height: 52px;
-      background: rgba(37,211,102,0.12);
+      background: var(--accent-dim);
       border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
       margin-bottom: 20px;
-      border: 1px solid rgba(37,211,102,0.2);
+      border: 1px solid var(--border-accent);
     }
-    .feature-card h3 {
+    .feature-title {
       font-family: var(--font-head);
       font-size: 1.15rem;
       font-weight: 700;
-      color: #fff;
       margin-bottom: 10px;
     }
-    .feature-card p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; }
+    .feature-desc {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
     .feature-outcome {
-      margin-top: 16px;
-      font-size: 0.82rem;
+      margin-top: 14px;
+      font-size: 13px;
       color: var(--accent);
-      font-weight: 600;
-      display: flex; align-items: center; gap: 6px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    /* ── How It Works ── */
-    .how-section { padding: 80px 0; background: var(--surface); }
-    .steps-grid {
+    /* =====================================================
+       HOW IT WORKS
+    ===================================================== */
+    .hiw-section { }
+    .hiw-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .hiw-steps {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
+      gap: 0;
       position: relative;
     }
-    .steps-grid::before {
+    .hiw-steps::before {
       content: '';
-      position: absolute; top: 36px; left: calc(16.67% + 20px); right: calc(16.67% + 20px);
+      position: absolute;
+      top: 48px;
+      left: calc(16.66% + 40px);
+      right: calc(16.66% + 40px);
       height: 2px;
-      background: linear-gradient(90deg, var(--accent), transparent 50%, var(--accent));
-      opacity: 0.3;
+      background: linear-gradient(90deg, var(--border-accent), var(--accent), var(--border-accent));
     }
-    .step {
+    .hiw-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
-      padding: 20px;
+      padding: 0 24px;
     }
     .step-num {
-      width: 72px; height: 72px;
+      width: 96px; height: 96px;
+      background: var(--bg-card);
+      border: 2px solid var(--border-accent);
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      border: 2px solid rgba(37,211,102,0.3);
-      display: flex; align-items: center; justify-content: center;
+      display: grid;
+      place-items: center;
       font-family: var(--font-head);
       font-size: 1.5rem;
       font-weight: 800;
       color: var(--accent);
-      margin: 0 auto 20px;
-      box-shadow: 0 0 28px rgba(37,211,102,0.15);
+      margin-bottom: 24px;
+      position: relative;
+      backdrop-filter: blur(12px);
+      transition: box-shadow 0.3s, border-color 0.3s;
     }
-    .step h3 {
+    .hiw-step:hover .step-num {
+      box-shadow: 0 0 40px var(--accent-glow);
+      border-color: var(--accent);
+    }
+    .hiw-step-title {
       font-family: var(--font-head);
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 700;
-      color: #fff;
       margin-bottom: 10px;
     }
-    .step p { font-size: 0.92rem; color: var(--text-muted); }
+    .hiw-step-desc {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
 
-    /* ── Pricing ── */
-    .pricing-section { padding: 80px 0; }
+    /* =====================================================
+       PRICING
+    ===================================================== */
+    .pricing-section { }
+    .pricing-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
     .pricing-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
-      align-items: start;
+      align-items: center;
     }
-    .price-card {
-      background: var(--surface);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: var(--radius-lg);
-      padding: 36px 30px;
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 40px 32px;
+      backdrop-filter: blur(16px);
       position: relative;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
-    .price-card:hover { transform: translateY(-4px); }
-    .price-card.featured {
-      background: linear-gradient(160deg, var(--primary) 0%, #0d5c46 100%);
-      border: 1.5px solid rgba(37,211,102,0.4);
-      box-shadow: 0 0 60px rgba(37,211,102,0.12);
-      transform: scale(1.03);
+    .pricing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
-    .price-card.featured:hover { transform: scale(1.03) translateY(-4px); }
-    .price-badge {
-      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    .pricing-card.highlighted {
+      border-color: var(--accent);
+      background: rgba(37,211,102,0.06);
+      box-shadow: 0 0 60px rgba(37,211,102,0.15), 0 0 0 1px var(--accent);
+      transform: scale(1.04);
+    }
+    .pricing-card.highlighted:hover {
+      transform: scale(1.04) translateY(-4px);
+    }
+    .pricing-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
       background: var(--accent);
       color: #071f18;
-      font-size: 0.76rem;
+      padding: 5px 20px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      padding: 5px 16px;
-      border-radius: 999px;
     }
-    .price-tier {
-      font-family: var(--font-head);
-      font-size: 0.85rem;
-      font-weight: 700;
+    .pricing-plan {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--accent);
-      margin-bottom: 10px;
-    }
-    .price-amount {
-      display: flex; align-items: baseline; gap: 4px;
+      letter-spacing: 0.08em;
       margin-bottom: 8px;
     }
-    .price-amount .currency { font-size: 1.1rem; color: var(--text-muted); font-weight: 500; }
-    .price-amount .amount {
+    .pricing-price {
       font-family: var(--font-head);
       font-size: 3rem;
       font-weight: 800;
-      color: #fff;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      line-height: 1;
     }
-    .price-amount .period { font-size: 0.9rem; color: var(--text-muted); }
-    .price-desc { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 24px; }
-    .price-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 20px 0; }
-    .price-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
-    .price-features li {
-      font-size: 0.9rem;
+    .pricing-price span.currency {
+      font-size: 1.4rem;
+      font-weight: 600;
+      vertical-align: top;
+      margin-top: 8px;
+      display: inline-block;
       color: var(--text-muted);
-      display: flex; align-items: flex-start; gap: 10px;
     }
-    .price-features li::before {
-      content: '✓';
+    .pricing-price span.period {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .pricing-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 10px;
+      margin-bottom: 24px;
+    }
+    .pricing-features {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .pricing-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .pricing-feature .check {
       color: var(--accent);
-      font-weight: 700;
+      font-size: 16px;
+      line-height: 1.4;
       flex-shrink: 0;
-      margin-top: 1px;
     }
-    .price-card.featured .price-features li { color: rgba(240,250,245,0.85); }
-    .btn-full { width: 100%; justify-content: center; }
+    .pricing-feature.featured { color: var(--text); }
+    .pricing-urgency {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .pricing-urgency strong { color: #ff9f9f; }
 
-    /* ── Testimonials ── */
-    .testimonials-section { padding: 80px 0; background: var(--surface); }
+    /* =====================================================
+       TESTIMONIALS
+    ===================================================== */
+    .testimonials-section { }
+    .testimonials-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
     .testimonials-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
     .testimonial-card {
-      background: var(--glass-bg);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 32px;
       backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      padding: 28px;
-      transition: transform 0.2s;
+      transition: border-color 0.3s;
     }
-    .testimonial-card:hover { transform: translateY(-4px); }
-    .testimonial-stars { color: #ffd700; font-size: 1rem; margin-bottom: 14px; }
-    .testimonial-text {
-      font-size: 0.95rem;
+    .testimonial-card:hover { border-color: var(--border-accent); }
+    .testimonial-stars {
+      color: #fbbf24;
+      font-size: 16px;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    .testimonial-quote {
+      font-size: 15px;
       color: var(--text);
-      line-height: 1.65;
+      line-height: 1.7;
       margin-bottom: 20px;
       font-style: italic;
     }
+    .testimonial-quote-ar {
+      direction: rtl;
+      font-size: 15px;
+    }
     .testimonial-author {
-      display: flex; align-items: center; gap: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-    .author-avatar {
-      width: 44px; height: 44px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-      flex-shrink: 0;
+    .testimonial-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      border: 2px solid var(--border-accent);
     }
-    .author-info h5 { font-size: 0.92rem; font-weight: 600; color: #fff; }
-    .author-info p { font-size: 0.8rem; color: var(--text-muted); }
-
-    /* ── FAQ ── */
-    .faq-section { padding: 80px 0; }
-    .faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-    .faq-item {
-      background: var(--surface);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: border-color 0.2s;
-    }
-    .faq-item.open { border-color: rgba(37,211,102,0.25); }
-    .faq-q {
-      width: 100%;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 20px 24px;
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-      text-align: left;
-      color: #fff;
-      font-family: var(--font-body);
-      font-size: 1rem;
+    .testimonial-name {
+      font-size: 15px;
       font-weight: 600;
     }
-    .faq-q .chevron {
-      width: 22px; height: 22px; border-radius: 50%;
-      background: rgba(37,211,102,0.1);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      transition: transform 0.3s, background 0.2s;
-      color: var(--accent);
-      font-size: 0.9rem;
-    }
-    .faq-item.open .faq-q .chevron { transform: rotate(180deg); background: rgba(37,211,102,0.2); }
-    .faq-a {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s ease, padding 0.2s;
-    }
-    .faq-a-inner {
-      padding: 0 24px 20px;
-      font-size: 0.93rem;
+    .testimonial-role {
+      font-size: 12px;
       color: var(--text-muted);
-      line-height: 1.7;
     }
 
-    /* ── CTA Banner ── */
+    /* =====================================================
+       FAQ
+    ===================================================== */
+    .faq-section { }
+    .faq-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .faq-list {
+      max-width: 720px;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .faq-item:hover { border-color: var(--border-accent); }
+    .faq-item.open { border-color: var(--border-accent); }
+    .faq-question {
+      width: 100%;
+      text-align: left;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--accent); }
+    .faq-chevron {
+      flex-shrink: 0;
+      width: 24px; height: 24px;
+      border: 1.5px solid var(--border-accent);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      font-size: 12px;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .faq-item.open .faq-chevron {
+      transform: rotate(180deg);
+      background: var(--accent-dim);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(.4,0,.2,1), padding 0.3s;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 400px;
+    }
+    .faq-answer-inner {
+      padding: 0 24px 20px;
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    /* =====================================================
+       CTA BANNER
+    ===================================================== */
     .cta-section {
-      padding: 100px 0;
-      background: linear-gradient(135deg, var(--primary) 0%, #0d6b51 50%, var(--bg-hero) 100%);
+      padding: 80px 0;
+    }
+    .cta-inner {
+      background: linear-gradient(135deg, var(--primary) 0%, #062e22 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 28px;
+      padding: 72px 48px;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
-    .cta-section::before {
+    .cta-inner::before {
       content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(37,211,102,0.1) 0%, transparent 70%);
+      position: absolute;
+      top: -60%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(37,211,102,0.15), transparent 60%);
       pointer-events: none;
     }
-    .cta-glow {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 400px; height: 400px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(37,211,102,0.12) 0%, transparent 70%);
-      animation: glow-pulse 4s ease-in-out infinite;
-      pointer-events: none;
-    }
-    .cta-section h2 {
-      position: relative; z-index: 1;
+    .cta-tag { margin-bottom: 20px; }
+    .cta-headline {
       font-family: var(--font-head);
-      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-size: clamp(2rem, 4vw, 3rem);
       font-weight: 800;
-      color: #fff;
-      max-width: 700px;
-      margin: 0 auto 18px;
+      letter-spacing: -0.03em;
       line-height: 1.15;
+      margin-bottom: 16px;
     }
-    .cta-section p {
-      position: relative; z-index: 1;
-      font-size: 1.05rem;
-      color: rgba(240,250,245,0.8);
+    .cta-sub {
+      font-size: 17px;
+      color: var(--text-muted);
+      margin-bottom: 36px;
       max-width: 500px;
-      margin: 0 auto 36px;
+      margin-inline: auto;
     }
-    .cta-urgency {
-      position: relative; z-index: 1;
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 0.85rem;
-      color: rgba(240,250,245,0.65);
-      margin-top: 18px;
+    .cta-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
     }
-    .cta-urgency .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff6b35; animation: blink 1.5s infinite; }
-    .cta-buttons { position: relative; z-index: 1; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .cta-note {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
 
-    /* ── Footer ── */
-    footer {
-      background: #040f0c;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      padding: 60px 0 32px;
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 60px 0 40px;
     }
-    .footer-grid {
+    .footer-inner {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr;
       gap: 48px;
-      margin-bottom: 52px;
+      margin-bottom: 48px;
     }
-    .footer-brand p {
-      font-size: 0.9rem;
+    .footer-brand { }
+    .footer-tagline {
+      font-size: 14px;
       color: var(--text-muted);
-      margin-top: 14px;
-      line-height: 1.7;
+      margin-top: 10px;
       max-width: 260px;
+      line-height: 1.6;
+    }
+    .footer-socials {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
     }
     .footer-social {
-      display: flex; gap: 10px; margin-top: 20px;
+      width: 38px; height: 38px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      transition: border-color 0.2s, background 0.2s;
     }
-    .footer-social a {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: var(--surface);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: background 0.2s, color 0.2s;
+    .footer-social:hover {
+      border-color: var(--border-accent);
+      background: var(--accent-dim);
     }
-    .footer-social a:hover { background: rgba(37,211,102,0.15); color: var(--accent); }
-    .footer-col h6 {
+    .footer-col-title {
       font-family: var(--font-head);
-      font-size: 0.85rem;
+      font-size: 14px;
       font-weight: 700;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      margin-bottom: 16px;
       color: var(--text-muted);
-      margin-bottom: 18px;
     }
-    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .footer-col ul a {
-      font-size: 0.9rem;
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-links a {
+      font-size: 14px;
       color: var(--text-muted);
-      text-decoration: none;
       transition: color 0.2s;
     }
-    .footer-col ul a:hover { color: var(--text); }
+    .footer-links a:hover { color: var(--text); }
     .footer-bottom {
-      padding-top: 32px;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 12px;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
     }
-    .footer-bottom p { font-size: 0.83rem; color: var(--text-muted); }
+    .footer-copyright {
+      font-size: 13px;
+      color: var(--text-dim);
+    }
     .footer-badge {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 0.83rem;
-      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-dim);
     }
-    .footer-badge .wa-dot { color: var(--accent); font-size: 1rem; }
-
-    /* ── Mobile menu ── */
-    .mobile-menu {
-      display: none;
-      flex-direction: column; gap: 16px;
-      padding: 20px;
-      background: rgba(7,31,24,0.98);
-      border-top: 1px solid rgba(37,211,102,0.08);
-    }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 1rem;
-      font-weight: 500;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+    .wa-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: var(--accent-dim);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
     }
 
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
-      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
-      .chat-mockup { order: -1; }
-      .chat-window { max-width: 340px; }
-      .features-grid { grid-template-columns: 1fr 1fr; }
-      .steps-grid { grid-template-columns: 1fr; gap: 32px; }
-      .steps-grid::before { display: none; }
-      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
-      .price-card.featured { transform: none; }
-      .price-card.featured:hover { transform: translateY(-4px); }
-      .testimonials-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 60px; }
+      .hero-mockup { order: -1; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin-inline: auto; }
+      .pricing-card.highlighted { transform: none; }
+      .pricing-card.highlighted:hover { transform: translateY(-4px); }
+      .testimonials-grid { grid-template-columns: 1fr; max-width: 500px; margin-inline: auto; }
+      .hiw-steps::before { display: none; }
+      .hiw-steps { grid-template-columns: 1fr; gap: 40px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .stat-card:first-child { border-radius: var(--radius) var(--radius) 0 0; }
-      .stat-card:last-child  { border-radius: 0 0 var(--radius) var(--radius); }
-      .stat-card:nth-child(2) { border-radius: 0; }
-      .stat-card:nth-child(3) { border-radius: 0; }
     }
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
+      .section { padding: 72px 0; }
       .nav-links { display: none; }
-      .nav-cta { display: none; }
-      .hamburger { display: flex; }
-      .hero { padding: 40px 0 50px; }
+      .nav-hamburger { display: flex; }
       .features-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr; }
       .stats-grid { grid-template-columns: 1fr 1fr; }
-      .hero-ctas { flex-direction: column; }
-      .hero-ctas .btn { width: 100%; justify-content: center; }
+      .chat-phone { width: 290px; }
+      .cta-inner { padding: 48px 24px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 32px; }
     }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .hero-ctas { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* =====================================================
+       SCROLLBAR
+    ===================================================== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
   </style>
 </head>
 <body>
 
-<!-- ── Navbar ── -->
-<nav id="navbar">
-  <div class="container">
-    <div class="nav-inner">
-      <a href="#" class="nav-logo">
-        <span class="logo-icon">💬</span>
-        Focobot
-      </a>
-      <ul class="nav-links">
-        <li><a href="#features">Features</a></li>
-        <li><a href="#how">How It Works</a></li>
-        <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#faq">FAQ</a></li>
-      </ul>
-      <a href="#pricing" class="btn btn-primary nav-cta">Get Started →</a>
-      <div class="hamburger" id="hamburger" aria-label="Open menu" tabindex="0">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
-  </div>
-  <div class="mobile-menu" id="mobile-menu">
-    <a href="#features">Features</a>
-    <a href="#how">How It Works</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#faq">FAQ</a>
-    <a href="#pricing" class="btn btn-primary btn-full" style="margin-top:4px;">Get Started →</a>
+<!-- ===================================================
+     NAVBAR
+=================================================== -->
+<nav class="nav" id="navbar">
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon">💬</div>
+      Focobot
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#pricing" class="btn btn-primary nav-cta" style="padding:10px 20px;font-size:14px;">
+      Start Free Trial
+    </a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
-<!-- ── Hero ── -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#features">Features</a>
+  <a href="#how-it-works">How It Works</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#faq">FAQ</a>
+  <a href="#pricing" class="btn btn-primary" style="text-align:center;justify-content:center;">
+    Start Free Trial →
+  </a>
+</div>
+
+<!-- ===================================================
+     HERO
+=================================================== -->
 <section class="hero" id="hero">
-  <div id="particles"></div>
+  <div class="hero-bg-gradient"></div>
+  <canvas id="particles-canvas"></canvas>
+
   <div class="container">
     <div class="hero-grid">
-      <div class="hero-content">
-        <div class="hero-eyebrow">
-          <span class="tag">🇰🇼 Built for Kuwait Businesses</span>
+      <div class="hero-text">
+        <div class="tag hero-eyebrow">
+          <span class="tag-dot"></span>
+          Now Available in Kuwait
         </div>
-        <h1>Every Unanswered WhatsApp<br>Is <em>Lost Revenue.</em></h1>
-        <p class="hero-sub">Focobot replies to customers in under 2 seconds — 24/7, in Arabic &amp; English — so you capture every sale, booking, and lead while you sleep.</p>
+
+        <h1 class="hero-headline">
+          Stop Losing Customers<br>to <span class="accent-word">Unanswered</span><br>WhatsApp Messages
+        </h1>
+
+        <p class="hero-subheadline">
+          Focobot answers every WhatsApp inquiry in 2 seconds — in Arabic and English — 24/7, so you keep every lead without adding a single staff member.
+        </p>
+
+        <div class="hero-loss">
+          <strong>⚠️ The average Kuwaiti business misses 63% of after-hours WhatsApp messages.</strong>
+          Every unanswered message is a customer who just booked with your competitor.
+        </div>
+
         <div class="hero-ctas">
-          <a href="#pricing" class="btn btn-primary btn-lg">Claim My Spot — Free Trial →</a>
-          <a href="#how" class="btn btn-outline btn-lg">See How It Works</a>
+          <a href="#pricing" class="btn btn-primary">
+            <span>Automate My WhatsApp</span>
+            <span>→</span>
+          </a>
+          <a href="#how-it-works" class="btn btn-outline">
+            See How It Works
+          </a>
         </div>
-        <div class="hero-trust">
-          <div class="trust-avatars">
-            <span>🏪</span><span>🍽️</span><span>🏋️</span><span>💇</span>
+
+        <div class="hero-social-proof">
+          <div class="avatar-stack">
+            <div class="avatar-placeholder">أ</div>
+            <div class="avatar-placeholder">م</div>
+            <div class="avatar-placeholder">ف</div>
+            <div class="avatar-placeholder">س</div>
           </div>
-          <div>
-            <span class="trust-stars">★★★★★</span><br>
-            Trusted by 120+ Kuwait businesses
+          <div class="social-proof-text">
+            <div class="stars">★★★★★</div>
+            <strong>140+ Kuwait businesses</strong> automated this month
           </div>
         </div>
       </div>
 
-      <!-- WhatsApp Mockup -->
-      <div class="chat-mockup">
-        <div class="chat-window">
+      <!-- CHAT MOCKUP -->
+      <div class="hero-mockup">
+        <div class="chat-phone" id="chat-phone">
           <div class="chat-header">
+            <span class="chat-back-btn">‹</span>
             <div class="chat-avatar">🤖</div>
             <div class="chat-info">
-              <h4>Focobot Assistant</h4>
-              <p style="display:flex;align-items:center;gap:6px;"><span class="chat-online"></span> Online — typically replies instantly</p>
+              <div class="chat-name">Focobot Assistant</div>
+              <div class="chat-status">● Online now</div>
+            </div>
+            <div class="chat-actions">
+              <span>📞</span>
+              <span>⋮</span>
             </div>
           </div>
+
           <div class="chat-body" id="chat-body">
-            <!-- messages injected by JS -->
+            <!-- Bubbles injected by JS -->
+          </div>
+
+          <div class="chat-input-bar">
+            <span style="color:#8696a0;font-size:18px;">😊</span>
+            <div class="chat-input-field">اكتب رسالة...</div>
+            <div class="chat-send-btn">▶</div>
           </div>
         </div>
       </div>
@@ -922,231 +1306,258 @@
   </div>
 </section>
 
-<!-- ── Marquee ── -->
+<!-- ===================================================
+     MARQUEE
+=================================================== -->
 <div class="marquee-section">
   <div class="marquee-track" id="marquee-track">
-    <!-- duplicated for seamless loop -->
+    <!-- content duplicated for seamless loop via JS -->
   </div>
 </div>
 
-<!-- ── Stats Bar ── -->
-<section class="stats-bar">
+<!-- ===================================================
+     STATS
+=================================================== -->
+<section class="stats-section section">
   <div class="container">
     <div class="stats-grid">
       <div class="stat-card reveal">
-        <div class="stat-num" data-target="500">0</div>
+        <div class="stat-number"><span class="counter" data-target="500">0</span><span class="stat-unit">+</span></div>
         <div class="stat-label">Messages automated daily</div>
       </div>
-      <div class="stat-card reveal">
-        <div class="stat-num" data-target="2" data-suffix="s">0</div>
+      <div class="stat-card reveal reveal-delay-1">
+        <div class="stat-number"><span class="counter" data-target="2">0</span><span class="stat-unit">s</span></div>
         <div class="stat-label">Average response time</div>
       </div>
-      <div class="stat-card reveal">
-        <div class="stat-num" data-target="98" data-suffix="%">0</div>
-        <div class="stat-label">Customer satisfaction rate</div>
+      <div class="stat-card reveal reveal-delay-2">
+        <div class="stat-number"><span class="counter" data-target="98">0</span><span class="stat-unit">%</span></div>
+        <div class="stat-label">Customer satisfaction score</div>
       </div>
-      <div class="stat-card reveal">
-        <div class="stat-num" data-target="24" data-suffix="/7">0</div>
-        <div class="stat-label">Always available support</div>
+      <div class="stat-card reveal reveal-delay-3">
+        <div class="stat-number"><span class="counter" data-target="140">0</span><span class="stat-unit">+</span></div>
+        <div class="stat-label">Kuwait businesses launched</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── Features ── -->
-<section class="features-section" id="features">
+<!-- ===================================================
+     FEATURES
+=================================================== -->
+<section class="features-section section" id="features">
   <div class="container">
-    <div class="section-head reveal">
-      <span class="tag">Why Focobot</span>
-      <h2>Stop Losing Customers<br>to Silence</h2>
-      <p>Every feature is designed around one goal: turn every WhatsApp conversation into a paying customer.</p>
+    <div class="features-header reveal">
+      <div class="tag" style="margin-inline:auto;margin-bottom:16px;">
+        <span class="tag-dot"></span> What Focobot Does
+      </div>
+      <h2 class="section-label">Every Feature Turns<br>Messages Into Revenue</h2>
+      <p class="section-sub" style="margin-inline:auto;text-align:center;">
+        Not a chatbot toy. A business tool that handles the conversations your team was too busy to answer.
+      </p>
     </div>
+
     <div class="features-grid">
       <div class="feature-card reveal">
+        <div class="feature-icon">🇰🇼</div>
+        <h3 class="feature-title">Arabic-First Intelligence</h3>
+        <p class="feature-desc">Speaks Kuwaiti dialect fluently — not formal MSA. Switches seamlessly to English when the customer does. Your customers never feel like they're talking to a machine.</p>
+        <div class="feature-outcome">↑ 40% longer conversation depth in Arabic</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
         <div class="feature-icon">⚡</div>
-        <h3>Instant Auto-Reply</h3>
-        <p>Answer every inquiry, quote request, and booking in under 2 seconds — even at 2am on a Friday.</p>
-        <div class="feature-outcome">↑ 3× more leads captured vs. manual replies</div>
+        <h3 class="feature-title">Instant Lead Capture</h3>
+        <p class="feature-desc">Every new inquiry is captured, qualified, and routed to your CRM before you've even opened your eyes. Wake up to a full pipeline, not a queue of unanswered messages.</p>
+        <div class="feature-outcome">↑ 3× more qualified leads per week</div>
       </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon">🌍</div>
-        <h3>Arabic &amp; English Fluency</h3>
-        <p>Communicate naturally in both languages. Focobot detects the customer's language and responds in kind — no setup needed.</p>
-        <div class="feature-outcome">↑ Reach 100% of Kuwait's market</div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon">🕐</div>
+        <h3 class="feature-title">24/7 — Even on Holidays</h3>
+        <p class="feature-desc">Eid, National Day, 2 AM — Focobot never sleeps. While your competitors' customers wait for morning, yours get instant answers and complete their purchase.</p>
+        <div class="feature-outcome">↑ 60% more after-hours conversions</div>
       </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon">🗓️</div>
-        <h3>Automated Bookings</h3>
-        <p>Sync with your calendar and let customers book appointments, get confirmations, and receive reminders — all on WhatsApp.</p>
-        <div class="feature-outcome">↓ 80% reduction in no-shows</div>
-      </div>
-      <div class="feature-card reveal">
+      <div class="feature-card reveal reveal-delay-3">
         <div class="feature-icon">📦</div>
-        <h3>Order &amp; Catalog Updates</h3>
-        <p>Send product catalogs, pricing, stock status, and order confirmations automatically. Your shop never sleeps.</p>
-        <div class="feature-outcome">↑ 40% faster order cycle</div>
+        <h3 class="feature-title">Order & Booking Automation</h3>
+        <p class="feature-desc">Customers can check inventory, book appointments, and confirm orders entirely over WhatsApp — no app download, no website visit. The sale happens in the conversation.</p>
+        <div class="feature-outcome">↑ 2× order completion rate</div>
       </div>
-      <div class="feature-card reveal">
+      <div class="feature-card reveal reveal-delay-4">
+        <div class="feature-icon">🧠</div>
+        <h3 class="feature-title">Learns Your Business</h3>
+        <p class="feature-desc">Feed it your product catalog, pricing, FAQs, and policies once. Focobot answers with your exact knowledge — no hallucinations, no wrong prices, no surprises.</p>
+        <div class="feature-outcome">↓ 85% reduction in customer complaints</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-5">
         <div class="feature-icon">📊</div>
-        <h3>Conversation Analytics</h3>
-        <p>See what customers ask most, track response rates, and identify revenue opportunities you're currently missing.</p>
-        <div class="feature-outcome">→ Data-driven decisions in minutes</div>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon">🔗</div>
-        <h3>Seamless Handoff</h3>
-        <p>Focobot handles the routine. When a customer needs a human, it transfers the chat instantly with full context — no repetition.</p>
-        <div class="feature-outcome">↑ Happier customers, lighter workload</div>
+        <h3 class="feature-title">Live Dashboard & Alerts</h3>
+        <p class="feature-desc">See every conversation in real time. Get notified when a VIP customer messages, when a lead goes cold, or when revenue triggers fire. Your business at a glance, always.</p>
+        <div class="feature-outcome">↑ 50% faster human escalation for hot leads</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── How It Works ── -->
-<section class="how-section" id="how">
+<!-- ===================================================
+     HOW IT WORKS
+=================================================== -->
+<section class="hiw-section section" id="how-it-works">
   <div class="container">
-    <div class="section-head reveal">
-      <span class="tag">Setup in 48 Hours</span>
-      <h2>Live Before You Finish<br>Your Morning Coffee</h2>
-      <p>No developers. No complicated dashboards. Just three steps and you're automating.</p>
+    <div class="hiw-header reveal">
+      <div class="tag" style="margin-inline:auto;margin-bottom:16px;">
+        <span class="tag-dot"></span> Setup in Hours, Not Months
+      </div>
+      <h2 class="section-label">From Sign-up to<br>First Automated Sale</h2>
+      <p class="section-sub" style="margin-inline:auto;text-align:center;">
+        No developers needed. No complicated setup. You'll be live before lunch.
+      </p>
     </div>
-    <div class="steps-grid">
-      <div class="step reveal">
-        <div class="step-num">1</div>
-        <h3>Connect Your WhatsApp</h3>
-        <p>Link your existing business WhatsApp number. No new number, no changing your contact info — your customers keep reaching you the same way.</p>
+
+    <div class="hiw-steps">
+      <div class="hiw-step reveal">
+        <div class="step-num">01</div>
+        <h3 class="hiw-step-title">Connect Your WhatsApp</h3>
+        <p class="hiw-step-desc">Link your existing business WhatsApp number in under 5 minutes. No new number. No lost chat history. Your customers message the same number they always have.</p>
       </div>
-      <div class="step reveal">
-        <div class="step-num">2</div>
-        <h3>We Build Your Bot</h3>
-        <p>Our team learns your business, products, pricing, and FAQs. We build and test your custom bot — you review and approve everything.</p>
+      <div class="hiw-step reveal reveal-delay-2">
+        <div class="step-num">02</div>
+        <h3 class="hiw-step-title">Train It on Your Business</h3>
+        <p class="hiw-step-desc">Upload your catalog, set your hours, define your FAQs. Our onboarding team handles the Arabic translation and dialect tuning for free.</p>
       </div>
-      <div class="step reveal">
-        <div class="step-num">3</div>
-        <h3>Go Live &amp; Scale</h3>
-        <p>Flip the switch. Focobot starts handling messages instantly. Watch your dashboard as revenue opportunities get captured automatically.</p>
+      <div class="hiw-step reveal reveal-delay-4">
+        <div class="step-num">03</div>
+        <h3 class="hiw-step-title">Watch Revenue Come In</h3>
+        <p class="hiw-step-desc">Focobot handles inquiries, captures leads, and closes bookings. You step in only for conversations that need a human touch — your dashboard flags exactly those.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── Pricing ── -->
-<section class="pricing-section" id="pricing">
+<!-- ===================================================
+     PRICING
+=================================================== -->
+<section class="pricing-section section" id="pricing">
   <div class="container">
-    <div class="section-head reveal">
-      <span class="tag">Simple Pricing</span>
-      <h2>One Month Pays for Itself.<br>Or We Refund It.</h2>
-      <p>No hidden fees. Cancel anytime. All plans include setup by our team and Arabic + English support.</p>
+    <div class="pricing-header reveal">
+      <div class="tag" style="margin-inline:auto;margin-bottom:16px;">
+        <span class="tag-dot"></span> Simple, Transparent Pricing
+      </div>
+      <h2 class="section-label">Less Than One Lost Customer<br>Pays for a Full Month</h2>
+      <p class="section-sub" style="margin-inline:auto;text-align:center;">
+        No setup fees. No per-message charges. No surprises on your invoice.
+      </p>
     </div>
+
     <div class="pricing-grid">
       <!-- Starter -->
-      <div class="price-card reveal">
-        <div class="price-tier">Starter</div>
-        <div class="price-amount">
-          <span class="currency">KWD</span>
-          <span class="amount">29</span>
-          <span class="period">/mo</span>
+      <div class="pricing-card reveal">
+        <div class="pricing-plan">Starter</div>
+        <div class="pricing-price">
+          <span class="currency">KWD</span>29<span class="period">/mo</span>
         </div>
-        <div class="price-desc">Perfect for small businesses handling up to 300 conversations a month.</div>
-        <div class="price-divider"></div>
-        <ul class="price-features">
-          <li>Up to 300 automated conversations/mo</li>
-          <li>Arabic &amp; English auto-replies</li>
-          <li>1 WhatsApp number</li>
-          <li>Basic analytics dashboard</li>
-          <li>2 business-day support response</li>
-          <li>30-day money-back guarantee</li>
-        </ul>
-        <a href="#contact" class="btn btn-outline btn-full">Start Free Trial</a>
+        <div class="pricing-desc">For small businesses testing automation.</div>
+        <div class="pricing-features">
+          <div class="pricing-feature"><span class="check">✓</span> Up to 500 automated messages/month</div>
+          <div class="pricing-feature"><span class="check">✓</span> Arabic + English support</div>
+          <div class="pricing-feature"><span class="check">✓</span> Basic FAQ automation</div>
+          <div class="pricing-feature"><span class="check">✓</span> 1 WhatsApp number</div>
+          <div class="pricing-feature"><span class="check">✓</span> Email support</div>
+        </div>
+        <a href="#" class="btn btn-outline" style="width:100%;justify-content:center;">
+          Start Starter Free
+        </a>
       </div>
 
-      <!-- Growth (Featured) -->
-      <div class="price-card featured reveal">
-        <div class="price-badge">🔥 Most Popular</div>
-        <div class="price-tier">Growth</div>
-        <div class="price-amount">
-          <span class="currency">KWD</span>
-          <span class="amount">59</span>
-          <span class="period">/mo</span>
+      <!-- Growth (highlighted) -->
+      <div class="pricing-card highlighted reveal reveal-delay-2">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-plan">Growth</div>
+        <div class="pricing-price">
+          <span class="currency">KWD</span>59<span class="period">/mo</span>
         </div>
-        <div class="price-desc">The obvious choice for growing businesses that want to scale without hiring.</div>
-        <div class="price-divider"></div>
-        <ul class="price-features">
-          <li>Unlimited conversations</li>
-          <li>Arabic &amp; English fluency</li>
-          <li>3 WhatsApp numbers</li>
-          <li>Booking &amp; appointment automation</li>
-          <li>Full analytics + weekly report</li>
-          <li>Human handoff workflows</li>
-          <li>Priority support (same-day)</li>
-          <li>30-day money-back guarantee</li>
-        </ul>
-        <a href="#contact" class="btn btn-primary btn-full">Claim My Spot →</a>
+        <div class="pricing-desc">For businesses serious about scaling without hiring.</div>
+        <div class="pricing-features">
+          <div class="pricing-feature featured"><span class="check">✓</span> Unlimited automated messages</div>
+          <div class="pricing-feature featured"><span class="check">✓</span> Kuwaiti dialect AI tuning</div>
+          <div class="pricing-feature featured"><span class="check">✓</span> Lead capture + CRM sync</div>
+          <div class="pricing-feature featured"><span class="check">✓</span> Order &amp; booking automation</div>
+          <div class="pricing-feature featured"><span class="check">✓</span> 3 WhatsApp numbers</div>
+          <div class="pricing-feature featured"><span class="check">✓</span> Live dashboard + alerts</div>
+          <div class="pricing-feature featured"><span class="check">✓</span> Priority WhatsApp support</div>
+        </div>
+        <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;">
+          Claim My Growth Spot →
+        </a>
+        <div class="pricing-urgency">
+          <strong>Only 7 spots left</strong> for Kuwait's launch window
+        </div>
       </div>
 
       <!-- Enterprise -->
-      <div class="price-card reveal">
-        <div class="price-tier">Enterprise</div>
-        <div class="price-amount">
-          <span class="amount" style="font-size:2rem;color:var(--text-muted);">Custom</span>
+      <div class="pricing-card reveal reveal-delay-4">
+        <div class="pricing-plan">Enterprise</div>
+        <div class="pricing-price" style="font-size:2rem;margin-top:8px;">Custom</div>
+        <div class="pricing-desc">For multi-location businesses and agencies.</div>
+        <div class="pricing-features">
+          <div class="pricing-feature"><span class="check">✓</span> Everything in Growth</div>
+          <div class="pricing-feature"><span class="check">✓</span> Unlimited WhatsApp numbers</div>
+          <div class="pricing-feature"><span class="check">✓</span> Custom AI personality &amp; branding</div>
+          <div class="pricing-feature"><span class="check">✓</span> Dedicated account manager</div>
+          <div class="pricing-feature"><span class="check">✓</span> On-site Kuwait onboarding</div>
+          <div class="pricing-feature"><span class="check">✓</span> SLA guarantees</div>
         </div>
-        <div class="price-desc">Multi-location brands, franchises, and businesses with complex workflows.</div>
-        <div class="price-divider"></div>
-        <ul class="price-features">
-          <li>Unlimited numbers &amp; locations</li>
-          <li>Custom AI training on your brand</li>
-          <li>CRM &amp; ERP integrations</li>
-          <li>Dedicated account manager</li>
-          <li>SLA guarantees</li>
-          <li>White-label option available</li>
-        </ul>
-        <a href="#contact" class="btn btn-outline btn-full">Talk to Sales</a>
+        <a href="https://wa.me/96500000000" class="btn btn-outline" style="width:100%;justify-content:center;">
+          Talk to Sales →
+        </a>
       </div>
     </div>
-    <p style="text-align:center;margin-top:32px;font-size:0.85rem;color:var(--text-muted);">
-      ⚠️ <strong style="color:#fff;">Limited Kuwait launch availability.</strong> Only 12 spots remaining this month at current pricing.
-    </p>
   </div>
 </section>
 
-<!-- ── Testimonials ── -->
-<section class="testimonials-section" id="testimonials">
+<!-- ===================================================
+     TESTIMONIALS
+=================================================== -->
+<section class="testimonials-section section" id="testimonials">
   <div class="container">
-    <div class="section-head reveal">
-      <span class="tag">Real Results</span>
-      <h2>Kuwait Businesses Winning<br>with Focobot</h2>
+    <div class="testimonials-header reveal">
+      <div class="tag" style="margin-inline:auto;margin-bottom:16px;">
+        <span class="tag-dot"></span> Real Kuwait Businesses
+      </div>
+      <h2 class="section-label">They Automated.<br>Revenue Followed.</h2>
     </div>
+
     <div class="testimonials-grid">
       <div class="testimonial-card reveal">
         <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"We were losing at least 20 customers a week just because we couldn't reply fast enough on WhatsApp. Since Focobot, our bookings are up 60% and we haven't added a single staff member."</p>
+        <p class="testimonial-quote">"كنا نخسر زبائن كل ليلة بعد ما نغلق. من بعد ما جربنا فوكوبوت، صار عندنا أوردرات من نص الليل بدون ما نوظف أحد. الشهر الأول غطى كل المصاريف."</p>
         <div class="testimonial-author">
-          <div class="author-avatar">👨‍💼</div>
-          <div class="author-info">
-            <h5>Khalid Al-Mutairi</h5>
-            <p>Owner, Al-Mutairi Auto Care • Salmiya</p>
+          <div class="testimonial-avatar" style="background:rgba(37,211,102,0.1);">ع</div>
+          <div>
+            <div class="testimonial-name">عبدالله الرشيد</div>
+            <div class="testimonial-role">مطعم الشرق، السالمية</div>
           </div>
         </div>
       </div>
-      <div class="testimonial-card reveal">
+
+      <div class="testimonial-card reveal reveal-delay-2">
         <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"ما كنا نتخيل إننا نرد على كل الزبائن بالعربي والإنجليزي بثانيتين. الفوكوبوت غير الشغل كله. الزبائن مبسوطين وإحنا مرتاحين."</p>
+        <p class="testimonial-quote">"Our salon used to miss 40% of booking requests because they came in at night. Focobot now handles all bookings — even rescheduling — with perfect Arabic. My staff focus on clients, not phones."</p>
         <div class="testimonial-author">
-          <div class="author-avatar">👩‍💼</div>
-          <div class="author-info">
-            <h5>Noura Al-Sabah</h5>
-            <p>Founder, Lama Beauty Studio • Hawalli</p>
+          <div class="testimonial-avatar" style="background:rgba(37,211,102,0.1);">ن</div>
+          <div>
+            <div class="testimonial-name">Noura Al-Mutairi</div>
+            <div class="testimonial-role">Bloom Beauty Studio, Hawalli</div>
           </div>
         </div>
       </div>
-      <div class="testimonial-card reveal">
+
+      <div class="testimonial-card reveal reveal-delay-4">
         <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"We run three restaurant branches. Focobot handles reservations, menu questions, and delivery inquiries across all locations — it's like having a full-time receptionist for each branch at a fraction of the cost."</p>
+        <p class="testimonial-quote">"فوكوبوت يرد على الاستفسارات بالكويتي بشكل طبيعي — الزباين ما يحسون إنهم يكلمون روبوت. مبيعاتنا ارتفعت ٣٥٪ في أول شهرين."</p>
         <div class="testimonial-author">
-          <div class="author-avatar">👨‍🍳</div>
-          <div class="author-info">
-            <h5>Mohammed Al-Rashidi</h5>
-            <p>F&amp;B Director, Bahar Group • Kuwait City</p>
+          <div class="testimonial-avatar" style="background:rgba(37,211,102,0.1);">م</div>
+          <div>
+            <div class="testimonial-name">محمد العنزي</div>
+            <div class="testimonial-role">متجر الكترونيات، الفروانية</div>
           </div>
         </div>
       </div>
@@ -1154,299 +1565,412 @@
   </div>
 </section>
 
-<!-- ── FAQ ── -->
-<section class="faq-section" id="faq">
+<!-- ===================================================
+     FAQ
+=================================================== -->
+<section class="faq-section section" id="faq">
   <div class="container">
-    <div class="section-head reveal">
-      <span class="tag">FAQ</span>
-      <h2>Questions? We've Got Answers.</h2>
+    <div class="faq-header reveal">
+      <div class="tag" style="margin-inline:auto;margin-bottom:16px;">
+        <span class="tag-dot"></span> Before You Decide
+      </div>
+      <h2 class="section-label">Questions Answered<br>Before You Ask Them</h2>
     </div>
-    <div class="faq-list">
+
+    <div class="faq-list reveal">
       <div class="faq-item">
-        <button class="faq-q">
-          Is 29 KWD/month really worth it?
-          <span class="chevron">▾</span>
+        <button class="faq-question">
+          Is KWD 59 per month actually worth it?
+          <span class="faq-chevron">▾</span>
         </button>
-        <div class="faq-a"><div class="faq-a-inner">Think about it this way: if Focobot captures just one extra sale per week that you would have missed, it pays for itself many times over. Most of our customers see positive ROI within the first week. Plus, every plan comes with a 30-day money-back guarantee — if you don't see results, we refund you completely, no questions asked.</div></div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            One recovered customer a month covers Growth plan entirely. Our data shows businesses on Growth recover an average of 22 extra customers per month who would otherwise have gone unanswered. At 1 KWD average order value, you're looking at a 37× return on investment. But even at zero, KWD 59 is less than 2 hours of part-time staff — except Focobot works 720 hours a month.
+          </div>
+        </div>
       </div>
+
       <div class="faq-item">
-        <button class="faq-q">
-          Does it really understand Arabic properly?
-          <span class="chevron">▾</span>
+        <button class="faq-question">
+          Does it actually speak Kuwaiti dialect, or just formal Arabic?
+          <span class="faq-chevron">▾</span>
         </button>
-        <div class="faq-a"><div class="faq-a-inner">Yes — Kuwaiti dialect included. Focobot is trained on Gulf Arabic and handles the colloquial phrases your customers actually use. It detects the language automatically and switches seamlessly between Arabic and English mid-conversation if needed. Many of our clients run their entire customer service in Arabic through Focobot.</div></div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Kuwaiti dialect, not MSA. We trained the AI on real Kuwaiti WhatsApp conversations across industries. It understands مي، وياك، شلونك، بالتوفيج and switches fluently to English mid-conversation when needed. Your customers won't know it's a bot.
+          </div>
+        </div>
       </div>
+
       <div class="faq-item">
-        <button class="faq-q">
-          How long does setup take?
-          <span class="chevron">▾</span>
+        <button class="faq-question">
+          How long does setup actually take?
+          <span class="faq-chevron">▾</span>
         </button>
-        <div class="faq-a"><div class="faq-a-inner">Most businesses are fully live within 48 hours. Our team handles the entire setup — we interview you about your business, build the bot, run tests, and only go live once you've reviewed and approved everything. You don't need any technical knowledge. The only thing we need from you is about 30 minutes of your time for an onboarding call.</div></div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Most businesses are live in 4–6 hours. You connect your WhatsApp number (5 min), we run an onboarding call to configure your flows (1–2 hours), your team reviews the test conversations and approves (1–2 hours), and then we flip the switch. Our Kuwait-based onboarding team speaks Arabic and handles the heavy lifting.
+          </div>
+        </div>
       </div>
+
       <div class="faq-item">
-        <button class="faq-q">
-          Will I be locked into a long-term contract?
-          <span class="chevron">▾</span>
+        <button class="faq-question">
+          Are there any long-term contracts?
+          <span class="faq-chevron">▾</span>
         </button>
-        <div class="faq-a"><div class="faq-a-inner">No contracts. Cancel month-to-month at any time with no cancellation fees. We're confident Focobot will deliver results — so we don't need to trap you. Most customers stay because the results speak for themselves, not because they're forced to.</div></div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            No contracts, no commitment. Pay month-to-month and cancel anytime — though we've never had anyone cancel after their first month of data. All plans include a 14-day free trial with full access. If you're not making more than you're spending, you shouldn't keep it.
+          </div>
+        </div>
       </div>
+
       <div class="faq-item">
-        <button class="faq-q">
-          Do I need to change my WhatsApp number?
-          <span class="chevron">▾</span>
+        <button class="faq-question">
+          What happens when a customer needs a real human?
+          <span class="faq-chevron">▾</span>
         </button>
-        <div class="faq-a"><div class="faq-a-inner">No. You keep your existing WhatsApp Business number. Your customers reach you exactly the same way they always have. Focobot runs behind the scenes on your number — they won't even know a bot is involved unless you want them to.</div></div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Focobot hands off gracefully. You set the triggers — complaint keywords, high-value orders, VIP customers, or anything "type HUMAN to speak with us" — and the bot immediately notifies your team via WhatsApp or the dashboard. The full conversation history is there so your team picks up in context, not from scratch.
+          </div>
+        </div>
       </div>
+
       <div class="faq-item">
-        <button class="faq-q">
-          What if the bot doesn't know how to answer something?
-          <span class="chevron">▾</span>
+        <button class="faq-question">
+          Is my customer data private and secure?
+          <span class="faq-chevron">▾</span>
         </button>
-        <div class="faq-a"><div class="faq-a-inner">Focobot is smart enough to know what it doesn't know. When a customer asks something outside the bot's knowledge, it instantly flags the conversation and transfers it to your team — with full chat history so your staff never has to ask the customer to repeat themselves. You stay in control of the conversations that truly need a human.</div></div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            All data is encrypted in transit and at rest. We are GDPR-aligned and comply with Kuwait data residency requirements. Customer conversation data is never used to train models for other businesses. You own your data and can export it at any time.
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── CTA Banner ── -->
-<section class="cta-section" id="contact">
-  <div class="cta-glow"></div>
+<!-- ===================================================
+     CTA BANNER
+=================================================== -->
+<section class="cta-section section">
   <div class="container">
-    <h2>Stop Leaving Money on WhatsApp. Start Today.</h2>
-    <p>Join 120+ Kuwait businesses already automating their customer conversations with Focobot.</p>
-    <div class="cta-buttons">
-      <a href="https://wa.me/96555555555?text=Hi%2C%20I%27d%20like%20to%20start%20my%20Focobot%20free%20trial" class="btn btn-primary btn-lg" target="_blank" rel="noopener">
-        💬 Message Us on WhatsApp
-      </a>
-      <a href="mailto:hello@focobot.com" class="btn btn-outline btn-lg">Send Us an Email</a>
-    </div>
-    <div class="cta-urgency">
-      <span class="dot"></span>
-      Only 12 spots left at this launch price — offer ends when spots fill
+    <div class="cta-inner reveal">
+      <div class="cta-tag">
+        <span class="tag">
+          <span class="tag-dot"></span>
+          Limited Kuwait Launch Spots
+        </span>
+      </div>
+      <h2 class="cta-headline">Your Competitor Is Reading<br>This Page Right Now</h2>
+      <p class="cta-sub">
+        We're onboarding businesses by industry to prevent direct conflicts. Once your category fills, the next spot goes to someone else. Claim yours before it's taken.
+      </p>
+      <div class="cta-buttons">
+        <a href="#pricing" class="btn btn-primary" style="font-size:16px;padding:16px 36px;">
+          Claim My Spot — 14 Days Free →
+        </a>
+        <a href="https://wa.me/96500000000" class="btn btn-outline" style="font-size:16px;padding:16px 28px;">
+          💬 Chat With Us First
+        </a>
+      </div>
+      <p class="cta-note">No credit card required · Cancel anytime · Setup in hours, not days</p>
     </div>
   </div>
 </section>
 
-<!-- ── Footer ── -->
-<footer>
+<!-- ===================================================
+     FOOTER
+=================================================== -->
+<footer class="footer">
   <div class="container">
-    <div class="footer-grid">
+    <div class="footer-inner">
       <div class="footer-brand">
-        <a href="#" class="nav-logo" style="font-size:1.3rem;">
-          <span class="logo-icon" style="width:32px;height:32px;font-size:1rem;">💬</span>
+        <a href="/" class="logo">
+          <div class="logo-icon">💬</div>
           Focobot
         </a>
-        <p>WhatsApp automation built specifically for Kuwaiti businesses. Respond faster, capture more leads, grow without limits.</p>
-        <div class="footer-social">
-          <a href="#" title="Instagram">📸</a>
-          <a href="#" title="Twitter / X">𝕏</a>
-          <a href="#" title="LinkedIn">in</a>
-          <a href="#" title="WhatsApp">💬</a>
+        <p class="footer-tagline">Kuwait's leading WhatsApp automation platform for businesses that can't afford to miss a message.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social" aria-label="Instagram">📸</a>
+          <a href="#" class="footer-social" aria-label="Twitter">🐦</a>
+          <a href="#" class="footer-social" aria-label="LinkedIn">💼</a>
+          <a href="https://wa.me/96500000000" class="footer-social" aria-label="WhatsApp">💬</a>
         </div>
       </div>
+
       <div class="footer-col">
-        <h6>Product</h6>
-        <ul>
+        <p class="footer-col-title">Product</p>
+        <ul class="footer-links">
           <li><a href="#features">Features</a></li>
           <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#how">How It Works</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
       </div>
+
       <div class="footer-col">
-        <h6>Company</h6>
-        <ul>
+        <p class="footer-col-title">Company</p>
+        <ul class="footer-links">
           <li><a href="#">About Us</a></li>
           <li><a href="#">Blog</a></li>
           <li><a href="#">Careers</a></li>
           <li><a href="#">Contact</a></li>
         </ul>
       </div>
+
       <div class="footer-col">
-        <h6>Legal</h6>
-        <ul>
+        <p class="footer-col-title">Legal</p>
+        <ul class="footer-links">
           <li><a href="#">Privacy Policy</a></li>
           <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Cookie Policy</a></li>
           <li><a href="#">Data Processing</a></li>
         </ul>
       </div>
     </div>
+
     <div class="footer-bottom">
-      <p>© 2024 Focobot. All rights reserved. Built in Kuwait 🇰🇼</p>
+      <p class="footer-copyright">© 2026 Focobot. All rights reserved. Made with ❤️ in Kuwait.</p>
       <div class="footer-badge">
-        <span class="wa-dot">●</span> Powered by WhatsApp Business API
+        <div class="wa-badge">
+          💬 WhatsApp Business API Partner
+        </div>
       </div>
     </div>
   </div>
 </footer>
 
+<!-- ===================================================
+     SCRIPTS
+=================================================== -->
 <script>
-  /* ── Particles ── */
-  (function() {
-    const container = document.getElementById('particles');
-    const count = 18;
-    for (let i = 0; i < count; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      p.style.left = Math.random() * 100 + '%';
-      p.style.animationDuration = (8 + Math.random() * 12) + 's';
-      p.style.animationDelay = (Math.random() * 12) + 's';
-      p.style.width = p.style.height = (2 + Math.random() * 4) + 'px';
-      p.style.opacity = (0.3 + Math.random() * 0.5).toString();
-      container.appendChild(p);
-    }
-  })();
+// ─── NAVBAR SCROLL ─────────────────────────────────
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
 
-  /* ── Marquee ── */
-  (function() {
-    const items = [
-      'Restaurants & Cafés', 'Beauty Salons', 'Auto Service Centers',
-      'Gyms & Fitness Studios', 'Real Estate Offices', 'Medical Clinics',
-      'Online Shops', 'Event Planners', 'Nurseries & Schools',
-      'Pharmacies', 'Electronics Stores', 'Tailors & Fashion'
-    ];
-    const track = document.getElementById('marquee-track');
-    const doubled = [...items, ...items];
-    doubled.forEach(text => {
+// ─── HAMBURGER MENU ────────────────────────────────
+const hamburger = document.getElementById('nav-hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  mobileMenu.classList.toggle('open');
+});
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => mobileMenu.classList.remove('open'));
+});
+
+// ─── PARTICLES CANVAS ──────────────────────────────
+(function() {
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  const particles = [];
+  let W, H;
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = canvas.parentElement.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function rand(min, max) { return Math.random() * (max - min) + min; }
+
+  function spawn() {
+    return {
+      x: rand(0, W),
+      y: rand(H * 0.1, H * 0.9),
+      r: rand(1, 3.5),
+      alpha: 0,
+      vx: rand(-0.4, 0.4),
+      vy: rand(-0.8, -0.2),
+      life: 0,
+      maxLife: rand(120, 280),
+    };
+  }
+
+  for (let i = 0; i < 60; i++) {
+    const p = spawn();
+    p.life = rand(0, p.maxLife);
+    particles.push(p);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.life++;
+      if (p.life > p.maxLife) { Object.assign(p, spawn()); p.life = 0; }
+      const t = p.life / p.maxLife;
+      p.alpha = t < 0.2 ? t / 0.2 : t > 0.8 ? 1 - (t - 0.8) / 0.2 : 1;
+      p.x += p.vx;
+      p.y += p.vy;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(37,211,102,${p.alpha * 0.5})`;
+      ctx.fill();
+      // Subtle glow
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(37,211,102,${p.alpha * 0.08})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ─── CHAT BUBBLES ANIMATION ────────────────────────
+(function() {
+  const body = document.getElementById('chat-body');
+  const messages = [
+    { dir: 'incoming', text: 'السلام عليكم، كم سعر بيتزا الحجم الكبير؟', time: '10:14', ar: true },
+    { dir: 'outgoing', text: 'وعليكم السلام! 😊 البيتزا الكبيرة بـ 3.500 KD. هل تبي تضيف إضافات؟', time: '10:14', ar: true, check: true },
+    { dir: 'incoming', text: 'Yes please! Can I add extra cheese?', time: '10:15' },
+    { dir: 'outgoing', text: 'Of course! Extra cheese is 0.500 KD. Want to place the order? I\'ll need your address 📍', time: '10:15', check: true },
+    { dir: 'incoming', text: 'South Surra, Block 6, Street 12 🏠', time: '10:16' },
+    { typing: true },
+    { dir: 'outgoing', text: '✅ Order confirmed! Delivery in 35 mins. Total: 4.000 KD. We\'ll WhatsApp you when on the way!', time: '10:16', check: true },
+  ];
+
+  let i = 0;
+  function addNext() {
+    if (i >= messages.length) return;
+    const m = messages[i++];
+
+    if (m.typing) {
       const el = document.createElement('div');
-      el.className = 'marquee-item';
-      el.innerHTML = `<span class="dot"></span>${text}`;
-      track.appendChild(el);
-    });
-  })();
-
-  /* ── Chat Mockup Animation ── */
-  (function() {
-    const messages = [
-      { side: 'in',  text: 'السلام عليكم، كم سعر الحجز؟', ar: true,  delay: 600  },
-      { side: 'out', text: 'وعليكم السلام! 😊 أسعارنا تبدأ من 15 دينار للساعة. هل تريد تحجز الآن؟', ar: true, delay: 1400 },
-      { side: 'in',  text: 'Yes please, tomorrow 6pm works?', ar: false, delay: 2800 },
-      { side: 'out', text: 'Perfect! ✅ Tomorrow, 6 PM is available. I\'ve reserved it for you. You\'ll receive a confirmation shortly!', ar: false, delay: 3600 },
-    ];
-
-    const body = document.getElementById('chat-body');
-    let started = false;
-
-    function addMsg(m, withTyping) {
-      return new Promise(resolve => {
-        if (withTyping && m.side === 'out') {
-          const typing = document.createElement('div');
-          typing.className = 'typing-indicator';
-          typing.innerHTML = '<span></span><span></span><span></span>';
-          body.appendChild(typing);
-          body.scrollTop = body.scrollHeight;
-          setTimeout(() => {
-            typing.remove();
-            appendMsg(m);
-            resolve();
-          }, 900);
-        } else {
-          appendMsg(m);
-          resolve();
-        }
+      el.className = 'typing-indicator';
+      el.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+      body.appendChild(el);
+      requestAnimationFrame(() => {
+        el.style.animation = 'bubble-in 0.3s ease both';
+        el.style.opacity = '1';
       });
+      setTimeout(() => {
+        el.remove();
+        addNext();
+      }, 1800);
+      return;
     }
 
-    function appendMsg(m) {
-      const wrapper = document.createElement('div');
-      wrapper.className = `msg msg-${m.side} msg-animated${m.side === 'out' ? '' : ' show-left'}`;
-      if (m.ar) wrapper.classList.add('msg-ar');
-      const ticks = m.side === 'out' ? `<span class="ticks">✓✓</span>` : '';
-      wrapper.innerHTML = `${m.text}<div class="msg-time">${ticks} ${new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false})}</div>`;
-      body.appendChild(wrapper);
-      requestAnimationFrame(() => wrapper.classList.add('show'));
+    const el = document.createElement('div');
+    el.className = `chat-bubble ${m.dir}${m.ar ? ' arabic' : ''}`;
+    el.style.animation = 'bubble-in 0.35s cubic-bezier(.175,.885,.32,1.275) both';
+
+    let html = m.text;
+    if (m.check) {
+      html += `<div class="bubble-time">${m.time}
+        <span class="check-double">
+          <svg viewBox="0 0 16 11" fill="none"><path d="M1 5.5L5 9.5L15 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 16 11" fill="none" style="margin-left:-6px"><path d="M1 5.5L5 9.5L15 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>`;
+    } else if (m.time) {
+      html += `<div class="bubble-time">${m.time}</div>`;
+    }
+    el.innerHTML = html;
+
+    setTimeout(() => {
+      el.style.opacity = '1';
+      body.appendChild(el);
       body.scrollTop = body.scrollHeight;
-    }
+      setTimeout(addNext, i < messages.length ? 1200 : 0);
+    }, 300);
+  }
 
-    async function runChat() {
-      for (let i = 0; i < messages.length; i++) {
-        await new Promise(r => setTimeout(r, i === 0 ? 700 : 1200));
-        await addMsg(messages[i], true);
+  // Start animation after a short delay
+  setTimeout(addNext, 1000);
+})();
+
+// ─── MARQUEE ───────────────────────────────────────
+(function() {
+  const items = [
+    { icon: '🍕', label: 'Restaurants & Cafés' },
+    { icon: '💅', label: 'Salons & Spas' },
+    { icon: '🏪', label: 'Retail Stores' },
+    { icon: '🏥', label: 'Medical Clinics' },
+    { icon: '🏋️', label: 'Gyms & Fitness' },
+    { icon: '🚗', label: 'Auto Services' },
+    { icon: '👗', label: 'Fashion Boutiques' },
+    { icon: '🏗️', label: 'Contractors' },
+    { icon: '📚', label: 'Tutoring Centers' },
+    { icon: '🐾', label: 'Pet Care' },
+    { icon: '🎂', label: 'Bakeries' },
+    { icon: '🏠', label: 'Real Estate' },
+  ];
+  const track = document.getElementById('marquee-track');
+  const html = items.map(it =>
+    `<div class="marquee-item"><span class="icon">${it.icon}</span>${it.label}<span class="marquee-sep"></span></div>`
+  ).join('');
+  track.innerHTML = html + html; // duplicate for seamless loop
+})();
+
+// ─── SCROLL REVEAL ─────────────────────────────────
+(function() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
       }
-      // loop
-      await new Promise(r => setTimeout(r, 3000));
-      body.innerHTML = '';
-      runChat();
-    }
-
-    // Start when in view
-    const hero = document.getElementById('hero');
-    const obs = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && !started) {
-        started = true;
-        runChat();
-      }
-    }, { threshold: 0.3 });
-    obs.observe(hero);
-  })();
-
-  /* ── Scroll Reveal ── */
-  (function() {
-    const els = document.querySelectorAll('.reveal');
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-          const delay = e.target.dataset.delay || 0;
-          setTimeout(() => e.target.classList.add('visible'), delay);
-          obs.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    els.forEach((el, i) => {
-      el.dataset.delay = (i % 3) * 80;
-      obs.observe(el);
     });
-  })();
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
 
-  /* ── Counter Animation ── */
-  (function() {
-    const nums = document.querySelectorAll('[data-target]');
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
+// ─── COUNTER ANIMATION ─────────────────────────────
+(function() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
         const el = e.target;
-        const target = +el.dataset.target;
-        const suffix = el.dataset.suffix || '+';
-        let start = 0;
-        const duration = 1600;
-        const step = target / (duration / 16);
-        const tick = () => {
-          start = Math.min(start + step, target);
-          el.textContent = Math.floor(start) + suffix;
-          if (start < target) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-        obs.unobserve(el);
-      });
-    }, { threshold: 0.5 });
-    nums.forEach(n => obs.observe(n));
-  })();
+        const target = parseInt(el.dataset.target);
+        const duration = 1800;
+        const start = performance.now();
+        function step(now) {
+          const t = Math.min((now - start) / duration, 1);
+          const ease = 1 - Math.pow(1 - t, 3);
+          el.textContent = Math.round(ease * target);
+          if (t < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.counter').forEach(el => observer.observe(el));
+})();
 
-  /* ── FAQ Accordion ── */
-  document.querySelectorAll('.faq-q').forEach(btn => {
+// ─── FAQ ACCORDION ─────────────────────────────────
+(function() {
+  document.querySelectorAll('.faq-question').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.faq-item');
-      const answer = item.querySelector('.faq-a');
       const isOpen = item.classList.contains('open');
-
       document.querySelectorAll('.faq-item.open').forEach(open => {
         open.classList.remove('open');
-        open.querySelector('.faq-a').style.maxHeight = '0';
       });
-
-      if (!isOpen) {
-        item.classList.add('open');
-        answer.style.maxHeight = answer.querySelector('.faq-a-inner').scrollHeight + 'px';
-      }
+      if (!isOpen) item.classList.add('open');
     });
   });
+})();
 
-  /* ── Hamburger ── */
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobile-menu');
-  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
-  hamburger.addEventListener('keydown', e => { if (e.key === 'Enter') mobileMenu.classList.toggle('open'); });
-  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+// ─── SMOOTH ANCHOR SCROLL ──────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      const offset = target.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+    }
+  });
+});
 </script>
+
 </body>
 </html>

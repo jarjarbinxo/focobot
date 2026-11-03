@@ -3,76 +3,113 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Page Not Found — Focobot</title>
+  <title>Page Not Found – Focobot</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg: #071f18;
+      --primary: #0a4f3c;
       --accent: #25D366;
-      --text: #f0faf5;
-      --muted: #8bbfa7;
+      --accent-glow: rgba(37,211,102,0.3);
+      --text: #e8f5f0;
+      --text-muted: rgba(232,245,240,0.6);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'DM Sans', sans-serif;
       background: var(--bg);
       color: var(--text);
+      font-family: 'DM Sans', sans-serif;
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 20px;
+      padding: 24px;
+      overflow: hidden;
     }
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-16px); }
-    }
-    .icon {
-      font-size: 5rem;
-      animation: float 4s ease-in-out infinite;
-      display: block;
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes glow { 0%,100%{box-shadow:0 0 30px var(--accent-glow)} 50%{box-shadow:0 0 60px var(--accent-glow)} }
+    .bot-icon {
+      font-size: 80px;
+      animation: float 5s ease-in-out infinite;
       margin-bottom: 28px;
+    }
+    .code {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(5rem, 18vw, 10rem);
+      font-weight: 800;
+      line-height: 1;
+      color: var(--accent);
+      letter-spacing: -0.05em;
+      animation: fadeUp 0.6s ease both;
+      text-shadow: 0 0 80px var(--accent-glow);
     }
     h1 {
       font-family: 'Syne', sans-serif;
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 12px;
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 700;
+      margin-top: 16px;
+      animation: fadeUp 0.6s ease 0.15s both;
     }
     p {
-      font-size: 1.1rem;
-      color: var(--muted);
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-top: 12px;
       max-width: 400px;
-      margin: 0 auto 36px;
+      animation: fadeUp 0.6s ease 0.25s both;
       line-height: 1.6;
     }
-    a {
+    .btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      margin-top: 32px;
+      padding: 14px 32px;
       background: var(--accent);
       color: var(--bg);
+      border-radius: 999px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
       font-weight: 600;
-      font-size: 1rem;
-      padding: 14px 30px;
-      border-radius: 12px;
       text-decoration: none;
-      transition: transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+      animation: fadeUp 0.6s ease 0.35s both, glow 3s ease-in-out 1s infinite;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    a:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px var(--accent-glow);
+    }
+    .bg-circle {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .bg-circle-1 {
+      width: 500px; height: 500px;
+      background: rgba(10,79,60,0.3);
+      top: -150px; left: -150px;
+    }
+    .bg-circle-2 {
+      width: 400px; height: 400px;
+      background: rgba(37,211,102,0.06);
+      bottom: -100px; right: -100px;
+    }
   </style>
 </head>
 <body>
-  <div>
-    <span class="icon">💬</span>
-    <h1>404</h1>
-    <p>Looks like this page got lost in the chat. Let's get you back on track.</p>
-    <a href="/">← Back to Focobot</a>
-  </div>
+  <div class="bg-circle bg-circle-1"></div>
+  <div class="bg-circle bg-circle-2"></div>
+
+  <div class="bot-icon">💬</div>
+  <div class="code">404</div>
+  <h1>This Page Doesn't Exist</h1>
+  <p>Looks like this URL went unanswered — kind of like a WhatsApp message without Focobot.</p>
+  <a href="/" class="btn">← Back to Focobot</a>
 </body>
 </html>
