@@ -1156,6 +1156,60 @@
     .announce-close:hover { color: var(--text-primary); }
     .announce-bar.hidden { display: none; }
 
+    /* ─── Floating WhatsApp CTA ─── */
+    .wa-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #071f18;
+      padding: 14px 20px 14px 16px;
+      border-radius: 100px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 8px 32px rgba(37,211,102,0.45), 0 2px 8px rgba(0,0,0,0.3);
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+      opacity: 0;
+      transform: translateY(20px) scale(0.9);
+      pointer-events: none;
+    }
+    .wa-float.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    .wa-float:hover {
+      background: #1db954;
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 14px 40px rgba(37,211,102,0.55), 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .wa-float-icon {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    .wa-float-ping {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 14px;
+      height: 14px;
+      background: #ff4757;
+      border-radius: 50%;
+      border: 2px solid #071f18;
+      animation: pulse-glow 1.5s ease-in-out infinite;
+    }
+    @media (max-width: 600px) {
+      .wa-float { padding: 14px 16px; border-radius: 50%; gap: 0; }
+      .wa-float-label { display: none; }
+      .wa-float-icon { width: 26px; height: 26px; }
+    }
+
     /* ─── Results timeline ─── */
     .timeline-section { background: var(--bg-hero); }
     .timeline-header { text-align: center; margin-bottom: 56px; }
@@ -1698,6 +1752,16 @@
   </div>
 </section>
 
+<!-- ─── FLOATING WA CTA ─── -->
+<a href="https://wa.me/96500000000?text=I%27m%20interested%20in%20Focobot" class="wa-float" id="waFloat" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg class="wa-float-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M24 4C12.954 4 4 12.954 4 24c0 3.566.939 6.908 2.573 9.8L4 44l10.49-2.527A19.9 19.9 0 0 0 24 44c11.046 0 20-8.954 20-20S35.046 4 24 4Z" fill="#071f18"/>
+    <path d="M32.3 27.7c-.5-.25-2.95-1.46-3.4-1.62-.46-.17-.79-.25-1.12.25-.33.5-1.3 1.62-1.59 1.95-.3.33-.58.37-1.08.12-.5-.25-2.1-.77-4-2.46-1.48-1.32-2.48-2.94-2.77-3.44-.3-.5-.03-.77.22-1.02.23-.22.5-.58.75-.87.25-.29.33-.5.5-.83.17-.33.08-.62-.04-.87-.12-.25-1.12-2.7-1.54-3.7-.4-.97-.82-.84-1.12-.85-.29-.01-.62-.02-.96-.02-.33 0-.87.12-1.33.62-.46.5-1.75 1.71-1.75 4.17s1.79 4.83 2.04 5.16c.25.33 3.52 5.37 8.52 7.53 1.19.51 2.12.82 2.84 1.05 1.19.38 2.27.33 3.13.2.95-.14 2.95-1.21 3.37-2.37.41-1.17.41-2.17.29-2.37-.12-.21-.45-.33-.95-.58Z" fill="#25D366"/>
+  </svg>
+  <span class="wa-float-label">Chat with us</span>
+  <div class="wa-float-ping"></div>
+</a>
+
 <!-- ─── FOOTER ─── -->
 <footer>
   <div class="footer-inner">
@@ -1879,6 +1943,14 @@
   }
 
   setTimeout(showNext, 800);
+
+  // ─── Floating WhatsApp button
+  const waFloat = document.getElementById('waFloat');
+  const heroSection = document.getElementById('hero');
+  const floatObs = new IntersectionObserver(([entry]) => {
+    waFloat.classList.toggle('visible', !entry.isIntersecting);
+  }, { threshold: 0.1 });
+  if (heroSection) floatObs.observe(heroSection);
 </script>
 </body>
 </html>
