@@ -9,162 +9,50 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #071f18;
-      --accent: #25D366;
-      --accent-glow: rgba(37,211,102,0.2);
-      --text: #f0faf5;
-      --text-muted: #9bbdae;
+      --bg: #071f18; --accent: #25D366; --txt: #f0faf5; --txt-lo: #94b8a8;
+      --border: rgba(37,211,102,.18);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 32px 24px;
-      overflow: hidden;
-      position: relative;
+      background: var(--bg); color: var(--txt);
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 2rem;
     }
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
-    @keyframes glow { 0%,100%{opacity:0.5} 50%{opacity:1} }
-    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-    @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-    .bg-glow {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: glow 4s ease-in-out infinite;
-      pointer-events: none;
-    }
-    .orbit {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 320px; height: 320px;
-      margin: -160px 0 0 -160px;
-      border: 1px dashed rgba(37,211,102,0.15);
-      border-radius: 50%;
-      animation: spin 20s linear infinite;
-    }
-    .orbit-dot {
-      position: absolute;
-      top: -5px; left: 50%;
-      width: 10px; height: 10px;
-      background: var(--accent);
-      border-radius: 50%;
-      box-shadow: 0 0 12px var(--accent);
-      margin-left: -5px;
-    }
-    .content {
-      position: relative;
-      z-index: 1;
-      animation: fadeUp 0.6s ease both;
-    }
-    .bot-emoji {
-      font-size: 5rem;
-      display: block;
-      margin-bottom: 24px;
-      animation: float 4s ease-in-out infinite;
-    }
-    .error-code {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(5rem, 15vw, 9rem);
-      font-weight: 800;
-      line-height: 1;
-      background: linear-gradient(135deg, var(--accent) 0%, #0a9f6e 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 8px;
-      letter-spacing: -0.04em;
+    @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+    @keyframes glow { 0%,100%{opacity:.3;} 50%{opacity:.7;} }
+    .wrap { max-width: 540px; }
+    .icon {
+      font-size: 5rem; display: inline-block;
+      animation: float 3s ease-in-out infinite;
+      margin-bottom: 1.5rem; filter: drop-shadow(0 0 24px rgba(37,211,102,.4));
     }
     h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(1.4rem, 3vw, 2rem);
-      font-weight: 800;
-      color: var(--text);
-      margin-bottom: 16px;
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1;
+      margin-bottom: 1rem;
     }
-    p {
-      font-size: 1rem;
-      color: var(--text-muted);
-      line-height: 1.65;
-      max-width: 420px;
-      margin: 0 auto 36px;
+    h1 em { color: var(--accent); font-style: normal; }
+    p { color: var(--txt-lo); font-size: 1.05rem; line-height: 1.7; margin-bottom: 2rem; }
+    .btn {
+      display: inline-block; background: var(--accent); color: #fff;
+      padding: .85rem 2rem; border-radius: 8px;
+      font-weight: 600; font-size: 1rem; text-decoration: none;
+      transition: background .2s, transform .15s;
+      box-shadow: 0 4px 24px rgba(37,211,102,.3);
     }
-    .ctas {
-      display: flex;
-      gap: 14px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .btn-home {
-      background: var(--accent);
-      color: #071f18;
-      padding: 13px 28px;
-      border-radius: 100px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .btn-home:hover {
-      background: #1db954;
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(37,211,102,0.4);
-    }
-    .btn-wa {
-      border: 1.5px solid rgba(37,211,102,0.3);
-      color: var(--text);
-      padding: 13px 28px;
-      border-radius: 100px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .btn-wa:hover {
-      border-color: var(--accent);
-      background: rgba(37,211,102,0.07);
-      transform: translateY(-2px);
-    }
-    .footer-note {
-      position: absolute;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.8rem;
-      color: rgba(155,189,174,0.4);
-      white-space: nowrap;
-    }
+    .btn:hover { background: #43e87d; transform: translateY(-2px); }
+    .sub-link { display: block; margin-top: 1.25rem; color: var(--txt-lo); font-size: .9rem; }
+    .sub-link a { color: var(--accent); text-decoration: none; }
   </style>
 </head>
 <body>
-  <div class="bg-glow"></div>
-  <div class="orbit"><div class="orbit-dot"></div></div>
-  <div class="content">
-    <span class="bot-emoji">🤖</span>
-    <div class="error-code">404</div>
-    <h1>This Page Doesn't Exist</h1>
-    <p>Looks like our bot couldn't find what you're looking for. Even Focobot has its limits — but it'll answer your WhatsApp in under 2 seconds.</p>
-    <div class="ctas">
-      <a href="/" class="btn-home">← Back to Homepage</a>
-      <a href="https://wa.me/96500000000" class="btn-wa" target="_blank" rel="noopener">💬 Chat on WhatsApp</a>
-    </div>
+  <div class="wrap">
+    <div class="icon">&#128172;</div>
+    <h1>This Page <em>Went Offline.</em><br/>Your Bot Didn't.</h1>
+    <p>Looks like this page doesn't exist — but Focobot is still answering your customers' WhatsApp messages right now, 24/7, in Arabic and English.</p>
+    <a href="/" class="btn">&#8592; Back to Focobot</a>
+    <div class="sub-link">Or <a href="/#pricing">start your free trial</a> and automate your WhatsApp today.</div>
   </div>
-  <div class="footer-note">© 2026 Focobot — WhatsApp Automation for Kuwait</div>
 </body>
 </html>
