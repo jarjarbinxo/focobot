@@ -1,58 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Page Not Found — Focobot</title>
+  <title>Page Not Found | Focobot</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --bg: #071f18; --accent: #25D366; --txt: #f0faf5; --txt-lo: #94b8a8;
-      --border: rgba(37,211,102,.18);
-    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #071f18; --accent: #25D366; --text: #e8f5f0; --muted: #7ab39a;
+    }
     body {
+      background: var(--bg); color: var(--text);
       font-family: 'DM Sans', sans-serif;
-      background: var(--bg); color: var(--txt);
-      min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      text-align: center; padding: 2rem;
+      min-height: 100vh; display: grid; place-items: center;
+      text-align: center; padding: 24px; overflow: hidden;
     }
-    @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
-    @keyframes glow { 0%,100%{opacity:.3;} 50%{opacity:.7;} }
-    .wrap { max-width: 540px; }
-    .icon {
-      font-size: 5rem; display: inline-block;
-      animation: float 3s ease-in-out infinite;
-      margin-bottom: 1.5rem; filter: drop-shadow(0 0 24px rgba(37,211,102,.4));
+    .wrap { position: relative; z-index: 1; }
+    .glow {
+      position: fixed; border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle, rgba(37,211,102,.12), transparent 65%);
     }
-    h1 {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1;
-      margin-bottom: 1rem;
+    .glow-1 { width: 600px; height: 600px; top: -150px; left: -150px; }
+    .glow-2 { width: 400px; height: 400px; bottom: -100px; right: -100px; }
+    .num {
+      font-family: 'Syne', sans-serif; font-size: clamp(6rem, 20vw, 12rem);
+      font-weight: 800; color: transparent;
+      background: linear-gradient(135deg, var(--accent), #128C7E);
+      -webkit-background-clip: text; background-clip: text;
+      line-height: 1; margin-bottom: 8px;
     }
-    h1 em { color: var(--accent); font-style: normal; }
-    p { color: var(--txt-lo); font-size: 1.05rem; line-height: 1.7; margin-bottom: 2rem; }
+    .icon { font-size: 3rem; margin-bottom: 16px; }
+    h1 { font-family: 'Syne', sans-serif; font-size: clamp(1.5rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 16px; }
+    p { color: var(--muted); font-size: 1.05rem; max-width: 400px; margin: 0 auto 36px; line-height: 1.6; }
     .btn {
-      display: inline-block; background: var(--accent); color: #fff;
-      padding: .85rem 2rem; border-radius: 8px;
-      font-weight: 600; font-size: 1rem; text-decoration: none;
-      transition: background .2s, transform .15s;
-      box-shadow: 0 4px 24px rgba(37,211,102,.3);
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 32px; border-radius: 999px; font-size: 1rem; font-weight: 600;
+      background: var(--accent); color: #071f18; text-decoration: none;
+      box-shadow: 0 0 32px rgba(37,211,102,.4); transition: .3s ease;
+      font-family: 'DM Sans', sans-serif;
     }
-    .btn:hover { background: #43e87d; transform: translateY(-2px); }
-    .sub-link { display: block; margin-top: 1.25rem; color: var(--txt-lo); font-size: .9rem; }
-    .sub-link a { color: var(--accent); text-decoration: none; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 0 48px rgba(37,211,102,.6); }
+    .sub-link { margin-top: 20px; }
+    .sub-link a { color: var(--muted); font-size: .88rem; text-decoration: underline; text-decoration-color: rgba(122,179,154,.4); }
+    .sub-link a:hover { color: var(--accent); }
   </style>
 </head>
 <body>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
   <div class="wrap">
-    <div class="icon">&#128172;</div>
-    <h1>This Page <em>Went Offline.</em><br/>Your Bot Didn't.</h1>
-    <p>Looks like this page doesn't exist — but Focobot is still answering your customers' WhatsApp messages right now, 24/7, in Arabic and English.</p>
-    <a href="/" class="btn">&#8592; Back to Focobot</a>
-    <div class="sub-link">Or <a href="/#pricing">start your free trial</a> and automate your WhatsApp today.</div>
+    <div class="num">404</div>
+    <div class="icon">💬</div>
+    <h1>This page went offline</h1>
+    <p>Looks like this URL doesn't exist. But unlike an unanswered WhatsApp message, we won't leave you hanging.</p>
+    <a href="/" class="btn">← Back to Focobot</a>
+    <div class="sub-link">
+      <a href="/#faq">Browse FAQ</a> &nbsp;·&nbsp; <a href="mailto:hello@focobot.com">Contact support</a>
+    </div>
   </div>
 </body>
 </html>
